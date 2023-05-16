@@ -1,8 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-using ShadowViewer.Models;
-using ShadowViewer.Plguin.Bika;
-
 namespace ShadowViewer.Plugin.Bika
 {
     public class BikaPlugin : IPlugin
@@ -66,12 +61,10 @@ namespace ShadowViewer.Plugin.Bika
 
         }
 
-        public ShadowTag PluginTagHandler(string tag)
+        public ShadowTag AffiliationTag()
         {
-            throw new NotImplementedException();
+            return new ShadowTag(i18NHelper.Get("Bika.Tag.Bika"), "#000000", "#ef97b9");
         }
- 
-         
  
         public void NavigationViewItemInvokedHandler(string tag, out Type _page, out object parameter)
         {

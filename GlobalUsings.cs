@@ -19,6 +19,7 @@ global using Microsoft.WindowsAppSDK.Runtime;
 global using Serilog;
 global using ShadowViewer.Helpers;
 global using ShadowViewer.Plugins;
+global using ShadowViewer.Models;
 global using ShadowViewer.Plguin.Bika;
 global using Windows.ApplicationModel.Resources;
 global using CommunityToolkit.Labs.WinUI;
