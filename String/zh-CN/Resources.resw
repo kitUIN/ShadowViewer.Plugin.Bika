@@ -121,7 +121,7 @@
     <value>哔咔漫画</value>
   </data>
   <data name="Bika.Tag.Bika" xml:space="preserve">
-    <value />
+    <value>哔咔</value>
   </data>
   <data name="Bika.WebUriSettingsCard.Title" xml:space="preserve">
     <value>项目地址</value>
