@@ -8,7 +8,6 @@ namespace ShadowViewer.Plugin.Bika
     public class BikaPlugin : IPlugin
     {
         private IResourcesToolKit resourcesToolKit;
-        public static readonly I18nHelper i18NHelper = new I18nHelper("ShadowViewer.Plugin.Bika/Resources/");
         public static PluginMetaData BikaMetaData { get; } = new PluginMetaData(
             "Bika", "ßÙßÇÂþ»­",
                 "ßÙßÇÂþ»­ÊÊÅäÆ÷",
@@ -18,7 +17,6 @@ namespace ShadowViewer.Plugin.Bika
         public BikaPlugin(IEnumerable<IResourcesToolKit> resourcesToolKits)
         {
             resourcesToolKit = resourcesToolKits.First(x => x is BikaResourcesToolKit);
-        
         }
         public void Init()
         {
@@ -33,7 +31,7 @@ namespace ShadowViewer.Plugin.Bika
         {
             navItem.MenuItems.Add(new NavigationViewItem
             {
-                Content = i18NHelper.Get("Bika.NavigationItem.Title"),
+                Content = resourcesToolKit.GetString("Bika.NavigationItem.Title"),
                 Icon = XamlHelper.CreateImageIcon(BikaMetaData.Logo),
                 Tag = BikaMetaData.ID,
             });
@@ -55,7 +53,7 @@ namespace ShadowViewer.Plugin.Bika
         {
             SettingsCard webUri = new SettingsCard
             {
-                Header = i18NHelper.Get("Bika.WebUriSettingsCard.Title"),
+                Header = resourcesToolKit.GetString("Bika.WebUriSettingsCard.Title"),
                 HeaderIcon = XamlHelper.CreateBitmapIcon("ms-appx://ShadowViewer.Plguin.Bika/Assets/Icons/github.png"),
                 Description = "GitHub@" + BikaMetaData.Author,
                 IsClickEnabled = true,
@@ -73,7 +71,7 @@ namespace ShadowViewer.Plugin.Bika
 
         public ShadowTag AffiliationTag()
         {
-            return new ShadowTag(i18NHelper.Get("Bika.Tag.Bika"), "#000000", "#ef97b9");
+            return new ShadowTag(resourcesToolKit.GetString("Bika.Tag.Bika"), "#000000", "#ef97b9");
         }
  
         public void NavigationViewItemInvokedHandler(string tag, out Type _page, out object parameter)
