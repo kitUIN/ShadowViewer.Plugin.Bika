@@ -1,7 +1,13 @@
+using Microsoft.Extensions.DependencyInjection;
+using ShadowViewer.Interfaces;
+using ShadowViewer.ToolKits;
+using ShadowViewer.ViewModels;
+
 namespace ShadowViewer.Plugin.Bika
 {
     public class BikaPlugin : IPlugin
     {
+        private IResourcesToolKit resourcesToolKit;
         public static readonly I18nHelper i18NHelper = new I18nHelper("ShadowViewer.Plugin.Bika/Resources/");
         public static PluginMetaData BikaMetaData { get; } = new PluginMetaData(
             "Bika", "ßÙßÇÂþ»­",
@@ -9,10 +15,14 @@ namespace ShadowViewer.Plugin.Bika
                 "kitUIN", "0.1.0",
                 new Uri("https://github.com/kitUIN/ShadowViewer/tree/master/ShadowViewer.Plguin.Bika/README.md"),
                 new Uri("ms-appx://ShadowViewer.Plguin.Bika/Assets/Icons/logo.png"), 1);
-         
+        public BikaPlugin(IEnumerable<IResourcesToolKit> resourcesToolKits)
+        {
+            resourcesToolKit = resourcesToolKits.First(x => x is BikaResourcesToolKit);
+        
+        }
         public void Init()
         {
-            throw new NotImplementedException();
+            
         }
         public PluginMetaData MetaData()
         {
