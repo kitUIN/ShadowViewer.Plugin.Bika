@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using ShadowViewer.Extensions;
 using ShadowViewer.Interfaces;
 using ShadowViewer.ToolKits;
 using ShadowViewer.ViewModels;
