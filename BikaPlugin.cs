@@ -8,17 +8,16 @@ namespace ShadowViewer.Plugin.Bika
 {
     public class BikaPlugin : IPlugin
     {
-        private IResourcesToolKit resourcesToolKit;
-        
-        private readonly PluginMetaData metaData = new PluginMetaData(
+        private bool isEnabled = true;
+        private static  readonly  PluginMetaData metaData = new PluginMetaData(
             "Bika",
             "ßÙßÇÂþ»­",
                 "ßÙßÇÂþ»­ÊÊÅäÆ÷",
                 "kitUIN", "0.1.0",
-                new Uri("https://github.com/kitUIN/ShadowViewer/tree/master/ShadowViewer.Plguin.Bika/README.md"),
-                new Uri("ms-appx://ShadowViewer.Plguin.Bika/Assets/Icons/logo.png"),
+                new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
+                new Uri("ms-appx://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
                 1);
-        private readonly LocalTag affiliationTag;
+        private static readonly LocalTag affiliationTag = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -27,10 +26,21 @@ namespace ShadowViewer.Plugin.Bika
         /// <inheritdoc/>
         /// </summary>
         public LocalTag AffiliationTag { get => affiliationTag; }
-        public BikaPlugin(IEnumerable<IResourcesToolKit> resourcesToolKits)
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public bool IsEnabled => isEnabled;
+        
+        public BikaPlugin()
         {
-            resourcesToolKit = resourcesToolKits.First(x => x is BikaResourcesToolKit);
-            affiliationTag = new LocalTag(resourcesToolKit.GetString("Bika.Tag.Bika"), "#000000", "#ef97b9");
+            if (ConfigHelper.Contains(metaData.Id))
+            {
+                isEnabled = ConfigHelper.GetBoolean(metaData.Id);
+            }
+            else
+            {
+                ConfigHelper.Set(metaData.Id, true);
+            }
         }
         /// <summary>
         /// <inheritdoc/>
@@ -46,48 +56,40 @@ namespace ShadowViewer.Plugin.Bika
         {
             navItem.MenuItems.Add(new NavigationViewItem
             {
-                Content = resourcesToolKit.GetString("Bika.NavigationItem.Title"),
+                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
                 Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
-                Tag = MetaData.ID,
+                Tag = MetaData.Id,
             });
         }
+        // <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public Type SettingsPage => typeof(BikaSettingsPage);
 
-        public Type NavigationPage()
-        {
-            return typeof(BikaHomePage);
-        }
 
-        public Type NavigationViewItemInvokedHandler(string tag)
-        {
-            if(tag == MetaData.ID)
-                return typeof(BikaHomePage);
-            return null;
-        }
-
-        public void PluginSettingsExpander(SettingsExpander expander)
-        {
-            SettingsCard webUri = new SettingsCard
-            {
-                Header = resourcesToolKit.GetString("Bika.WebUriSettingsCard.Title"),
-                HeaderIcon = XamlHelper.CreateBitmapIcon("ms-appx://ShadowViewer.Plguin.Bika/Assets/Icons/github.png"),
-                Description = "GitHub@" + MetaData.Author,
-                IsClickEnabled = true,
-                ActionIcon = XamlHelper.CreateFontIcon("\uE8A7"),
-                Tag = true,
-            };
-            webUri.Click += (s, e) =>
-            {
-                MetaData.WebUri.LaunchUriAsync();
-                
-            };
-            expander.Items.Add(webUri);
-
-        }
-
+        // <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public void NavigationViewItemInvokedHandler(string tag, out Type _page, out object parameter)
         {
             _page = null;
             parameter = null;
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public void Enabled()
+        {
+            isEnabled = true;
+            ConfigHelper.Set(metaData.Id,  isEnabled);
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public void Disabled()
+        {
+            isEnabled = false;
+            ConfigHelper.Set(metaData.Id, isEnabled);
         }
     }
 }
