@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShadowViewer\ShadowViewer.DI\ShadowViewer.DI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Assets\Icons\github.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
@@ -35,5 +31,9 @@
     <Page Update="Pages\BikaSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
   </ItemGroup>
 </Project>

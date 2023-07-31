@@ -8,38 +8,37 @@ namespace ShadowViewer.Plugin.Bika
 {
     public class BikaPlugin : IPlugin
     {
-        private bool isEnabled = true;
-        private static  readonly  PluginMetaData metaData = new PluginMetaData(
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public PluginMetaData MetaData { get; } = new PluginMetaData(
             "Bika",
             "ßÙßÇÂþ»­",
-                "ßÙßÇÂþ»­ÊÊÅäÆ÷",
-                "kitUIN", "0.1.0",
-                new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
-                new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
-                1);
-        private static readonly LocalTag affiliationTag = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
+            "ßÙßÇÂþ»­ÊÊÅäÆ÷",
+            "kitUIN", "0.1.0",
+            new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
+            new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
+            1);
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public PluginMetaData MetaData { get => metaData; }
+        public LocalTag AffiliationTag { get; } = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public LocalTag AffiliationTag { get => affiliationTag; }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public bool IsEnabled => isEnabled;
-        
+        public bool IsEnabled { get; private set; } = true;
+
         public BikaPlugin()
         {
-            if (ConfigHelper.Contains(metaData.Id))
+            if (ConfigHelper.Contains(MetaData.Id))
             {
-                isEnabled = ConfigHelper.GetBoolean(metaData.Id);
+                IsEnabled = ConfigHelper.GetBoolean(MetaData.Id);
             }
             else
             {
-                ConfigHelper.Set(metaData.Id, true);
+                ConfigHelper.Set(MetaData.Id, true);
             }
         }
         /// <summary>
@@ -61,18 +60,18 @@ namespace ShadowViewer.Plugin.Bika
                 Tag = MetaData.Id,
             });
         }
-        // <summary>
+        /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public Type SettingsPage => typeof(BikaSettingsPage);
 
 
-        // <summary>
+        /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public void NavigationViewItemInvokedHandler(string tag, out Type _page, out object parameter)
+        public void NavigationViewItemInvokedHandler(string tag, out Type page, out object parameter)
         {
-            _page = null;
+            page = null;
             parameter = null;
         }
         /// <summary>
@@ -80,16 +79,16 @@ namespace ShadowViewer.Plugin.Bika
         /// </summary>
         public void Enabled()
         {
-            isEnabled = true;
-            ConfigHelper.Set(metaData.Id,  isEnabled);
+            IsEnabled = true;
+            ConfigHelper.Set(MetaData.Id,  IsEnabled);
         }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public void Disabled()
         {
-            isEnabled = false;
-            ConfigHelper.Set(metaData.Id, isEnabled);
+            IsEnabled = false;
+            ConfigHelper.Set(MetaData.Id, IsEnabled);
         }
     }
 }
