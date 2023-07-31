@@ -1,9 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-using ShadowViewer.Extensions;
-using ShadowViewer.Interfaces;
-using ShadowViewer.ToolKits;
-using ShadowViewer.ViewModels;
-
 namespace ShadowViewer.Plugin.Bika
 {
     public class BikaPlugin : IPlugin
