@@ -15,7 +15,7 @@ namespace ShadowViewer.Plugin.Bika
                 "ßÙßÇÂþ»­ÊÊÅäÆ÷",
                 "kitUIN", "0.1.0",
                 new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
-                new Uri("ms-appx://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
+                new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
                 1);
         private static readonly LocalTag affiliationTag = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
         /// <summary>

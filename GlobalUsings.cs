@@ -13,7 +13,6 @@ global using System.Runtime.InteropServices.WindowsRuntime;
 global using Windows.Foundation;
 global using Windows.Foundation.Collections;
 global using Microsoft.UI.Xaml.Media.Imaging;
-global using Microsoft.Windows.ApplicationModel.Resources;
 global using Microsoft.WindowsAppSDK.Runtime;
 global using Serilog;
 global using ShadowViewer.Helpers;
