@@ -1,18 +1,23 @@
+using Windows.Storage;
+using ShadowViewer.Plugin.Bika.Enums;
+using PicaComic;
+
 namespace ShadowViewer.Plugin.Bika
 {
     public class BikaPlugin : IPlugin
     {
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public PluginMetaData MetaData { get; } = new PluginMetaData(
+        public static PluginMetaData Meta = new PluginMetaData(
             "Bika",
-            "ßÙßÇÂþ»­",
+            "ßÙßÇÂþ»­²å¼þ",
             "ßÙßÇÂþ»­ÊÊÅäÆ÷",
             "kitUIN", "0.1.0",
             new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
             new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
             1);
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public PluginMetaData MetaData { get; } = Meta;
 
         /// <summary>
         /// <inheritdoc/>
@@ -34,6 +39,16 @@ namespace ShadowViewer.Plugin.Bika
             {
                 ConfigHelper.Set(MetaData.Id, true);
             }
+            if (!ConfigHelper.Contains(BikaSettingName.ApiShunt.ToString()))
+            {
+                ConfigHelper.Set(BikaSettingName.ApiShunt.ToString(), 3);
+            }
+            if (!ConfigHelper.Contains(BikaSettingName.PicShunt.ToString()))
+            {
+                ConfigHelper.Set(BikaSettingName.PicShunt.ToString(), 3);
+            }
+            PicaClient.AppChannel = ConfigHelper.GetInt32(BikaSettingName.ApiShunt.ToString());
+            PicaClient.FileChannel = ConfigHelper.GetInt32(BikaSettingName.PicShunt.ToString());
         }
         /// <summary>
         /// <inheritdoc/>

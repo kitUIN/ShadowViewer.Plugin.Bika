@@ -129,4 +129,64 @@
   <data name="WebUri" xml:space="preserve">
     <value>项目地址</value>
   </data>
+  <data name="About" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="BugRequest" xml:space="preserve">
+    <value>🐛提交Bug或提出意见</value>
+  </data>
+  <data name="Dependencies" xml:space="preserve">
+    <value>💕依赖&amp;鸣谢</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>❤️赞助开发者</value>
+  </data>
+  <data name="BikaPluginSettings" xml:space="preserve">
+    <value>哔咔漫画插件设置</value>
+  </data>
+  <data name="BikaPlugin" xml:space="preserve">
+    <value>哔咔漫画插件</value>
+  </data>
+  <data name="Shunt" xml:space="preserve">
+    <value>分流</value>
+  </data>
+  <data name="ShuntDescription" xml:space="preserve">
+    <value>设置图片与API分流</value>
+  </data>
+  <data name="ApiShunt" xml:space="preserve">
+    <value>API分流</value>
+  </data>
+  <data name="PicShunt" xml:space="preserve">
+    <value>图片分流</value>
+  </data>
+  <data name="ShuntOne" xml:space="preserve">
+    <value>分流一</value>
+  </data>
+  <data name="ShuntTwo" xml:space="preserve">
+    <value>分流二</value>
+  </data>
+  <data name="ShuntThree" xml:space="preserve">
+    <value>分流三</value>
+  </data>
+  <data name="MainSettings" xml:space="preserve">
+    <value>主要设置</value>
+  </data>
+  <data name="Ping" xml:space="preserve">
+    <value>测试连接</value>
+  </data>
+  <data name="Proxy" xml:space="preserve">
+    <value>设置代理</value>
+  </data>
+  <data name="ProxyDescription" xml:space="preserve">
+    <value>仅支持http, socks4, socks4a, socks5</value>
+  </data>
+  <data name="SystemProxy" xml:space="preserve">
+    <value>默认系统代理</value>
+  </data>
+  <data name="TimeOut" xml:space="preserve">
+    <value>超时</value>
+  </data>
+  <data name="Pinging" xml:space="preserve">
+    <value>检测中</value>
+  </data>
 </root>
