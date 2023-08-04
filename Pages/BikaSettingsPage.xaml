@@ -83,10 +83,7 @@
                             Orientation="Horizontal"
                             Spacing="5"
                             Visibility="{x:Bind ViewModel.PingShow, Mode=OneWay}">
-                            <icons:FluentIcon
-                                x:Name="PingFontIcon"
-                                Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}"
-                                Symbol="{x:Bind ViewModel.PingIcon, Mode=OneWay}" />
+                            <icons:FluentIcon Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" Symbol="{x:Bind ViewModel.PingIcon, Mode=OneWay}" />
                             <TextBlock Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" Text="{x:Bind ViewModel.PingText, Mode=OneWay}" />
                         </StackPanel>
                         <Button Click="Ping_Click" Content="{ex:BikaLocale Key=Ping}" />

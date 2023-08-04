@@ -39,6 +39,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="call thin.bat $(OutDir) $(ProjectDir)" />
+    <Exec Command="echo $(ProjectDir)" />
   </Target>
 </Project>
