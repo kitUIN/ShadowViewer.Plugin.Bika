@@ -39,5 +39,7 @@
         BlankLogin,
         LoginTitle,
         Reset,
+        Home,
+        Classification,
     }
 }

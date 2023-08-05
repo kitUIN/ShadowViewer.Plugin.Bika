@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Windows.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using ShadowViewer.Plugin.Bika.Enums;
@@ -15,12 +16,14 @@ namespace ShadowViewer.Plugin.Bika
         private static readonly ILogger Logger = Log.ForContext<BikaPlugin>();
         public static readonly PluginMetaData Meta = new PluginMetaData(
             "Bika",
-            "ßÙßÇÂþ»­²å¼þ",
+            "ßÙßÇÂþ»­",
             "ßÙßÇÂþ»­ÊÊÅäÆ÷",
             "kitUIN", "0.1.0",
             new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
             new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
             1);
+        
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -51,7 +54,49 @@ namespace ShadowViewer.Plugin.Bika
                     Caller.PluginDisabled(this,MetaData.Id,IsEnabled);
                 }
             } 
-        } 
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public NavigationViewItem PluginNavigationViewItem()
+        {
+            var root =new NavigationViewItem
+            {
+                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
+                Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
+                Tag = MetaData.Id,
+                 
+            };
+            root.MenuItems.Add(new NavigationViewItem
+            {
+                Content = BikaResourcesHelper.GetString(BikaResourceKey.Home),
+                Icon = new SymbolIcon(Symbol.Home),
+                Tag = NavigationViewTag.BikaHome.ToString(),
+                 
+            });
+            root.MenuItems.Add(new NavigationViewItem
+            {
+                Content = BikaResourcesHelper.GetString(BikaResourceKey.Classification),
+                Icon = new SymbolIcon(Symbol.AllApps),
+                Tag = NavigationViewTag.BikaClassification.ToString(),
+            });
+            return root;
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public void NavigationViewMenuItemsHandler(ObservableCollection<NavigationViewItem> menus)
+        {
+             
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public void NavigationViewFooterItemsHandler(ObservableCollection<NavigationViewItem> menus)
+        {
+            
+        }
+
         private ICallableToolKit Caller { get; }
         private ISqlSugarClient Db { get; }
         public BikaPlugin()
@@ -77,6 +122,12 @@ namespace ShadowViewer.Plugin.Bika
             }
             PicaClient.AppChannel = BikaSettingsHelper.GetInt32(BikaSettingName.ApiShunt);
             PicaClient.FileChannel = BikaSettingsHelper.GetInt32(BikaSettingName.PicShunt);
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public void Loaded()
+        {
             var b = false;
             if (BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe))
             {
@@ -103,19 +154,7 @@ namespace ShadowViewer.Plugin.Bika
 
             return false;
         }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public void NavigationViewItemsHandler(ref NavigationViewItem navItem)
-        {
-            navItem.MenuItems.Add(new NavigationViewItem
-            {
-                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
-                Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
-                Tag = MetaData.Id,
-            });
-            Logger.Information("[{Name}]²å¼þµ¼º½À¸×¢Èë³É¹¦",MetaData.Name);
-        }
+         
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -125,7 +164,7 @@ namespace ShadowViewer.Plugin.Bika
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public void NavigationViewItemInvokedHandler(string tag, out Type page, out object parameter)
+        public void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
         {
             page = typeof(ClassificationPage);
             parameter = null;
