@@ -4,6 +4,9 @@ using ShadowViewer.Plugin.Bika.Enums;
 using PicaComic;
 using Serilog;
 using ShadowViewer.Interfaces;
+using SqlSugar;
+using ShadowViewer.Plugin.Bika.Models;
+using ShadowViewer.Plugin.Bika.Contorls;
 
 namespace ShadowViewer.Plugin.Bika
 {
@@ -52,7 +55,9 @@ namespace ShadowViewer.Plugin.Bika
         private ICallableToolKit Caller { get; }
         public BikaPlugin()
         {
-            Caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
+            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+            db.CodeFirst.InitTables<BikaUser>();
             if (ConfigHelper.Contains(MetaData.Id))
             {
                 IsEnabled = ConfigHelper.GetBoolean(MetaData.Id);
@@ -61,17 +66,22 @@ namespace ShadowViewer.Plugin.Bika
             {
                 ConfigHelper.Set(MetaData.Id, true);
             }
-            if (!ConfigHelper.Contains(BikaSettingName.ApiShunt.ToString()))
+            if (!BikaSettingsHelper.Contains(BikaSettingName.ApiShunt))
             {
-                ConfigHelper.Set(BikaSettingName.ApiShunt.ToString(), 3);
+                BikaSettingsHelper.Set(BikaSettingName.ApiShunt, 3);
             }
-            if (!ConfigHelper.Contains(BikaSettingName.PicShunt.ToString()))
+            if (!BikaSettingsHelper.Contains(BikaSettingName.PicShunt))
             {
-                ConfigHelper.Set(BikaSettingName.PicShunt.ToString(), 3);
+                BikaSettingsHelper.Set(BikaSettingName.PicShunt, 3);
             }
-            PicaClient.AppChannel = ConfigHelper.GetInt32(BikaSettingName.ApiShunt.ToString());
-            PicaClient.FileChannel = ConfigHelper.GetInt32(BikaSettingName.PicShunt.ToString());
-            
+            PicaClient.AppChannel = BikaSettingsHelper.GetInt32(BikaSettingName.ApiShunt);
+            PicaClient.FileChannel = BikaSettingsHelper.GetInt32(BikaSettingName.PicShunt);
+            if (!BikaSettingsHelper.Contains(BikaSettingName.LastBikaUser))
+            {
+                var tip = new LoginTip();
+                Caller.TopGrid(this, tip,  ShadowViewer.Enums.TopGridMode.Dialog);
+                tip.Open();
+            }
         }
         /// <summary>
         /// <inheritdoc/>
@@ -97,7 +107,7 @@ namespace ShadowViewer.Plugin.Bika
         /// </summary>
         public void NavigationViewItemInvokedHandler(string tag, out Type page, out object parameter)
         {
-            page = typeof(BikaHomePage);
+            page = typeof(ClassificationPage);
             parameter = null;
         }
 

@@ -10,5 +10,8 @@ namespace ShadowViewer.Plugin.Bika.Enums
     {
         ApiShunt,
         PicShunt,
+        RememberMe,
+        AutoLogin,
+        LastBikaUser,
     }
 }

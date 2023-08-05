@@ -25,5 +25,17 @@
         SystemProxy,
         TimeOut,
         Pinging,
+        UserName,
+        Password,
+        Login,
+        RememberMe,
+        AutoLogin,
+        TimeOutMessage1,
+        TimeOutMessage2,
+        TimeOutMessage3,
+        NoAuth,
+        NoAuthMessage,
+        Unknown,
+        BlankLogin,
     }
 }

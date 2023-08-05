@@ -189,4 +189,40 @@
   <data name="Pinging" xml:space="preserve">
     <value>检测中</value>
   </data>
+  <data name="UserName" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>记住我</value>
+  </data>
+  <data name="AutoLogin" xml:space="preserve">
+    <value>自动登录</value>
+  </data>
+  <data name="TimeOutMessage1" xml:space="preserve">
+    <value>哔咔被玩坏了!</value>
+  </data>
+  <data name="TimeOutMessage2" xml:space="preserve">
+    <value>这肯定不是哔咔的问题!</value>
+  </data>
+  <data name="TimeOutMessage3" xml:space="preserve">
+    <value>绝对不是</value>
+  </data>
+  <data name="NoAuthMessage" xml:space="preserve">
+    <value>登录失效,请重新登陆</value>
+  </data>
+  <data name="NoAuth" xml:space="preserve">
+    <value>缺少登录凭证</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>未知错误</value>
+  </data>
+  <data name="BlankLogin" xml:space="preserve">
+    <value>账号或密码不能为空</value>
+  </data>
 </root>
