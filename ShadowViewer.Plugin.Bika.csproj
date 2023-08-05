@@ -12,6 +12,7 @@
     <None Remove="Pages\BikaHomePage.xaml" />
     <None Remove="Pages\BikaSettingsPage.xaml" />
     <None Remove="Pages\ClassificationPage.xaml" />
+    <None Remove="Styles\ResourceDictionary2.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +34,12 @@
     <Content Update="Assets\Icons\logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\BikaTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
