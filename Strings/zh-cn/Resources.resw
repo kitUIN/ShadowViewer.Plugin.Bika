@@ -225,4 +225,7 @@
   <data name="BlankLogin" xml:space="preserve">
     <value>账号或密码不能为空</value>
   </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>登录到哔咔漫画</value>
+  </data>
 </root>

@@ -14,6 +14,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Microsoft.Extensions.DependencyInjection;
 using PicaComic;
 using ShadowViewer.Enums;
@@ -21,7 +22,7 @@ using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Models;
 using SqlSugar;
 
-namespace ShadowViewer.Plugin.Bika.Contorls
+namespace ShadowViewer.Plugin.Bika.Controls
 {
     public sealed partial class LoginTip : UserControl
     {
@@ -73,6 +74,7 @@ namespace ShadowViewer.Plugin.Bika.Contorls
                         Token = res.Data.Token,
                     }).ExecuteCommand();
                     Login.IsOpen = false;
+                    BikaSettingsHelper.Set(BikaSettingName.LastBikaUser,Email.Text);
                 }
             }
             catch (TaskCanceledException)
@@ -123,6 +125,14 @@ namespace ShadowViewer.Plugin.Bika.Contorls
                     }
                 }
             } 
+        }
+
+        private void Password_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                Login_Click(null, null);
+            }
         }
     }
 }

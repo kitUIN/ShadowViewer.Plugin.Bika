@@ -37,5 +37,6 @@
         NoAuthMessage,
         Unknown,
         BlankLogin,
+        LoginTitle,
     }
 }

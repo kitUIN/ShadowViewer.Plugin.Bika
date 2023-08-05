@@ -6,7 +6,7 @@ using Serilog;
 using ShadowViewer.Interfaces;
 using SqlSugar;
 using ShadowViewer.Plugin.Bika.Models;
-using ShadowViewer.Plugin.Bika.Contorls;
+using ShadowViewer.Plugin.Bika.Controls;
 
 namespace ShadowViewer.Plugin.Bika
 {
@@ -53,11 +53,12 @@ namespace ShadowViewer.Plugin.Bika
             } 
         } 
         private ICallableToolKit Caller { get; }
+        private ISqlSugarClient Db { get; }
         public BikaPlugin()
         {
             Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
-            var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
-            db.CodeFirst.InitTables<BikaUser>();
+            Db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+            Db.CodeFirst.InitTables<BikaUser>();
             if (ConfigHelper.Contains(MetaData.Id))
             {
                 IsEnabled = ConfigHelper.GetBoolean(MetaData.Id);
@@ -76,12 +77,31 @@ namespace ShadowViewer.Plugin.Bika
             }
             PicaClient.AppChannel = BikaSettingsHelper.GetInt32(BikaSettingName.ApiShunt);
             PicaClient.FileChannel = BikaSettingsHelper.GetInt32(BikaSettingName.PicShunt);
-            if (!BikaSettingsHelper.Contains(BikaSettingName.LastBikaUser))
+            var b = false;
+            if (BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe))
+            {
+                b = TryAutoLogin();
+            }
+            if (!b)
             {
                 var tip = new LoginTip();
                 Caller.TopGrid(this, tip,  ShadowViewer.Enums.TopGridMode.Dialog);
                 tip.Open();
             }
+        }
+        /// <summary>
+        /// ×Ô¶¯µÇÂ¼
+        /// </summary>
+        private bool TryAutoLogin()
+        {
+            var user = BikaSettingsHelper.GetString(BikaSettingName.LastBikaUser);
+            if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
+            {
+                PicaClient.SetToken(bikaUser.Token);
+                return true;
+            }
+
+            return false;
         }
         /// <summary>
         /// <inheritdoc/>
