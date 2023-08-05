@@ -13,5 +13,6 @@ namespace ShadowViewer.Plugin.Bika.Enums
         RememberMe,
         AutoLogin,
         LastBikaUser,
+        Proxy,
     }
 }

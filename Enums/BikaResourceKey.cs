@@ -38,5 +38,6 @@
         Unknown,
         BlankLogin,
         LoginTitle,
+        Reset,
     }
 }
