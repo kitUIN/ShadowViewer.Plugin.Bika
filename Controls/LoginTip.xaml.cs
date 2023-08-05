@@ -72,6 +72,7 @@ namespace ShadowViewer.Plugin.Bika.Contorls
                         Password = Password.Password,
                         Token = res.Data.Token,
                     }).ExecuteCommand();
+                    Login.IsOpen = false;
                 }
             }
             catch (TaskCanceledException)
@@ -90,14 +91,38 @@ namespace ShadowViewer.Plugin.Bika.Contorls
 
         private void RememberMe_OnChecked(object sender, RoutedEventArgs e)
         {
-            var s = sender as CheckBox;
-            BikaSettingsHelper.Set(BikaSettingName.RememberMe, s?.IsChecked);
+            BikaSettingsHelper.Set(BikaSettingName.RememberMe, RememberMeBox.IsChecked ?? false);
         }
 
         private void AutoLogin_OnChecked(object sender, RoutedEventArgs e)
         {
-            var s = sender as CheckBox;
-            BikaSettingsHelper.Set(BikaSettingName.AutoLogin, s?.IsChecked);
+            if (AutoLoginBox.IsChecked ?? false) RememberMeBox.IsChecked = true;
+            BikaSettingsHelper.Set(BikaSettingName.AutoLogin, AutoLoginBox.IsChecked?? false);
+        }
+
+        private void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (BikaSettingsHelper.Contains(BikaSettingName.RememberMe))
+            {
+                RememberMeBox.IsChecked = BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe);
+            }
+            if (BikaSettingsHelper.Contains(BikaSettingName.AutoLogin))
+            {
+                AutoLoginBox.IsChecked = BikaSettingsHelper.GetBoolean(BikaSettingName.AutoLogin);
+            }
+            if (BikaSettingsHelper.Contains(BikaSettingName.LastBikaUser))
+            {
+                var user = BikaSettingsHelper.GetString(BikaSettingName.LastBikaUser);
+                var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                if (db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
+                {
+                    if (RememberMeBox.IsChecked ?? false)
+                    {
+                        Email.Text = bikaUser.Email;
+                        Password.Password = bikaUser.Password;
+                    }
+                }
+            } 
         }
     }
 }

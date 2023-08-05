@@ -69,13 +69,15 @@
                     Checked="RememberMe_OnChecked"
                     Content="{ex:BikaLocale Key=RememberMe}"
                     HorizontalAlignment="Left"
-                    Unchecked="RememberMe_OnChecked" />
+                    Unchecked="RememberMe_OnChecked"
+                    x:Name="RememberMeBox" />
                 <CheckBox
                     Checked="AutoLogin_OnChecked"
                     Content="{ex:BikaLocale Key=AutoLogin}"
                     FlowDirection="RightToLeft"
                     HorizontalAlignment="Right"
-                    Unchecked="AutoLogin_OnChecked" />
+                    Unchecked="AutoLogin_OnChecked"
+                    x:Name="AutoLoginBox" />
             </Grid>
             <Button
                 Click="Login_Click"
