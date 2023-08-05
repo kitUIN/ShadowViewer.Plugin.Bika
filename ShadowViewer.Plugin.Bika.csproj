@@ -8,6 +8,7 @@
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Pages\BikaHomePage.xaml" />
     <None Remove="Pages\BikaSettingsPage.xaml" />
   </ItemGroup>
 
@@ -30,6 +31,12 @@
     <Content Update="Assets\Icons\logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\BikaHomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

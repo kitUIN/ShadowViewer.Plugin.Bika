@@ -1,12 +1,16 @@
 using Windows.Storage;
+using Microsoft.Extensions.DependencyInjection;
 using ShadowViewer.Plugin.Bika.Enums;
 using PicaComic;
+using Serilog;
+using ShadowViewer.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika
 {
     public class BikaPlugin : IPlugin
     {
-        public static PluginMetaData Meta = new PluginMetaData(
+        private static readonly ILogger Logger = Log.ForContext<BikaPlugin>();
+        public static readonly PluginMetaData Meta = new PluginMetaData(
             "Bika",
             "ßÙßÇÂþ»­²å¼þ",
             "ßÙßÇÂþ»­ÊÊÅäÆ÷",
@@ -23,14 +27,32 @@ namespace ShadowViewer.Plugin.Bika
         /// <inheritdoc/>
         /// </summary>
         public LocalTag AffiliationTag { get; } = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
-
+        
+        private bool isEnabled = true;
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public bool IsEnabled { get; private set; } = true;
-
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set
+            {
+                isEnabled = value;
+                ConfigHelper.Set(MetaData.Id, value);
+                if (IsEnabled)
+                {
+                    Caller.PluginEnabled(this,MetaData.Id,IsEnabled);
+                }
+                else
+                {
+                    Caller.PluginDisabled(this,MetaData.Id,IsEnabled);
+                }
+            } 
+        } 
+        private ICallableToolKit Caller { get; }
         public BikaPlugin()
         {
+            Caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
             if (ConfigHelper.Contains(MetaData.Id))
             {
                 IsEnabled = ConfigHelper.GetBoolean(MetaData.Id);
@@ -49,18 +71,12 @@ namespace ShadowViewer.Plugin.Bika
             }
             PicaClient.AppChannel = ConfigHelper.GetInt32(BikaSettingName.ApiShunt.ToString());
             PicaClient.FileChannel = ConfigHelper.GetInt32(BikaSettingName.PicShunt.ToString());
-        }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public void Started()
-        {
             
         }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public void NavigationViewItemsHandler(NavigationViewItem navItem)
+        public void NavigationViewItemsHandler(ref NavigationViewItem navItem)
         {
             navItem.MenuItems.Add(new NavigationViewItem
             {
@@ -68,6 +84,7 @@ namespace ShadowViewer.Plugin.Bika
                 Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
                 Tag = MetaData.Id,
             });
+            Logger.Information("[{Name}]²å¼þµ¼º½À¸×¢Èë³É¹¦",MetaData.Name);
         }
         /// <summary>
         /// <inheritdoc/>
@@ -80,24 +97,9 @@ namespace ShadowViewer.Plugin.Bika
         /// </summary>
         public void NavigationViewItemInvokedHandler(string tag, out Type page, out object parameter)
         {
-            page = null;
+            page = typeof(BikaHomePage);
             parameter = null;
         }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public void Enabled()
-        {
-            IsEnabled = true;
-            ConfigHelper.Set(MetaData.Id,  IsEnabled);
-        }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public void Disabled()
-        {
-            IsEnabled = false;
-            ConfigHelper.Set(MetaData.Id, IsEnabled);
-        }
+
     }
 }
