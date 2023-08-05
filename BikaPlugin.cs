@@ -58,14 +58,13 @@ namespace ShadowViewer.Plugin.Bika
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public NavigationViewItem PluginNavigationViewItem()
+        public void NavigationViewMenuItemsHandler(ObservableCollection<NavigationViewItem> menus)
         {
             var root =new NavigationViewItem
             {
                 Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
                 Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
                 Tag = MetaData.Id,
-                 
             };
             root.MenuItems.Add(new NavigationViewItem
             {
@@ -80,14 +79,10 @@ namespace ShadowViewer.Plugin.Bika
                 Icon = new SymbolIcon(Symbol.AllApps),
                 Tag = NavigationViewTag.BikaClassification.ToString(),
             });
-            return root;
-        }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public void NavigationViewMenuItemsHandler(ObservableCollection<NavigationViewItem> menus)
-        {
-             
+            if (!menus.Contains(root))
+            {
+                menus.Add(root);
+            }
         }
         /// <summary>
         /// <inheritdoc/>

@@ -14,7 +14,7 @@
             ItemClick="GridV_OnItemClick"
             ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
             Loaded="GridV_OnLoaded"
-            Margin="0,30,0,0"
+            Margin="10,30,0,0"
             SelectionMode="None"
             x:Name="GridV">
             <GridView.Transitions>
