@@ -24,13 +24,39 @@ namespace ShadowViewer.Plugin.Bika.Pages
             uri.LaunchUriAsync();
         } 
         private void SettingsExpander_Loaded(object sender, RoutedEventArgs e)
-        { 
+        {
+            if (BikaSettingsHelper.Contains(BikaSettingName.Proxy))
+            {
+                var uri = BikaSettingsHelper.GetString(BikaSettingName.Proxy);
+                ProxyBox.Text = uri;
+                PicaClient.SetProxy(new Uri(uri));
+            }
             Ping_Click(null, null);
         }
 
         private async void Ping_Click(object sender, RoutedEventArgs e)
         {
             await ViewModel.Ping();
+        }
+
+        private void ProxyBox_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var uri = new Uri(ProxyBox.Text);
+                PicaClient.SetProxy(uri);
+                BikaSettingsHelper.Set(BikaSettingName.Proxy,ProxyBox.Text);
+            }
+            catch (Exception)
+            {
+                
+            }
+        }
+
+        private void ResetButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            PicaClient.ResetProxy();
+            ProxyBox.Text = "";
         }
     }
 }

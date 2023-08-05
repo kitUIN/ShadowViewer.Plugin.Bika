@@ -35,7 +35,9 @@ namespace ShadowViewer.Plugin.Bika.Controls
         {
             Login.IsOpen = true;
         }
-
+        /// <summary>
+        /// 登录
+        /// </summary>
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
@@ -90,18 +92,24 @@ namespace ShadowViewer.Plugin.Bika.Controls
                     TopGridMode.ContentDialog);
             }
         }
-
+        /// <summary>
+        /// 记住我复选框
+        /// </summary>
         private void RememberMe_OnChecked(object sender, RoutedEventArgs e)
         {
             BikaSettingsHelper.Set(BikaSettingName.RememberMe, RememberMeBox.IsChecked ?? false);
         }
-
+        /// <summary>
+        /// 自动登录复选框
+        /// </summary>
         private void AutoLogin_OnChecked(object sender, RoutedEventArgs e)
         {
             if (AutoLoginBox.IsChecked ?? false) RememberMeBox.IsChecked = true;
             BikaSettingsHelper.Set(BikaSettingName.AutoLogin, AutoLoginBox.IsChecked?? false);
         }
-
+        /// <summary>
+        /// 初始化
+        /// </summary>
         private void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e)
         {
             if (BikaSettingsHelper.Contains(BikaSettingName.RememberMe))
@@ -126,7 +134,9 @@ namespace ShadowViewer.Plugin.Bika.Controls
                 }
             } 
         }
-
+        /// <summary>
+        /// 密码栏回车
+        /// </summary>
         private void Password_OnKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
