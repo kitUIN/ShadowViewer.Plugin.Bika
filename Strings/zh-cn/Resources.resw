@@ -237,4 +237,22 @@
   <data name="Classification" xml:space="preserve">
     <value>分类</value>
   </data>
+  <data name="AutoLoginSuccess" xml:space="preserve">
+    <value>自动登录成功</value>
+  </data>
+  <data name="LoginSuccess" xml:space="preserve">
+    <value>登录成功</value>
+  </data>
+  <data name="AutoPunchInSuccess" xml:space="preserve">
+    <value>自动打卡成功</value>
+  </data>
+  <data name="BikaKeywords" xml:space="preserve">
+    <value>大家都在搜</value>
+  </data>
+  <data name="SetError" xml:space="preserve">
+    <value>设置出错</value>
+  </data>
+  <data name="SetSuccess" xml:space="preserve">
+    <value>设置成功</value>
+  </data>
 </root>

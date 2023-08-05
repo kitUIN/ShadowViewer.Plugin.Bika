@@ -15,8 +15,11 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
+using CommunityToolkit.WinUI;
 using Microsoft.Extensions.DependencyInjection;
 using PicaComic;
+using PicaComic.Responses;
+using ShadowViewer.Controls;
 using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Models;
@@ -35,6 +38,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
         {
             Login.IsOpen = true;
         }
+
         /// <summary>
         /// 登录
         /// </summary>
@@ -48,50 +52,34 @@ namespace ShadowViewer.Plugin.Bika.Controls
                 return;
             }
 
-            try
-            {
-                var res = await PicaClient.SignIn(Email.Text, Password.Password);
-                if (res.Code != 200)
+            await BikaHttpHelper.TryRequest(this, PicaClient.SignIn(Email.Text, Password.Password),
+                res =>
                 {
-                    if (res.Code == 401)
-                    {
-                        caller.TopGrid(this,
-                            ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, null),
-                            TopGridMode.ContentDialog);
-                    }
-                    else
-                    {
-                        caller.TopGrid(this,
-                            ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message),
-                            TopGridMode.ContentDialog);
-                    }
-                }
-                else
-                {
-                    var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
-                    db.Storageable(new BikaUser()
-                    {
-                        Email = Email.Text,
-                        Password = Password.Password,
-                        Token = res.Data.Token,
-                    }).ExecuteCommand();
-                    Login.IsOpen = false;
-                    BikaSettingsHelper.Set(BikaSettingName.LastBikaUser,Email.Text);
-                }
-            }
-            catch (TaskCanceledException)
+                    DispatcherQueue.TryEnqueue(() =>
+                        {
+                            var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                            db.Storageable(new BikaUser()
+                            {
+                                Email = Email.Text,
+                                Password = Password.Password,
+                                Token = res.Data.Token,
+                            }).ExecuteCommand();
+                            Login.IsOpen = false;
+                            BikaSettingsHelper.Set(BikaSettingName.LastBikaUser, Email.Text);
+                        }
+                    );
+                });
+            await BikaHttpHelper.TryRequest(this, PicaClient.Profile(), res =>
             {
-                caller.TopGrid(this,
-                    ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, null),
-                    TopGridMode.ContentDialog);
-            }
-            catch (Exception exception)
-            {
-                caller.TopGrid(this,
-                    ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.Message),
-                    TopGridMode.ContentDialog);
-            }
+                BikaData.Current.CurrentUser = res.Data.User;
+                caller.TopGrid(this, new TipPopup(
+                    $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
+                    InfoBarSeverity.Success), TopGridMode.Tip);
+            });
+            await BikaHttpHelper.PunchIn(this);
+            await BikaHttpHelper.Keywords();
         }
+
         /// <summary>
         /// 记住我复选框
         /// </summary>
@@ -99,14 +87,16 @@ namespace ShadowViewer.Plugin.Bika.Controls
         {
             BikaSettingsHelper.Set(BikaSettingName.RememberMe, RememberMeBox.IsChecked ?? false);
         }
+
         /// <summary>
         /// 自动登录复选框
         /// </summary>
         private void AutoLogin_OnChecked(object sender, RoutedEventArgs e)
         {
             if (AutoLoginBox.IsChecked ?? false) RememberMeBox.IsChecked = true;
-            BikaSettingsHelper.Set(BikaSettingName.AutoLogin, AutoLoginBox.IsChecked?? false);
+            BikaSettingsHelper.Set(BikaSettingName.AutoLogin, AutoLoginBox.IsChecked ?? false);
         }
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -116,10 +106,12 @@ namespace ShadowViewer.Plugin.Bika.Controls
             {
                 RememberMeBox.IsChecked = BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe);
             }
+
             if (BikaSettingsHelper.Contains(BikaSettingName.AutoLogin))
             {
                 AutoLoginBox.IsChecked = BikaSettingsHelper.GetBoolean(BikaSettingName.AutoLogin);
             }
+
             if (BikaSettingsHelper.Contains(BikaSettingName.LastBikaUser))
             {
                 var user = BikaSettingsHelper.GetString(BikaSettingName.LastBikaUser);
@@ -132,8 +124,9 @@ namespace ShadowViewer.Plugin.Bika.Controls
                         Password.Password = bikaUser.Password;
                     }
                 }
-            } 
+            }
         }
+
         /// <summary>
         /// 密码栏回车
         /// </summary>

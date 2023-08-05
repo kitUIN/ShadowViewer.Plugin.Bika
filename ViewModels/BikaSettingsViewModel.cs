@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using ShadowViewer.Controls;
+using ShadowViewer.Enums;
+using ShadowViewer.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -25,7 +29,9 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private FluentIconSymbol pingIcon = FluentIconSymbol.CheckmarkCircleFilled;
         public static BikaSettingsViewModel Current { get; set; }
+        private ICallableToolKit Caller { get; }
         public BikaSettingsViewModel() { 
+            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
         }
         partial void OnApiShuntChanged(int oldValue, int newValue)
         {
@@ -62,6 +68,25 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 PingText = BikaResourcesHelper.GetString(BikaResourceKey.TimeOut);
                 PingIcon = FluntIcon.FluentIconSymbol.DismissCircleFilled;
                 PingColor = new SolidColorBrush(Colors.Red);
+            }
+        }
+
+        public void SetProxy(string text)
+        {
+            try
+            {
+                var uri = new Uri(text);
+                PicaClient.SetProxy(uri);
+                BikaSettingsHelper.Set(BikaSettingName.Proxy,text);
+                Caller.TopGrid(this, new TipPopup(
+                    $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetSuccess)}",
+                    InfoBarSeverity.Success), TopGridMode.Tip);
+            }
+            catch (Exception)
+            {
+                Caller.TopGrid(this, new TipPopup(
+                    $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetError)}",
+                    InfoBarSeverity.Error), TopGridMode.Tip);
             }
         }
     }

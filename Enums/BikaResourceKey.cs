@@ -41,5 +41,11 @@
         Reset,
         Home,
         Classification,
+        AutoLoginSuccess,
+        LoginSuccess,
+        AutoPunchInSuccess,
+        BikaKeywords,
+        SetError,
+        SetSuccess,
     }
 }

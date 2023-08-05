@@ -23,7 +23,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
             var uri = new Uri(tag);
             uri.LaunchUriAsync();
         } 
-        private void SettingsExpander_Loaded(object sender, RoutedEventArgs e)
+        private async void SettingsExpander_Loaded(object sender, RoutedEventArgs e)
         {
             if (BikaSettingsHelper.Contains(BikaSettingName.Proxy))
             {
@@ -31,7 +31,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 ProxyBox.Text = uri;
                 PicaClient.SetProxy(new Uri(uri));
             }
-            Ping_Click(null, null);
+            await ViewModel.Ping();
         }
 
         private async void Ping_Click(object sender, RoutedEventArgs e)
@@ -41,16 +41,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void ProxyBox_OnLostFocus(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var uri = new Uri(ProxyBox.Text);
-                PicaClient.SetProxy(uri);
-                BikaSettingsHelper.Set(BikaSettingName.Proxy,ProxyBox.Text);
-            }
-            catch (Exception)
-            {
-                
-            }
+            ViewModel.SetProxy(ProxyBox.Text);
         }
 
         private void ResetButton_OnClick(object sender, RoutedEventArgs e)

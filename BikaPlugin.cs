@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ShadowViewer.Plugin.Bika.Enums;
 using PicaComic;
 using Serilog;
+using ShadowViewer.Controls;
+using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
 using SqlSugar;
 using ShadowViewer.Plugin.Bika.Models;
@@ -79,7 +81,7 @@ namespace ShadowViewer.Plugin.Bika
                 Icon = new SymbolIcon(Symbol.AllApps),
                 Tag = NavigationViewTag.BikaClassification.ToString(),
             });
-            if (!menus.Contains(root))
+            if (!menus.Any(x=>x.Tag is string tag && tag == MetaData.Id))
             {
                 menus.Add(root);
             }
@@ -117,11 +119,12 @@ namespace ShadowViewer.Plugin.Bika
             }
             PicaClient.AppChannel = BikaSettingsHelper.GetInt32(BikaSettingName.ApiShunt);
             PicaClient.FileChannel = BikaSettingsHelper.GetInt32(BikaSettingName.PicShunt);
+            BikaData.Current = new BikaData();
         }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public void Loaded()
+        public async void Loaded()
         {
             var b = false;
             if (BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe))
@@ -134,6 +137,12 @@ namespace ShadowViewer.Plugin.Bika
                 Caller.TopGrid(this, tip,  ShadowViewer.Enums.TopGridMode.Dialog);
                 tip.Open();
             }
+            else
+            {
+                await BikaHttpHelper.Profile(this);
+                await BikaHttpHelper.PunchIn(this);
+                await BikaHttpHelper.Keywords();
+            }
         }
         /// <summary>
         /// ×Ô¶¯µÇÂ¼
@@ -144,9 +153,11 @@ namespace ShadowViewer.Plugin.Bika
             if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
             {
                 PicaClient.SetToken(bikaUser.Token);
+                Caller.TopGrid(this, new TipPopup(
+                    $"[{Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
+                    InfoBarSeverity.Success), TopGridMode.Tip);
                 return true;
             }
-
             return false;
         }
          
