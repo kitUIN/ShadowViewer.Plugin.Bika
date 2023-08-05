@@ -24,45 +24,14 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         }
         public async Task GetClassification()
         {
-            var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
-            try
+            await BikaHttpHelper.TryRequest(this, PicaClient.Categories(), res =>
             {
-                var res = await PicaClient.Categories();
-                if (res.Code != 200)
+                Categories.Clear();
+                foreach (var item in res.Data.Categories)
                 {
-                    if (res.Code == 401)
-                    {
-                        caller.TopGrid(this,
-                            ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, null),
-                            TopGridMode.ContentDialog);
-                    }
-                    else
-                    {
-                        caller.TopGrid(this,
-                            ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message),
-                            TopGridMode.ContentDialog);
-                    }
+                    Categories.Add(item);
                 }
-                else
-                {
-                    foreach (var item in res.Data.Categories)
-                    {
-                        Categories.Add(item);
-                    }
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                caller.TopGrid(this,
-                    ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, null),
-                    TopGridMode.ContentDialog);
-            }
-            catch (Exception exception)
-            {
-                caller.TopGrid(this,
-                    ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.Message),
-                    TopGridMode.ContentDialog);
-            }
+            });
         }
     }
 }
