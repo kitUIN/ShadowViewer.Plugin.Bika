@@ -36,6 +36,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private SortRule sortRule;
         public ObservableCollection<CategoryComic> CategoryComics { get;  } = new ObservableCollection<CategoryComic>();
+        
         public BikaCategoryViewModel()
         { 
             

@@ -16,16 +16,6 @@ namespace ShadowViewer.Plugin.Bika
     public class BikaPlugin : IPlugin
     {
         private static readonly ILogger Logger = Log.ForContext<BikaPlugin>();
-        public static readonly PluginMetaData Meta = new PluginMetaData(
-            "Bika",
-            "ßÙßÇÂþ»­",
-            "ßÙßÇÂþ»­ÊÊÅäÆ÷",
-            "kitUIN", "0.1.0",
-            new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
-            new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
-            1);
-        
-
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -36,7 +26,7 @@ namespace ShadowViewer.Plugin.Bika
         /// </summary>
         public LocalTag AffiliationTag { get; } = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
         
-        private bool isEnabled = true;
+        private bool isEnabled = false;
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -50,12 +40,52 @@ namespace ShadowViewer.Plugin.Bika
                 if (IsEnabled)
                 {
                     Caller.PluginEnabled(this,MetaData.Id,IsEnabled);
+                    PluginEnabled();
                 }
                 else
                 {
                     Caller.PluginDisabled(this,MetaData.Id,IsEnabled);
+                    PluginDisabled();
                 }
             } 
+        }
+        private ICallableToolKit Caller { get; }
+        private ISqlSugarClient Db { get; }
+
+        public static readonly PluginMetaData Meta = new PluginMetaData(
+            "Bika",
+            "ßÙßÇÂþ»­",
+            "ßÙßÇÂþ»­ÊÊÅäÆ÷",
+            "kitUIN", "0.1.0",
+            new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
+            new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
+            1);
+        
+        public BikaPlugin()
+        {
+            BikaData.Current = new BikaData();
+            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            Db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+            Db.CodeFirst.InitTables<BikaUser>();
+            if (ConfigHelper.Contains(MetaData.Id))
+            {
+                IsEnabled = ConfigHelper.GetBoolean(MetaData.Id);
+            }
+            else
+            {
+                ConfigHelper.Set(MetaData.Id, true);
+            }
+            if (!BikaSettingsHelper.Contains(BikaSettingName.ApiShunt))
+            {
+                BikaSettingsHelper.Set(BikaSettingName.ApiShunt, 3);
+            }
+            if (!BikaSettingsHelper.Contains(BikaSettingName.PicShunt))
+            {
+                BikaSettingsHelper.Set(BikaSettingName.PicShunt, 3);
+            }
+            PicaClient.AppChannel = BikaSettingsHelper.GetInt32(BikaSettingName.ApiShunt);
+            PicaClient.FileChannel = BikaSettingsHelper.GetInt32(BikaSettingName.PicShunt);
+            
         }
         /// <summary>
         /// <inheritdoc/>
@@ -94,54 +124,26 @@ namespace ShadowViewer.Plugin.Bika
             
         }
 
-        private ICallableToolKit Caller { get; }
-        private ISqlSugarClient Db { get; }
-        public BikaPlugin()
-        {
-            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
-            Db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
-            Db.CodeFirst.InitTables<BikaUser>();
-            if (ConfigHelper.Contains(MetaData.Id))
-            {
-                IsEnabled = ConfigHelper.GetBoolean(MetaData.Id);
-            }
-            else
-            {
-                ConfigHelper.Set(MetaData.Id, true);
-            }
-            if (!BikaSettingsHelper.Contains(BikaSettingName.ApiShunt))
-            {
-                BikaSettingsHelper.Set(BikaSettingName.ApiShunt, 3);
-            }
-            if (!BikaSettingsHelper.Contains(BikaSettingName.PicShunt))
-            {
-                BikaSettingsHelper.Set(BikaSettingName.PicShunt, 3);
-            }
-            PicaClient.AppChannel = BikaSettingsHelper.GetInt32(BikaSettingName.ApiShunt);
-            PicaClient.FileChannel = BikaSettingsHelper.GetInt32(BikaSettingName.PicShunt);
-            BikaData.Current = new BikaData();
-        }
+        
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public async void Loaded()
+        public void Loaded()
         {
-            var b = false;
-            if (BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe))
+            BikaData.Current ??= new BikaData();
+            foreach (var item in BikaData.Categories)
             {
-                b = TryAutoLogin();
-            }
-            if (!b)
-            {
-                var tip = new LoginTip();
-                Caller.TopGrid(this, tip,  ShadowViewer.Enums.TopGridMode.Dialog);
-                tip.Open();
-            }
-            else
-            {
-                await BikaHttpHelper.Profile(this);
-                await BikaHttpHelper.PunchIn(this);
-                await BikaHttpHelper.Keywords();
+                if (BikaSettingsHelper.Contains(item))
+                {
+                    BikaData.Current.Locks.Add(
+                        new BikaLock(item,
+                        BikaSettingsHelper.GetBoolean(item))
+                        );
+                }
+                else
+                {
+                    BikaSettingsHelper.Set(item, true);
+                }
             }
         }
         /// <summary>
@@ -176,5 +178,35 @@ namespace ShadowViewer.Plugin.Bika
             parameter = null;
         }
 
+        /// <summary>
+        /// ²å¼þÆô¶¯ºó´¥·¢
+        /// </summary>
+        async void PluginEnabled()
+        {
+            var b = false;
+            if (BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe))
+            {
+                b = TryAutoLogin();
+            }
+            if (!b)
+            {
+                var tip = new LoginTip();
+                Caller.TopGrid(this, tip, ShadowViewer.Enums.TopGridMode.Dialog);
+                tip.Open();
+            }
+            else
+            {
+                await BikaHttpHelper.Profile(this);
+                await BikaHttpHelper.PunchIn(this);
+                await BikaHttpHelper.Keywords();
+            }
+        }
+        /// <summary>
+        /// ²å¼þ½ûÓÃºó´¥·¢
+        /// </summary>
+        void PluginDisabled()
+        {
+
+        }
     }
 }

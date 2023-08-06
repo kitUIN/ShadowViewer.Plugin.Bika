@@ -297,4 +297,10 @@
   <data name="ClickSelect" xml:space="preserve">
     <value>点击选择</value>
   </data>
+  <data name="IsOpened" xml:space="preserve">
+    <value>为开启</value>
+  </data>
+  <data name="LockCounts" xml:space="preserve">
+    <value>已封印数量</value>
+  </data>
 </root>

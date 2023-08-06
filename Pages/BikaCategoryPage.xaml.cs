@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
@@ -48,11 +49,10 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         }
 
-        
 
         private void LockButton_Click(object sender, RoutedEventArgs e)
         {
-
+            LockTip.Show();
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -96,5 +96,6 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 item.Icon = item.Text == SortButton.Label ? new FontIcon() { Glyph = "\uE7B3" } : null;
             }
         }
+
     }
 }

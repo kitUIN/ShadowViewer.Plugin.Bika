@@ -61,5 +61,7 @@
         UA,
         ClickGoto,
         ClickSelect,
+        IsOpened,
+        LockCounts,
     }
 }
