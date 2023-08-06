@@ -9,14 +9,16 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Contorls\LoginTip.xaml" />
+    <None Remove="Pages\BikaCategoryPage.xaml" />
     <None Remove="Pages\BikaHomePage.xaml" />
+    <None Remove="Pages\BikaInfoPage.xaml" />
     <None Remove="Pages\BikaSettingsPage.xaml" />
     <None Remove="Pages\ClassificationPage.xaml" />
     <None Remove="Styles\ResourceDictionary2.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-	  <PackageReference Include="KitUIN.PicaComic" Version="1.0.2" />
+	  <PackageReference Include="KitUIN.PicaComic" Version="1.0.5" />
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230724000" />
 		  
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
@@ -34,6 +36,18 @@
     <Content Update="Assets\Icons\logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\BikaInfoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\BikaCategoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

@@ -19,6 +19,8 @@
                     <Color x:Key="SystemAccentColorDark3">#FFB9527E</Color>
                     <Color x:Key="SystemAccentColorDark4">#FFA43B6A</Color>
                     <Color x:Key="SystemAccentColorDark5">#FF8E2456</Color>
+                    <Color x:Key="SystemComicItemAccentColor">#FF4D4D4D</Color>
+                    <Color x:Key="SystemComicFinishAccentColor">#FF575757</Color>
                     <SolidColorBrush x:Key="TagBackground" Color="{StaticResource SystemAccentColorDark1}" />
                     <SolidColorBrush x:Key="TagPointerOverBackground" Color="{StaticResource SystemAccentColorLight1}" />
                     <SolidColorBrush x:Key="TagForeground" Color="{StaticResource SystemAccentColorLight4}" />
@@ -39,6 +41,8 @@
                     <Color x:Key="SystemAccentColorDark3">#FFB9527E</Color>
                     <Color x:Key="SystemAccentColorDark4">#FFA43B6A</Color>
                     <Color x:Key="SystemAccentColorDark5">#FF8E2456</Color>
+                    <Color x:Key="SystemComicItemAccentColor">#FFfdd7e6</Color>
+                    <Color x:Key="SystemComicFinishAccentColor">#FFffe8f4</Color>
                     <SolidColorBrush x:Key="TagBackground" Color="{StaticResource SystemAccentColorLight5}" />
                     <SolidColorBrush x:Key="TagPointerOverBackground" Color="{StaticResource SystemAccentColorLight3}" />
                     <SolidColorBrush x:Key="TagForeground" Color="{StaticResource SystemAccentColorDark1}" />

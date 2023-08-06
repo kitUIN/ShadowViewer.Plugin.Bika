@@ -47,5 +47,6 @@
         BikaKeywords,
         SetError,
         SetSuccess,
+        Finished,
     }
 }

@@ -255,4 +255,7 @@
   <data name="SetSuccess" xml:space="preserve">
     <value>设置成功</value>
   </data>
+  <data name="Finished" xml:space="preserve">
+    <value>完结</value>
+  </data>
 </root>

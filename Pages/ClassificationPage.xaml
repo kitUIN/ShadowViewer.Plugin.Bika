@@ -1,21 +1,22 @@
 <Page
-    mc:Ignorable="d"
     x:Class="ShadowViewer.Plugin.Bika.Pages.ClassificationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pica="using:PicaComic.Models"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    NavigationCacheMode="Required"
+    mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary Source="ms-appx:///ShadowViewer.Plugin.Bika/Themes/BikaTheme.xaml" />
     </Page.Resources>
     <Grid
+        x:Name="RootGrid"
         Padding="10,10,0,0"
-        RowSpacing="10"
-        x:Name="RootGrid">
+        RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -40,13 +41,13 @@
             </ItemsRepeater>
         </StackPanel>
         <GridView
+            x:Name="GridV"
             Grid.Row="1"
             IsItemClickEnabled="True"
             ItemClick="GridV_OnItemClick"
             ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
             Loaded="GridV_OnLoaded"
-            SelectionMode="None"
-            x:Name="GridV">
+            SelectionMode="None">
             <GridView.Transitions>
                 <TransitionCollection>
                     <EntranceThemeTransition IsStaggeringEnabled="True" />
@@ -54,25 +55,25 @@
             </GridView.Transitions>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="pica:Category">
-                    <Grid Height="175" Width="160">
+                    <Grid Width="160" Height="175">
                         <Border
-                            CornerRadius="10"
+                            Width="140"
                             Height="140"
-                            HorizontalAlignment="Center"
                             Margin="0,5,0,0"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Top"
-                            Width="140">
+                            CornerRadius="10">
                             <Image
+                                Width="140"
                                 Height="140"
                                 Opacity=".9"
-                                Source="{x:Bind Thumb.FilePath, Mode=OneWay}"
-                                Width="140" />
+                                Source="{x:Bind Thumb.FilePath, Mode=OneWay}" />
                         </Border>
                         <TextBlock
-                            FontSize="20"
                             HorizontalAlignment="Center"
-                            Text="{x:Bind Title, Mode=OneWay}"
-                            VerticalAlignment="Bottom" />
+                            VerticalAlignment="Bottom"
+                            FontSize="20"
+                            Text="{x:Bind Title, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>

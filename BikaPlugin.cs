@@ -68,7 +68,7 @@ namespace ShadowViewer.Plugin.Bika
                 Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
                 Tag = MetaData.Id,
             };
-            root.MenuItems.Add(new NavigationViewItem
+            /*root.MenuItems.Add(new NavigationViewItem
             {
                 Content = BikaResourcesHelper.GetString(BikaResourceKey.Home),
                 Icon = new SymbolIcon(Symbol.Home),
@@ -80,7 +80,7 @@ namespace ShadowViewer.Plugin.Bika
                 Content = BikaResourcesHelper.GetString(BikaResourceKey.Classification),
                 Icon = new SymbolIcon(Symbol.AllApps),
                 Tag = NavigationViewTag.BikaClassification.ToString(),
-            });
+            });*/
             if (!menus.Any(x=>x.Tag is string tag && tag == MetaData.Id))
             {
                 menus.Add(root);

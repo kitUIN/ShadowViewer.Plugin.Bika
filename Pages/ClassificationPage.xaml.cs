@@ -14,6 +14,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using ShadowViewer.Plugin.Bika.ViewModels;
+using PicaComic.Models;
+using Microsoft.UI.Xaml.Media.Animation;
+using ShadowViewer.Plugin.Bika.Args;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -38,7 +41,16 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void GridV_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            
+            var category = (Category)e.ClickedItem;
+            if (!category.IsWeb)
+            {
+                Frame.Navigate(typeof(BikaCategoryPage), new CategoryArg()
+                {
+                    Category = category.Title,
+
+                },
+                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            }
         }
     }
 }
