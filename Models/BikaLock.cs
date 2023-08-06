@@ -23,7 +23,7 @@ namespace ShadowViewer.Plugin.Bika.Models
         {
             if(oldValue != newValue)
             {
-                BikaSettingsHelper.Set(Title, newValue);
+                BikaConfigHelper.Set(Title, newValue);
             }
         }
     }

@@ -24,7 +24,6 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             set
             {
                 Page = value + 1;
-                // SetProperty(ref page,value + 1,nameof(Index));
             }
         }
         [ObservableProperty]

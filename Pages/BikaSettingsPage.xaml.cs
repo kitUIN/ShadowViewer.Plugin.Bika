@@ -25,11 +25,10 @@ namespace ShadowViewer.Plugin.Bika.Pages
         } 
         private async void SettingsExpander_Loaded(object sender, RoutedEventArgs e)
         {
-            if (BikaSettingsHelper.Contains(BikaSettingName.Proxy))
+            if (!string.IsNullOrEmpty(BikaConfig.Proxy))
             {
-                var uri = BikaSettingsHelper.GetString(BikaSettingName.Proxy);
-                ProxyBox.Text = uri;
-                PicaClient.SetProxy(new Uri(uri));
+                ProxyBox.Text = BikaConfig.Proxy;
+                PicaClient.SetProxy(new Uri(BikaConfig.Proxy));
             }
             await ViewModel.Ping();
         }

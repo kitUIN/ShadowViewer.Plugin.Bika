@@ -40,7 +40,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             if(oldValue != newValue)
             {
                 PicaClient.AppChannel = newValue + 1;
-                ConfigHelper.Set(BikaSettingName.ApiShunt.ToString(), PicaClient.AppChannel);
+                BikaConfigHelper.Set(BikaConfigKey.ApiShunt, PicaClient.AppChannel);
             }
         }
         partial void OnPicShuntChanged(int oldValue, int newValue)
@@ -48,7 +48,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             if (oldValue != newValue)
             {
                 PicaClient.FileChannel = newValue + 1;
-                ConfigHelper.Set(BikaSettingName.PicShunt.ToString(), PicaClient.FileChannel);
+                BikaConfigHelper.Set(BikaConfigKey.PicShunt, PicaClient.FileChannel);
             }
         }
         public async Task Ping()
@@ -79,7 +79,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             {
                 var uri = new Uri(text);
                 PicaClient.SetProxy(uri);
-                BikaSettingsHelper.Set(BikaSettingName.Proxy,text);
+                BikaConfig.Proxy = text;
                 Caller.TopGrid(this, new TipPopup(
                     $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetSuccess)}",
                     InfoBarSeverity.Success), TopGridMode.Tip);

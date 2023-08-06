@@ -75,16 +75,7 @@ namespace ShadowViewer.Plugin.Bika
             {
                 ConfigHelper.Set(MetaData.Id, true);
             }
-            if (!BikaSettingsHelper.Contains(BikaSettingName.ApiShunt))
-            {
-                BikaSettingsHelper.Set(BikaSettingName.ApiShunt, 3);
-            }
-            if (!BikaSettingsHelper.Contains(BikaSettingName.PicShunt))
-            {
-                BikaSettingsHelper.Set(BikaSettingName.PicShunt, 3);
-            }
-            PicaClient.AppChannel = BikaSettingsHelper.GetInt32(BikaSettingName.ApiShunt);
-            PicaClient.FileChannel = BikaSettingsHelper.GetInt32(BikaSettingName.PicShunt);
+            BikaConfig.Init();
         }
         /// <summary>
         /// <inheritdoc/>
@@ -132,16 +123,16 @@ namespace ShadowViewer.Plugin.Bika
             BikaData.Current ??= new BikaData();
             foreach (var item in BikaData.Categories)
             {
-                if (BikaSettingsHelper.Contains(item))
+                if (BikaConfigHelper.Contains(item))
                 {
                     BikaData.Current.Locks.Add(
                         new BikaLock(item,
-                        BikaSettingsHelper.GetBoolean(item))
+                        BikaConfigHelper.GetBoolean(item))
                         );
                 }
                 else
                 {
-                    BikaSettingsHelper.Set(item, true);
+                    BikaConfigHelper.Set(item, true);
                 }
             }
         }
@@ -150,7 +141,7 @@ namespace ShadowViewer.Plugin.Bika
         /// </summary>
         private bool TryAutoLogin()
         {
-            var user = BikaSettingsHelper.GetString(BikaSettingName.LastBikaUser);
+            var user = BikaConfig.LastBikaUser;
             if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
             {
                 PicaClient.SetToken(bikaUser.Token);
@@ -183,14 +174,14 @@ namespace ShadowViewer.Plugin.Bika
         async void PluginEnabled()
         {
             var b = false;
-            if (BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe))
+            if (BikaConfigHelper.GetBoolean(BikaConfigKey.RememberMe))
             {
                 b = TryAutoLogin();
             }
             if (!b)
             {
                 var tip = new LoginTip();
-                Caller.TopGrid(this, tip, ShadowViewer.Enums.TopGridMode.Dialog);
+                Caller.TopGrid(this, tip, TopGridMode.Dialog);
                 tip.Open();
             }
             else

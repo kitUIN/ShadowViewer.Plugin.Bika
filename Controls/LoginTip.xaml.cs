@@ -65,7 +65,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
                                 Token = res.Data.Token,
                             }).ExecuteCommand();
                             Login.IsOpen = false;
-                            BikaSettingsHelper.Set(BikaSettingName.LastBikaUser, Email.Text);
+                            BikaConfig.LastBikaUser = Email.Text;
                         }
                     );
                 });
@@ -85,7 +85,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
         /// </summary>
         private void RememberMe_OnChecked(object sender, RoutedEventArgs e)
         {
-            BikaSettingsHelper.Set(BikaSettingName.RememberMe, RememberMeBox.IsChecked ?? false);
+            BikaConfig.RememberMe = RememberMeBox.IsChecked ?? false;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
         private void AutoLogin_OnChecked(object sender, RoutedEventArgs e)
         {
             if (AutoLoginBox.IsChecked ?? false) RememberMeBox.IsChecked = true;
-            BikaSettingsHelper.Set(BikaSettingName.AutoLogin, AutoLoginBox.IsChecked ?? false);
+            BikaConfig.AutoLogin = AutoLoginBox.IsChecked ?? false;
         }
 
         /// <summary>
@@ -102,19 +102,11 @@ namespace ShadowViewer.Plugin.Bika.Controls
         /// </summary>
         private void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (BikaSettingsHelper.Contains(BikaSettingName.RememberMe))
+            RememberMeBox.IsChecked = BikaConfig.RememberMe;
+            AutoLoginBox.IsChecked = BikaConfig.AutoLogin;
+            if (BikaConfigHelper.Contains(BikaConfigKey.LastBikaUser))
             {
-                RememberMeBox.IsChecked = BikaSettingsHelper.GetBoolean(BikaSettingName.RememberMe);
-            }
-
-            if (BikaSettingsHelper.Contains(BikaSettingName.AutoLogin))
-            {
-                AutoLoginBox.IsChecked = BikaSettingsHelper.GetBoolean(BikaSettingName.AutoLogin);
-            }
-
-            if (BikaSettingsHelper.Contains(BikaSettingName.LastBikaUser))
-            {
-                var user = BikaSettingsHelper.GetString(BikaSettingName.LastBikaUser);
+                var user = BikaConfig.LastBikaUser;
                 var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
                 if (db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
                 {

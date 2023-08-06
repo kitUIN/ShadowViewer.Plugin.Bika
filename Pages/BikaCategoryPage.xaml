@@ -248,7 +248,7 @@
                                     <Grid.Background>
                                         <media:BackdropBlurBrush Amount="8.0" />
                                     </Grid.Background>
-                                    <StackPanel
+                                    <StackPanel Tapped="UnLock_Tapped"
                                         Margin="50,50"
                                         Padding="10"
                                         HorizontalAlignment="Center"

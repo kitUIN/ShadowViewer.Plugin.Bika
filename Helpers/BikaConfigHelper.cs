@@ -1,25 +1,25 @@
 ﻿namespace ShadowViewer.Plugin.Bika.Helpers;
 
-public class BikaSettingsHelper
+public class BikaConfigHelper
 {
     private const string Container = "Bika";
-    public static void Set(BikaSettingName key, object value)
+    public static void Set(BikaConfigKey key, object value)
     {
         Set(key.ToString(), value);
     }
-    public static bool Contains(BikaSettingName key)
+    public static bool Contains(BikaConfigKey key)
     {
         return Contains(key.ToString());
     }
-    public static string GetString(BikaSettingName key)
+    public static string GetString(BikaConfigKey key)
     {
         return GetString( key.ToString());
     }
-    public static bool GetBoolean(BikaSettingName key)
+    public static bool GetBoolean(BikaConfigKey key)
     {
         return GetBoolean( key.ToString());
     }
-    public static int GetInt32(BikaSettingName key)
+    public static int GetInt32(BikaConfigKey key)
     {
         return GetInt32( key.ToString());
     }

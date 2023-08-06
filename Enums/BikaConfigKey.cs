@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShadowViewer.Plugin.Bika.Enums
 {
-    public enum BikaSettingName
+    public enum BikaConfigKey
     {
         ApiShunt,
         PicShunt,
@@ -16,6 +16,6 @@ namespace ShadowViewer.Plugin.Bika.Enums
         Proxy,
         CanTemporaryUnlockComic,
         IsIgnoreLockComic,
-        DontLoadLockComic,
+        LoadLockComic,
     }
 }
