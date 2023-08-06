@@ -59,7 +59,7 @@ public class BikaHttpHelper
     }
     public static async Task PunchIn(object sender)
     {
-        if (!BikaData.Current.CurrentUser.IsPunched)
+        if (BikaData.Current.CurrentUser != null && !BikaData.Current.CurrentUser.IsPunched)
         {
             var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
             await TryRequest(sender,PicaClient.PunchIn(), res =>

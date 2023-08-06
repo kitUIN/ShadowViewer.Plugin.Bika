@@ -48,5 +48,18 @@
         SetError,
         SetSuccess,
         Finished,
+        Lock        ,
+        Goto        ,
+        Refresh     ,
+        Page        ,
+        Number      ,
+        Sort, 
+        VD,
+        LD,
+        DA,
+        DD,
+        UA,
+        ClickGoto,
+        ClickSelect,
     }
 }

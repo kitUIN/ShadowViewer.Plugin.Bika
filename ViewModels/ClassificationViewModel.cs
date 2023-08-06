@@ -24,14 +24,17 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         }
         public async Task GetClassification()
         {
-            await BikaHttpHelper.TryRequest(this, PicaClient.Categories(), res =>
+            if(Categories.Count <= 5)
             {
-                Categories.Clear();
-                foreach (var item in res.Data.Categories)
+                await BikaHttpHelper.TryRequest(this, PicaClient.Categories(), res =>
                 {
-                    Categories.Add(item);
-                }
-            });
+
+                    foreach (var item in res.Data.Categories)
+                    {
+                        Categories.Add(item);
+                    }
+                });
+            }
         }
     }
 }

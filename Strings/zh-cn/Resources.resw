@@ -258,4 +258,43 @@
   <data name="Finished" xml:space="preserve">
     <value>完结</value>
   </data>
+  <data name="Number" xml:space="preserve">
+    <value>第</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>页</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Goto" xml:space="preserve">
+    <value>跳转</value>
+  </data>
+  <data name="Lock" xml:space="preserve">
+    <value>封印</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="UA" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="DD" xml:space="preserve">
+    <value>从新到旧</value>
+  </data>
+  <data name="DA" xml:space="preserve">
+    <value>从旧到新</value>
+  </data>
+  <data name="LD" xml:space="preserve">
+    <value>爱心最多</value>
+  </data>
+  <data name="VD" xml:space="preserve">
+    <value>绅士指数最多</value>
+  </data>
+  <data name="ClickGoto" xml:space="preserve">
+    <value>点击选择跳转页</value>
+  </data>
+  <data name="ClickSelect" xml:space="preserve">
+    <value>点击选择</value>
+  </data>
 </root>

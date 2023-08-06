@@ -8,32 +8,68 @@ using System.Text;
 using System.Threading.Tasks;
 using PicaComic.Utils;
 using ShadowViewer.Plugin.Bika.Args;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
-    public class BikaCategoryViewModel
+    public partial class BikaCategoryViewModel: ObservableObject
     {
-        public int Pages { get; set; }
-        public int Page { get; set; }
-        public CategoryArg Arg { get; set; }
+        [ObservableProperty]
+        private int pages = 1;
+        [ObservableProperty]
+        private int page = 0;
+        [ObservableProperty]
+        private string categoryTitle;
+        [ObservableProperty]
+        private string currentPageString;
+        [ObservableProperty]
+        private string sortRuleText;
+        [ObservableProperty]
+        private SortRule sortRule;
         public ObservableCollection<CategoryComic> CategoryComics { get;  } = new ObservableCollection<CategoryComic>();
         public BikaCategoryViewModel()
         { 
-        
+            
         }
-        public async void Init(CategoryArg arg)
+        public async void Refresh()
         {
-            Arg = arg;
-            await BikaHttpHelper.TryRequest(this, PicaClient.Category(arg.Category, arg.Page, arg.SortRule), res =>
+            await BikaHttpHelper.TryRequest(this, PicaClient.Category(CategoryTitle, Page + 1, SortRule), res =>
             {
                 Pages = res.Data.Comics.Pages;
-                Page = res.Data.Comics.Page;
+                Page = res.Data.Comics.Page - 1;
                 CategoryComics.Clear();
                 foreach (var comic in res.Data.Comics.Docs)
                 {
                     CategoryComics.Add(comic);
                 }
             });
+        }
+        private void SetCurrentPageString()
+        {
+            CurrentPageString = BikaResourcesHelper.GetString(BikaResourceKey.Number) + $"{Page+1}/{Pages}" + BikaResourcesHelper.GetString(BikaResourceKey.Page);
+        }
+        partial void OnPageChanged(int oldValue, int newValue)
+        {
+            if(oldValue != newValue)
+            {
+                SetCurrentPageString();
+                Refresh();
+            }
+        }
+        partial void OnPagesChanged(int oldValue, int newValue)
+        {
+            if (oldValue != newValue)
+            {
+                SetCurrentPageString();
+            }
+        }
+        partial void OnSortRuleChanged(SortRule oldValue, SortRule newValue)
+        {
+            if (oldValue != newValue)
+            {
+                SortRuleText = BikaResourcesHelper.GetString(newValue.ToString().ToUpper());
+                Refresh();
+            }
         }
     }
 }

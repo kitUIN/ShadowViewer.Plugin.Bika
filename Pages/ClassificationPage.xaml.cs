@@ -34,11 +34,14 @@ namespace ShadowViewer.Plugin.Bika.Pages
             ViewModel = ClassificationViewModel.Current;
         }
     
-        private async void GridV_OnLoaded(object sender, RoutedEventArgs e)
+        private void GridV_OnLoaded(object sender, RoutedEventArgs e)
         { 
+            
+        }
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
             await ViewModel.GetClassification();
         }
-
         private void GridV_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var category = (Category)e.ClickedItem;
