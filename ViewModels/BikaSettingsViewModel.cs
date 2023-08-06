@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
+using ShadowViewer.Extensions;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -25,7 +26,11 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private string pingText;
         [ObservableProperty]
-        private bool temporaryUnlock;
+        private bool canTemporaryUnlock = BikaConfig.CanTemporaryUnlockComic;
+        [ObservableProperty]
+        private bool loadLockComic = BikaConfig.LoadLockComic;
+        [ObservableProperty]
+        private bool isIgnoreLockComic = BikaConfig.IsIgnoreLockComic;
         [ObservableProperty]
         private SolidColorBrush pingColor = new SolidColorBrush(Colors.Green);
         [ObservableProperty]
@@ -34,6 +39,30 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         private ICallableToolKit Caller { get; }
         public BikaSettingsViewModel() { 
             Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+        }
+        public Visibility LoadLockComicShow => (!IsIgnoreLockComic).ToVisibility();
+        public Visibility CanTemporaryUnlockShow => (!IsIgnoreLockComic && LoadLockComic).ToVisibility();
+        #region Changed
+        partial void OnLoadLockComicChanged(bool oldValue, bool newValue)
+        {
+            if (oldValue != newValue)
+            {
+                BikaConfig.LoadLockComic = newValue;
+            }
+        }
+        partial void OnIsIgnoreLockComicChanged(bool oldValue, bool newValue)
+        {
+            if (oldValue != newValue)
+            {
+                BikaConfig.IsIgnoreLockComic = newValue;
+            }
+        }
+        partial void OnCanTemporaryUnlockChanged(bool oldValue, bool newValue)
+        {
+            if (oldValue != newValue)
+            {
+                BikaConfig.CanTemporaryUnlockComic = newValue;
+            }
         }
         partial void OnApiShuntChanged(int oldValue, int newValue)
         {
@@ -51,6 +80,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 BikaConfigHelper.Set(BikaConfigKey.PicShunt, PicaClient.FileChannel);
             }
         }
+        #endregion
         public async Task Ping()
         {
             PingShow = true;

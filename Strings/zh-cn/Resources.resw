@@ -309,4 +309,43 @@
   <data name="ClickOpenLock" xml:space="preserve">
     <value>点击解开封印</value>
   </data>
+  <data name="LoadLockComic" xml:space="preserve">
+    <value>加载被封印的漫画的内容</value>
+  </data>
+  <data name="LoadLockComicDescription" xml:space="preserve">
+    <value>加载诸如封面,标题,作者等信息</value>
+  </data>
+  <data name="IsIgnoreLockComic" xml:space="preserve">
+    <value>忽略被封印的漫画</value>
+  </data>
+  <data name="IsIgnoreLockComicDescription" xml:space="preserve">
+    <value>不再显示[已被封印],而是直接加载没被封印的漫画</value>
+  </data>
+  <data name="CanTemporaryUnlockComic" xml:space="preserve">
+    <value>临时解封漫画</value>
+  </data>
+  <data name="CanTemporaryUnlockComicDescription" xml:space="preserve">
+    <value>可以临时解封一篇漫画,而不影响封印设置</value>
+  </data>
+  <data name="ShowSettings" xml:space="preserve">
+    <value>显示设置</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>加载</value>
+  </data>
+  <data name="UnLoad" xml:space="preserve">
+    <value>不加载</value>
+  </data>
+  <data name="Ignore" xml:space="preserve">
+    <value>忽略</value>
+  </data>
+  <data name="UnIgnore" xml:space="preserve">
+    <value>不忽略</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>允许</value>
+  </data>
+  <data name="UnAllow" xml:space="preserve">
+    <value>不允许</value>
+  </data>
 </root>

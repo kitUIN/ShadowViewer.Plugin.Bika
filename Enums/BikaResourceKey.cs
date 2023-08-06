@@ -65,5 +65,18 @@
         LockCounts,
         Locked,
         ClickOpenLock,
+        IsIgnoreLockComic,
+        IsIgnoreLockComicDescription,
+        LoadLockComic,
+        LoadLockComicDescription,
+        CanTemporaryUnlockComic,
+        CanTemporaryUnlockComicDescription,
+        ShowSettings,
+        Load,
+        UnLoad,
+        Ignore,
+        UnIgnore,
+        Allow,
+        UnAllow
     }
 }
