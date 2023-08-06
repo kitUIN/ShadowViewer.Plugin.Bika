@@ -93,11 +93,9 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton
-                    x:Name="SettingsButton" Click="SettingsButton_Click"
-                    Label="{ex:BikaLocale Key=Settings}">
+                <AppBarButton Click="SettingsButton_Click" Label="{ex:BikaLocale Key=Settings}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE72C;" />
+                        <FontIcon Glyph="&#xE713;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarSeparator />

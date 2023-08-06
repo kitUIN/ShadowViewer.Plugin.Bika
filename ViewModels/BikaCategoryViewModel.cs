@@ -33,16 +33,28 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private string sortRuleText;
         [ObservableProperty]
-        private SortRule sortRule;
+        private SortRule sort = SortRule.dd;
         public ObservableCollection<CategoryComic> CategoryComics { get;  } = new ObservableCollection<CategoryComic>();
         
         public BikaCategoryViewModel()
-        { 
+        {
+            SortRuleText = BikaResourcesHelper.GetString(Sort.ToString().ToUpper());
+        }
+        public void CheckAllCategoryComicLock()
+        {
             
+            foreach (var comic in CategoryComics.ToList())
+            {
+                CheckCategoryLock(comic);
+                if (comic.IsLocked && BikaConfig.IsIgnoreLockComic)
+                {
+                    CategoryComics.Remove(comic);
+                }
+            }
         }
         public async void Refresh()
         {
-            await BikaHttpHelper.TryRequest(this, PicaClient.Category(CategoryTitle, Page, SortRule), res =>
+            await BikaHttpHelper.TryRequest(this, PicaClient.Category(CategoryTitle, Page, Sort), res =>
             {
                 Pages = res.Data.Comics.Pages;
                 Page = res.Data.Comics.Page;
@@ -50,16 +62,19 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 foreach (var comic in res.Data.Comics.Docs)
                 {
                     CheckCategoryLock(comic);
-                    CategoryComics.Add(comic);
+                    if (!(comic.IsLocked && BikaConfig.IsIgnoreLockComic))
+                    {
+                        CategoryComics.Add(comic);
+                    }
                 }
             });
         }
         public void CheckCategoryLock(CategoryComic comic)
         {
-            if (BikaData.Current != null)
+            comic.LockCategories = comic.Categories.Where(x => BikaData.Current.Locks.Any(y => y.Title == x && !y.IsOpened)).ToList();
+            if (comic.LockCategories.Count > 0)
             {
-                comic.LockCategories = comic.Categories.Where(x => BikaData.Current.Locks.Any(y => y.Title == x && !y.IsOpened)).ToList();
-                if (comic.LockCategories.Count > 0) comic.IsLocked = true;
+                comic.IsLocked = true;
             }
         }
         private void SetCurrentPageString()
@@ -70,9 +85,11 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         {
             if(oldValue != newValue)
             {
-                Log.Warning("{o}-{n}", oldValue, newValue);
                 SetCurrentPageString();
-                Refresh();
+                if (!string.IsNullOrEmpty(SortRuleText))
+                {
+                    Refresh();
+                }
             }
         }
         partial void OnPagesChanged(int oldValue, int newValue)
@@ -82,12 +99,15 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 SetCurrentPageString();
             }
         }
-        partial void OnSortRuleChanged(SortRule oldValue, SortRule newValue)
+        partial void OnSortChanged(SortRule oldValue, SortRule newValue)
         {
             if (oldValue != newValue)
             {
                 SortRuleText = BikaResourcesHelper.GetString(newValue.ToString().ToUpper());
-                Refresh();
+                if (!string.IsNullOrEmpty(SortRuleText))
+                {
+                    Refresh();
+                }
             }
         }
     }

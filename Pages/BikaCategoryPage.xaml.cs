@@ -41,9 +41,10 @@ namespace ShadowViewer.Plugin.Bika.Pages
             var arg = e.Parameter as CategoryArg;
             if (arg != null)
             {
-                ViewModel.CategoryTitle = arg.Category;
                 ViewModel.Page = arg.Page;
-                ViewModel.SortRule = arg.SortRule;
+                ViewModel.Sort = arg.SortRule;
+                ViewModel.CategoryTitle = arg.Category;
+                ViewModel.Refresh();
             }
         }
 
@@ -86,7 +87,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
         /// </summary>
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.SortRule = EnumHelper.GetEnum<SortRule>(((MenuFlyoutItem)sender).Tag.ToString());
+            ViewModel.Sort = EnumHelper.GetEnum<SortRule>(((MenuFlyoutItem)sender).Tag.ToString());
             foreach (var item in SortFlyout.Items.Cast<MenuFlyoutItem>())
             {
                 item.Icon = item.Text == SortButton.Label ? new FontIcon() { Glyph = "\uE7B3" } : null;
