@@ -38,9 +38,8 @@ namespace ShadowViewer.Plugin.Bika.Pages
             if (arg != null)
             {
                 ViewModel.CategoryTitle = arg.Category;
-                ViewModel.Page = arg.Page - 1;
+                ViewModel.Page = arg.Page;
                 ViewModel.SortRule = arg.SortRule;
-                ViewModel.Refresh();
             }
         }
 
@@ -63,7 +62,20 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void GotoButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var go = GotoPageBox.Value;
+            if (go <= ViewModel.Pages && go>=1)
+            {
+                ViewModel.Page = (int)go;
+                Goto.IsOpen = false;
+            }
+            else
+            {
+                GotoPageBox.Value = ViewModel.Page;
+            }
+        }
+        private void CurrentPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            Goto.IsOpen = true;
         }
 
         /// <summary>

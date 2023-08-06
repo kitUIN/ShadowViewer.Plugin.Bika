@@ -17,7 +17,16 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private int pages = 1;
         [ObservableProperty]
-        private int page = 0;
+        private int page = 1;
+        public int Index
+        {
+            get { return Page - 1; }
+            set
+            {
+                Page = value + 1;
+                // SetProperty(ref page,value + 1,nameof(Index));
+            }
+        }
         [ObservableProperty]
         private string categoryTitle;
         [ObservableProperty]
@@ -33,10 +42,10 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         }
         public async void Refresh()
         {
-            await BikaHttpHelper.TryRequest(this, PicaClient.Category(CategoryTitle, Page + 1, SortRule), res =>
+            await BikaHttpHelper.TryRequest(this, PicaClient.Category(CategoryTitle, Page, SortRule), res =>
             {
                 Pages = res.Data.Comics.Pages;
-                Page = res.Data.Comics.Page - 1;
+                Page = res.Data.Comics.Page;
                 CategoryComics.Clear();
                 foreach (var comic in res.Data.Comics.Docs)
                 {
@@ -46,12 +55,13 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         }
         private void SetCurrentPageString()
         {
-            CurrentPageString = BikaResourcesHelper.GetString(BikaResourceKey.Number) + $"{Page+1}/{Pages}" + BikaResourcesHelper.GetString(BikaResourceKey.Page);
+            CurrentPageString = BikaResourcesHelper.GetString(BikaResourceKey.Number) + $"{Page}/{Pages}" + BikaResourcesHelper.GetString(BikaResourceKey.Page);
         }
         partial void OnPageChanged(int oldValue, int newValue)
         {
             if(oldValue != newValue)
             {
+                Log.Warning("{o}-{n}", oldValue, newValue);
                 SetCurrentPageString();
                 Refresh();
             }

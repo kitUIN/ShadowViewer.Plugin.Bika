@@ -59,6 +59,7 @@
                     x:Name="SortButton"
                     Label="{x:Bind ViewModel.SortRuleText, Mode=OneWay}"
                     Loaded="SortButton_Loaded"
+                    ToolTipService.Placement="Bottom"
                     ToolTipService.ToolTip="{ex:BikaLocale Key=ClickSelect}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE8CB;" />
@@ -90,8 +91,9 @@
                 </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
-                    Click="GotoButton_Click"
+                    Click="CurrentPageButton_Click"
                     Label="{x:Bind ViewModel.CurrentPageString, Mode=OneWay}"
+                    ToolTipService.Placement="Bottom"
                     ToolTipService.ToolTip="{ex:BikaLocale Key=ClickGoto}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE770;" />
@@ -264,7 +266,32 @@
                 NumberOfPages="{x:Bind ViewModel.Pages, Mode=OneWay}"
                 Orientation="Horizontal"
                 PreviousButtonVisibility="VisibleOnPointerOver"
-                SelectedPageIndex="{x:Bind ViewModel.Page, Mode=TwoWay}" />
+                SelectedPageIndex="{x:Bind ViewModel.Index, Mode=TwoWay}" />
         </Border>
+        <TeachingTip
+            x:Name="Goto"
+            Title="{ex:BikaLocale Key=Goto}"
+            IsLightDismissEnabled="False"
+            PreferredPlacement="Center">
+            <Grid Padding="5" ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <NumberBox
+                    x:Name="GotoPageBox"
+                    Grid.Column="0"
+                    LargeChange="10"
+                    Maximum="{x:Bind ViewModel.Pages, Mode=OneWay}"
+                    Minimum="1"
+                    SmallChange="1"
+                    SpinButtonPlacementMode="Inline"
+                    Value="{x:Bind ViewModel.Page, Mode=OneWay}" />
+                <Button
+                    Grid.Column="1"
+                    Click="GotoButton_Click"
+                    Content="{ex:BikaLocale Key=Goto}" />
+            </Grid>
+        </TeachingTip>
     </Grid>
 </Page>
