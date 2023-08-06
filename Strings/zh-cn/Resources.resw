@@ -348,4 +348,13 @@
   <data name="UnAllow" xml:space="preserve">
     <value>不允许</value>
   </data>
+  <data name="LockDescription" xml:space="preserve">
+    <value>显示漫画时过滤掉被封印的分区漫画</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>设置</value>
+  </data>
 </root>

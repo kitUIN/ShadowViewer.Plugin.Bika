@@ -48,5 +48,10 @@ namespace ShadowViewer.Plugin.Bika.Pages
             PicaClient.ResetProxy();
             ProxyBox.Text = "";
         }
+
+        private void LockButton_Click(object sender, RoutedEventArgs e)
+        {
+            LockTip.Show();
+        }
     }
 }

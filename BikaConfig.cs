@@ -40,11 +40,11 @@ namespace ShadowViewer.Plugin.Bika
             }
             PicaClient.AppChannel = BikaConfigHelper.GetInt32(BikaConfigKey.ApiShunt);
             PicaClient.FileChannel = BikaConfigHelper.GetInt32(BikaConfigKey.PicShunt);
-            RememberMe = BikaConfigHelper.Contains(BikaConfigKey.RememberMe) ? false : BikaConfigHelper.GetBoolean(BikaConfigKey.RememberMe);
-            AutoLogin = BikaConfigHelper.Contains(BikaConfigKey.AutoLogin) ? false : BikaConfigHelper.GetBoolean(BikaConfigKey.AutoLogin);
-            CanTemporaryUnlockComic = BikaConfigHelper.Contains(BikaConfigKey.CanTemporaryUnlockComic) ? false : BikaConfigHelper.GetBoolean(BikaConfigKey.CanTemporaryUnlockComic);
-            IsIgnoreLockComic = BikaConfigHelper.Contains(BikaConfigKey.IsIgnoreLockComic) ? false : BikaConfigHelper.GetBoolean(BikaConfigKey.IsIgnoreLockComic);
-            LoadLockComic = BikaConfigHelper.Contains(BikaConfigKey.LoadLockComic) ? true : BikaConfigHelper.GetBoolean(BikaConfigKey.LoadLockComic);
+            RememberMe = BikaConfigHelper.Contains(BikaConfigKey.RememberMe) ?  BikaConfigHelper.GetBoolean(BikaConfigKey.RememberMe): false;
+            AutoLogin = BikaConfigHelper.Contains(BikaConfigKey.AutoLogin) ? BikaConfigHelper.GetBoolean(BikaConfigKey.AutoLogin): false;
+            CanTemporaryUnlockComic = BikaConfigHelper.Contains(BikaConfigKey.CanTemporaryUnlockComic) ? BikaConfigHelper.GetBoolean(BikaConfigKey.CanTemporaryUnlockComic):false;
+            IsIgnoreLockComic = BikaConfigHelper.Contains(BikaConfigKey.IsIgnoreLockComic) ?   BikaConfigHelper.GetBoolean(BikaConfigKey.IsIgnoreLockComic) : false;
+            LoadLockComic = BikaConfigHelper.Contains(BikaConfigKey.LoadLockComic) ?  BikaConfigHelper.GetBoolean(BikaConfigKey.LoadLockComic) : true;
             if (BikaConfigHelper.Contains(BikaConfigKey.LastBikaUser))
             {
                 LastBikaUser = BikaConfigHelper.GetString(BikaConfigKey.LastBikaUser);

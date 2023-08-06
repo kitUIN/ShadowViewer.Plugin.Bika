@@ -77,6 +77,9 @@
         Ignore,
         UnIgnore,
         Allow,
-        UnAllow
+        UnAllow,
+        LockDescription,
+        Open,
+        Set,
     }
 }

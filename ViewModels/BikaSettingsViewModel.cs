@@ -40,8 +40,8 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         public BikaSettingsViewModel() { 
             Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
         }
-        public Visibility LoadLockComicShow => (!IsIgnoreLockComic).ToVisibility();
-        public Visibility CanTemporaryUnlockShow => (!IsIgnoreLockComic && LoadLockComic).ToVisibility();
+        public bool LoadLockComicShow => !IsIgnoreLockComic;
+        public bool CanTemporaryUnlockShow => !IsIgnoreLockComic && LoadLockComic;
         #region Changed
         partial void OnLoadLockComicChanged(bool oldValue, bool newValue)
         {

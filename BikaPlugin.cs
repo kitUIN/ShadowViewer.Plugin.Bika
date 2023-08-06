@@ -40,12 +40,10 @@ namespace ShadowViewer.Plugin.Bika
                 if (IsEnabled)
                 {
                     Caller.PluginEnabled(this,MetaData.Id,IsEnabled);
-                    PluginEnabled();
                 }
                 else
                 {
                     Caller.PluginDisabled(this,MetaData.Id,IsEnabled);
-                    PluginDisabled();
                 }
             } 
         }
@@ -64,6 +62,7 @@ namespace ShadowViewer.Plugin.Bika
         public BikaPlugin()
         {
             BikaData.Current = new BikaData();
+            BikaConfig.Init();
             Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
             Db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
             Db.CodeFirst.InitTables<BikaUser>();
@@ -75,8 +74,9 @@ namespace ShadowViewer.Plugin.Bika
             {
                 ConfigHelper.Set(MetaData.Id, true);
             }
-            BikaConfig.Init();
-        }
+            Caller.PluginEnabledEvent += PluginEnabled;
+        } 
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -118,21 +118,45 @@ namespace ShadowViewer.Plugin.Bika
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public void Loaded()
+        public async void Loaded()
         {
-            BikaData.Current ??= new BikaData();
-            foreach (var item in BikaData.Categories)
+            // 未加载封印则加载
+            if (BikaData.Current.Locks.Count == 0)
             {
-                if (BikaConfigHelper.Contains(item))
+                foreach (var item in BikaData.Categories)
                 {
-                    BikaData.Current.Locks.Add(
-                        new BikaLock(item,
-                        BikaConfigHelper.GetBoolean(item))
-                        );
+                    if (BikaConfigHelper.Contains(item))
+                    {
+                        BikaData.Current.Locks.Add(
+                            new BikaLock(item,
+                            BikaConfigHelper.GetBoolean(item))
+                            );
+                    }
+                    else
+                    {
+                        BikaConfigHelper.Set(item, true);
+                    }
+                }
+            }
+            // 未加载登录凭证则加载
+            if (!PicaClient.HasToken)
+            {
+                var b = false;
+                if (BikaConfig.AutoLogin)
+                {
+                    b = TryAutoLogin();
+                }
+                if (!b)
+                {
+                    var tip = new LoginTip();
+                    Caller.TopGrid(this, tip, TopGridMode.Dialog);
+                    tip.Open();
                 }
                 else
                 {
-                    BikaConfigHelper.Set(item, true);
+                    await BikaHttpHelper.Profile(this);
+                    await BikaHttpHelper.PunchIn(this);
+                    await BikaHttpHelper.Keywords();
                 }
             }
         }
@@ -171,30 +195,17 @@ namespace ShadowViewer.Plugin.Bika
         /// <summary>
         /// 插件启动后触发
         /// </summary>
-        async void PluginEnabled()
+        void PluginEnabled(object sender, ShadowViewer.Args.PluginEventArg e)
         {
-            var b = false;
-            if (BikaConfigHelper.GetBoolean(BikaConfigKey.RememberMe))
+            if(e.PluginId == MetaData.Id && isEnabled)
             {
-                b = TryAutoLogin();
-            }
-            if (!b)
-            {
-                var tip = new LoginTip();
-                Caller.TopGrid(this, tip, TopGridMode.Dialog);
-                tip.Open();
-            }
-            else
-            {
-                await BikaHttpHelper.Profile(this);
-                await BikaHttpHelper.PunchIn(this);
-                await BikaHttpHelper.Keywords();
+                Loaded();
             }
         }
         /// <summary>
         /// 插件禁用后触发
         /// </summary>
-        void PluginDisabled()
+        void PluginDisabled(object sender, ShadowViewer.Args.PluginEventArg e)
         {
 
         }

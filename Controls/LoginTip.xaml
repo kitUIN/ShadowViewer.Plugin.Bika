@@ -1,22 +1,22 @@
 <UserControl
-    mc:Ignorable="d"
     x:Class="ShadowViewer.Plugin.Bika.Controls.LoginTip"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:local="using:ShadowViewer.Plugin.Bika.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    mc:Ignorable="d">
 
     <TeachingTip
-        IsLightDismissEnabled="False"
-        PreferredPlacement="Center"
+        x:Name="Login"
         Title="{ex:BikaLocale Key=LoginTitle}"
-        x:Name="Login">
+        IsLightDismissEnabled="False"
+        PreferredPlacement="Center">
         <TeachingTip.IconSource>
             <SymbolIconSource Symbol="AddFriend" />
         </TeachingTip.IconSource>
-        <Grid Padding="0,0,0,10" Width="240">
+        <Grid Width="240" Padding="0,0,0,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -25,78 +25,76 @@
             </Grid.RowDefinitions>
             <Image
                 Grid.Row="0"
+                Width="120"
                 Height="120"
                 HorizontalAlignment="Center"
-                Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"
                 VerticalAlignment="Center"
-                Width="120" />
+                Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png" />
             <Grid
-                Background="Transparent"
                 Grid.Row="1"
+                Width="240"
                 HorizontalAlignment="Center"
+                Background="Transparent"
+                ColumnSpacing="10"
                 Loaded="FrameworkElement_OnLoaded">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock
-                    Grid.Column="0"
                     Grid.Row="0"
+                    Grid.Column="0"
                     HorizontalAlignment="Left"
-                    Text="{ex:BikaLocale Key=UserName}"
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center"
+                    Text="{ex:BikaLocale Key=UserName}" />
                 <TextBox
-                    Grid.Column="1"
+                    x:Name="Email"
                     Grid.Row="0"
-                    HorizontalAlignment="Right"
-                    PlaceholderText="{ex:BikaLocale Key=UserName}"
-                    VerticalAlignment="Center"
-                    Width="150"
-                    x:Name="Email" />
-                <TextBlock
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    HorizontalAlignment="Left"
-                    Margin="0,5,0,0"
-                    Text="{ex:BikaLocale Key=Password}"
-                    VerticalAlignment="Center" />
-                <PasswordBox
                     Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    PlaceholderText="{ex:BikaLocale Key=UserName}" />
+                <TextBlock
                     Grid.Row="1"
-                    HorizontalAlignment="Right"
-                    KeyDown="Password_OnKeyDown"
+                    Grid.Column="0"
                     Margin="0,5,0,0"
-                    PlaceholderText="{ex:BikaLocale Key=Password}"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Width="150"
-                    x:Name="Password" />
+                    Text="{ex:BikaLocale Key=Password}" />
+                <PasswordBox
+                    x:Name="Password"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Stretch"
+                    KeyDown="Password_OnKeyDown"
+                    PlaceholderText="{ex:BikaLocale Key=Password}" />
             </Grid>
-            <Grid Grid.Row="2" Padding="5">
+            <Grid Grid.Row="2" Padding="0,5">
                 <CheckBox
+                    x:Name="RememberMeBox"
+                    HorizontalAlignment="Left"
                     Checked="RememberMe_OnChecked"
                     Content="{ex:BikaLocale Key=RememberMe}"
-                    HorizontalAlignment="Left"
-                    Unchecked="RememberMe_OnChecked"
-                    x:Name="RememberMeBox" />
+                    Unchecked="RememberMe_OnChecked" />
                 <CheckBox
+                    x:Name="AutoLoginBox"
+                    HorizontalAlignment="Right"
                     Checked="AutoLogin_OnChecked"
                     Content="{ex:BikaLocale Key=AutoLogin}"
                     FlowDirection="RightToLeft"
-                    HorizontalAlignment="Right"
-                    Unchecked="AutoLogin_OnChecked"
-                    x:Name="AutoLoginBox" />
+                    Unchecked="AutoLogin_OnChecked" />
             </Grid>
             <Button
-                Click="Login_Click"
-                Content="{ex:BikaLocale Key=Login}"
                 Grid.Row="3"
+                Width="100"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Width="100" />
+                Click="Login_Click"
+                Content="{ex:BikaLocale Key=Login}" />
         </Grid>
     </TeachingTip>
 </UserControl>

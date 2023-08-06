@@ -2,6 +2,7 @@
     x:Class="ShadowViewer.Plugin.Bika.Pages.BikaSettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:ShadowViewer.Plugin.Bika.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:icons="using:FluentIcon"
@@ -95,6 +96,18 @@
                         <Button Click="Ping_Click" Content="{ex:BikaLocale Key=Ping}" />
                     </StackPanel>
                 </labs:SettingsCard>
+                <labs:SettingsCard>
+                    <labs:SettingsCard.Header>
+                        <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=LockDescription}" Header="{ex:BikaLocale Key=Lock}">
+                            <FontIcon
+                                Width="30"
+                                Height="30"
+                                Glyph="&#xE72E;" />
+                        </local2:ShadowSettingHeader>
+                    </labs:SettingsCard.Header>
+                    <Button Click="LockButton_Click" Content="{ex:BikaLocale Key=Set}" />
+                </labs:SettingsCard>
+                <!--  ShowSettings  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:BikaLocale Key=ShowSettings}" />
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
@@ -198,6 +211,7 @@
                 </labs:SettingsExpander>
             </StackPanel>
         </ScrollViewer>
+        <controls:LockTip x:Name="LockTip" Grid.Row="1" />
     </Grid>
 
 </Page>
