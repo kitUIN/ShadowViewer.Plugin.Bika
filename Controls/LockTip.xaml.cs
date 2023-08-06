@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Navigation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ShadowViewer.Controls;
 using Microsoft.UI.Xaml.Hosting;
+using CustomExtensions.WinUI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -36,8 +37,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
         private int total = BikaData.Categories.Count;
         public LockTip()
         {
-            this.InitializeComponent();
-            
+            this.LoadComponent(ref _contentLoaded);
         }
         private void SetLockText()
         {

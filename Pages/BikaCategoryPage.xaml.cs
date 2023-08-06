@@ -31,6 +31,8 @@ namespace ShadowViewer.Plugin.Bika.Pages
     public sealed partial class BikaCategoryPage : Page
     {
         private BikaCategoryViewModel ViewModel { get; }
+        private bool first = false;
+        private CategoryArg Arg;
         public BikaCategoryPage()
         {
             this.LoadComponent(ref _contentLoaded);
@@ -39,11 +41,18 @@ namespace ShadowViewer.Plugin.Bika.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var arg = e.Parameter as CategoryArg;
-            if (arg != null)
+            if (arg != null &&(!first || Arg!=null&&arg.Category!= Arg.Category))
             {
-                ViewModel.Page = arg.Page;
                 ViewModel.Sort = arg.SortRule;
+                ViewModel.Page = arg.Page;
                 ViewModel.CategoryTitle = arg.Category;
+                ViewModel.Refresh();
+                first = true;
+                Arg = arg;
+                MainScrollViewer.ScrollToVerticalOffset(0);
+            }
+            else
+            {
                 ViewModel.Refresh();
             }
         }
@@ -105,8 +114,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
         {
             if (BikaConfig.CanTemporaryUnlockComic)
             {
-                var stackPanel = sender as StackPanel;
-                if (stackPanel != null)
+                if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel)
                 {
                     var icon = stackPanel.Children[0] as FontIcon;
                     var text1 = stackPanel.Children[1] as TextBlock;
@@ -121,8 +129,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
         {
             if (BikaConfig.CanTemporaryUnlockComic)
             {
-                var stackPanel = sender as StackPanel;
-                if (stackPanel != null)
+                if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel)
                 {
                     var icon = stackPanel.Children[0] as FontIcon;
                     var text1 = stackPanel.Children[1] as TextBlock;
@@ -136,12 +143,13 @@ namespace ShadowViewer.Plugin.Bika.Pages
         {
             if (BikaConfig.CanTemporaryUnlockComic)
             {
-                var stackPanel = sender as StackPanel;
-                if (stackPanel != null&& stackPanel.Tag is CategoryComic category)
+                if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel && stackPanel.Tag is CategoryComic category)
                 {
                     category.IsLocked = false;
-                    var grid = stackPanel.Parent as Grid;
-                    grid.Visibility = Visibility.Collapsed;
+                    if (stackPanel.Parent is Grid parent)
+                    {
+                        parent.Visibility = Visibility.Collapsed;
+                    }
                 } 
             }
         }

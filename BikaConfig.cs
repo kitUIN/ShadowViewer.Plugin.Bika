@@ -63,8 +63,8 @@ namespace ShadowViewer.Plugin.Bika
         /// </summary>
         public static bool AutoLogin
         {
-            get => BikaConfigHelper.GetBoolean(BikaConfigKey.RememberMe);
-            set => BikaConfigHelper.Set(BikaConfigKey.RememberMe, value);
+            get => BikaConfigHelper.GetBoolean(BikaConfigKey.AutoLogin);
+            set => BikaConfigHelper.Set(BikaConfigKey.AutoLogin, value);
         }
         /// <summary>
         /// 最后登录用户
