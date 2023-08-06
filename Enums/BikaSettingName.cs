@@ -14,5 +14,8 @@ namespace ShadowViewer.Plugin.Bika.Enums
         AutoLogin,
         LastBikaUser,
         Proxy,
+        CanTemporaryUnlockComic,
+        IsIgnoreLockComic,
+        DontLoadLockComic,
     }
 }

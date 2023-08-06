@@ -97,5 +97,33 @@ namespace ShadowViewer.Plugin.Bika.Pages
             }
         }
 
+        private void Lock_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            var stackPanel = sender as StackPanel;
+            if (stackPanel != null)
+            {
+                var icon = stackPanel.Children[0] as FontIcon;
+                var text1 = stackPanel.Children[1] as TextBlock;
+                icon.Glyph = "\uE785";
+                text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.ClickOpenLock);
+            }
+        }
+
+        private void Lock_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            var stackPanel = sender as StackPanel;
+            if (stackPanel != null)
+            {
+                var icon = stackPanel.Children[0] as FontIcon;
+                var text1 = stackPanel.Children[1] as TextBlock;
+                icon.Glyph = "\uE72E";
+                text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.Locked);
+            }
+        }
+
+        private void UnLock_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
     }
 }

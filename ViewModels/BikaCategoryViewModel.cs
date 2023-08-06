@@ -50,9 +50,18 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 CategoryComics.Clear();
                 foreach (var comic in res.Data.Comics.Docs)
                 {
+                    CheckCategoryLock(comic);
                     CategoryComics.Add(comic);
                 }
             });
+        }
+        public void CheckCategoryLock(CategoryComic comic)
+        {
+            if (BikaData.Current != null)
+            {
+                comic.LockCategories = comic.Categories.Where(x => BikaData.Current.Locks.Any(y => y.Title == x && !y.IsOpened)).ToList();
+                if (comic.LockCategories.Count > 0) comic.IsLocked = true;
+            }
         }
         private void SetCurrentPageString()
         {

@@ -134,4 +134,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style
+        x:Key="BikaGridViewItemStyle"
+        BasedOn="{StaticResource DefaultGridViewItemStyle}"
+        TargetType="GridViewItem">
+        <Setter Property="Margin" Value="5" />
+    </Style>
 </ResourceDictionary>

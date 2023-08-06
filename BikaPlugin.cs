@@ -85,7 +85,6 @@ namespace ShadowViewer.Plugin.Bika
             }
             PicaClient.AppChannel = BikaSettingsHelper.GetInt32(BikaSettingName.ApiShunt);
             PicaClient.FileChannel = BikaSettingsHelper.GetInt32(BikaSettingName.PicShunt);
-            
         }
         /// <summary>
         /// <inheritdoc/>

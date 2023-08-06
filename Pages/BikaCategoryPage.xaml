@@ -7,6 +7,7 @@
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:local="using:ShadowViewer.Plugin.Bika.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:models="using:PicaComic.Models"
     xmlns:models1="using:ShadowViewer.Plugin.Bika.Models"
     xmlns:plugin="using:ShadowViewer.Plugin.Bika"
@@ -105,151 +106,177 @@
             </CommandBar>
         </Grid>
         <ScrollViewer Grid.Row="1">
-            <GridView
-                x:Name="GridV"
-                HorizontalAlignment="Center"
-                IsItemClickEnabled="True"
-                ItemClick="GridV_ItemClick"
-                ItemsSource="{x:Bind ViewModel.CategoryComics, Mode=OneWay}"
-                SelectionMode="None">
-                <GridView.Transitions>
-                    <TransitionCollection>
-                        <EntranceThemeTransition IsStaggeringEnabled="True" />
-                    </TransitionCollection>
-                </GridView.Transitions>
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="models:CategoryComic">
-                        <Border
-                            Width="400"
-                            Height="180"
-                            Padding="5"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness=".5"
-                            CornerRadius="10">
-                            <Grid Name="Connected" ColumnSpacing="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Border
-                                    Name="ConnectedElement"
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    CornerRadius="10">
-                                    <Image Source="{x:Bind Thumb.FilePath, Mode=OneWay}" />
-                                </Border>
-                                <Grid Grid.Column="1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <StackPanel
-                                        Grid.Row="0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top">
-                                        <StackPanel>
-                                            <TextBlock
-                                                Name="ConnectedElement3"
-                                                FontSize="17"
-                                                FontWeight="Bold"
-                                                Text="{x:Bind Title, Mode=OneWay}"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="Wrap"
-                                                ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
-                                            <TextBlock
-                                                FontSize="15"
-                                                Foreground="{ThemeResource SystemAccentColorDark2}"
-                                                Text="{x:Bind Author, Mode=OneWay}"
-                                                TextTrimming="CharacterEllipsis" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                    <Grid
-                                        Grid.Row="1"
-                                        VerticalAlignment="Bottom"
-                                        RowSpacing="2">
+            <RefreshContainer>
+                <GridView
+                    HorizontalAlignment="Center"
+                    IsItemClickEnabled="True"
+                    ItemClick="GridV_ItemClick"
+                    ItemContainerStyle="{StaticResource BikaGridViewItemStyle}"
+                    ItemsSource="{x:Bind ViewModel.CategoryComics, Mode=OneWay}"
+                    SelectionMode="None">
+                    <GridView.Transitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition IsStaggeringEnabled="True" />
+                        </TransitionCollection>
+                    </GridView.Transitions>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CategoryComic">
+                            <Grid
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness=".5"
+                                CornerRadius="5">
+                                <Grid
+                                    Name="Connected"
+                                    Width="400"
+                                    Height="180"
+                                    Padding="5"
+                                    ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border
+                                        Name="ConnectedElement"
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        CornerRadius="10">
+                                        <Image Source="{x:Bind Thumb.FilePath, Mode=OneWay}" />
+                                    </Border>
+                                    <Grid Grid.Column="1">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="*" />
-                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <StackPanel
                                             Grid.Row="0"
-                                            Orientation="Horizontal"
-                                            Spacing="10">
-                                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                                <FontIcon Foreground="{ThemeResource SystemAccentColorDark2}" Glyph="&#xEB52;" />
-                                                <TextBlock FontSize="17" Text="{x:Bind TotalLikes, Mode=OneWay}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                                <FontIcon Foreground="{ThemeResource SystemAccentColorDark2}" Glyph="&#xe7b3;" />
-                                                <TextBlock FontSize="17" Text="{x:Bind TotalViews, Mode=OneWay}" />
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    Name="ConnectedElement3"
+                                                    FontSize="17"
+                                                    FontWeight="Bold"
+                                                    Text="{x:Bind Title, Mode=OneWay}"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    TextWrapping="Wrap"
+                                                    ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
+                                                <TextBlock
+                                                    FontSize="15"
+                                                    Foreground="{ThemeResource SystemAccentColorDark2}"
+                                                    Text="{x:Bind Author, Mode=OneWay}"
+                                                    TextTrimming="CharacterEllipsis" />
                                             </StackPanel>
                                         </StackPanel>
-                                        <TextBlock
+                                        <Grid
                                             Grid.Row="1"
-                                            FontWeight="Black"
-                                            Foreground="Gray"
-                                            Text="{x:Bind CategoryString, Mode=OneWay}"
-                                            TextTrimming="CharacterEllipsis"
-                                            TextWrapping="Wrap"
-                                            ToolTipService.ToolTip="{x:Bind CategoryString, Mode=OneWay}" />
-                                        <Grid Grid.Row="2">
-                                            <StackPanel Orientation="Horizontal">
-                                                <FontIcon Foreground="Gray" Glyph="&#xe7b8;" />
-                                                <TextBlock
-                                                    Margin="5,0,0,0"
-                                                    FontSize="17"
-                                                    Foreground="Gray"
-                                                    Text="{x:Bind EpsCount, Mode=OneWay}" />
-                                                <TextBlock
-                                                    FontSize="17"
-                                                    Foreground="Gray"
-                                                    Text="E" />
-                                                <TextBlock
-                                                    Margin="4,0,0,0"
-                                                    FontSize="17"
-                                                    Foreground="Gray"
-                                                    Text="/" />
-                                                <TextBlock
-                                                    Margin="4,0,0,0"
-                                                    FontSize="17"
-                                                    Foreground="Gray"
-                                                    Text="{x:Bind PagesCount, Mode=OneWay}" />
-                                                <TextBlock
-                                                    FontSize="17"
-                                                    Foreground="Gray"
-                                                    Text="P" />
+                                            VerticalAlignment="Bottom"
+                                            RowSpacing="2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <StackPanel
+                                                Grid.Row="0"
+                                                Orientation="Horizontal"
+                                                Spacing="10">
+                                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                                    <FontIcon Foreground="{ThemeResource SystemAccentColorDark2}" Glyph="&#xEB52;" />
+                                                    <TextBlock FontSize="17" Text="{x:Bind TotalLikes, Mode=OneWay}" />
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                                    <FontIcon Foreground="{ThemeResource SystemAccentColorDark2}" Glyph="&#xe7b3;" />
+                                                    <TextBlock FontSize="17" Text="{x:Bind TotalViews, Mode=OneWay}" />
+                                                </StackPanel>
                                             </StackPanel>
-                                            <Border
-                                                Padding="5"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Bottom"
-                                                Background="{ThemeResource LayerFillColorDefaultBrush}"
-                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                BorderThickness=".5"
-                                                CornerRadius="7"
-                                                Visibility="{x:Bind Finished, Mode=OneWay}">
-                                                <TextBlock
-                                                    FontSize="12"
-                                                    FontWeight="Bold"
-                                                    Foreground="{ThemeResource SystemAccentColorDark2}"
-                                                    Text="{ex:BikaLocale Key=Finished}" />
-                                            </Border>
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                FontWeight="Black"
+                                                Foreground="Gray"
+                                                Text="{x:Bind CategoryString, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="Wrap"
+                                                ToolTipService.ToolTip="{x:Bind CategoryString, Mode=OneWay}" />
+                                            <Grid Grid.Row="2">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <FontIcon Foreground="Gray" Glyph="&#xe7b8;" />
+                                                    <TextBlock
+                                                        Margin="5,0,0,0"
+                                                        FontSize="17"
+                                                        Foreground="Gray"
+                                                        Text="{x:Bind EpsCount, Mode=OneWay}" />
+                                                    <TextBlock
+                                                        FontSize="17"
+                                                        Foreground="Gray"
+                                                        Text="E" />
+                                                    <TextBlock
+                                                        Margin="4,0,0,0"
+                                                        FontSize="17"
+                                                        Foreground="Gray"
+                                                        Text="/" />
+                                                    <TextBlock
+                                                        Margin="4,0,0,0"
+                                                        FontSize="17"
+                                                        Foreground="Gray"
+                                                        Text="{x:Bind PagesCount, Mode=OneWay}" />
+                                                    <TextBlock
+                                                        FontSize="17"
+                                                        Foreground="Gray"
+                                                        Text="P" />
+                                                </StackPanel>
+                                                <Border
+                                                    Padding="5"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Bottom"
+                                                    Background="{ThemeResource LayerFillColorDefaultBrush}"
+                                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                    BorderThickness=".5"
+                                                    CornerRadius="7"
+                                                    Visibility="{x:Bind Finished, Mode=OneWay}">
+                                                    <TextBlock
+                                                        FontSize="12"
+                                                        FontWeight="Bold"
+                                                        Foreground="{ThemeResource SystemAccentColorDark2}"
+                                                        Text="{ex:BikaLocale Key=Finished}" />
+                                                </Border>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>
+                                <Grid CornerRadius="5" Visibility="{x:Bind IsLocked, Mode=OneWay}">
+                                    <Grid.Background>
+                                        <media:BackdropBlurBrush Amount="8.0" />
+                                    </Grid.Background>
+                                    <StackPanel
+                                        Margin="50,50"
+                                        Padding="10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Background="{ThemeResource LayerFillColorDefaultBrush}"
+                                        CornerRadius="10"
+                                        Orientation="Horizontal"
+                                        PointerEntered="Lock_PointerEntered"
+                                        PointerExited="Lock_PointerExited"
+                                        Spacing="3">
+                                        <FontIcon Glyph="&#xE72E;" />
+                                        <TextBlock FontWeight="SemiBold" Text="{ex:BikaLocale Key=Locked}" />
+                                        <TextBlock FontWeight="SemiBold" Text=":" />
+                                        <TextBlock
+                                            FontWeight="SemiBold"
+                                            Foreground="{ThemeResource SystemAccentColorDark2}"
+                                            Text="{x:Bind LockCategoryString, Mode=OneWay}"
+                                            TextTrimming="WordEllipsis"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
-                        </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
 
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-                <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="5" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-            </GridView>
+                </GridView>
+            </RefreshContainer>
+
         </ScrollViewer>
         <Border
             Grid.Row="1"

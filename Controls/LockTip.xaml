@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <UserControl
     x:Class="ShadowViewer.Plugin.Bika.Controls.LockTip"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -11,7 +10,9 @@
     xmlns:models1="using:ShadowViewer.Plugin.Bika.Models"
     xmlns:plugin="using:ShadowViewer.Plugin.Bika"
     mc:Ignorable="d">
-
+    <UserControl.Resources>
+        <ResourceDictionary Source="ms-appx:///ShadowViewer.Plugin.Bika/Themes/BikaTheme.xaml" />
+    </UserControl.Resources>
     <TeachingTip
         x:Name="Lock"
         Title="{ex:BikaLocale Key=Lock}"
@@ -35,9 +36,7 @@
                     <Ellipse
                         Width="16"
                         Height="16"
-                        Fill="{ThemeResource ToggleButtonBackgroundChecked}"
-                        Stroke="{ThemeResource LayerFillColorDefaultBrush}"
-                        StrokeThickness="0.5" />
+                        Fill="{ThemeResource SystemAccentColorDark1}" />
                     <TextBlock Text="{ex:BikaLocale Key=IsOpened}" />
                 </StackPanel>
             </Grid>
@@ -52,9 +51,17 @@
                             <ToggleButton
                                 HorizontalAlignment="Stretch"
                                 Checked="ToggleButton_Checked"
-                                Content="{x:Bind Title, Mode=OneWay}"
                                 IsChecked="{x:Bind IsOpened, Mode=TwoWay}"
-                                Unchecked="ToggleButton_Checked" />
+                                Unchecked="ToggleButton_Checked">
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}" />
+                                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                                </StackPanel>
+                                <ToggleButton.Resources>
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="{ThemeResource SystemAccentColorDark1}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource SystemAccentColorLight4}" />
+                                </ToggleButton.Resources>
+                            </ToggleButton>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>

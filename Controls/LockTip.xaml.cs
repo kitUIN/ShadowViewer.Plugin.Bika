@@ -41,9 +41,12 @@ namespace ShadowViewer.Plugin.Bika.Controls
         }
         private void SetLockText()
         {
-            current = BikaData.Current.Locks.Where(x => !x.IsOpened).Count();
-            total = BikaData.Current.Locks.Count;
-            LockText = $"{BikaResourcesHelper.GetString(BikaResourceKey.LockCounts)}:{current}/{total}";
+            if(BikaData.Current!=null)
+            {
+                current = BikaData.Current.Locks.Where(x => !x.IsOpened).Count();
+                total = BikaData.Current.Locks.Count;
+                LockText = $"{BikaResourcesHelper.GetString(BikaResourceKey.LockCounts)}:{current}/{total}";
+            }
         }
         public void Show()
         {

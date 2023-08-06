@@ -303,4 +303,10 @@
   <data name="LockCounts" xml:space="preserve">
     <value>已封印数量</value>
   </data>
+  <data name="Locked" xml:space="preserve">
+    <value>已被封印</value>
+  </data>
+  <data name="ClickOpenLock" xml:space="preserve">
+    <value>点击解开封印</value>
+  </data>
 </root>

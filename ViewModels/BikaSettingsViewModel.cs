@@ -25,6 +25,8 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private string pingText;
         [ObservableProperty]
+        private bool temporaryUnlock;
+        [ObservableProperty]
         private SolidColorBrush pingColor = new SolidColorBrush(Colors.Green);
         [ObservableProperty]
         private FluentIconSymbol pingIcon = FluentIconSymbol.CheckmarkCircleFilled;

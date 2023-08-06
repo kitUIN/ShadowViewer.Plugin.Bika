@@ -63,5 +63,7 @@
         ClickSelect,
         IsOpened,
         LockCounts,
+        Locked,
+        ClickOpenLock,
     }
 }

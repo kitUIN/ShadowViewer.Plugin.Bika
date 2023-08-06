@@ -55,7 +55,10 @@
             </GridView.Transitions>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="pica:Category">
-                    <Grid Width="160" Height="175">
+                    <Grid
+                        Width="160"
+                        Height="175"
+                        CornerRadius="10">
                         <Border
                             Width="140"
                             Height="140"
