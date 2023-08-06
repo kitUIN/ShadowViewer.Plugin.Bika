@@ -81,5 +81,6 @@
         LockDescription,
         Open,
         Set,
+        Settings,
     }
 }

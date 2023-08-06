@@ -27,7 +27,7 @@
             Spacing="10">
             <TextBlock
                 FontSize="18"
-                Foreground="{StaticResource SystemAccentColorDark1}"
+                Foreground="{StaticResource BikaAccentColorDark1}"
                 Text="{ex:BikaLocale Key=BikaKeywords}" />
             <ItemsRepeater ItemsSource="{x:Bind local:BikaData.Current.Keywords, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>

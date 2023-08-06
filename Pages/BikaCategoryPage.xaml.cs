@@ -7,12 +7,15 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using PicaComic;
+using PicaComic.Models;
 using PicaComic.Utils;
 using ShadowViewer.Enums;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.ViewModels;
+using ShadowViewer.Plugins;
 using ShadowViewer.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -131,9 +134,21 @@ namespace ShadowViewer.Plugin.Bika.Pages
         private void UnLock_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (BikaConfig.CanTemporaryUnlockComic)
-            { 
-
+            {
+                var stackPanel = sender as StackPanel;
+                if (stackPanel != null&& stackPanel.Tag is CategoryComic category)
+                {
+                    category.IsLocked = false;
+                    var grid = stackPanel.Parent as Grid;
+                    grid.Visibility = Visibility.Collapsed;
+                } 
             }
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(BikaSettingsPage), null,
+                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
     }
 }

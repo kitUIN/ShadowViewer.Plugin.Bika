@@ -36,7 +36,7 @@
                     <Ellipse
                         Width="16"
                         Height="16"
-                        Fill="{ThemeResource SystemAccentColorDark1}" />
+                        Fill="{ThemeResource BikaAccentColorLight1}" />
                     <TextBlock Text="{ex:BikaLocale Key=IsOpened}" />
                 </StackPanel>
             </Grid>
@@ -58,8 +58,10 @@
                                     <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
                                 </StackPanel>
                                 <ToggleButton.Resources>
-                                    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="{ThemeResource SystemAccentColorDark1}" />
-                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource SystemAccentColorLight4}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="{ThemeResource BikaAccentColorLight1}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver" Color="{ThemeResource BikaAccentColorDark1}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPressed" Color="{ThemeResource BikaAccentColorLight1}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaAccentColorLight3}" />
                                 </ToggleButton.Resources>
                             </ToggleButton>
                         </DataTemplate>

@@ -11,20 +11,27 @@ namespace ShadowViewer.Plugin.Bika.Models
     {
         [ObservableProperty]
         private string title;
-        public string Icon;
+        
         [ObservableProperty]
         private bool isOpened;
+        private string icon;
+        public string Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
         public BikaLock(string title,bool isOpened)
         {
             Title = title;
             IsOpened = isOpened;
+            Icon = IsOpened ? "\uE785" : "\uE72E";
         }
         partial void OnIsOpenedChanged(bool oldValue, bool newValue)
         {
             if(oldValue != newValue)
             {
                 BikaConfigHelper.Set(Title, newValue);
-                SetProperty(ref Icon, IsOpened ? "\uE785" : "\uE72E");
+                Icon = IsOpened ? "\uE785" : "\uE72E";
             }
         }
     }

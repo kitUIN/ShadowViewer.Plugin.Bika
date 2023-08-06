@@ -93,6 +93,13 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
+                <AppBarButton
+                    x:Name="SettingsButton" Click="SettingsButton_Click"
+                    Label="{ex:BikaLocale Key=Settings}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE72C;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
                     Click="CurrentPageButton_Click"
@@ -163,7 +170,7 @@
                                                     ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
                                                 <TextBlock
                                                     FontSize="15"
-                                                    Foreground="{ThemeResource SystemAccentColorDark2}"
+                                                    Foreground="{ThemeResource BikaAccentColorDark2}"
                                                     Text="{x:Bind Author, Mode=OneWay}"
                                                     TextTrimming="CharacterEllipsis" />
                                             </StackPanel>
@@ -182,11 +189,11 @@
                                                 Orientation="Horizontal"
                                                 Spacing="10">
                                                 <StackPanel Orientation="Horizontal" Spacing="5">
-                                                    <FontIcon Foreground="{ThemeResource SystemAccentColorDark2}" Glyph="&#xEB52;" />
+                                                    <FontIcon Foreground="{ThemeResource BikaAccentColorDark2}" Glyph="&#xEB52;" />
                                                     <TextBlock FontSize="17" Text="{x:Bind TotalLikes, Mode=OneWay}" />
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal" Spacing="5">
-                                                    <FontIcon Foreground="{ThemeResource SystemAccentColorDark2}" Glyph="&#xe7b3;" />
+                                                    <FontIcon Foreground="{ThemeResource BikaAccentColorDark2}" Glyph="&#xe7b3;" />
                                                     <TextBlock FontSize="17" Text="{x:Bind TotalViews, Mode=OneWay}" />
                                                 </StackPanel>
                                             </StackPanel>
@@ -237,7 +244,7 @@
                                                     <TextBlock
                                                         FontSize="12"
                                                         FontWeight="Bold"
-                                                        Foreground="{ThemeResource SystemAccentColorDark2}"
+                                                        Foreground="{ThemeResource BikaAccentColorDark2}"
                                                         Text="{ex:BikaLocale Key=Finished}" />
                                                 </Border>
                                             </Grid>
@@ -248,7 +255,7 @@
                                     <Grid.Background>
                                         <media:BackdropBlurBrush Amount="8.0" />
                                     </Grid.Background>
-                                    <StackPanel Tapped="UnLock_Tapped"
+                                    <StackPanel
                                         Margin="50,50"
                                         Padding="10"
                                         HorizontalAlignment="Center"
@@ -258,13 +265,15 @@
                                         Orientation="Horizontal"
                                         PointerEntered="Lock_PointerEntered"
                                         PointerExited="Lock_PointerExited"
-                                        Spacing="3">
+                                        Spacing="3"
+                                        Tag="{x:Bind}"
+                                        Tapped="UnLock_Tapped">
                                         <FontIcon Glyph="&#xE72E;" />
                                         <TextBlock FontWeight="SemiBold" Text="{ex:BikaLocale Key=Locked}" />
                                         <TextBlock FontWeight="SemiBold" Text=":" />
                                         <TextBlock
                                             FontWeight="SemiBold"
-                                            Foreground="{ThemeResource SystemAccentColorDark2}"
+                                            Foreground="{ThemeResource BikaAccentColorDark2}"
                                             Text="{x:Bind LockCategoryString, Mode=OneWay}"
                                             TextTrimming="WordEllipsis"
                                             TextWrapping="Wrap" />

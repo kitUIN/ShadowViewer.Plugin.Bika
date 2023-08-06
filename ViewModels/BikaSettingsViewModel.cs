@@ -12,6 +12,7 @@ using ShadowViewer.Controls;
 using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Extensions;
+using System.Drawing;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -37,17 +38,32 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         private FluentIconSymbol pingIcon = FluentIconSymbol.CheckmarkCircleFilled;
         public static BikaSettingsViewModel Current { get; set; }
         private ICallableToolKit Caller { get; }
-        public BikaSettingsViewModel() { 
+        public BikaSettingsViewModel()
+        { 
             Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            LoadLockComicShow = !BikaConfig.IsIgnoreLockComic;
+            CanTemporaryUnlockShow = !BikaConfig.IsIgnoreLockComic && BikaConfig.LoadLockComic;
         }
-        public bool LoadLockComicShow => !IsIgnoreLockComic;
-        public bool CanTemporaryUnlockShow => !IsIgnoreLockComic && LoadLockComic;
+        private bool loadLockComicShow  ;
+        public bool LoadLockComicShow
+        {
+            get => loadLockComicShow;
+            set => SetProperty(ref loadLockComicShow, value);
+        }
+        private bool canTemporaryUnlockShow;
+        public bool CanTemporaryUnlockShow
+        {
+            get => canTemporaryUnlockShow;
+            set => SetProperty(ref canTemporaryUnlockShow, value);
+        }
+    
         #region Changed
         partial void OnLoadLockComicChanged(bool oldValue, bool newValue)
         {
             if (oldValue != newValue)
             {
                 BikaConfig.LoadLockComic = newValue;
+                CanTemporaryUnlockShow = !IsIgnoreLockComic && LoadLockComic;
             }
         }
         partial void OnIsIgnoreLockComicChanged(bool oldValue, bool newValue)
@@ -55,6 +71,8 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             if (oldValue != newValue)
             {
                 BikaConfig.IsIgnoreLockComic = newValue;
+                LoadLockComicShow = !IsIgnoreLockComic;
+                CanTemporaryUnlockShow = !IsIgnoreLockComic && LoadLockComic;
             }
         }
         partial void OnCanTemporaryUnlockChanged(bool oldValue, bool newValue)

@@ -9,21 +9,21 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <Color x:Key="SystemAccentColorLight1">#FFFBA3C4</Color>
-                    <Color x:Key="SystemAccentColorLight2">#FFFCB0CD</Color>
-                    <Color x:Key="SystemAccentColorLight3">#FFFDBCD6</Color>
-                    <Color x:Key="SystemAccentColorLight4">#FFFEC9DF</Color>
-                    <Color x:Key="SystemAccentColorLight5">#FFFFD5E8</Color>
-                    <Color x:Key="SystemAccentColorDark1">#FFE480A7</Color>
-                    <Color x:Key="SystemAccentColorDark2">#FFCF6993</Color>
-                    <Color x:Key="SystemAccentColorDark3">#FFB9527E</Color>
-                    <Color x:Key="SystemAccentColorDark4">#FFA43B6A</Color>
-                    <Color x:Key="SystemAccentColorDark5">#FF8E2456</Color>
-                    <Color x:Key="SystemComicItemAccentColor">#FF4D4D4D</Color>
-                    <Color x:Key="SystemComicFinishAccentColor">#FF575757</Color>
-                    <SolidColorBrush x:Key="TagBackground" Color="{StaticResource SystemAccentColorDark1}" />
-                    <SolidColorBrush x:Key="TagPointerOverBackground" Color="{StaticResource SystemAccentColorLight1}" />
-                    <SolidColorBrush x:Key="TagForeground" Color="{StaticResource SystemAccentColorLight4}" />
+                    <Color x:Key="BikaAccentColorLight1">#FFFBA3C4</Color>
+                    <Color x:Key="BikaAccentColorLight2">#FFFCB0CD</Color>
+                    <Color x:Key="BikaAccentColorLight3">#FFFDBCD6</Color>
+                    <Color x:Key="BikaAccentColorLight4">#FFFEC9DF</Color>
+                    <Color x:Key="BikaAccentColorLight5">#FFFFD5E8</Color>
+                    <Color x:Key="BikaAccentColorDark1">#FFE480A7</Color>
+                    <Color x:Key="BikaAccentColorDark2">#FFCF6993</Color>
+                    <Color x:Key="BikaAccentColorDark3">#FFB9527E</Color>
+                    <Color x:Key="BikaAccentColorDark4">#FFA43B6A</Color>
+                    <Color x:Key="BikaAccentColorDark5">#FF8E2456</Color>
+                    <Color x:Key="BikaComicItemAccentColor">#FF4D4D4D</Color>
+                    <Color x:Key="BikaComicFinishAccentColor">#FF575757</Color>
+                    <SolidColorBrush x:Key="TagBackground" Color="{StaticResource BikaAccentColorDark1}" />
+                    <SolidColorBrush x:Key="TagPointerOverBackground" Color="{StaticResource BikaAccentColorLight1}" />
+                    <SolidColorBrush x:Key="TagForeground" Color="{StaticResource BikaAccentColorLight4}" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -31,21 +31,21 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <Color x:Key="SystemAccentColorLight1">#FFFBA3C4</Color>
-                    <Color x:Key="SystemAccentColorLight2">#FFFCB0CD</Color>
-                    <Color x:Key="SystemAccentColorLight3">#FFFDBCD6</Color>
-                    <Color x:Key="SystemAccentColorLight4">#FFFEC9DF</Color>
-                    <Color x:Key="SystemAccentColorLight5">#FFFFD5E8</Color>
-                    <Color x:Key="SystemAccentColorDark1">#FFE480A7</Color>
-                    <Color x:Key="SystemAccentColorDark2">#FFCF6993</Color>
-                    <Color x:Key="SystemAccentColorDark3">#FFB9527E</Color>
-                    <Color x:Key="SystemAccentColorDark4">#FFA43B6A</Color>
-                    <Color x:Key="SystemAccentColorDark5">#FF8E2456</Color>
-                    <Color x:Key="SystemComicItemAccentColor">#FFfdd7e6</Color>
-                    <Color x:Key="SystemComicFinishAccentColor">#FFffe8f4</Color>
-                    <SolidColorBrush x:Key="TagBackground" Color="{StaticResource SystemAccentColorLight5}" />
-                    <SolidColorBrush x:Key="TagPointerOverBackground" Color="{StaticResource SystemAccentColorLight3}" />
-                    <SolidColorBrush x:Key="TagForeground" Color="{StaticResource SystemAccentColorDark1}" />
+                    <Color x:Key="BikaAccentColorLight1">#FFFBA3C4</Color>
+                    <Color x:Key="BikaAccentColorLight2">#FFFCB0CD</Color>
+                    <Color x:Key="BikaAccentColorLight3">#FFFDBCD6</Color>
+                    <Color x:Key="BikaAccentColorLight4">#FFFEC9DF</Color>
+                    <Color x:Key="BikaAccentColorLight5">#FFFFD5E8</Color>
+                    <Color x:Key="BikaAccentColorDark1">#FFE480A7</Color>
+                    <Color x:Key="BikaAccentColorDark2">#FFCF6993</Color>
+                    <Color x:Key="BikaAccentColorDark3">#FFB9527E</Color>
+                    <Color x:Key="BikaAccentColorDark4">#FFA43B6A</Color>
+                    <Color x:Key="BikaAccentColorDark5">#FF8E2456</Color>
+                    <Color x:Key="BikaComicItemAccentColor">#FFfdd7e6</Color>
+                    <Color x:Key="BikaComicFinishAccentColor">#FFffe8f4</Color>
+                    <SolidColorBrush x:Key="TagBackground" Color="{StaticResource BikaAccentColorLight5}" />
+                    <SolidColorBrush x:Key="TagPointerOverBackground" Color="{StaticResource BikaAccentColorLight3}" />
+                    <SolidColorBrush x:Key="TagForeground" Color="{StaticResource BikaAccentColorDark1}" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
