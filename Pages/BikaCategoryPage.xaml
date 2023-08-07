@@ -148,7 +148,7 @@
                     </Grid>
                     <Grid CornerRadius="5" Visibility="{x:Bind IsLocked, Mode=OneWay}">
                         <Grid.Background>
-                            <media:BackdropBlurBrush Amount="8.0" />
+                            <media:BackdropBlurBrush Amount="8" />
                         </Grid.Background>
                         <Grid
                             Margin="50"
@@ -346,7 +346,7 @@
                     IsItemClickEnabled="True"
                     ItemClick="GridV_ItemClick"
                     ItemContainerStyle="{StaticResource BikaGridViewItemStyle}"
-                    ItemTemplate="{StaticResource BikaLoadTemplate}"
+                    ItemTemplateSelector="{StaticResource CategoryComicDataTemplateSelector}"
                     ItemsSource="{x:Bind ViewModel.CategoryComics, Mode=OneWay}"
                     SelectionMode="None">
                     <GridView.Transitions>
