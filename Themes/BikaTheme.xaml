@@ -21,9 +21,14 @@
                     <Color x:Key="BikaAccentColorDark5">#FF8E2456</Color>
                     <Color x:Key="BikaComicItemAccentColor">#FF4D4D4D</Color>
                     <Color x:Key="BikaComicFinishAccentColor">#FF575757</Color>
-                    <SolidColorBrush x:Key="TagBackground" Color="{StaticResource BikaAccentColorDark1}" />
-                    <SolidColorBrush x:Key="TagPointerOverBackground" Color="{StaticResource BikaAccentColorLight1}" />
-                    <SolidColorBrush x:Key="TagForeground" Color="{StaticResource BikaAccentColorLight4}" />
+                    <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorDark1}" />
+                    <SolidColorBrush x:Key="BikaTagPointerOverBackground" Color="{StaticResource BikaAccentColorLight1}" />
+                    <SolidColorBrush x:Key="BikaTagForeground" Color="{StaticResource BikaAccentColorLight4}" />
+
+                    <Color x:Key="BikaLockBackgroundChecked">#FFFDBCD6</Color>
+                    <Color x:Key="BikaLockBackgroundPointerOver">#FFFBA3C4</Color>
+                    <Color x:Key="BikaLockBackgroundCheckedPressed">#FFFDBCD6</Color>
+                    <Color x:Key="BikaLockBackgroundCheckedPointerOver">#FFFBA3C4</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -43,16 +48,21 @@
                     <Color x:Key="BikaAccentColorDark5">#FF8E2456</Color>
                     <Color x:Key="BikaComicItemAccentColor">#FFfdd7e6</Color>
                     <Color x:Key="BikaComicFinishAccentColor">#FFffe8f4</Color>
-                    <SolidColorBrush x:Key="TagBackground" Color="{StaticResource BikaAccentColorLight5}" />
-                    <SolidColorBrush x:Key="TagPointerOverBackground" Color="{StaticResource BikaAccentColorLight3}" />
-                    <SolidColorBrush x:Key="TagForeground" Color="{StaticResource BikaAccentColorDark1}" />
+                    <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorLight5}" />
+                    <SolidColorBrush x:Key="BikaTagPointerOverBackground" Color="{StaticResource BikaAccentColorLight3}" />
+                    <SolidColorBrush x:Key="BikaTagForeground" Color="{StaticResource BikaAccentColorDark1}" />
+
+                    <Color x:Key="BikaLockBackgroundChecked">#FFFBA3C4</Color>
+                    <Color x:Key="BikaLockBackgroundPointerOver">#FFE480A7</Color>
+                    <Color x:Key="BikaLockBackgroundCheckedPressed">#FFFBA3C4</Color>
+                    <Color x:Key="BikaLockBackgroundCheckedPointerOver">#FFE480A7</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     <Style x:Key="TagStyle" TargetType="Button">
-        <Setter Property="Background" Value="{ThemeResource TagBackground}" />
-        <Setter Property="Foreground" Value="{ThemeResource TagForeground}" />
+        <Setter Property="Background" Value="{ThemeResource BikaTagBackground}" />
+        <Setter Property="Foreground" Value="{ThemeResource BikaTagForeground}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
         <Setter Property="Padding" Value="{StaticResource ButtonPadding}" />
@@ -89,13 +99,13 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TagPointerOverBackground}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource BikaTagPointerOverBackground}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TagForeground}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource BikaTagForeground}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                     </Storyboard>

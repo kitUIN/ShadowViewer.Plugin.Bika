@@ -24,6 +24,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
 {
     public sealed partial class LockTip : UserControl
     {
+        public event EventHandler LockChangedEvenet;
 
         public string LockText
         {
@@ -80,6 +81,10 @@ namespace ShadowViewer.Plugin.Bika.Controls
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             SetLockText();
+            if (BikaConfig.LoadLockComic)
+            {
+                LockChangedEvenet?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

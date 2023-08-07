@@ -47,29 +47,33 @@
                         </Border>
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <StackPanel
+                            <Grid
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top">
-                                <StackPanel>
-                                    <TextBlock
-                                        Name="ConnectedElement3"
-                                        FontSize="17"
-                                        FontWeight="Bold"
-                                        Text="{x:Bind Title, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
-                                    <TextBlock
-                                        FontSize="15"
-                                        Foreground="{ThemeResource BikaAccentColorDark2}"
-                                        Text="{x:Bind Author, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
-                            </StackPanel>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Name="ConnectedElement3"
+                                    Grid.Row="0"
+                                    FontSize="17"
+                                    FontWeight="Bold"
+                                    Text="{x:Bind Title, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap"
+                                    ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource BikaAccentColorDark2}"
+                                    Text="{x:Bind Author, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
                             <Grid
                                 Grid.Row="1"
                                 VerticalAlignment="Bottom"

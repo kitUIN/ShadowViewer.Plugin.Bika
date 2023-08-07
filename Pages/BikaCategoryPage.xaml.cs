@@ -55,7 +55,8 @@ namespace ShadowViewer.Plugin.Bika.Pages
             {
                 ViewModel.Refresh();
             }
-        }
+            LockTip.LockChangedEvenet += ViewModel.CheckAllCategoryComicLock;
+        } 
 
         private void GridV_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -146,10 +147,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel && stackPanel.Tag is CategoryComic category)
                 {
                     category.IsLocked = false;
-                    if (stackPanel.Parent is Grid parent)
-                    {
-                        parent.Visibility = Visibility.Collapsed;
-                    }
+
                 } 
             }
         }
