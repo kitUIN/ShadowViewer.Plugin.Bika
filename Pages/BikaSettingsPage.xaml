@@ -124,7 +124,7 @@
                         OffContent="{ex:BikaLocale Key=UnIgnore}"
                         OnContent="{ex:BikaLocale Key=Ignore}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard Visibility="{x:Bind ViewModel.LoadLockComicShow, Mode=OneWay}">
+                <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=LoadLockComicDescription}" Header="{ex:BikaLocale Key=LoadLockComic}">
                             <icons:FluentIcon
@@ -135,11 +135,12 @@
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch
+                        IsEnabled="{x:Bind ViewModel.LoadLockComicShow, Mode=OneWay}"
                         IsOn="{x:Bind ViewModel.LoadLockComic, Mode=TwoWay}"
                         OffContent="{ex:BikaLocale Key=UnLoad}"
                         OnContent="{ex:BikaLocale Key=Load}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard Visibility="{x:Bind ViewModel.CanTemporaryUnlockShow, Mode=OneWay}">
+                <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=CanTemporaryUnlockComicDescription}" Header="{ex:BikaLocale Key=CanTemporaryUnlockComic}">
                             <icons:FluentIcon
@@ -150,6 +151,7 @@
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch
+                        IsEnabled="{x:Bind ViewModel.CanTemporaryUnlockShow, Mode=OneWay}"
                         IsOn="{x:Bind ViewModel.CanTemporaryUnlock, Mode=TwoWay}"
                         OffContent="{ex:BikaLocale Key=UnAllow}"
                         OnContent="{ex:BikaLocale Key=Allow}" />

@@ -144,10 +144,9 @@ namespace ShadowViewer.Plugin.Bika.Pages
         {
             if (BikaConfig.CanTemporaryUnlockComic)
             {
-                if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel && stackPanel.Tag is CategoryComic category)
+                if (sender is Grid grid && grid.Tag is CategoryComic category)
                 {
                     category.IsLocked = false;
-
                 } 
             }
         }

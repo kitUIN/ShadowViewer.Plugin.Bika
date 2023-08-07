@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:helpers="using:ShadowViewer.Plugin.Bika.Helpers"
-    xmlns:local="using:ShadowViewer.Plugin.Bika.Pages"
+    xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:models="using:PicaComic.Models"
