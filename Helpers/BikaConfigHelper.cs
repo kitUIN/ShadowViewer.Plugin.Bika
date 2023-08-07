@@ -2,47 +2,66 @@
 
 public class BikaConfigHelper
 {
-    private const string Container = "Bika";
-    public static void Set(BikaConfigKey key, object value)
+ 
+    public static void Set(BikaConfigKey key, string value)
     {
-        Set(key.ToString(), value);
+        ConfigHelper.Set(key.ToString(), value);
+    }
+    public static void Set(BikaConfigKey key, int value)
+    {
+        ConfigHelper.Set(key.ToString(), value);
+    }
+    public static void Set(BikaConfigKey key, double value)
+    {
+        ConfigHelper.Set(key.ToString(), value);
+    }
+    public static void Set(BikaConfigKey key, float value)
+    {
+        ConfigHelper.Set(key.ToString(), value);
+    }
+    public static void Set(BikaConfigKey key, bool value)
+    {
+        ConfigHelper.Set(key.ToString(), value);
+    }
+    public static void Set(BikaConfigKey key, long value)
+    {
+        ConfigHelper.Set(key.ToString(), value);
+    }
+    public static void Set(BikaConfigKey key, DateTime value)
+    {
+        ConfigHelper.Set(key.ToString(), value);
     }
     public static bool Contains(BikaConfigKey key)
     {
-        return Contains(key.ToString());
+        return ConfigHelper.Contains(key.ToString());
     }
     public static string GetString(BikaConfigKey key)
     {
-        return GetString( key.ToString());
+        return ConfigHelper.GetString(key.ToString());
     }
     public static bool GetBoolean(BikaConfigKey key)
     {
-        return GetBoolean( key.ToString());
+        return ConfigHelper.GetBoolean(key.ToString());
     }
     public static int GetInt32(BikaConfigKey key)
     {
-        return GetInt32( key.ToString());
+        return ConfigHelper.GetInt32(key.ToString());
+    }
+    public static long GetInt64(BikaConfigKey key)
+    {
+        return ConfigHelper.GetInt64(key.ToString());
+    }
+    public static double GetDouble(BikaConfigKey key)
+    {
+        return ConfigHelper.GetDouble(key.ToString());
+    }
+    public static float GetFloat(BikaConfigKey key)
+    {
+        return ConfigHelper.GetFloat(key.ToString());
+    }
+    public static DateTime GetDateTime(BikaConfigKey key)
+    {
+        return ConfigHelper.GetDateTime(key.ToString());
     }
 
-
-    public static void Set(string key, object value)
-    {
-        ConfigHelper.Set(Container, key, value);
-    }
-    public static bool Contains(string key)
-    {
-        return ConfigHelper.Contains(Container, key);
-    }
-    public static string GetString(string key)
-    {
-        return ConfigHelper.GetString(Container, key);
-    }
-    public static bool GetBoolean(string key)
-    {
-        return ConfigHelper.GetBoolean(Container, key);
-    }
-    public static int GetInt32(string key)
-    {
-        return ConfigHelper.GetInt32(Container, key);
-    }
 }

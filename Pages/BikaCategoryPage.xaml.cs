@@ -46,14 +46,14 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 ViewModel.Sort = arg.SortRule;
                 ViewModel.Page = arg.Page;
                 ViewModel.CategoryTitle = arg.Category;
-                ViewModel.Refresh();
+                //ViewModel.Refresh();
                 first = true;
                 Arg = arg;
-                MainScrollViewer.ScrollToVerticalOffset(0);
+                // MainScrollViewer.ScrollToVerticalOffset(0);
             }
             else
             {
-                ViewModel.Refresh();
+                //ViewModel.Refresh();
             }
         }
 

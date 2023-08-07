@@ -346,7 +346,7 @@
                     IsItemClickEnabled="True"
                     ItemClick="GridV_ItemClick"
                     ItemContainerStyle="{StaticResource BikaGridViewItemStyle}"
-                    ItemTemplateSelector="{StaticResource CategoryComicDataTemplateSelector}"
+                    ItemTemplate="{StaticResource BikaDontLoadTemplate}"
                     ItemsSource="{x:Bind ViewModel.CategoryComics, Mode=OneWay}"
                     SelectionMode="None">
                     <GridView.Transitions>
@@ -354,8 +354,6 @@
                             <EntranceThemeTransition IsStaggeringEnabled="True" />
                         </TransitionCollection>
                     </GridView.Transitions>
-                    <GridView.ItemTemplate />
-
                 </GridView>
             </RefreshContainer>
 
@@ -385,7 +383,10 @@
             Title="{ex:BikaLocale Key=Goto}"
             IsLightDismissEnabled="False"
             PreferredPlacement="Center">
-            <Grid Padding="5" ColumnSpacing="10">
+            <Grid
+                Margin="0,10,0,0"
+                Padding="5"
+                ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

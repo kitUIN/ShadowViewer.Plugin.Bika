@@ -125,16 +125,16 @@ namespace ShadowViewer.Plugin.Bika
             {
                 foreach (var item in BikaData.Categories)
                 {
-                    if (BikaConfigHelper.Contains(item))
+                    if (ConfigHelper.Contains(item))
                     {
                         BikaData.Current.Locks.Add(
                             new BikaLock(item,
-                            BikaConfigHelper.GetBoolean(item))
+                            ConfigHelper.GetBoolean(item))
                             );
                     }
                     else
                     {
-                        BikaConfigHelper.Set(item, true);
+                        ConfigHelper.Set(item, true);
                     }
                 }
             }
