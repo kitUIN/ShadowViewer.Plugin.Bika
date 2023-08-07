@@ -360,4 +360,37 @@
   <data name="Settings" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="SponsorBika" xml:space="preserve">
+    <value>❤️援助哔咔</value>
+  </data>
+  <data name="AboutDescription" xml:space="preserve">
+    <value>由开源社区维护的第三方哔咔漫画插件,附属于ShadowViewer</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>APP内核版本</value>
+  </data>
+  <data name="PluginVersion" xml:space="preserve">
+    <value>插件版本</value>
+  </data>
+  <data name="LowestVersion" xml:space="preserve">
+    <value>最低支持</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>开源协议</value>
+  </data>
+  <data name="ClickGoUri" xml:space="preserve">
+    <value>点击前往</value>
+  </data>
+  <data name="AppDownload" xml:space="preserve">
+    <value>APP下载</value>
+  </data>
+  <data name="AppWeb" xml:space="preserve">
+    <value>网页版(仅电脑端与IOS允许访问)</value>
+  </data>
+  <data name="AppTelegram" xml:space="preserve">
+    <value>Telegram官方频道</value>
+  </data>
+  <data name="AppDiscord" xml:space="preserve">
+    <value>官方Discord</value>
+  </data>
 </root>

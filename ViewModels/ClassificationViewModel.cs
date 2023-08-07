@@ -11,6 +11,7 @@ using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Models;
 using SqlSugar;
+using ShadowViewer.Plugin.Bika.Controls;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -18,13 +19,21 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
     {
         public ObservableCollection<Category> Categories { get; } = new ObservableCollection<Category>();
         public static ClassificationViewModel Current { get; set; }
+        public ICallableToolKit Caller { get; }
         public ClassificationViewModel()
         {
-
+            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
         }
         public async Task GetClassification()
         {
-            if(Categories.Count <= 5)
+            if (!PicaClient.HasToken)
+            {
+                var tip = new LoginTip();
+                Caller.TopGrid(this, tip, TopGridMode.Dialog);
+                tip.Open();
+                return;
+            }
+            if (Categories.Count <= 5)
             {
                 await BikaHttpHelper.TryRequest(this, PicaClient.Categories(), res =>
                 {

@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="Contorls\LoginTip.xaml" />
     <None Remove="Controls\LockTip.xaml" />
+    <None Remove="Pages\AboutPage.xaml" />
     <None Remove="Pages\BikaCategoryPage.xaml" />
     <None Remove="Pages\BikaHomePage.xaml" />
     <None Remove="Pages\BikaInfoPage.xaml" />
@@ -40,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Pages\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Plugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

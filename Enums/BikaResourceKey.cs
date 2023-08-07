@@ -82,5 +82,16 @@
         Open,
         Set,
         Settings,
+        SponsorBika,
+        AboutDescription,
+        AppVersion,
+        PluginVersion,
+        LowestVersion,
+        License,
+        ClickGoUri,
+        AppDownload,
+        AppWeb,
+        AppTelegram,
+        AppDiscord,
     }
 }

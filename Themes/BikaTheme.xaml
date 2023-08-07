@@ -21,6 +21,9 @@
                     <Color x:Key="BikaAccentColorDark5">#FF8E2456</Color>
                     <Color x:Key="BikaComicItemAccentColor">#FF4D4D4D</Color>
                     <Color x:Key="BikaComicFinishAccentColor">#FF575757</Color>
+                    <SolidColorBrush x:Key="BikaAccentColorLight1Brush" Color="{StaticResource BikaAccentColorLight1}" />
+                    <SolidColorBrush x:Key="BikaAccentColorLight3Brush" Color="{StaticResource BikaAccentColorLight3}" />
+
                     <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorDark1}" />
                     <SolidColorBrush x:Key="BikaTagPointerOverBackground" Color="{StaticResource BikaAccentColorLight1}" />
                     <SolidColorBrush x:Key="BikaTagForeground" Color="{StaticResource BikaAccentColorLight4}" />
@@ -48,6 +51,9 @@
                     <Color x:Key="BikaAccentColorDark5">#FF8E2456</Color>
                     <Color x:Key="BikaComicItemAccentColor">#FFfdd7e6</Color>
                     <Color x:Key="BikaComicFinishAccentColor">#FFffe8f4</Color>
+                    <SolidColorBrush x:Key="BikaAccentColorLight1Brush" Color="{StaticResource BikaAccentColorLight1}" />
+                    <SolidColorBrush x:Key="BikaAccentColorLight3Brush" Color="{StaticResource BikaAccentColorLight3}" />
+
                     <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorLight5}" />
                     <SolidColorBrush x:Key="BikaTagPointerOverBackground" Color="{StaticResource BikaAccentColorLight3}" />
                     <SolidColorBrush x:Key="BikaTagForeground" Color="{StaticResource BikaAccentColorDark1}" />
