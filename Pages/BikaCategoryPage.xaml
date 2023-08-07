@@ -346,7 +346,7 @@
                     IsItemClickEnabled="True"
                     ItemClick="GridV_ItemClick"
                     ItemContainerStyle="{StaticResource BikaGridViewItemStyle}"
-                    ItemTemplate="{StaticResource BikaDontLoadTemplate}"
+                    ItemTemplate="{StaticResource BikaLoadTemplate}"
                     ItemsSource="{x:Bind ViewModel.CategoryComics, Mode=OneWay}"
                     SelectionMode="None">
                     <GridView.Transitions>
