@@ -3,6 +3,7 @@ using ShadowViewer.Extensions;
 using PicaComic;
 using Microsoft.UI;
 using ShadowViewer.Plugin.Bika.ViewModels;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace ShadowViewer.Plugin.Bika.Pages
 {
@@ -52,6 +53,12 @@ namespace ShadowViewer.Plugin.Bika.Pages
         private void LockButton_Click(object sender, RoutedEventArgs e)
         {
             LockTip.Show();
+        }
+
+        private void AboutCard_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(AboutPage), null,
+                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
     }
 }

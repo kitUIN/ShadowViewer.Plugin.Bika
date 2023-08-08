@@ -124,7 +124,7 @@
                         OffContent="{ex:BikaLocale Key=UnIgnore}"
                         OnContent="{ex:BikaLocale Key=Ignore}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard Visibility="{x:Bind ViewModel.LoadLockComicShow, Mode=OneWay}">
+                <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=LoadLockComicDescription}" Header="{ex:BikaLocale Key=LoadLockComic}">
                             <icons:FluentIcon
@@ -135,11 +135,12 @@
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch
+                        IsEnabled="{x:Bind ViewModel.LoadLockComicShow, Mode=OneWay}"
                         IsOn="{x:Bind ViewModel.LoadLockComic, Mode=TwoWay}"
                         OffContent="{ex:BikaLocale Key=UnLoad}"
                         OnContent="{ex:BikaLocale Key=Load}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard Visibility="{x:Bind ViewModel.CanTemporaryUnlockShow, Mode=OneWay}">
+                <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=CanTemporaryUnlockComicDescription}" Header="{ex:BikaLocale Key=CanTemporaryUnlockComic}">
                             <icons:FluentIcon
@@ -150,14 +151,19 @@
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch
+                        IsEnabled="{x:Bind ViewModel.CanTemporaryUnlockShow, Mode=OneWay}"
                         IsOn="{x:Bind ViewModel.CanTemporaryUnlock, Mode=TwoWay}"
                         OffContent="{ex:BikaLocale Key=UnAllow}"
                         OnContent="{ex:BikaLocale Key=Allow}" />
                 </labs:SettingsCard>
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:BikaLocale Key=About}" />
-                <labs:SettingsExpander>
-                    <labs:SettingsExpander.Header>
+                <labs:SettingsCard
+                    x:Name="AboutCard"
+                    Click="AboutCard_Click"
+                    IsActionIconVisible="True"
+                    IsClickEnabled="True">
+                    <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="© 2023-2023 kitUIN. All rights reserved." Header="{x:Bind local:BikaPlugin.Meta.Name}">
                             <BitmapIcon
                                 Width="30"
@@ -165,50 +171,13 @@
                                 ShowAsMonochrome="False"
                                 UriSource="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png" />
                         </local2:ShadowSettingHeader>
-                    </labs:SettingsExpander.Header>
+                    </labs:SettingsCard.Header>
+                    <labs:SettingsCard.ActionIcon>
+                        <FontIcon Glyph="&#xE76C;" />
+                    </labs:SettingsCard.ActionIcon>
+                    <TextBlock Text="{ex:BikaLocale Key=About}" />
+                </labs:SettingsCard>
 
-                    <TextBlock
-                        FontSize="16"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind local:BikaPlugin.Meta.Version}" />
-                    <labs:SettingsExpander.Items>
-                        <labs:SettingsCard
-                            x:Name="BugRequestCard"
-                            Click="Uri_Click"
-                            Header="{ex:BikaLocale Key=BugRequest}"
-                            IsClickEnabled="True"
-                            Tag="https://github.com/kitUIN/ShadowViewer.Plugin.Bika/issues/new/choose">
-                            <labs:SettingsCard.ActionIcon>
-                                <FontIcon Glyph="&#xE8A7;" />
-                            </labs:SettingsCard.ActionIcon>
-                        </labs:SettingsCard>
-                        <labs:SettingsCard
-                            x:Name="SponsorCard"
-                            Click="Uri_Click"
-                            Header="{ex:BikaLocale Key=Sponsor}"
-                            IsClickEnabled="True"
-                            Tag="https://afdian.net/@kituin">
-                            <labs:SettingsCard.ActionIcon>
-                                <FontIcon Glyph="&#xE8A7;" />
-                            </labs:SettingsCard.ActionIcon>
-                        </labs:SettingsCard>
-                        <labs:SettingsCard
-                            HorizontalContentAlignment="Left"
-                            ContentAlignment="Vertical"
-                            Header="{ex:BikaLocale Key=Dependencies}">
-                            <StackPanel Orientation="Vertical">
-                                <HyperlinkButton Content="📦Windows UI Library" NavigateUri="https://aka.ms/winui" />
-                                <HyperlinkButton Content="📦FluentIcon" NavigateUri="https://github.com/KitUIN/FluentIcon" />
-                                <HyperlinkButton Content="📦Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
-                                <HyperlinkButton Content="📦Serilog" NavigateUri="https://serilog.net" />
-                                <HyperlinkButton Content="📦SQLSugarCore" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
-                                <HyperlinkButton Content="📦CustomExtensions.WinUI" NavigateUri="https://github.com/dnchattan/winui-extensions" />
-                                <HyperlinkButton Content="📦PicaComic" NavigateUri="" />
-                            </StackPanel>
-                        </labs:SettingsCard>
-                    </labs:SettingsExpander.Items>
-                </labs:SettingsExpander>
             </StackPanel>
         </ScrollViewer>
         <controls:LockTip x:Name="LockTip" Grid.Row="1" />

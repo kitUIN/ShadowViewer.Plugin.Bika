@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:helpers="using:ShadowViewer.Plugin.Bika.Helpers"
-    xmlns:local="using:ShadowViewer.Plugin.Bika.Pages"
+    xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:models="using:PicaComic.Models"
@@ -47,29 +47,33 @@
                         </Border>
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <StackPanel
+                            <Grid
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top">
-                                <StackPanel>
-                                    <TextBlock
-                                        Name="ConnectedElement3"
-                                        FontSize="17"
-                                        FontWeight="Bold"
-                                        Text="{x:Bind Title, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
-                                    <TextBlock
-                                        FontSize="15"
-                                        Foreground="{ThemeResource BikaAccentColorDark2}"
-                                        Text="{x:Bind Author, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
-                            </StackPanel>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Name="ConnectedElement3"
+                                    Grid.Row="0"
+                                    FontSize="17"
+                                    FontWeight="Bold"
+                                    Text="{x:Bind Title, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap"
+                                    ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource BikaAccentColorDark2}"
+                                    Text="{x:Bind Author, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
                             <Grid
                                 Grid.Row="1"
                                 VerticalAlignment="Bottom"
@@ -148,7 +152,7 @@
                     </Grid>
                     <Grid CornerRadius="5" Visibility="{x:Bind IsLocked, Mode=OneWay}">
                         <Grid.Background>
-                            <media:BackdropBlurBrush Amount="8.0" />
+                            <media:BackdropBlurBrush Amount="8" />
                         </Grid.Background>
                         <Grid
                             Margin="50"
@@ -354,8 +358,6 @@
                             <EntranceThemeTransition IsStaggeringEnabled="True" />
                         </TransitionCollection>
                     </GridView.Transitions>
-                    <GridView.ItemTemplate />
-
                 </GridView>
             </RefreshContainer>
 
@@ -385,7 +387,10 @@
             Title="{ex:BikaLocale Key=Goto}"
             IsLightDismissEnabled="False"
             PreferredPlacement="Center">
-            <Grid Padding="5" ColumnSpacing="10">
+            <Grid
+                Margin="0,10,0,0"
+                Padding="5"
+                ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

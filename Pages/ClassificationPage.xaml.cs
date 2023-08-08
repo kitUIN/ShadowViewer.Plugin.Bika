@@ -17,6 +17,9 @@ using ShadowViewer.Plugin.Bika.ViewModels;
 using PicaComic.Models;
 using Microsoft.UI.Xaml.Media.Animation;
 using ShadowViewer.Plugin.Bika.Args;
+using PicaComic;
+using ShadowViewer.Enums;
+using ShadowViewer.Plugin.Bika.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -41,6 +44,8 @@ namespace ShadowViewer.Plugin.Bika.Pages
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             await ViewModel.GetClassification();
+            
+           
         }
         private void GridV_OnItemClick(object sender, ItemClickEventArgs e)
         {

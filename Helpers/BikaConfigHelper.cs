@@ -2,47 +2,42 @@
 
 public class BikaConfigHelper
 {
-    private const string Container = "Bika";
+    const string Container = "Bika";
     public static void Set(BikaConfigKey key, object value)
     {
-        Set(key.ToString(), value);
+        ConfigHelper.Set(key.ToString(), value, Container);
     }
     public static bool Contains(BikaConfigKey key)
     {
-        return Contains(key.ToString());
+        return ConfigHelper.Contains(key.ToString(), Container);
     }
     public static string GetString(BikaConfigKey key)
     {
-        return GetString( key.ToString());
+        return ConfigHelper.GetString(key.ToString(), Container);
     }
     public static bool GetBoolean(BikaConfigKey key)
     {
-        return GetBoolean( key.ToString());
+        return ConfigHelper.GetBoolean(key.ToString(), Container);
     }
     public static int GetInt32(BikaConfigKey key)
     {
-        return GetInt32( key.ToString());
+        return ConfigHelper.GetInt32(key.ToString(), Container);
+    }
+    public static long GetInt64(BikaConfigKey key)
+    {
+        return ConfigHelper.GetInt64(key.ToString(), Container);
+    }
+    public static double GetDouble(BikaConfigKey key)
+    {
+        return ConfigHelper.GetDouble(key.ToString(), Container);
+    }
+    public static float GetFloat(BikaConfigKey key)
+    {
+        return ConfigHelper.GetFloat(key.ToString(), Container);
+    }
+    public static DateTime GetDateTime(BikaConfigKey key)
+    {
+        return ConfigHelper.GetDateTime(key.ToString(), Container);
     }
 
-
-    public static void Set(string key, object value)
-    {
-        ConfigHelper.Set(Container, key, value);
-    }
-    public static bool Contains(string key)
-    {
-        return ConfigHelper.Contains(Container, key);
-    }
-    public static string GetString(string key)
-    {
-        return ConfigHelper.GetString(Container, key);
-    }
-    public static bool GetBoolean(string key)
-    {
-        return ConfigHelper.GetBoolean(Container, key);
-    }
-    public static int GetInt32(string key)
-    {
-        return ConfigHelper.GetInt32(Container, key);
-    }
 }

@@ -36,7 +36,7 @@
                     <Ellipse
                         Width="16"
                         Height="16"
-                        Fill="{ThemeResource BikaAccentColorLight1}" />
+                        Fill="{ThemeResource BikaLockBackgroundChecked}" />
                     <TextBlock Text="{ex:BikaLocale Key=IsOpened}" />
                 </StackPanel>
             </Grid>
@@ -50,18 +50,17 @@
                         <DataTemplate x:DataType="models1:BikaLock">
                             <ToggleButton
                                 HorizontalAlignment="Stretch"
-                                Checked="ToggleButton_Checked"
-                                IsChecked="{x:Bind IsOpened, Mode=TwoWay}"
-                                Unchecked="ToggleButton_Checked">
+                                Click="ToggleButton_Checked"
+                                IsChecked="{x:Bind IsOpened, Mode=TwoWay}">
                                 <StackPanel Orientation="Horizontal" Spacing="5">
                                     <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}" />
                                     <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
                                 </StackPanel>
                                 <ToggleButton.Resources>
-                                    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="{ThemeResource BikaAccentColorLight1}" />
-                                    <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver" Color="{ThemeResource BikaAccentColorDark1}" />
-                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPressed" Color="{ThemeResource BikaAccentColorLight1}" />
-                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaAccentColorLight3}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundChecked}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPressed" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundCheckedPointerOver}" />
                                 </ToggleButton.Resources>
                             </ToggleButton>
                         </DataTemplate>

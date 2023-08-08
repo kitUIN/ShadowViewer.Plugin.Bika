@@ -30,7 +30,7 @@ namespace ShadowViewer.Plugin.Bika.Models
         {
             if(oldValue != newValue)
             {
-                BikaConfigHelper.Set(Title, newValue);
+                ConfigHelper.Set(Title, newValue);
                 Icon = IsOpened ? "\uE785" : "\uE72E";
             }
         }

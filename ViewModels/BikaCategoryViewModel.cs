@@ -40,16 +40,11 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         {
             SortRuleText = BikaResourcesHelper.GetString(Sort.ToString().ToUpper());
         }
-        public void CheckAllCategoryComicLock()
+        public void CheckAllCategoryComicLock(object sender, EventArgs e)
         {
-            
-            foreach (var comic in CategoryComics.ToList())
+            foreach (var comic in CategoryComics)
             {
                 CheckCategoryLock(comic);
-                if (comic.IsLocked && BikaConfig.IsIgnoreLockComic)
-                {
-                    CategoryComics.Remove(comic);
-                }
             }
         }
         public async void Refresh()
@@ -75,6 +70,10 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             if (comic.LockCategories.Count > 0)
             {
                 comic.IsLocked = true;
+            }
+            else
+            {
+                comic.IsLocked = false;
             }
         }
         private void SetCurrentPageString()
