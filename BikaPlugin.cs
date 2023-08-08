@@ -16,6 +16,7 @@ namespace ShadowViewer.Plugin.Bika
     public class BikaPlugin : PluginBase
     {
         private static readonly ILogger Logger = Log.ForContext<BikaPlugin>();
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -24,7 +25,8 @@ namespace ShadowViewer.Plugin.Bika
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override LocalTag AffiliationTag { get; } = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
+        public override LocalTag AffiliationTag { get; } =
+            new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
 
         public static readonly PluginMetaData Meta = new PluginMetaData(
             "Bika",
@@ -34,48 +36,17 @@ namespace ShadowViewer.Plugin.Bika
             new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
             new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
             20230808);
+
         /// <summary>
         /// 登录窗体
         /// </summary>
         public static LoginTip MainLoginTip = new LoginTip();
-        public BikaPlugin() { } 
 
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override void NavigationViewMenuItemsHandler(ObservableCollection<NavigationViewItem> menus)
+        public BikaPlugin()
         {
-            var root =new NavigationViewItem
-            {
-                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
-                Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
-                Tag = MetaData.Id,
-            };
-            /*root.MenuItems.Add(new NavigationViewItem
-            {
-                Content = BikaResourcesHelper.GetString(BikaResourceKey.Home),
-                Icon = new SymbolIcon(Symbol.Home),
-                Tag = NavigationViewTag.BikaHome.ToString(),
-                 
-            });
-            root.MenuItems.Add(new NavigationViewItem
-            {
-                Content = BikaResourcesHelper.GetString(BikaResourceKey.Classification),
-                Icon = new SymbolIcon(Symbol.AllApps),
-                Tag = NavigationViewTag.BikaClassification.ToString(),
-            });*/
-            if (!menus.Any(x=>x.Tag is string tag && tag == MetaData.Id))
-            {
-                menus.Add(root);
-            }
         }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override void NavigationViewFooterItemsHandler(ObservableCollection<NavigationViewItem> menus)
-        {
-            
-        }
+
+
         /// <summary>
         /// 检查登录凭证
         /// </summary>
@@ -89,6 +60,7 @@ namespace ShadowViewer.Plugin.Bika
                 {
                     b = TryAutoLogin();
                 }
+
                 if (!b)
                 {
                     MainLoginTip = new LoginTip();
@@ -103,6 +75,7 @@ namespace ShadowViewer.Plugin.Bika
                 }
             }
         }
+
         /// <summary>
         /// 检查封印
         /// </summary>
@@ -117,8 +90,8 @@ namespace ShadowViewer.Plugin.Bika
                     {
                         BikaData.Current.Locks.Add(
                             new BikaLock(item,
-                            ConfigHelper.GetBoolean(item))
-                            );
+                                ConfigHelper.GetBoolean(item))
+                        );
                     }
                     else
                     {
@@ -127,6 +100,7 @@ namespace ShadowViewer.Plugin.Bika
                 }
             }
         }
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -135,6 +109,7 @@ namespace ShadowViewer.Plugin.Bika
             base.Loaded(isEnabled);
             Db.CodeFirst.InitTables<BikaUser>();
         }
+
         /// <summary>
         /// 自动登录
         /// </summary>
@@ -149,14 +124,32 @@ namespace ShadowViewer.Plugin.Bika
                     InfoBarSeverity.Success), TopGridMode.Tip);
                 return true;
             }
+
             return false;
         }
-         
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public override Type SettingsPage => typeof(BikaSettingsPage);
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IList<ShadowNavigationItem> NavigationViewMenuItems => new List<ShadowNavigationItem>()
+        {
+            new ShadowNavigationItem
+            {
+                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
+                Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
+                Id = MetaData.Id,
+            }
+        };
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IList<ShadowNavigationItem> NavigationViewFooterItems => new List<ShadowNavigationItem>();
 
         /// <summary>
         /// <inheritdoc/>
@@ -175,6 +168,7 @@ namespace ShadowViewer.Plugin.Bika
             CheckLock();
             CheckToken();
         }
+
         /// <summary>
         /// 插件禁用后触发
         /// </summary>
