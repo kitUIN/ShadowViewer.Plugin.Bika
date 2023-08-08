@@ -393,4 +393,16 @@
   <data name="AppDiscord" xml:space="preserve">
     <value>官方Discord</value>
   </data>
+  <data name="Leaderboard" xml:space="preserve">
+    <value>排行榜</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>随机本子</value>
+  </data>
+  <data name="Latest" xml:space="preserve">
+    <value>最近更新</value>
+  </data>
+  <data name="CurrentPageCounts" xml:space="preserve">
+    <value>当前页共</value>
+  </data>
 </root>

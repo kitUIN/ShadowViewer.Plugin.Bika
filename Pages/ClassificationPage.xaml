@@ -46,7 +46,6 @@
             IsItemClickEnabled="True"
             ItemClick="GridV_OnItemClick"
             ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
-            Loaded="GridV_OnLoaded"
             SelectionMode="None">
             <GridView.Transitions>
                 <TransitionCollection>

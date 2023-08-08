@@ -27,25 +27,26 @@ using Windows.Foundation.Collections;
 
 namespace ShadowViewer.Plugin.Bika.Pages
 {
-
     public sealed partial class BikaCategoryPage : Page
     {
         private BikaCategoryViewModel ViewModel { get; }
         private bool first = false;
-        private CategoryArg Arg;
+        private CategoryArg Arg { get; set; }
+
         public BikaCategoryPage()
         {
             this.LoadComponent(ref _contentLoaded);
             ViewModel = new BikaCategoryViewModel();
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var arg = e.Parameter as CategoryArg;
-            if (arg != null &&(!first || Arg!=null&&arg.Category!= Arg.Category))
+            if (e.Parameter is CategoryArg arg && (!first || Arg != null && arg.Category != Arg.Category))
             {
                 ViewModel.Sort = arg.SortRule;
                 ViewModel.Page = arg.Page;
                 ViewModel.CategoryTitle = arg.Category;
+                ViewModel.Mode = arg.Mode;
                 ViewModel.Refresh();
                 first = true;
                 Arg = arg;
@@ -55,12 +56,12 @@ namespace ShadowViewer.Plugin.Bika.Pages
             {
                 ViewModel.Refresh();
             }
+
             LockTip.LockChangedEvenet += ViewModel.CheckAllCategoryComicLock;
-        } 
+        }
 
         private void GridV_ItemClick(object sender, ItemClickEventArgs e)
         {
-
         }
 
 
@@ -77,7 +78,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
         private void GotoButton_Click(object sender, RoutedEventArgs e)
         {
             var go = GotoPageBox.Value;
-            if (go <= ViewModel.Pages && go>=1)
+            if (go <= ViewModel.Pages && go >= 1)
             {
                 ViewModel.Page = (int)go;
                 Goto.IsOpen = false;
@@ -87,6 +88,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 GotoPageBox.Value = ViewModel.Page;
             }
         }
+
         private void CurrentPageButton_Click(object sender, RoutedEventArgs e)
         {
             Goto.IsOpen = true;
@@ -103,6 +105,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 item.Icon = item.Text == SortButton.Label ? new FontIcon() { Glyph = "\uE7B3" } : null;
             }
         }
+
         private void SortButton_Loaded(object sender, RoutedEventArgs e)
         {
             foreach (var item in SortFlyout.Items.Cast<MenuFlyoutItem>())
@@ -123,7 +126,6 @@ namespace ShadowViewer.Plugin.Bika.Pages
                     text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.ClickOpenLock);
                 }
             }
-            
         }
 
         private void Lock_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -147,14 +149,14 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 if (sender is Grid grid && grid.Tag is CategoryComic category)
                 {
                     category.IsLocked = false;
-                } 
+                }
             }
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(BikaSettingsPage), null,
-                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
     }
 }

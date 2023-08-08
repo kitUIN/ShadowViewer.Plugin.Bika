@@ -18,6 +18,11 @@ namespace ShadowViewer.Plugin.Bika
         private static readonly ILogger Logger = Log.ForContext<BikaPlugin>();
 
         /// <summary>
+        /// 登录窗体
+        /// </summary>
+        public static LoginTip MainLoginTip = new LoginTip();
+
+        /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public override PluginMetaData MetaData { get; } = Meta;
@@ -37,15 +42,93 @@ namespace ShadowViewer.Plugin.Bika
             new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
             20230808);
 
-        /// <summary>
-        /// 登录窗体
-        /// </summary>
-        public static LoginTip MainLoginTip = new LoginTip();
 
-        public BikaPlugin()
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void Loaded(bool isEnabled)
         {
+            base.Loaded(isEnabled);
+            Db.CodeFirst.InitTables<BikaUser>();
         }
 
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override Type SettingsPage => typeof(BikaSettingsPage);
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IList<ShadowNavigationItem> NavigationViewMenuItems => new List<ShadowNavigationItem>()
+        {
+            new ShadowNavigationItem
+            {
+                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
+                Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
+                Id = MetaData.Id,
+            }
+        };
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IList<ShadowNavigationItem> NavigationViewFooterItems => new List<ShadowNavigationItem>();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
+        {
+            if (PicaClient.HasToken)
+            {
+                page = typeof(ClassificationPage);
+                parameter = null;
+            }
+            else
+            {
+                MainLoginTip = new LoginTip();
+                Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
+                MainLoginTip.Show();
+            }
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        protected override void PluginEnabled()
+        {
+            CheckLock();
+            CheckToken();
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        protected override void PluginDisabled()
+        {
+            // 关闭登录窗体
+            MainLoginTip.Hide();
+        }
+
+        /// <summary>
+        /// 自动登录
+        /// </summary>
+        private bool TryAutoLogin()
+        {
+            var user = BikaConfig.LastBikaUser;
+            if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
+            {
+                PicaClient.SetToken(bikaUser.Token);
+                Caller.TopGrid(this, new TipPopup(
+                    $"[{Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
+                    InfoBarSeverity.Success), TopGridMode.Tip);
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// 检查登录凭证
@@ -99,83 +182,6 @@ namespace ShadowViewer.Plugin.Bika
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override void Loaded(bool isEnabled)
-        {
-            base.Loaded(isEnabled);
-            Db.CodeFirst.InitTables<BikaUser>();
-        }
-
-        /// <summary>
-        /// 自动登录
-        /// </summary>
-        private bool TryAutoLogin()
-        {
-            var user = BikaConfig.LastBikaUser;
-            if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
-            {
-                PicaClient.SetToken(bikaUser.Token);
-                Caller.TopGrid(this, new TipPopup(
-                    $"[{Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
-                    InfoBarSeverity.Success), TopGridMode.Tip);
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override Type SettingsPage => typeof(BikaSettingsPage);
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override IList<ShadowNavigationItem> NavigationViewMenuItems => new List<ShadowNavigationItem>()
-        {
-            new ShadowNavigationItem
-            {
-                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
-                Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
-                Id = MetaData.Id,
-            }
-        };
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override IList<ShadowNavigationItem> NavigationViewFooterItems => new List<ShadowNavigationItem>();
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
-        {
-            page = typeof(ClassificationPage);
-            parameter = null;
-        }
-
-        /// <summary>
-        /// 插件启动后触发
-        /// </summary>
-        protected override void PluginEnabled()
-        {
-            CheckLock();
-            CheckToken();
-        }
-
-        /// <summary>
-        /// 插件禁用后触发
-        /// </summary>
-        protected override void PluginDisabled()
-        {
-            // 关闭登录窗体
-            MainLoginTip.Hide();
         }
     }
 }

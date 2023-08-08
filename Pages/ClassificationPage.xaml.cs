@@ -19,6 +19,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using ShadowViewer.Plugin.Bika.Args;
 using PicaComic;
 using ShadowViewer.Enums;
+using ShadowViewer.Extensions;
 using ShadowViewer.Plugin.Bika.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -26,38 +27,55 @@ using ShadowViewer.Plugin.Bika.Controls;
 
 namespace ShadowViewer.Plugin.Bika.Pages
 {
- 
     public sealed partial class ClassificationPage : Page
     {
         private ClassificationViewModel ViewModel { get; }
+
         public ClassificationPage()
         {
             this.LoadComponent(ref _contentLoaded);
-            ClassificationViewModel.Current ??= new ClassificationViewModel();
             ViewModel = ClassificationViewModel.Current;
         }
-    
-        private void GridV_OnLoaded(object sender, RoutedEventArgs e)
-        { 
-            
-        }
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await ViewModel.GetClassification();
-            
-           
         }
+
+        /// <summary>
+        /// µã»÷·ÖÇø
+        /// </summary>
         private void GridV_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var category = (Category)e.ClickedItem;
-            if (!category.IsWeb)
-            {
-                Frame.Navigate(typeof(BikaCategoryPage), new CategoryArg()
-                {
-                    Category = category.Title,
 
-                },
-                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            if (category.Title == BikaResourcesHelper.GetString(BikaResourceKey.Latest))
+            {
+                Frame.Navigate(typeof(BikaCategoryPage), new CategoryArg { Category = "" },
+                    new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+            }
+            else if (category.Title == BikaResourcesHelper.GetString(BikaResourceKey.Random))
+            {
+                Frame.Navigate(typeof(BikaCategoryPage), new CategoryArg
+                    {
+                        Category = category.Title,
+                        Mode = CategoryMode.Random
+                    },
+                    new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+            }
+            else if (category.Title == BikaResourcesHelper.GetString(BikaResourceKey.Leaderboard))
+            {
+                
+            }
+            else switch (category.IsWeb)
+            {
+                case false:
+                    Frame.Navigate(typeof(BikaCategoryPage), new CategoryArg { Category = category.Title },
+                        new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+                    break;
+                case true when category.Link != null:
+                    new Uri(category.Link).LaunchUriAsync();
+                    break;
             }
         }
     }

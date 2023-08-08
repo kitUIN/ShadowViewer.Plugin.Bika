@@ -1,14 +1,8 @@
-﻿using PicaComic.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using PicaComic;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PicaComic.Models;
 using PicaComic.Utils;
-using ShadowViewer.Plugin.Bika.Args;
-using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -35,7 +29,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private SortRule sort = SortRule.dd;
         public ObservableCollection<CategoryComic> CategoryComics { get;  } = new ObservableCollection<CategoryComic>();
-        
+        public CategoryMode Mode { get; set; }
         public BikaCategoryViewModel()
         {
             SortRuleText = BikaResourcesHelper.GetString(Sort.ToString().ToUpper());
@@ -49,32 +43,48 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         }
         public async void Refresh()
         {
-            await BikaHttpHelper.TryRequest(this, PicaClient.Category(CategoryTitle, Page, Sort), res =>
+            CategoryComics.Clear();
+            switch (Mode)
             {
-                Pages = res.Data.Comics.Pages;
-                Page = res.Data.Comics.Page;
-                CategoryComics.Clear();
-                foreach (var comic in res.Data.Comics.Docs)
-                {
-                    CheckCategoryLock(comic);
-                    if (!(comic.IsLocked && BikaConfig.IsIgnoreLockComic))
+                case CategoryMode.Category:
+                    await BikaHttpHelper.TryRequest(this, PicaClient.Category(CategoryTitle, Page, Sort), res =>
                     {
-                        CategoryComics.Add(comic);
-                    }
-                }
-            });
+                        Pages = res.Data.Comics.Pages;
+                        Page = res.Data.Comics.Page;
+                        
+                        foreach (var comic in res.Data.Comics.Docs)
+                        {
+                            CheckCategoryLock(comic);
+                            if (!(comic.IsLocked && BikaConfig.IsIgnoreLockComic))
+                            {
+                                CategoryComics.Add(comic);
+                            }
+                        }
+                    });
+                    break;
+                case CategoryMode.Random:
+                    await BikaHttpHelper.TryRequest(this, PicaClient.ComicRandom(), res =>
+                    {
+                        Pages = 1;
+                        Page = 1;
+                        foreach (var comic in res.Data.Comics)
+                        {
+                            CheckCategoryLock(comic);
+                            if (!(comic.IsLocked && BikaConfig.IsIgnoreLockComic))
+                            {
+                                CategoryComics.Add(comic);
+                            }
+                        }
+                    });
+                    break;
+            }
+
         }
-        public void CheckCategoryLock(CategoryComic comic)
+
+        private static void CheckCategoryLock(Comic comic)
         {
             comic.LockCategories = comic.Categories.Where(x => BikaData.Current.Locks.Any(y => y.Title == x && !y.IsOpened)).ToList();
-            if (comic.LockCategories.Count > 0)
-            {
-                comic.IsLocked = true;
-            }
-            else
-            {
-                comic.IsLocked = false;
-            }
+            comic.IsLocked = comic.LockCategories.Count > 0;
         }
         private void SetCurrentPageString()
         {
@@ -82,31 +92,22 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         }
         partial void OnPageChanged(int oldValue, int newValue)
         {
-            if(oldValue != newValue)
+            if (!string.IsNullOrEmpty(SortRuleText))
             {
-                SetCurrentPageString();
-                if (!string.IsNullOrEmpty(SortRuleText))
-                {
-                    Refresh();
-                }
+                Refresh();
             }
         }
         partial void OnPagesChanged(int oldValue, int newValue)
         {
-            if (oldValue != newValue)
-            {
-                SetCurrentPageString();
-            }
+            SetCurrentPageString();
         }
         partial void OnSortChanged(SortRule oldValue, SortRule newValue)
         {
-            if (oldValue != newValue)
+            if (oldValue == newValue) return;
+            SortRuleText = BikaResourcesHelper.GetString(newValue.ToString().ToUpper());
+            if (!string.IsNullOrEmpty(SortRuleText))
             {
-                SortRuleText = BikaResourcesHelper.GetString(newValue.ToString().ToUpper());
-                if (!string.IsNullOrEmpty(SortRuleText))
-                {
-                    Refresh();
-                }
+                Refresh();
             }
         }
     }

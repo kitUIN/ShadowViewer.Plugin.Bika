@@ -17,27 +17,43 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
 {
     public class ClassificationViewModel
     {
-        public ObservableCollection<Category> Categories { get; } = new ObservableCollection<Category>();
-        public static ClassificationViewModel Current { get; set; }
-        public ICallableToolKit Caller { get; }
-        public ClassificationViewModel()
+        public ObservableCollection<Category> Categories { get; } = new()
         {
-            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
-        }
+            new Category
+            {
+                Title = BikaResourcesHelper.GetString(BikaResourceKey.Leaderboard),
+                Thumb = new PicaComic.Models.Thumb
+                {
+                    FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_leaderboard.jpg"
+                }
+            },
+            new Category
+            {
+                Title = BikaResourcesHelper.GetString(BikaResourceKey.Random),
+                Thumb = new PicaComic.Models.Thumb
+                {
+                    FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_random.jpg"
+                }
+            },
+            new Category
+            {
+                Title = BikaResourcesHelper.GetString(BikaResourceKey.Latest),
+                Thumb = new PicaComic.Models.Thumb
+                {
+                    FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_latest.jpg"
+                }
+            }
+        };
+
+        public static ClassificationViewModel Current { get; } = new();
+        private ICallableToolKit Caller { get; } = DiFactory.Current.Services.GetService<ICallableToolKit>();
+
         public async Task GetClassification()
         {
-            if (!PicaClient.HasToken)
-            {
-                BikaPlugin.MainLoginTip = new LoginTip();
-                Caller.TopGrid(this, BikaPlugin.MainLoginTip, TopGridMode.Dialog);
-                BikaPlugin.MainLoginTip.Show();
-                return;
-            }
             if (Categories.Count <= 5)
             {
                 await BikaHttpHelper.TryRequest(this, PicaClient.Categories(), res =>
                 {
-
                     foreach (var item in res.Data.Categories)
                     {
                         Categories.Add(item);
