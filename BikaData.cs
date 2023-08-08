@@ -9,7 +9,7 @@ public class BikaData
     public Profile CurrentUser { get; set; }
     public ObservableCollection<string> Keywords { get; } = new ObservableCollection<string>();
     public ObservableCollection<BikaLock> Locks { get; } = new ObservableCollection<BikaLock>();
-    public static BikaData Current { get; set; }
+    public static BikaData Current { get; } = new BikaData();
     public static IReadOnlyList<string> Categories { get; } = new List<string>()
         {
     "嗶咔漢化",

@@ -13,42 +13,18 @@ using ShadowViewer.Plugin.Bika.Controls;
 
 namespace ShadowViewer.Plugin.Bika
 {
-    public class BikaPlugin : IPlugin
+    public class BikaPlugin : PluginBase
     {
         private static readonly ILogger Logger = Log.ForContext<BikaPlugin>();
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public PluginMetaData MetaData { get; } = Meta;
+        public override PluginMetaData MetaData { get; } = Meta;
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public LocalTag AffiliationTag { get; } = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
-        
-        private bool isEnabled = false;
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public bool IsEnabled
-        {
-            get => isEnabled;
-            set
-            {
-                isEnabled = value;
-                ConfigHelper.Set(MetaData.Id, value);
-                if (IsEnabled)
-                {
-                    Caller.PluginEnabled(this,MetaData.Id,IsEnabled);
-                }
-                else
-                {
-                    Caller.PluginDisabled(this,MetaData.Id,IsEnabled);
-                }
-            } 
-        }
-        private ICallableToolKit Caller { get; }
-        private ISqlSugarClient Db { get; }
+        public override LocalTag AffiliationTag { get; } = new LocalTag(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
 
         public static readonly PluginMetaData Meta = new PluginMetaData(
             "Bika",
@@ -57,30 +33,17 @@ namespace ShadowViewer.Plugin.Bika
             "kitUIN", "0.1.0",
             new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
             new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
-            1);
-        
-        public BikaPlugin()
-        {
-            BikaData.Current = new BikaData();
-            BikaConfig.Init();
-            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
-            Db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
-            Db.CodeFirst.InitTables<BikaUser>();
-            if (ConfigHelper.Contains(MetaData.Id))
-            {
-                IsEnabled = ConfigHelper.GetBoolean(MetaData.Id);
-            }
-            else
-            {
-                ConfigHelper.Set(MetaData.Id, true);
-            }
-            Caller.PluginEnabledEvent += PluginEnabled;
-        } 
+            20230808);
+        /// <summary>
+        /// 登录窗体
+        /// </summary>
+        public static LoginTip MainLoginTip = new LoginTip();
+        public BikaPlugin() { } 
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public void NavigationViewMenuItemsHandler(ObservableCollection<NavigationViewItem> menus)
+        public override void NavigationViewMenuItemsHandler(ObservableCollection<NavigationViewItem> menus)
         {
             var root =new NavigationViewItem
             {
@@ -109,16 +72,41 @@ namespace ShadowViewer.Plugin.Bika
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public void NavigationViewFooterItemsHandler(ObservableCollection<NavigationViewItem> menus)
+        public override void NavigationViewFooterItemsHandler(ObservableCollection<NavigationViewItem> menus)
         {
             
         }
-
-        
         /// <summary>
-        /// <inheritdoc/>
+        /// 检查登录凭证
         /// </summary>
-        public async void Loaded()
+        async void CheckToken()
+        {
+            // 未加载登录凭证则加载
+            if (!PicaClient.HasToken)
+            {
+                var b = false;
+                if (BikaConfig.AutoLogin)
+                {
+                    b = TryAutoLogin();
+                }
+                if (!b)
+                {
+                    MainLoginTip = new LoginTip();
+                    Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
+                    MainLoginTip.Show();
+                }
+                else
+                {
+                    await BikaHttpHelper.Profile(this);
+                    await BikaHttpHelper.PunchIn(this);
+                    await BikaHttpHelper.Keywords();
+                }
+            }
+        }
+        /// <summary>
+        /// 检查封印
+        /// </summary>
+        void CheckLock()
         {
             // 未加载封印则加载
             if (BikaData.Current.Locks.Count == 0)
@@ -138,27 +126,14 @@ namespace ShadowViewer.Plugin.Bika
                     }
                 }
             }
-            // 未加载登录凭证则加载
-            if (!PicaClient.HasToken)
-            {
-                var b = false;
-                if (BikaConfig.AutoLogin)
-                {
-                    b = TryAutoLogin();
-                }
-                if (!b)
-                {
-                    var tip = new LoginTip();
-                    Caller.TopGrid(this, tip, TopGridMode.Dialog);
-                    tip.Open();
-                }
-                else
-                {
-                    await BikaHttpHelper.Profile(this);
-                    await BikaHttpHelper.PunchIn(this);
-                    await BikaHttpHelper.Keywords();
-                }
-            }
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override void Loaded(bool isEnabled)
+        {
+            base.Loaded(isEnabled);
+            Db.CodeFirst.InitTables<BikaUser>();
         }
         /// <summary>
         /// 自动登录
@@ -180,13 +155,13 @@ namespace ShadowViewer.Plugin.Bika
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public Type SettingsPage => typeof(BikaSettingsPage);
+        public override Type SettingsPage => typeof(BikaSettingsPage);
 
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
+        public override void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
         {
             page = typeof(ClassificationPage);
             parameter = null;
@@ -195,19 +170,18 @@ namespace ShadowViewer.Plugin.Bika
         /// <summary>
         /// 插件启动后触发
         /// </summary>
-        void PluginEnabled(object sender, ShadowViewer.Args.PluginEventArg e)
+        protected override void PluginEnabled()
         {
-            if(e.PluginId == MetaData.Id && isEnabled)
-            {
-                Loaded();
-            }
+            CheckLock();
+            CheckToken();
         }
         /// <summary>
         /// 插件禁用后触发
         /// </summary>
-        void PluginDisabled(object sender, ShadowViewer.Args.PluginEventArg e)
+        protected override void PluginDisabled()
         {
-
+            // 关闭登录窗体
+            MainLoginTip.Hide();
         }
     }
 }

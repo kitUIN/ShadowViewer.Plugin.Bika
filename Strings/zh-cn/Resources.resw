@@ -385,7 +385,7 @@
     <value>APP下载</value>
   </data>
   <data name="AppWeb" xml:space="preserve">
-    <value>网页版(仅电脑端与IOS允许访问)</value>
+    <value>网页版(仅电脑与IOS)</value>
   </data>
   <data name="AppTelegram" xml:space="preserve">
     <value>Telegram官方频道</value>

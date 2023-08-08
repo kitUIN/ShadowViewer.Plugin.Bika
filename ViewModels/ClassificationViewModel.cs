@@ -28,9 +28,9 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         {
             if (!PicaClient.HasToken)
             {
-                var tip = new LoginTip();
-                Caller.TopGrid(this, tip, TopGridMode.Dialog);
-                tip.Open();
+                BikaPlugin.MainLoginTip = new LoginTip();
+                Caller.TopGrid(this, BikaPlugin.MainLoginTip, TopGridMode.Dialog);
+                BikaPlugin.MainLoginTip.Show();
                 return;
             }
             if (Categories.Count <= 5)

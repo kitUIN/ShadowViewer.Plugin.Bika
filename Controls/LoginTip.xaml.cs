@@ -34,9 +34,13 @@ namespace ShadowViewer.Plugin.Bika.Controls
             this.LoadComponent(ref _contentLoaded);
         }
 
-        public void Open()
+        public void Show()
         {
             Login.IsOpen = true;
+        }
+        public void Hide()
+        {
+            Login.IsOpen = false;
         }
 
         /// <summary>

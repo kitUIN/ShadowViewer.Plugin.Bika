@@ -4,7 +4,7 @@ namespace ShadowViewer.Plugin.Bika
 {
     public static class BikaConfig
     {
-        public static void Init()
+        static BikaConfig()
         {
             if (!BikaConfigHelper.Contains(BikaConfigKey.ApiShunt))
             {
