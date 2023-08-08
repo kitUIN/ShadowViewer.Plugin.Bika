@@ -60,7 +60,7 @@
                                     <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundChecked}" />
                                     <SolidColorBrush x:Key="ToggleButtonBackgroundPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
                                     <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPressed" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
-                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundCheckedPointerOver}" />
+                                    <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
                                 </ToggleButton.Resources>
                             </ToggleButton>
                         </DataTemplate>

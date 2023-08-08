@@ -22,13 +22,13 @@
                     <SolidColorBrush x:Key="BikaAccentColorLight3Brush" Color="{StaticResource BikaAccentColorLight3}" />
 
                     <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorDark1}" />
+                    <SolidColorBrush x:Key="BikaTagPressedBackground" Color="{StaticResource BikaAccentColorDark2}" />
                     <SolidColorBrush x:Key="BikaTagPointerOverBackground" Color="{StaticResource BikaAccentColorLight1}" />
                     <SolidColorBrush x:Key="BikaTagForeground" Color="{StaticResource BikaAccentColorLight4}" />
 
-                    <Color x:Key="BikaLockBackgroundChecked">#FFFDBCD6</Color>
+                    <Color x:Key="BikaLockBackgroundChecked">#FFE480A7</Color>
                     <Color x:Key="BikaLockBackgroundPointerOver">#FFFBA3C4</Color>
-                    <Color x:Key="BikaLockBackgroundCheckedPressed">#FFFDBCD6</Color>
-                    <Color x:Key="BikaLockBackgroundCheckedPointerOver">#FFFBA3C4</Color>
+                    <Color x:Key="BikaLockBackgroundCheckedPressed">#FFCF6993</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -52,13 +52,13 @@
                     <SolidColorBrush x:Key="BikaAccentColorLight3Brush" Color="{StaticResource BikaAccentColorLight3}" />
 
                     <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorLight5}" />
+                    <SolidColorBrush x:Key="BikaTagPressedBackground" Color="{StaticResource BikaAccentColorLight1}" />
                     <SolidColorBrush x:Key="BikaTagPointerOverBackground" Color="{StaticResource BikaAccentColorLight3}" />
                     <SolidColorBrush x:Key="BikaTagForeground" Color="{StaticResource BikaAccentColorDark1}" />
 
                     <Color x:Key="BikaLockBackgroundChecked">#FFFBA3C4</Color>
-                    <Color x:Key="BikaLockBackgroundPointerOver">#FFE480A7</Color>
-                    <Color x:Key="BikaLockBackgroundCheckedPressed">#FFFBA3C4</Color>
-                    <Color x:Key="BikaLockBackgroundCheckedPointerOver">#FFE480A7</Color>
+                    <Color x:Key="BikaLockBackgroundPointerOver">#FFFEC9DF</Color>
+                    <Color x:Key="BikaLockBackgroundCheckedPressed">#FFFEC9DF</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -116,7 +116,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource BikaTagPressedBackground}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />

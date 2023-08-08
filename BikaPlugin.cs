@@ -42,16 +42,13 @@ namespace ShadowViewer.Plugin.Bika
             new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
             20230808);
 
-
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public override void Loaded(bool isEnabled)
         {
             base.Loaded(isEnabled);
-            Db.CodeFirst.InitTables<BikaUser>();
         }
-
 
         /// <summary>
         /// <inheritdoc/>
@@ -99,6 +96,7 @@ namespace ShadowViewer.Plugin.Bika
         /// </summary>
         protected override void PluginEnabled()
         {
+            Db.CodeFirst.InitTables<BikaUser>();
             CheckLock();
             CheckToken();
         }
