@@ -13,6 +13,7 @@
     xmlns:local="using:ShadowViewer.Plugin.Bika.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:PicaComic.Models"
+    SizeChanged="Page_SizeChanged"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -39,11 +40,8 @@
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
         </ResourceDictionary>
     </Page.Resources>
-    <ScrollViewer Padding="0,0,10,10" VerticalScrollBarVisibility="Hidden">
-        <Grid
-            x:Name="MainGrid"
-            ColumnSpacing="10"
-            RowSpacing="10">
+    <ScrollViewer x:Name="MainScrollViewer" Padding="0,0,10,10">
+        <Grid x:Name="MainGrid" RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -52,397 +50,399 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Grid
-                x:Name="LeftGrid"
+            <ScrollViewer
+                x:Name="LeftScrollViewer"
                 Grid.Row="0"
                 Grid.Column="0"
-                RowSpacing="5"
-                SizeChanged="LeftGrid_SizeChanged">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Border
-                    Grid.Row="0"
-                    Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="10">
-                    <Grid RowSpacing="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="210" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="280" />
-                        </Grid.RowDefinitions>
-                        <Image
-                            x:Name="Img"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            Source="{x:Bind ViewModel.CurrentComic.Thumb.FilePath, Mode=OneWay}" />
-                        <Grid
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid
-                                Grid.Row="0"
-                                HorizontalAlignment="Left"
-                                RowSpacing="3">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <TextBlock
-                                    x:Name="Title"
-                                    Grid.Row="0"
-                                    Margin="5,0"
-                                    FontSize="18"
-                                    FontWeight="Bold"
-                                    MaxLines="6"
-                                    Text="{x:Bind ViewModel.CurrentComic.Title, Mode=OneWay}"
-                                    TextWrapping="Wrap" />
-                                <HyperlinkButton
-                                    Grid.Row="1"
-                                    Padding="5,0"
-                                    Click="Author_OnClick"
-                                    Content="{x:Bind ViewModel.CurrentComic.Author, Mode=OneWay}"
-                                    FontSize="15"
-                                    Foreground="{ThemeResource BikaAccentColorDark1}" />
-                                <HyperlinkButton
-                                    Grid.Row="2"
-                                    Padding="5,0"
-                                    Click="ChineseTeam_OnClick"
-                                    Content="{x:Bind ViewModel.CurrentComic.ChineseTeam, Mode=OneWay}"
-                                    FontSize="15"
-                                    Foreground="CornflowerBlue" />
-                            </Grid>
-                            <Grid
-                                Grid.Row="1"
-                                Padding="5,0"
-                                VerticalAlignment="Bottom"
-                                RowSpacing="3">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                    <FontIcon Foreground="{ThemeResource BikaAccentColorDark1}" Glyph="&#xEB52;" />
-                                    <TextBlock
-                                        x:Name="LikesCount"
-                                        Margin="5,0,0,0"
-                                        FontSize="18"
-                                        Text="{x:Bind ViewModel.CurrentComic.TotalLikes, Mode=OneWay}" />
-                                    <FontIcon
-                                        Margin="10,0,0,0"
-                                        Foreground="{ThemeResource BikaAccentColorDark1}"
-                                        Glyph="&#xe7b3;" />
-                                    <TextBlock
-                                        x:Name="TotalViews"
-                                        Margin="5,0,0,0"
-                                        FontSize="18"
-                                        Text="{x:Bind ViewModel.CurrentComic.TotalViews, Mode=OneWay}" />
-                                </StackPanel>
-                                <TextBlock
-                                    x:Name="CategoriesString"
-                                    Grid.Row="1"
-                                    FontSize="13"
-                                    FontWeight="Black"
-                                    Foreground="Gray"
-                                    MaxLines="5"
-                                    Text="{x:Bind ViewModel.CurrentComic.CategoryString, Mode=OneWay}"
-                                    TextWrapping="Wrap" />
-                                <StackPanel
-                                    Grid.Row="2"
-                                    Margin="0,0,0,0"
-                                    Orientation="Horizontal">
-                                    <FontIcon Foreground="Gray" Glyph="&#xe7b8;" />
-                                    <TextBlock
-                                        x:Name="EpsCount"
-                                        Margin="10,0,0,0"
-                                        FontSize="18"
-                                        Foreground="Gray"
-                                        Text="{x:Bind ViewModel.CurrentComic.EpsCount, Mode=OneWay}" />
-                                    <TextBlock
-                                        FontSize="18"
-                                        Foreground="Gray"
-                                        Text="E" />
-                                    <TextBlock
-                                        Margin="4,0,0,0"
-                                        FontSize="18"
-                                        Foreground="Gray"
-                                        Text="/" />
-                                    <TextBlock
-                                        x:Name="PagesCount"
-                                        Margin="4,0,0,0"
-                                        FontSize="18"
-                                        Foreground="Gray"
-                                        Text="{x:Bind ViewModel.CurrentComic.PagesCount, Mode=OneWay}" />
-                                    <TextBlock
-                                        FontSize="18"
-                                        Foreground="Gray"
-                                        Text="P" />
-                                    <Border
-                                        Margin="10,0,0,0"
-                                        Padding="5"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                        BorderThickness=".5"
-                                        CornerRadius="7"
-                                        Visibility="{x:Bind ViewModel.CurrentComic.Finished, Mode=OneWay}">
-                                        <TextBlock
-                                            FontSize="12"
-                                            FontWeight="Bold"
-                                            Foreground="{ThemeResource BikaAccentColorDark2}"
-                                            Text="{ex:BikaLocale Key=Finished}" />
-                                    </Border>
-                                </StackPanel>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Border>
-                <controls1:TitleBorder Grid.Row="1" Header="{ex:BikaLocale Key=Tag}">
-                    <ItemsRepeater x:Name="TagsContent" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="10" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Button Content="{x:Bind}" Style="{ThemeResource TagStyle}" />
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </controls1:TitleBorder>
-                <controls1:TitleBorder Grid.Row="2" Header="{ex:BikaLocale Key=Description}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            x:Name="Description"
-                            Grid.Row="0"
-                            Margin="3,10,0,10"
-                            HorizontalAlignment="Left"
-                            FontSize="17"
-                            IsTextSelectionEnabled="True"
-                            Text="{x:Bind ViewModel.CurrentComic.Description, Mode=OneWay}"
-                            TextWrapping="Wrap" />
-                        <Grid Grid.Row="1" MinWidth="520">
+                Padding="0,0,10,0">
+                <Grid x:Name="LeftGrid" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.Row="0"
+                        Background="{ThemeResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                        <Grid RowSpacing="5">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="210" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid
-                                x:Name="FirstCreatorBorder"
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="280" />
+                            </Grid.RowDefinitions>
+                            <Image
+                                x:Name="Img"
+                                Grid.Row="0"
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
-                                CornerRadius="10">
-                                <Border
-                                    labs:TransitionHelper.Id="background"
-                                    Background="{ThemeResource HyperlinkButtonBackgroundPointerOver}"
-                                    CornerRadius="10" />
-                                <StackPanel Padding="10" Orientation="Horizontal">
-                                    <PersonPicture
-                                        Width="64"
-                                        Height="64"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        labs:TransitionHelper.Id="image"
-                                        ProfilePicture="{x:Bind ViewModel.CurrentComic.Creator.Avatar.FilePath, Mode=OneWay}" />
-                                    <StackPanel Margin="10,0,0,0">
+                                Source="{x:Bind ViewModel.CurrentComic.Thumb.FilePath, Mode=OneWay}" />
+                            <Grid
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Left"
+                                    RowSpacing="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        x:Name="Title"
+                                        Grid.Row="0"
+                                        Margin="5,0"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        MaxLines="6"
+                                        Text="{x:Bind ViewModel.CurrentComic.Title, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                    <HyperlinkButton
+                                        Grid.Row="1"
+                                        Padding="5,0"
+                                        Click="Author_OnClick"
+                                        Content="{x:Bind ViewModel.CurrentComic.Author, Mode=OneWay}"
+                                        FontSize="15"
+                                        Foreground="{ThemeResource BikaAccentColorDark1}" />
+                                    <HyperlinkButton
+                                        Grid.Row="2"
+                                        Padding="5,0"
+                                        Click="ChineseTeam_OnClick"
+                                        Content="{x:Bind ViewModel.CurrentComic.ChineseTeam, Mode=OneWay}"
+                                        FontSize="15"
+                                        Foreground="CornflowerBlue" />
+                                </Grid>
+                                <Grid
+                                    Grid.Row="1"
+                                    Padding="5,0"
+                                    VerticalAlignment="Bottom"
+                                    RowSpacing="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                        <FontIcon Foreground="{ThemeResource BikaAccentColorDark1}" Glyph="&#xEB52;" />
                                         <TextBlock
-                                            VerticalAlignment="Center"
-                                            labs:TransitionHelper.Id="name"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Text="{x:Bind ViewModel.CurrentComic.Creator.Name, Mode=OneWay}"
-                                            TextTrimming="CharacterEllipsis" />
+                                            x:Name="LikesCount"
+                                            Margin="5,0,0,0"
+                                            FontSize="18"
+                                            Text="{x:Bind ViewModel.CurrentComic.TotalLikes, Mode=OneWay}" />
+                                        <FontIcon
+                                            Margin="10,0,0,0"
+                                            Foreground="{ThemeResource BikaAccentColorDark1}"
+                                            Glyph="&#xe7b3;" />
                                         <TextBlock
-                                            labs:TransitionHelper.Id="level"
-                                            FontSize="16"
-                                            Foreground="Gray"
-                                            Text="{x:Bind ViewModel.CurrentComic.UpdatedAt, Mode=OneWay}" />
-                                        <TextBlock
-                                            Height="20"
-                                            labs:TransitionHelper.Id="slogan"
-                                            FontSize="13"
-                                            FontWeight="SemiBold"
-                                            Foreground="Gray"
-                                            Text="{ex:BikaLocale Key=UpdateTime}" />
-
+                                            x:Name="TotalViews"
+                                            Margin="5,0,0,0"
+                                            FontSize="18"
+                                            Text="{x:Bind ViewModel.CurrentComic.TotalViews, Mode=OneWay}" />
                                     </StackPanel>
-                                </StackPanel>
-                                <i:Interaction.Behaviors>
-                                    <ic:EventTriggerBehavior EventName="Tapped">
-                                        <labs:StartTransitionAction
-                                            Source="{Binding ElementName=FirstCreatorBorder}"
-                                            Target="{Binding ElementName=SecondCreatorBorder}"
-                                            Transition="{StaticResource MyTransitionHelper}" />
-                                    </ic:EventTriggerBehavior>
-                                </i:Interaction.Behaviors>
+                                    <TextBlock
+                                        x:Name="CategoriesString"
+                                        Grid.Row="1"
+                                        FontSize="13"
+                                        FontWeight="Black"
+                                        Foreground="Gray"
+                                        MaxLines="5"
+                                        Text="{x:Bind ViewModel.CurrentComic.CategoryString, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                    <StackPanel
+                                        Grid.Row="2"
+                                        Margin="0,0,0,0"
+                                        Orientation="Horizontal">
+                                        <FontIcon Foreground="Gray" Glyph="&#xe7b8;" />
+                                        <TextBlock
+                                            x:Name="EpsCount"
+                                            Margin="10,0,0,0"
+                                            FontSize="18"
+                                            Foreground="Gray"
+                                            Text="{x:Bind ViewModel.CurrentComic.EpsCount, Mode=OneWay}" />
+                                        <TextBlock
+                                            FontSize="18"
+                                            Foreground="Gray"
+                                            Text="E" />
+                                        <TextBlock
+                                            Margin="4,0,0,0"
+                                            FontSize="18"
+                                            Foreground="Gray"
+                                            Text="/" />
+                                        <TextBlock
+                                            x:Name="PagesCount"
+                                            Margin="4,0,0,0"
+                                            FontSize="18"
+                                            Foreground="Gray"
+                                            Text="{x:Bind ViewModel.CurrentComic.PagesCount, Mode=OneWay}" />
+                                        <TextBlock
+                                            FontSize="18"
+                                            Foreground="Gray"
+                                            Text="P" />
+                                        <Border
+                                            Margin="10,0,0,0"
+                                            Padding="5"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                            BorderThickness=".5"
+                                            CornerRadius="7"
+                                            Visibility="{x:Bind ViewModel.CurrentComic.Finished, Mode=OneWay}">
+                                            <TextBlock
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                Foreground="{ThemeResource BikaAccentColorDark2}"
+                                                Text="{ex:BikaLocale Key=Finished}" />
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
-                            <Grid
-                                x:Name="SecondCreatorBorder"
-                                Grid.Column="0"
+                        </Grid>
+                    </Border>
+                    <controls1:TitleBorder Grid.Row="1" Header="{ex:BikaLocale Key=Tag}">
+                        <ItemsRepeater x:Name="TagsContent" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="10" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Button Content="{x:Bind}" Style="{ThemeResource TagStyle}" />
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </controls1:TitleBorder>
+                    <controls1:TitleBorder Grid.Row="2" Header="{ex:BikaLocale Key=Description}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                x:Name="Description"
+                                Grid.Row="0"
+                                Margin="3,10,0,10"
                                 HorizontalAlignment="Left"
-                                Visibility="Collapsed">
+                                FontSize="17"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind ViewModel.CurrentComic.Description, Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                            <Grid Grid.Row="1" MinWidth="520">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Border
-                                    Grid.Column="0"
-                                    labs:TransitionHelper.Id="background"
-                                    Background="{ThemeResource HyperlinkButtonBackgroundPointerOver}"
-                                    CornerRadius="10" />
                                 <Grid
+                                    x:Name="FirstCreatorBorder"
                                     Grid.Column="0"
-                                    Padding="10"
-                                    ColumnSpacing="10">
+                                    HorizontalAlignment="Left"
+                                    CornerRadius="10">
+                                    <Border
+                                        labs:TransitionHelper.Id="background"
+                                        Background="{ThemeResource HyperlinkButtonBackgroundPointerOver}"
+                                        CornerRadius="10" />
+                                    <StackPanel Padding="10" Orientation="Horizontal">
+                                        <PersonPicture
+                                            Width="64"
+                                            Height="64"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            labs:TransitionHelper.Id="image"
+                                            ProfilePicture="{x:Bind ViewModel.CurrentComic.Creator.Avatar.FilePath, Mode=OneWay}" />
+                                        <StackPanel Margin="10,0,0,0">
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                labs:TransitionHelper.Id="name"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                Text="{x:Bind ViewModel.CurrentComic.Creator.Name, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis" />
+                                            <TextBlock
+                                                labs:TransitionHelper.Id="level"
+                                                FontSize="16"
+                                                Foreground="Gray"
+                                                Text="{x:Bind ViewModel.CurrentComic.UpdatedAt, Mode=OneWay}" />
+                                            <TextBlock
+                                                Height="20"
+                                                labs:TransitionHelper.Id="slogan"
+                                                FontSize="13"
+                                                FontWeight="SemiBold"
+                                                Foreground="Gray"
+                                                Text="{ex:BikaLocale Key=UpdateTime}" />
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <i:Interaction.Behaviors>
+                                        <ic:EventTriggerBehavior EventName="Tapped">
+                                            <labs:StartTransitionAction
+                                                Source="{Binding ElementName=FirstCreatorBorder}"
+                                                Target="{Binding ElementName=SecondCreatorBorder}"
+                                                Transition="{StaticResource MyTransitionHelper}" />
+                                        </ic:EventTriggerBehavior>
+                                    </i:Interaction.Behaviors>
+                                </Grid>
+                                <Grid
+                                    x:Name="SecondCreatorBorder"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    Visibility="Collapsed">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <PersonPicture
+                                    <Border
                                         Grid.Column="0"
-                                        Width="64"
-                                        Height="64"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        labs:TransitionHelper.Id="image"
-                                        ProfilePicture="{x:Bind ViewModel.CurrentComic.Creator.Avatar.FilePath, Mode=OneWay}" />
-                                    <Grid Grid.Column="1" HorizontalAlignment="Center">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <TextBlock
-                                            Grid.Row="0"
-                                            VerticalAlignment="Center"
-                                            labs:TransitionHelper.Id="name"
-                                            FontSize="16"
-                                            FontWeight="Bold"
-                                            Text="{x:Bind ViewModel.CurrentComic.Creator.Name, Mode=OneWay}"
-                                            TextTrimming="CharacterEllipsis" />
-                                        <StackPanel
-                                            Grid.Row="1"
-                                            labs:TransitionHelper.Id="level"
-                                            Orientation="Horizontal"
-                                            Spacing="5">
+                                        labs:TransitionHelper.Id="background"
+                                        Background="{ThemeResource HyperlinkButtonBackgroundPointerOver}"
+                                        CornerRadius="10" />
+                                    <Grid
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        ColumnSpacing="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <PersonPicture
+                                            Grid.Column="0"
+                                            Width="64"
+                                            Height="64"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            labs:TransitionHelper.Id="image"
+                                            ProfilePicture="{x:Bind ViewModel.CurrentComic.Creator.Avatar.FilePath, Mode=OneWay}" />
+                                        <Grid Grid.Column="1" HorizontalAlignment="Center">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
                                             <TextBlock
-                                                HorizontalAlignment="Center"
+                                                Grid.Row="0"
                                                 VerticalAlignment="Center"
-                                                FontSize="14"
-                                                IsTextSelectionEnabled="True"
-                                                Text="{x:Bind ViewModel.CurrentComic.Creator.Level, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
-                                            <Border
-                                                Padding="6,3"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                Background="#ffb401"
-                                                CornerRadius="12">
+                                                labs:TransitionHelper.Id="name"
+                                                FontSize="16"
+                                                FontWeight="Bold"
+                                                Text="{x:Bind ViewModel.CurrentComic.Creator.Name, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis" />
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                labs:TransitionHelper.Id="level"
+                                                Orientation="Horizontal"
+                                                Spacing="5">
                                                 <TextBlock
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    FontSize="12"
+                                                    FontSize="14"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{x:Bind ViewModel.CurrentComic.Creator.Title, Mode=OneWay}" />
-                                            </Border>
-                                        </StackPanel>
-                                        <TextBlock
-                                            Grid.Row="2"
-                                            Margin="0,6,0,0"
-                                            labs:TransitionHelper.Id="slogan"
-                                            Text="{x:Bind ViewModel.CurrentComic.Creator.Slogan, Mode=OneWay}"
-                                            TextWrapping="Wrap" />
+                                                    Text="{x:Bind ViewModel.CurrentComic.Creator.Level, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
+                                                <Border
+                                                    Padding="6,3"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Background="#ffb401"
+                                                    CornerRadius="12">
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="12"
+                                                        IsTextSelectionEnabled="True"
+                                                        Text="{x:Bind ViewModel.CurrentComic.Creator.Title, Mode=OneWay}" />
+                                                </Border>
+                                            </StackPanel>
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Margin="0,6,0,0"
+                                                labs:TransitionHelper.Id="slogan"
+                                                labs:TransitionHelper.IsIndependent="True"
+                                                Text="{x:Bind ViewModel.CurrentComic.Creator.Slogan, Mode=OneWay}"
+                                                TextWrapping="Wrap" />
+                                        </Grid>
                                     </Grid>
+                                    <i:Interaction.Behaviors>
+                                        <ic:EventTriggerBehavior EventName="Tapped">
+                                            <labs:StartTransitionAction
+                                                Source="{Binding ElementName=SecondCreatorBorder}"
+                                                Target="{Binding ElementName=FirstCreatorBorder}"
+                                                Transition="{StaticResource MyTransitionHelper}" />
+                                        </ic:EventTriggerBehavior>
+                                    </i:Interaction.Behaviors>
                                 </Grid>
-                                <i:Interaction.Behaviors>
-                                    <ic:EventTriggerBehavior EventName="Tapped">
-                                        <labs:StartTransitionAction
-                                            Source="{Binding ElementName=SecondCreatorBorder}"
-                                            Target="{Binding ElementName=FirstCreatorBorder}"
-                                            Transition="{StaticResource MyTransitionHelper}" />
-                                    </ic:EventTriggerBehavior>
-                                </i:Interaction.Behaviors>
-                            </Grid>
-                            <StackPanel
-                                Grid.Column="1"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom"
-                                Background="Transparent"
-                                Orientation="Horizontal"
-                                Spacing="5">
-                                <AppBarToggleButton IsChecked="{x:Bind ViewModel.CurrentComic.IsFavourite, Mode=TwoWay}" Label="{x:Bind ViewModel.FavouriteText, Mode=OneWay}">
-                                    <AppBarToggleButton.Resources>
-                                        <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
-                                        <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
-                                    </AppBarToggleButton.Resources>
-                                    <AppBarToggleButton.Icon>
-                                        <FontIcon Foreground="HotPink" Glyph="&#xe735;" />
-                                    </AppBarToggleButton.Icon>
-                                </AppBarToggleButton>
-                                <Grid>
-                                    <AppBarToggleButton IsChecked="{x:Bind ViewModel.CurrentComic.IsLiked, Mode=TwoWay}" Label="{x:Bind ViewModel.LikeText, Mode=OneWay}">
+                                <StackPanel
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+                                    <AppBarToggleButton IsChecked="{x:Bind ViewModel.CurrentComic.IsFavourite, Mode=TwoWay}" Label="{x:Bind ViewModel.FavouriteText, Mode=OneWay}">
                                         <AppBarToggleButton.Resources>
                                             <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
                                             <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
                                         </AppBarToggleButton.Resources>
                                         <AppBarToggleButton.Icon>
-                                            <FontIcon Foreground="HotPink" Glyph="&#xEB52;" />
+                                            <FontIcon Foreground="HotPink" Glyph="&#xe735;" />
                                         </AppBarToggleButton.Icon>
-
                                     </AppBarToggleButton>
-                                    <InfoBadge
-                                        x:Name="LikeCounts"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Style="{ThemeResource AttentionValueInfoBadgeStyle}"
-                                        Value="{x:Bind ViewModel.CurrentComic.LikesCount, Mode=OneWay}" />
-                                </Grid>
-                                <AppBarButton>
-                                    <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xE896;" />
-                                    </AppBarButton.Icon>
-                                </AppBarButton>
-                            </StackPanel>
+                                    <Grid>
+                                        <AppBarToggleButton IsChecked="{x:Bind ViewModel.CurrentComic.IsLiked, Mode=TwoWay}" Label="{x:Bind ViewModel.LikeText, Mode=OneWay}">
+                                            <AppBarToggleButton.Resources>
+                                                <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
+                                                <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
+                                            </AppBarToggleButton.Resources>
+                                            <AppBarToggleButton.Icon>
+                                                <FontIcon Foreground="HotPink" Glyph="&#xEB52;" />
+                                            </AppBarToggleButton.Icon>
+
+                                        </AppBarToggleButton>
+                                        <InfoBadge
+                                            x:Name="LikeCounts"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Style="{ThemeResource AttentionValueInfoBadgeStyle}"
+                                            Value="{x:Bind ViewModel.CurrentComic.LikesCount, Mode=OneWay}" />
+                                    </Grid>
+                                    <AppBarButton>
+                                        <AppBarButton.Icon>
+                                            <FontIcon Glyph="&#xE896;" />
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
+                                </StackPanel>
+
+                            </Grid>
 
                         </Grid>
-
-                    </Grid>
-                </controls1:TitleBorder>
-                <controls1:TitleBorder Grid.Row="3" Header="{ex:BikaLocale Key=BookChapters}">
-                    <ItemsRepeater
-                        x:Name="EpisodesContent"
-                        Grid.Row="2"
-                        ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="10" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="models:Episode">
-                                <Button
-                                    Content="{x:Bind Title}"
-                                    Style="{ThemeResource TagStyle}"
-                                    ToolTipService.ToolTip="{x:Bind Title}" />
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </controls1:TitleBorder>
-            </Grid>
-            <Grid
-                x:Name="RightGrid"
+                    </controls1:TitleBorder>
+                    <controls1:TitleBorder Grid.Row="3" Header="{ex:BikaLocale Key=BookChapters}">
+                        <ItemsRepeater
+                            x:Name="EpisodesContent"
+                            Grid.Row="2"
+                            ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="10" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="models:Episode">
+                                    <Button
+                                        Content="{x:Bind Title}"
+                                        Style="{ThemeResource TagStyle}"
+                                        ToolTipService.ToolTip="{x:Bind Title}" />
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </controls1:TitleBorder>
+                </Grid>
+            </ScrollViewer>
+            <ScrollViewer
+                x:Name="RightScrollViewer"
                 Grid.Row="0"
                 Grid.Column="1"
                 MaxWidth="475"
@@ -451,7 +451,7 @@
                 BorderThickness="1"
                 CornerRadius="10">
                 <Pivot
-                    x:Name="OtherPivot"
+                    x:Name="RightGrid"
                     SelectedIndex="0"
                     SelectionChanged="Segmented_SelectionChanged">
                     <PivotItem Header="{ex:BikaLocale Key=RecommendComics}">
@@ -826,8 +826,9 @@
                         </Grid>
                     </PivotItem>
                 </Pivot>
-            </Grid>
+            </ScrollViewer>
         </Grid>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="OrientationStates">
                 <VisualState x:Name="DefaultLayout">
@@ -841,12 +842,13 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="RightGrid.(Grid.Row)" Value="1" />
-                        <Setter Target="RightGrid.(Grid.Column)" Value="0" />
-                        <Setter Target="RightGrid.MaxWidth" Value="1440" />
+                        <Setter Target="RightScrollViewer.(Grid.Row)" Value="1" />
+                        <Setter Target="RightScrollViewer.(Grid.Column)" Value="0" />
+                        <Setter Target="RightScrollViewer.MaxWidth" Value="1440" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </ScrollViewer>
+
 </Page>

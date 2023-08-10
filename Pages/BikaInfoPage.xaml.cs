@@ -67,7 +67,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void Segmented_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(OtherPivot.SelectedIndex == 0)
+            if(RightGrid.SelectedIndex == 0)
             {
                 ViewModel.RefreshRecommendation();
             }
@@ -79,14 +79,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void LeftGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (MainGrid.RowDefinitions[1].ActualHeight == 0)
-            {
-                RightGrid.Height = LeftGrid.ActualHeight;
-            }
-            else
-            {
-                RightGrid.Height = RecommendGrid.ActualHeight + 50;
-            }
+            
         }
 
         private void LikeComment_Tapped(object sender, TappedRoutedEventArgs e)
@@ -96,6 +89,24 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void CommentChild_Tapped(object sender, TappedRoutedEventArgs e)
         {
+
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if(sender is Page page)
+            {
+                if (MainGrid.RowDefinitions[1].ActualHeight == 0)
+                {
+                    LeftScrollViewer.Height = page.ActualHeight - 20;
+                    RightScrollViewer.Height = page.ActualHeight - 20;
+                }
+                else
+                {
+                    LeftScrollViewer.Height = LeftGrid.ActualHeight;
+                    
+                }
+            }
 
         }
     }
