@@ -16,12 +16,40 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         public string ComicId { get; set; }
         [ObservableProperty]
         private ComicInfo currentComic = new();
+        [ObservableProperty]
+        public bool recommendEmpty = false; 
+        [ObservableProperty]
+        public bool commentEmpty = false; 
         public ObservableCollection<string> Tags { get;  }= new();
-        private List<Episode> OriginEpisodes { get; set; } 
+ 
         public ObservableCollection<Episode> Episodes { get;  }= new();
+        public ObservableCollection<CategoryComic> RecommendComics { get;  }= new();
         [ObservableProperty] private string favouriteText = BikaResourcesHelper.GetString(BikaResourceKey.Favourite);
         [ObservableProperty] private string likeText = BikaResourcesHelper.GetString(BikaResourceKey.Like);
-        public async void Refresh()
+        public async void RefreshComments()
+        {
+            await BikaHttpHelper.TryRequest(this, PicaClient.ComicComments(ComicId,1), res =>
+            {
+                 
+            });
+            //CommentEmpty = RecommendComics.Count == 0;
+        }        
+        public async void RefreshRecommendation()
+        {
+            if (RecommendEmpty)
+            {
+                await BikaHttpHelper.TryRequest(this, PicaClient.Recommendation(ComicId), res =>
+                {
+                    foreach (var item in res.Data.Comics)
+                    {
+                        RecommendComics.Add(item);
+                    }
+                });
+            }
+            RecommendEmpty = RecommendComics.Count == 0;
+        }
+            
+            public async void Refresh()
         {
             await BikaHttpHelper.TryRequest(this, PicaClient.ComicInfo(ComicId), res =>
             { 

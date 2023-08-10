@@ -426,4 +426,13 @@
   <data name="Description" xml:space="preserve">
     <value>介绍</value>
   </data>
+  <data name="BlockEmpty" xml:space="preserve">
+    <value>好像什么都没有欸....</value>
+  </data>
+  <data name="RecommendComics" xml:space="preserve">
+    <value>大家都在看</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>评论</value>
+  </data>
 </root>

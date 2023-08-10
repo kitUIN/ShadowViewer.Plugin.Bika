@@ -104,5 +104,8 @@
         Liked,
         BookChapters,
         Description,
+        BlockEmpty,
+        RecommendComics,
+        Comments,
     }
 }
