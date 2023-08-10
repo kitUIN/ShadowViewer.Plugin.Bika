@@ -69,34 +69,26 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" HorizontalAlignment="Left">
+                                <Grid Grid.Row="0" RowSpacing="3" HorizontalAlignment="Left">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <TextBlock
-                                        x:Name="Title"
-                                        Grid.Row="0"
-                                        FontSize="17"
-                                        FontWeight="Bold"
-                                        MaxLines="6"
-                                        Text="{x:Bind ViewModel.CurrentComic.Title, Mode=OneWay}"
-                                        TextWrapping="Wrap" />
-                                    <TextBlock
-                                        x:Name="Author"
-                                        Grid.Row="1"
-                                        FontSize="15"
-                                        Foreground="{ThemeResource BikaAccentColorDark1}"
-                                        Text="{x:Bind ViewModel.CurrentComic.Author, Mode=OneWay}" />
-                                    <TextBlock
-                                        x:Name="ChineseTeam"
-                                        Grid.Row="2"
-                                        FontSize="15"
-                                        Foreground="CornflowerBlue"
-                                        Text="{x:Bind ViewModel.CurrentComic.ChineseTeam, Mode=OneWay}" />
+                                    <TextBlock Margin="5,0"
+                                               x:Name="Title"
+                                               Grid.Row="0"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               MaxLines="6"
+                                               Text="{x:Bind ViewModel.CurrentComic.Title, Mode=OneWay}"
+                                               TextWrapping="Wrap" />
+                                    <HyperlinkButton Click="Author_OnClick" Padding="5,0" Grid.Row="1" FontSize="15" Foreground="{ThemeResource BikaAccentColorDark1}"
+                                                     Content="{x:Bind ViewModel.CurrentComic.Author, Mode=OneWay}"></HyperlinkButton>
+                                    <HyperlinkButton Click="ChineseTeam_OnClick" Padding="5,0" Grid.Row="2" FontSize="15" Foreground="CornflowerBlue"
+                                                                     Content="{x:Bind ViewModel.CurrentComic.ChineseTeam, Mode=OneWay}"></HyperlinkButton>
                                 </Grid>
-                                <Grid Grid.Row="1" VerticalAlignment="Bottom">
+                                <Grid Padding="5,0" Grid.Row="1" RowSpacing="3" VerticalAlignment="Bottom">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />

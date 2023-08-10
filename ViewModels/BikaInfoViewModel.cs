@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -16,6 +17,8 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private ComicInfo currentComic = new();
         public ObservableCollection<string> Tags { get;  }= new();
+        private List<Episode> OriginEpisodes { get; set; } 
+        public ObservableCollection<Episode> Episodes { get;  }= new();
         [ObservableProperty] private string favouriteText = BikaResourcesHelper.GetString(BikaResourceKey.Favourite);
         [ObservableProperty] private string likeText = BikaResourcesHelper.GetString(BikaResourceKey.Like);
         public async void Refresh()
@@ -28,6 +31,17 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                     Tags.Add(item);
                 }
             });
+            var total = (CurrentComic.EpsCount - 1) / 20 + 1;
+            for (var i = 1; i <= total; i++)
+            {
+                await BikaHttpHelper.TryRequest(this, PicaClient.Episodes(ComicId, i), res =>
+                {
+                    foreach (var item in res.Data.Docs)
+                    {
+                        Episodes.Add(item);
+                    }
+                });
+            }
         }
     }
 }

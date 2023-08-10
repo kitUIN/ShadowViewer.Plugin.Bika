@@ -52,5 +52,15 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 border.Background = new SolidColorBrush(Colors.Transparent);
             }
         }
+
+        private void Author_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ChineseTeam_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
