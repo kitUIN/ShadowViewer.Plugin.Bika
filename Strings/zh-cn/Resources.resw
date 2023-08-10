@@ -405,4 +405,19 @@
   <data name="CurrentPageCounts" xml:space="preserve">
     <value>当前页共</value>
   </data>
+  <data name="UpdateTime" xml:space="preserve">
+    <value>更新时间</value>
+  </data>
+  <data name="Favourite" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="Favourited" xml:space="preserve">
+    <value>已收藏</value>
+  </data>
+  <data name="Like" xml:space="preserve">
+    <value>喜欢</value>
+  </data>
+  <data name="Liked" xml:space="preserve">
+    <value>已喜欢</value>
+  </data>
 </root>

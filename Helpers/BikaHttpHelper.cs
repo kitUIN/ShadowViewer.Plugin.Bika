@@ -45,7 +45,7 @@ public class BikaHttpHelper
         catch (Exception exception)
         {
             caller.TopGrid(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.Message),
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()),
                 TopGridMode.ContentDialog);
         }
     }

@@ -36,7 +36,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         private SolidColorBrush pingColor = new SolidColorBrush(Colors.Green);
         [ObservableProperty]
         private FluentIconSymbol pingIcon = FluentIconSymbol.CheckmarkCircleFilled;
-        public static BikaSettingsViewModel Current { get; set; }
+        public static BikaSettingsViewModel Current { get; set; } = new BikaSettingsViewModel();
         private ICallableToolKit Caller { get; }
         public BikaSettingsViewModel()
         { 

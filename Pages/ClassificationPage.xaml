@@ -27,12 +27,12 @@
             Spacing="10">
             <TextBlock
                 FontSize="18"
-                Foreground="{StaticResource BikaAccentColorDark1}"
+                Foreground="{ThemeResource BikaAccentColorDark1}"
                 Text="{ex:BikaLocale Key=BikaKeywords}" />
             <ItemsRepeater ItemsSource="{x:Bind local:BikaData.Current.Keywords, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
-                        <Button Content="{x:Bind}" Style="{StaticResource TagStyle}" />
+                        <Button Content="{x:Bind}" Style="{ThemeResource TagStyle}" />
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
                 <ItemsRepeater.Layout>

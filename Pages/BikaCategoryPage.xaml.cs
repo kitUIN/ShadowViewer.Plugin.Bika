@@ -62,8 +62,11 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void GridV_ItemClick(object sender, ItemClickEventArgs e)
         {
+            if (e.ClickedItem is CategoryComic { IsLocked: false } comic)
+            {
+                Frame.Navigate(typeof(BikaInfoPage), comic.Id);
+            }
         }
-
 
         private void LockButton_Click(object sender, RoutedEventArgs e)
         {

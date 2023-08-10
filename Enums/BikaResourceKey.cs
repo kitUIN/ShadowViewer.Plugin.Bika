@@ -97,5 +97,10 @@
         Random,
         Latest,
         CurrentPageCounts,
+        UpdateTime,
+        Favourite,
+        Favorited,
+        Like,
+        Liked
     }
 }
