@@ -121,7 +121,7 @@
     <value />
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>哔咔</value>
+    <value>标签</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>哔咔漫画</value>
@@ -419,5 +419,11 @@
   </data>
   <data name="Liked" xml:space="preserve">
     <value>已喜欢</value>
+  </data>
+  <data name="BookChapters" xml:space="preserve">
+    <value>章节</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>介绍</value>
   </data>
 </root>

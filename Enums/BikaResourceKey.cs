@@ -101,6 +101,8 @@
         Favourite,
         Favorited,
         Like,
-        Liked
+        Liked,
+        BookChapters,
+        Description,
     }
 }

@@ -49,7 +49,45 @@ public class BikaHttpHelper
                 TopGridMode.ContentDialog);
         }
     }
-
+    public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Action<T> success) where T : PicaResponse
+    {
+        var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+        try
+        {
+            var res =  await req;
+            if (res.Code != 200)
+            {
+                if (res.Code == 401)
+                {
+                    caller.TopGrid(sender,
+                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, null),
+                        TopGridMode.ContentDialog);
+                }
+                else
+                {
+                    caller.TopGrid(sender,
+                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message),
+                        TopGridMode.ContentDialog);
+                }
+            }
+            else
+            {
+                success.Invoke(res);
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            caller.TopGrid(sender,
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, null),
+                TopGridMode.ContentDialog);
+        }
+        catch (Exception exception)
+        {
+            caller.TopGrid(sender,
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()),
+                TopGridMode.ContentDialog);
+        }
+    }
     public static async Task Profile(object sender)
     {
         await TryRequest(sender,PicaClient.Profile(), res =>

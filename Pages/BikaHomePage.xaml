@@ -6,4 +6,10 @@
     xmlns:local="using:ShadowViewer.Plugin.Bika.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pica="using:PicaComic.Models"
-    mc:Ignorable="d" />
+    mc:Ignorable="d">
+    <Grid
+        Background="{ThemeResource LayerFillColorDefaultBrush}"
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}" />
+</Page>

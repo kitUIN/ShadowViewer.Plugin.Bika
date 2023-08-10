@@ -31,12 +31,22 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                     Tags.Add(item);
                 }
             });
-            var total = (CurrentComic.EpsCount - 1) / 20 + 1;
-            for (var i = 1; i <= total; i++)
+            var i = 1;
+            var total =  1;
+            await BikaHttpHelper.TryRequest(this, PicaClient.Episodes(ComicId, i), res =>
+            {
+                foreach (var item in res.Data.Episodes.Docs)
+                {
+                    Episodes.Add(item);
+                }
+
+                total = res.Data.Episodes.Pages;
+            });
+            for (i++; i <= total; i++)
             {
                 await BikaHttpHelper.TryRequest(this, PicaClient.Episodes(ComicId, i), res =>
                 {
-                    foreach (var item in res.Data.Docs)
+                    foreach (var item in res.Data.Episodes.Docs)
                     {
                         Episodes.Add(item);
                     }
