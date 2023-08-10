@@ -250,7 +250,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid
-        Margin="5,5,0,0"
+        Padding="5,5,0,0"
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
         BorderThickness="1"
