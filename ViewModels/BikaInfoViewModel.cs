@@ -17,22 +17,38 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private ComicInfo currentComic = new();
         [ObservableProperty]
-        public bool recommendEmpty = false; 
+        private bool recommendEmpty = true; 
         [ObservableProperty]
-        public bool commentEmpty = false; 
+        private bool commentEmpty = true;
+        private int order;
         public ObservableCollection<string> Tags { get;  }= new();
- 
+        public int CommentPage {get;set;}
         public ObservableCollection<Episode> Episodes { get;  }= new();
         public ObservableCollection<CategoryComic> RecommendComics { get;  }= new();
+        public ObservableCollection<Comment> Comments { get;  }= new();
         [ObservableProperty] private string favouriteText = BikaResourcesHelper.GetString(BikaResourceKey.Favourite);
         [ObservableProperty] private string likeText = BikaResourcesHelper.GetString(BikaResourceKey.Like);
-        public async void RefreshComments()
+        public async void RefreshComments(int page = 1)
         {
-            await BikaHttpHelper.TryRequest(this, PicaClient.ComicComments(ComicId,1), res =>
+            if (CommentEmpty && page==1)
             {
-                 
-            });
-            //CommentEmpty = RecommendComics.Count == 0;
+                await BikaHttpHelper.TryRequest(this, PicaClient.ComicComments(ComicId, page), res =>
+                {
+                    if (page == 1 && res.Data.TopComments.Count != 0)
+                    {
+                        foreach (var item in res.Data.TopComments)
+                        {
+                            Comments.Add(item);
+                        }
+                    }
+                    foreach (var item in res.Data.Comments.Docs)
+                    {
+                        item.Order = order--;
+                        Comments.Add(item);
+                    }
+                });
+            }
+            CommentEmpty = Comments.Count == 0;
         }        
         public async void RefreshRecommendation()
         {
@@ -52,8 +68,9 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             public async void Refresh()
         {
             await BikaHttpHelper.TryRequest(this, PicaClient.ComicInfo(ComicId), res =>
-            { 
+            {
                 CurrentComic = res.Data.Comic;
+                order = CurrentComic.TotalComments;
                 foreach (var item in CurrentComic.Tags)
                 {
                     Tags.Add(item);
