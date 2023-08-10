@@ -89,7 +89,12 @@ namespace ShadowViewer.Plugin.Bika.Pages
             }
         }
 
-        private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void LikeComment_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        private void CommentChild_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
         }

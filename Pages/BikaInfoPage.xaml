@@ -622,13 +622,16 @@
                     <PivotItem Header="{ex:BikaLocale Key=Comments}">
                         <Grid>
                             <ScrollViewer Padding="10">
-                                <ItemsRepeater x:Name="BookComments" ItemsSource="{x:Bind ViewModel.Comments}">
+                                <ItemsRepeater
+                                    x:Name="BookComments"
+                                    HorizontalAlignment="Stretch"
+                                    ItemsSource="{x:Bind ViewModel.Comments}">
                                     <ItemsRepeater.Layout>
-                                        <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="5" />
+                                        <StackLayout Orientation="Vertical" Spacing="10" />
                                     </ItemsRepeater.Layout>
                                     <ItemsRepeater.ItemTemplate>
                                         <DataTemplate x:DataType="models:Comment">
-                                            <Grid Width="400">
+                                            <Grid HorizontalAlignment="Stretch">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
@@ -638,10 +641,7 @@
                                                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                     BorderThickness="1"
                                                     CornerRadius="5">
-                                                    <Grid
-                                                        Width="400"
-                                                        Padding="10,5"
-                                                        RowSpacing="10">
+                                                    <Grid Padding="10,5" RowSpacing="10">
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="Auto" />
                                                             <RowDefinition Height="*" />
@@ -737,45 +737,30 @@
                                                                 </Grid.ColumnDefinitions>
                                                                 <Border
                                                                     Grid.Column="0"
+                                                                    Padding="5,3"
                                                                     VerticalAlignment="Bottom"
                                                                     Background="Transparent"
                                                                     CornerRadius="5"
                                                                     PointerEntered="Border_OnPointerEntered"
-                                                                    PointerExited="Border_PointerExited">
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <Grid>
-                                                                            <FontIcon FontSize="14" Glyph="&#xEB51;" />
-                                                                            <FontIcon
-                                                                                FontSize="14"
-                                                                                Foreground="{ThemeResource SystemAccentColorDark3}"
-                                                                                Glyph="&#xEB52;"
-                                                                                Visibility="{x:Bind IsLiked, Mode=OneWay}" />
-                                                                        </Grid>
-                                                                        <TextBlock
-                                                                            x:Name="CommentLikesCount"
-                                                                            Margin="3,0,0,0"
-                                                                            VerticalAlignment="Center"
-                                                                            FontSize="16"
-                                                                            Text="{x:Bind LikesCount, Mode=OneWay}" />
+                                                                    PointerExited="Border_OnPointerExited"
+                                                                    Tapped="LikeComment_Tapped">
+                                                                    <StackPanel Orientation="Horizontal" Spacing="3">
+                                                                        <FontIcon FontSize="17" Glyph="&#xEB51;" />
+                                                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind LikesCount, Mode=OneWay}" />
                                                                     </StackPanel>
                                                                 </Border>
                                                                 <Border
                                                                     Grid.Column="1"
+                                                                    Padding="5,3"
                                                                     VerticalAlignment="Bottom"
                                                                     Background="Transparent"
                                                                     CornerRadius="5"
                                                                     PointerEntered="Border_OnPointerEntered"
-                                                                    PointerExited="Border_PointerExited">
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <FontIcon
-                                                                            FontFamily="Segoe MDL2 Assets"
-                                                                            FontSize="14"
-                                                                            Glyph="&#xE8BD;" />
-                                                                        <TextBlock
-                                                                            Margin="3,0,0,0"
-                                                                            VerticalAlignment="Center"
-                                                                            FontSize="16"
-                                                                            Text="{x:Bind CommentsCount, Mode=OneWay}" />
+                                                                    PointerExited="Border_OnPointerExited"
+                                                                    Tapped="CommentChild_Tapped">
+                                                                    <StackPanel Orientation="Horizontal" Spacing="3">
+                                                                        <FontIcon FontSize="17" Glyph="&#xE8BD;" />
+                                                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind CommentsCount, Mode=OneWay}" />
                                                                     </StackPanel>
                                                                 </Border>
                                                                 <TextBlock
