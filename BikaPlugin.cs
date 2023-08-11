@@ -9,7 +9,6 @@ using PicaComic;
 using Serilog;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
-using ShadowViewer.Extensions;
 using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Models;
@@ -21,6 +20,7 @@ using ShadowViewer.Plugin.Bika.Pages;
 using ShadowViewer.Plugin.Bika.ViewModels;
 using ShadowViewer.Plugins;
 using ShadowViewer.Services;
+using ShadowViewer.Extensions;
 
 namespace ShadowViewer.Plugin.Bika;
 [PluginMetaData( "Bika",
@@ -32,12 +32,10 @@ namespace ShadowViewer.Plugin.Bika;
     20230808)]
 public class BikaPlugin : PluginBase
 {
-    private static readonly ILogger Logger = Log.ForContext<BikaPlugin>();
-
     /// <summary>
     /// µÇÂ¼´°Ìå
     /// </summary>
-    private static LoginTip _mainLoginTip = new();
+    public static LoginTip MainLoginTip = new();
 
     /// <summary>
     /// <inheritdoc/>
@@ -45,14 +43,14 @@ public class BikaPlugin : PluginBase
     public override LocalTag AffiliationTag { get; } =
         new(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
 
-    public new static PluginMetaData MetaData { get; private set; }
-
+    public new static readonly PluginMetaData MetaData = typeof(BikaPlugin).GetPluginMetaData();
+    private ILogger Logger { get; } 
     private IPicaClient BikaClient { get; }
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressService, IPluginService pluginService) :
+        CompressService compressService, IPluginService pluginService, ILogger logger) :
         base(callableService, sqlSugarClient, compressService, pluginService)
     {
-        MetaData = this.GetPluginMetaData();
+        Logger = logger;
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
         DiFactory.Services.Register<BikaSettingsViewModel>(reuse: Reuse.Singleton);
@@ -105,9 +103,9 @@ public class BikaPlugin : PluginBase
         }
         else
         {
-            _mainLoginTip = new LoginTip();
-            Caller.TopGrid(this, _mainLoginTip, TopGridMode.Dialog);
-            _mainLoginTip.Show();
+            MainLoginTip = new LoginTip();
+            Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
+            MainLoginTip.Show();
         }
     }
 
@@ -127,7 +125,7 @@ public class BikaPlugin : PluginBase
     protected override void PluginDisabled()
     {
         // ¹Ø±ÕµÇÂ¼´°Ìå
-        _mainLoginTip.Hide();
+        MainLoginTip.Hide();
     }
 
     /// <summary>
@@ -161,9 +159,9 @@ public class BikaPlugin : PluginBase
 
             if (!b)
             {
-                _mainLoginTip = new LoginTip();
-                Caller.TopGrid(this, _mainLoginTip, TopGridMode.Dialog);
-                _mainLoginTip.Show();
+                MainLoginTip = new LoginTip();
+                Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
+                MainLoginTip.Show();
             }
             else
             {
