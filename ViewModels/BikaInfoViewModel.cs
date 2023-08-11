@@ -29,7 +29,9 @@ public partial class BikaInfoViewModel : ObservableObject
     public ObservableCollection<Episode> Episodes { get; } = new();
     public ObservableCollection<CategoryComic> RecommendComics { get; } = new();
     public ObservableCollection<Comment> Comments { get; } = new();
-
+    /// <summary>
+    /// 喜欢漫画
+    /// </summary>
     [RelayCommand]
     private async Task LikeAsync()
     {
@@ -50,7 +52,9 @@ public partial class BikaInfoViewModel : ObservableObject
             }
         });
     }
-
+    /// <summary>
+    /// 收藏漫画
+    /// </summary>
     [RelayCommand]
     private async Task Favourite()
     {
@@ -64,7 +68,9 @@ public partial class BikaInfoViewModel : ObservableObject
             };
         });
     }
-
+    /// <summary>
+    /// 喜欢评论
+    /// </summary>
     public async Task LikeComment(Comment comment)
     {
         comment.IsLiked = !comment.IsLiked;
@@ -83,7 +89,37 @@ public partial class BikaInfoViewModel : ObservableObject
             }
         });
     }
-
+    /// <summary>
+    /// 加载子评论
+    /// </summary>
+    /// <param name="comment"></param>
+    public async void RefreshCommentChildren(Comment comment)
+    {
+        comment.IsShowChildren = !comment.IsShowChildren;
+        if (comment.TotalComments == comment.Children.Count) return;
+        comment.Children.Clear();
+        var order = comment.TotalComments;
+        var i = 1;
+        var total = 1;
+        await BikaHttpHelper.TryRequest(this, BikaClient.CommentChildren(comment.Id, i), res =>
+        {
+            foreach (var item in res.Data.Comments.Docs)
+            {
+                item.Order = order--;
+                comment.Children.Add(item);
+            }
+            total = res.Data.Comments.Pages;
+        });
+        for (i++; i <= total; i++)
+            await BikaHttpHelper.TryRequest(this, BikaClient.CommentChildren(comment.Id, i), res =>
+            {
+                foreach (var item in res.Data.Comments.Docs)
+                {
+                    item.Order = order--;
+                    comment.Children.Add(item);
+                }
+            });
+    } 
     public async void RefreshComments(int page = 1)
     {
         if (CommentEmpty && page == 1)
@@ -95,7 +131,10 @@ public partial class BikaInfoViewModel : ObservableObject
                 foreach (var item in res.Data.Comments.Docs)
                 {
                     item.Order = order--;
-                    Comments.Add(item);
+                    if (!item.IsTop&&!item.IsHide)
+                    {
+                        Comments.Add(item);
+                    }
                 }
             });
         CommentEmpty = Comments.Count == 0;

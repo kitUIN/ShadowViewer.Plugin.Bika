@@ -86,7 +86,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
             
         }
 
-        private async void LikeComment_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void LikeComment_OnClick(object sender, RoutedEventArgs e)
         {
             if(sender is FrameworkElement { Tag: Comment comment })
             {
@@ -94,9 +94,12 @@ namespace ShadowViewer.Plugin.Bika.Pages
             }
         }
 
-        private void CommentChild_Tapped(object sender, TappedRoutedEventArgs e)
+        private void CommentChild_OnClick(object sender, RoutedEventArgs e)
         {
-
+            if(sender is FrameworkElement { Tag: Comment comment })
+            {
+                ViewModel.RefreshCommentChildren(comment);
+            }
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -123,5 +126,6 @@ namespace ShadowViewer.Plugin.Bika.Pages
             }
 
         }
+ 
     }
 }

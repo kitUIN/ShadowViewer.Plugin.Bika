@@ -19,6 +19,7 @@
                     <Color x:Key="BikaComicItemAccentColor">#FF4D4D4D</Color>
                     <Color x:Key="BikaComicFinishAccentColor">#FF575757</Color>
                     <SolidColorBrush x:Key="BikaAccentColorLight1Brush" Color="{StaticResource BikaAccentColorLight1}" />
+                    <SolidColorBrush x:Key="BikaAccentColorLight2Brush" Color="{StaticResource BikaAccentColorLight2}" />
                     <SolidColorBrush x:Key="BikaAccentColorLight3Brush" Color="{StaticResource BikaAccentColorLight3}" />
 
                     <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorDark1}" />
@@ -49,6 +50,7 @@
                     <Color x:Key="BikaComicItemAccentColor">#FFfdd7e6</Color>
                     <Color x:Key="BikaComicFinishAccentColor">#FFffe8f4</Color>
                     <SolidColorBrush x:Key="BikaAccentColorLight1Brush" Color="{StaticResource BikaAccentColorLight1}" />
+                    <SolidColorBrush x:Key="BikaAccentColorLight2Brush" Color="{StaticResource BikaAccentColorLight2}" />
                     <SolidColorBrush x:Key="BikaAccentColorLight3Brush" Color="{StaticResource BikaAccentColorLight3}" />
 
                     <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorLight5}" />
