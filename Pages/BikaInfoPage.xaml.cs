@@ -19,6 +19,7 @@ using System.Diagnostics;
 using Windows.UI.ViewManagement;
 using DryIoc;
 using PicaComic;
+using PicaComic.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -85,9 +86,12 @@ namespace ShadowViewer.Plugin.Bika.Pages
             
         }
 
-        private void LikeComment_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void LikeComment_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            if(sender is FrameworkElement { Tag: Comment comment })
+            {
+                await ViewModel.LikeComment(comment);
+            }
         }
 
         private void CommentChild_Tapped(object sender, TappedRoutedEventArgs e)

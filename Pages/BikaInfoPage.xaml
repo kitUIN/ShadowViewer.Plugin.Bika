@@ -24,6 +24,7 @@
             
             <converters:BoolToObjectConverter x:Key="FavouriteConverter" TrueValue="{ex:BikaLocale Key=Favourited}" FalseValue="{ex:BikaLocale Key=Favourite}"/>
             <converters:BoolToObjectConverter x:Key="LikeConverter" TrueValue="{ex:BikaLocale Key=Liked}" FalseValue="{ex:BikaLocale Key=Like}"/>
+            <converters:BoolToObjectConverter x:Key="CommentHeartConverter" TrueValue="&#xEB52;" FalseValue="&#xEB51;"/> 
             <!--  Breakpoints  -->
             
             <x:Double x:Key="Breakpoint1240Plus">1240</x:Double>
@@ -386,7 +387,7 @@
                                     Background="Transparent"
                                     Orientation="Horizontal"
                                     Spacing="5">
-                                    <AppBarToggleButton IsChecked="{x:Bind ViewModel.CurrentComic.IsFavourite, Mode=TwoWay}" Label="{x:Bind ViewModel.CurrentComic.IsFavourite, Mode=OneWay,Converter={StaticResource FavouriteConverter}}">
+                                    <AppBarToggleButton Command="{x:Bind ViewModel.FavouriteCommand}" IsChecked="{x:Bind ViewModel.CurrentComic.IsFavourite, Mode=TwoWay}" Label="{x:Bind ViewModel.CurrentComic.IsFavourite, Mode=OneWay,Converter={StaticResource FavouriteConverter}}">
                                         <AppBarToggleButton.Resources>
                                             <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
                                             <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
@@ -396,7 +397,7 @@
                                         </AppBarToggleButton.Icon>
                                     </AppBarToggleButton>
                                     <Grid>
-                                        <AppBarToggleButton IsChecked="{x:Bind ViewModel.CurrentComic.IsLiked, Mode=TwoWay}" Label="{x:Bind ViewModel.CurrentComic.IsLiked, Mode=OneWay,Converter={StaticResource LikeConverter}}">
+                                        <AppBarToggleButton Command="{x:Bind ViewModel.LikeCommand}"  IsChecked="{x:Bind ViewModel.CurrentComic.IsLiked, Mode=TwoWay}" Label="{x:Bind ViewModel.CurrentComic.IsLiked, Mode=OneWay,Converter={StaticResource LikeConverter}}">
                                             <AppBarToggleButton.Resources>
                                                 <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
                                                 <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
@@ -406,10 +407,10 @@
                                             </AppBarToggleButton.Icon>
 
                                         </AppBarToggleButton>
-                                        <InfoBadge
+                                        <InfoBadge 
                                             x:Name="LikeCounts"
                                             HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
+                                            VerticalAlignment="Top" Background="{ThemeResource BikaAccentColorDark1}"
                                             Style="{ThemeResource AttentionValueInfoBadgeStyle}"
                                             Value="{x:Bind ViewModel.CurrentComic.LikesCount, Mode=OneWay}" />
                                     </Grid>
@@ -444,7 +445,7 @@
                     </controls1:TitleBorder>
                 </Grid>
             </ScrollViewer>
-            <Grid
+            <Grid VerticalAlignment="Top"
                 x:Name="RightScrollViewer"
                 Grid.Row="0"
                 Grid.Column="1"
@@ -747,12 +748,12 @@
                                                                     Padding="5,3"
                                                                     VerticalAlignment="Bottom"
                                                                     Background="Transparent"
-                                                                    CornerRadius="5"
+                                                                    CornerRadius="5" Tag="{x:Bind}"
                                                                     PointerEntered="Border_OnPointerEntered"
                                                                     PointerExited="Border_OnPointerExited"
                                                                     Tapped="LikeComment_Tapped">
                                                                     <StackPanel Orientation="Horizontal" Spacing="3">
-                                                                        <FontIcon FontSize="17" Glyph="&#xEB51;" />
+                                                                        <FontIcon  FontSize="17" Glyph="{x:Bind IsLiked,Mode=OneWay,Converter={StaticResource CommentHeartConverter}}" Foreground="{ThemeResource BikaAccentColorDark1}" />
                                                                         <TextBlock VerticalAlignment="Center" Text="{x:Bind LikesCount, Mode=OneWay}" />
                                                                     </StackPanel>
                                                                 </Border>
