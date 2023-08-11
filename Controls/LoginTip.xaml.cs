@@ -16,6 +16,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
 using CommunityToolkit.WinUI;
+using DryIoc;
 using Microsoft.Extensions.DependencyInjection;
 using PicaComic;
 using PicaComic.Responses;
@@ -48,7 +49,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
         /// </summary>
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            var caller = DiFactory.Services.Resolve<ICallableToolKit>();
             if (string.IsNullOrEmpty(Email.Text) || string.IsNullOrEmpty(Password.Password))
             {
                 caller.TopGrid(this, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown,
@@ -61,7 +62,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
                 {
                     DispatcherQueue.TryEnqueue(() =>
                         {
-                            var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                            var db = DiFactory.Services.Resolve<ISqlSugarClient>();
                             db.Storageable(new BikaUser()
                             {
                                 Email = Email.Text,
@@ -111,7 +112,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
             if (BikaConfigHelper.Contains(BikaConfigKey.LastBikaUser))
             {
                 var user = BikaConfig.LastBikaUser;
-                var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                var db = DiFactory.Services.Resolve<ISqlSugarClient>();
                 if (db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
                 {
                     if (RememberMeBox.IsChecked ?? false)

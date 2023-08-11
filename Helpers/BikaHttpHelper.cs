@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using DryIoc;
 using Microsoft.Extensions.DependencyInjection;
 using PicaComic;
 using PicaComic.Responses;
@@ -12,7 +13,7 @@ public class BikaHttpHelper
 {
     public static async Task TryRequest<T>(object sender,Task<T> req,Action<T> success) where T : PicaResponse
     {
-        var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+        var caller = DiFactory.Services.Resolve<ICallableToolKit>();
         try
         {
             var res =  await req;
@@ -51,7 +52,7 @@ public class BikaHttpHelper
     }
     public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Action<T> success) where T : PicaResponse
     {
-        var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+        var caller = DiFactory.Services.Resolve<ICallableToolKit>();
         try
         {
             var res =  await req;
@@ -99,7 +100,7 @@ public class BikaHttpHelper
     {
         if (BikaData.Current.CurrentUser != null && !BikaData.Current.CurrentUser.IsPunched)
         {
-            var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            var caller = DiFactory.Services.Resolve<ICallableToolKit>();
             await TryRequest(sender,PicaClient.PunchIn(), res =>
             {
                 caller.TopGrid(sender, new TipPopup(

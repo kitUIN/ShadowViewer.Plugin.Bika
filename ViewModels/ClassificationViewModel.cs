@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DryIoc;
 using Microsoft.Extensions.DependencyInjection;
 using PicaComic.Models;
 using ShadowViewer.Enums;
@@ -46,7 +47,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         };
 
         public static ClassificationViewModel Current { get; } = new();
-        private ICallableToolKit Caller { get; } = DiFactory.Current.Services.GetService<ICallableToolKit>();
+        private ICallableToolKit Caller { get; } = DiFactory.Services.Resolve<ICallableToolKit>();
 
         public async Task GetClassification()
         {

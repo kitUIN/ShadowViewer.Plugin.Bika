@@ -13,6 +13,7 @@ using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Extensions;
 using System.Drawing;
+using DryIoc;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -40,7 +41,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         private ICallableToolKit Caller { get; }
         public BikaSettingsViewModel()
         { 
-            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            Caller = DiFactory.Services.Resolve<ICallableToolKit>();
             LoadLockComicShow = !BikaConfig.IsIgnoreLockComic;
             CanTemporaryUnlockShow = !BikaConfig.IsIgnoreLockComic && BikaConfig.LoadLockComic;
         }
