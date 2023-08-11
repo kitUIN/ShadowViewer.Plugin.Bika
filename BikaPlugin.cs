@@ -10,6 +10,7 @@ using ShadowViewer.Interfaces;
 using SqlSugar;
 using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Controls;
+using ShadowViewer.ToolKits;
 
 namespace ShadowViewer.Plugin.Bika
 {
@@ -41,7 +42,9 @@ namespace ShadowViewer.Plugin.Bika
             new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
             new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
             20230808);
-
+        public BikaPlugin(ICallableToolKit callableToolKit, ISqlSugarClient sqlSugarClient,
+            CompressToolKit compressToolKit, IPluginsToolKit pluginsToolKit):base(callableToolKit,sqlSugarClient,compressToolKit,pluginsToolKit)
+        { }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
