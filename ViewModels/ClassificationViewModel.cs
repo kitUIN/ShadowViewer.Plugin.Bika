@@ -12,9 +12,11 @@ namespace ShadowViewer.Plugin.Bika.ViewModels;
 
 public class ClassificationViewModel
 {
-    public ClassificationViewModel(ICallableService caller)
+    private IPicaClient BikaClient { get; }
+    public ClassificationViewModel(ICallableService caller,IPicaClient client)
     {
         Caller = caller;
+        BikaClient = client;
     }
 
     public ObservableCollection<Category> Categories { get; } = new()
@@ -50,7 +52,7 @@ public class ClassificationViewModel
     public async Task GetClassification()
     {
         if (Categories.Count <= 5)
-            await BikaHttpHelper.TryRequest(this, PicaClient.Categories(), res =>
+            await BikaHttpHelper.TryRequest(this, BikaClient.Categories(), res =>
             {
                 foreach (var item in res.Data.Categories) Categories.Add(item);
             });

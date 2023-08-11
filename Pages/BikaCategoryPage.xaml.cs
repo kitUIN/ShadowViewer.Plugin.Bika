@@ -1,5 +1,6 @@
 using System.Linq;
 using CustomExtensions.WinUI;
+using DryIoc;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -24,7 +25,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
         public BikaCategoryPage()
         {
             this.LoadComponent(ref _contentLoaded);
-            ViewModel = new BikaCategoryViewModel();
+            ViewModel = DiFactory.Services.Resolve<BikaCategoryViewModel>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

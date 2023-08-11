@@ -35,7 +35,7 @@ public class BikaPlugin : PluginBase
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override PluginMetaData MetaData { get; } = Meta;
+    public override PluginMetaData MetaData { get; }
 
     /// <summary>
     /// <inheritdoc/>
@@ -51,13 +51,18 @@ public class BikaPlugin : PluginBase
         new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
         new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
         20230808);
-
+    public IPicaClient BikaClient { get; }
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
         CompressService compressService, IPluginService pluginService) :
         base(callableService, sqlSugarClient, compressService, pluginService)
     {
-        DiFactory.Services.Register<BikaSettingsViewModel>(Reuse.Singleton);
-        DiFactory.Services.Register<ClassificationViewModel>(Reuse.Singleton);
+        DiFactory.Services.Register<IPicaClient, PicaClient>(Reuse.Singleton);
+        BikaClient = DiFactory.Services.Resolve<IPicaClient>();
+        DiFactory.Services.Register<BikaSettingsViewModel>(reuse: Reuse.Singleton);
+        DiFactory.Services.Register<ClassificationViewModel>(reuse: Reuse.Singleton);
+        DiFactory.Services.Register<BikaInfoViewModel>(reuse: Reuse.Transient);
+        DiFactory.Services.Register<BikaCategoryViewModel>(reuse: Reuse.Transient);
+        MetaData = Meta;
     }
 
     /// <summary>
@@ -65,6 +70,7 @@ public class BikaPlugin : PluginBase
     /// </summary>
     public override void Loaded(bool isEnabled)
     {
+        
         base.Loaded(isEnabled);
     }
 
@@ -96,7 +102,7 @@ public class BikaPlugin : PluginBase
     /// </summary>
     public override void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
     {
-        if (PicaClient.HasToken)
+        if (BikaClient.HasToken)
         {
             page = typeof(ClassificationPage);
             parameter = null;
@@ -136,7 +142,7 @@ public class BikaPlugin : PluginBase
         var user = BikaConfig.LastBikaUser;
         if (Db.Queryable<BikaUser>().First(x => x.Email == user) is { } bikaUser)
         {
-            PicaClient.SetToken(bikaUser.Token);
+            BikaClient.SetToken(bikaUser.Token);
             Caller.TopGrid(this, new TipPopup(
                 $"[{Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
                 InfoBarSeverity.Success), TopGridMode.Tip);
@@ -152,7 +158,7 @@ public class BikaPlugin : PluginBase
     private async void CheckToken()
     {
         // 未加载登录凭证则加载
-        if (!PicaClient.HasToken)
+        if (!BikaClient.HasToken)
         {
             var b = false;
             if (BikaConfig.AutoLogin) b = TryAutoLogin();

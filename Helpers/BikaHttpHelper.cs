@@ -94,7 +94,8 @@ public class BikaHttpHelper
     }
     public static async Task Profile(object sender)
     {
-        await TryRequest(sender,PicaClient.Profile(), res =>
+        var client = DiFactory.Services.Resolve<IPicaClient>();
+        await TryRequest(sender, client.Profile(), res =>
         {
             BikaData.Current.CurrentUser = res.Data.User;
         });
@@ -103,8 +104,9 @@ public class BikaHttpHelper
     {
         if (BikaData.Current.CurrentUser != null && !BikaData.Current.CurrentUser.IsPunched)
         {
+            var client = DiFactory.Services.Resolve<IPicaClient>();
             var caller = DiFactory.Services.Resolve<ICallableService>();
-            await TryRequest(sender,PicaClient.PunchIn(), res =>
+            await TryRequest(sender, client.PunchIn(), res =>
             {
                 caller.TopGrid(sender, new TipPopup(
                     $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoPunchInSuccess)}",
@@ -114,7 +116,8 @@ public class BikaHttpHelper
     }
     public static async Task Keywords()
     {
-        var res = await PicaClient.Keywords();
+        var client = DiFactory.Services.Resolve<IPicaClient>();
+        var res = await client.Keywords();
         if (res.Code == 200)
         {
             BikaData.Current.Keywords.Clear();

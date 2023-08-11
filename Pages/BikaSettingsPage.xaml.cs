@@ -33,7 +33,7 @@ public sealed partial class BikaSettingsPage : Page
         if (!string.IsNullOrEmpty(BikaConfig.Proxy))
         {
             ProxyBox.Text = BikaConfig.Proxy;
-            PicaClient.SetProxy(new Uri(BikaConfig.Proxy));
+            ViewModel.SetProxy(BikaConfig.Proxy);
         }
 
         await ViewModel.Ping();
@@ -51,7 +51,7 @@ public sealed partial class BikaSettingsPage : Page
 
     private void ResetButton_OnClick(object sender, RoutedEventArgs e)
     {
-        PicaClient.ResetProxy();
+        ViewModel.ResetProxy();
         ProxyBox.Text = "";
     }
 

@@ -32,9 +32,11 @@ namespace ShadowViewer.Plugin.Bika.Controls
 {
     public sealed partial class LoginTip : UserControl
     {
+        private IPicaClient BikaClient { get; }
         public LoginTip()
         {
             this.LoadComponent(ref _contentLoaded);
+            BikaClient = DiFactory.Services.Resolve<IPicaClient>();
         }
 
         public void Show()
@@ -59,7 +61,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
                 return;
             }
 
-            await BikaHttpHelper.TryRequest(this, PicaClient.SignIn(Email.Text, Password.Password),
+            await BikaHttpHelper.TryRequest(this, BikaClient.SignIn(Email.Text, Password.Password),
                 res =>
                 {
                     DispatcherQueue.TryEnqueue(() =>
@@ -76,7 +78,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
                         }
                     );
                 });
-            await BikaHttpHelper.TryRequest(this, PicaClient.Profile(), res =>
+            await BikaHttpHelper.TryRequest(this, BikaClient.Profile(), res =>
             {
                 BikaData.Current.CurrentUser = res.Data.User;
                 caller.TopGrid(this, new TipPopup(

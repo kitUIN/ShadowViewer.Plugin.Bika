@@ -17,6 +17,8 @@ using Windows.Foundation.Collections;
 using Microsoft.UI;
 using System.Diagnostics;
 using Windows.UI.ViewManagement;
+using DryIoc;
+using PicaComic;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,10 +30,11 @@ namespace ShadowViewer.Plugin.Bika.Pages
     /// </summary>
     public sealed partial class BikaInfoPage : Page
     {
-        public BikaInfoViewModel ViewModel { get; } = new();
+        public BikaInfoViewModel ViewModel { get; }
         public BikaInfoPage()
         {
             this.LoadComponent(ref _contentLoaded);
+            ViewModel = DiFactory.Services.Resolve<BikaInfoViewModel>();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
