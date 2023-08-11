@@ -1,8 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using PicaComic;
 using PicaComic.Models;
 using PicaComic.Utils;
 using System.Collections.ObjectModel;
+using System.Linq;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -30,8 +34,10 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         private SortRule sort = SortRule.dd;
         public ObservableCollection<CategoryComic> CategoryComics { get;  } = new ObservableCollection<CategoryComic>();
         public CategoryMode Mode { get; set; }
-        public BikaCategoryViewModel()
+        public IPicaClient BikaClient { get; }
+        public BikaCategoryViewModel(IPicaClient bikaClient)
         {
+            BikaClient = bikaClient;
             SortRuleText = BikaResourcesHelper.GetString(Sort.ToString().ToUpper());
         }
         public void CheckAllCategoryComicLock(object sender, EventArgs e)
@@ -47,7 +53,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             switch (Mode)
             {
                 case CategoryMode.Category:
-                    await BikaHttpHelper.TryRequest(this, PicaClient.Category(CategoryTitle, Page, Sort), res =>
+                    await BikaHttpHelper.TryRequest(this, BikaClient.Category(CategoryTitle, Page, Sort), res =>
                     {
                         Pages = res.Data.Comics.Pages;
                         Page = res.Data.Comics.Page;
@@ -63,7 +69,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                     });
                     break;
                 case CategoryMode.Random:
-                    await BikaHttpHelper.TryRequest(this, PicaClient.ComicRandom(), res =>
+                    await BikaHttpHelper.TryRequest(this, BikaClient.ComicRandom(), res =>
                     {
                         Pages = 1;
                         Page = 1;

@@ -1,64 +1,68 @@
+using System;
 using CustomExtensions.WinUI;
-using ShadowViewer.Extensions;
-using PicaComic;
-using Microsoft.UI;
-using ShadowViewer.Plugin.Bika.ViewModels;
+using DryIoc;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using PicaComic;
+using ShadowViewer.Extensions;
+using ShadowViewer.Plugin.Bika.ViewModels;
 
-namespace ShadowViewer.Plugin.Bika.Pages
+namespace ShadowViewer.Plugin.Bika.Pages;
+
+public sealed partial class BikaSettingsPage : Page
 {
+    private BikaSettingsViewModel ViewModel { get; }
 
-    public sealed partial class BikaSettingsPage : Page
+    public BikaSettingsPage()
     {
-        private BikaSettingsViewModel ViewModel { get; }
-        public BikaSettingsPage()
+        this.LoadComponent(ref _contentLoaded);
+        ViewModel = DiFactory.Services.Resolve<BikaSettingsViewModel>();
+    }
+
+    private void Uri_Click(object sender, RoutedEventArgs e)
+    {
+        var source = sender as FrameworkElement;
+        if (source == null || source.Tag.ToString() is not { } tag) return;
+        var uri = new Uri(tag);
+        uri.LaunchUriAsync();
+    }
+
+    private async void SettingsExpander_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(BikaConfig.Proxy))
         {
-            this.LoadComponent(ref _contentLoaded);
-            BikaSettingsViewModel.Current ??= new BikaSettingsViewModel();
-            ViewModel = BikaSettingsViewModel.Current;
-        }
-        private void Uri_Click(object sender, RoutedEventArgs e)
-        {
-            var source = sender as FrameworkElement;
-            if (source == null || source.Tag.ToString() is not { } tag) return;
-            var uri = new Uri(tag);
-            uri.LaunchUriAsync();
-        } 
-        private async void SettingsExpander_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(BikaConfig.Proxy))
-            {
-                ProxyBox.Text = BikaConfig.Proxy;
-                PicaClient.SetProxy(new Uri(BikaConfig.Proxy));
-            }
-            await ViewModel.Ping();
+            ProxyBox.Text = BikaConfig.Proxy;
+            ViewModel.SetProxy(BikaConfig.Proxy);
         }
 
-        private async void Ping_Click(object sender, RoutedEventArgs e)
-        {
-            await ViewModel.Ping();
-        }
+        await ViewModel.Ping();
+    }
 
-        private void ProxyBox_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SetProxy(ProxyBox.Text);
-        }
+    private async void Ping_Click(object sender, RoutedEventArgs e)
+    {
+        await ViewModel.Ping();
+    }
 
-        private void ResetButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            PicaClient.ResetProxy();
-            ProxyBox.Text = "";
-        }
+    private void ProxyBox_OnLostFocus(object sender, RoutedEventArgs e)
+    {
+        ViewModel.SetProxy(ProxyBox.Text);
+    }
 
-        private void LockButton_Click(object sender, RoutedEventArgs e)
-        {
-            LockTip.Show();
-        }
+    private void ResetButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        ViewModel.ResetProxy();
+        ProxyBox.Text = "";
+    }
 
-        private void AboutCard_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(AboutPage), null,
-                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
-        }
+    private void LockButton_Click(object sender, RoutedEventArgs e)
+    {
+        LockTip.Show();
+    }
+
+    private void AboutCard_Click(object sender, RoutedEventArgs e)
+    {
+        Frame.Navigate(typeof(AboutPage), null,
+            new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
     }
 }

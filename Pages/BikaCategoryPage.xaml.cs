@@ -1,8 +1,17 @@
+using System.Linq;
 using CustomExtensions.WinUI;
+using DryIoc;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
 using PicaComic.Utils;
+using ShadowViewer.Helpers;
 using ShadowViewer.Plugin.Bika.Args;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.ViewModels;
 
 namespace ShadowViewer.Plugin.Bika.Pages
@@ -16,7 +25,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
         public BikaCategoryPage()
         {
             this.LoadComponent(ref _contentLoaded);
-            ViewModel = new BikaCategoryViewModel();
+            ViewModel = DiFactory.Services.Resolve<BikaCategoryViewModel>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

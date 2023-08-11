@@ -1,65 +1,60 @@
-﻿using PicaComic;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+using PicaComic;
 using PicaComic.Models;
-using ShadowViewer.Enums;
+using PicaComic.Responses;
 using ShadowViewer.Interfaces;
-using ShadowViewer.Plugin.Bika.Models;
-using SqlSugar;
-using ShadowViewer.Plugin.Bika.Controls;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
+using Thumb = PicaComic.Models.Thumb;
 
-namespace ShadowViewer.Plugin.Bika.ViewModels
+namespace ShadowViewer.Plugin.Bika.ViewModels;
+
+public class ClassificationViewModel
 {
-    public class ClassificationViewModel
+    private IPicaClient BikaClient { get; }
+    public ClassificationViewModel(ICallableService caller,IPicaClient client)
     {
-        public ObservableCollection<Category> Categories { get; } = new()
+        Caller = caller;
+        BikaClient = client;
+    }
+
+    public ObservableCollection<Category> Categories { get; } = new()
+    {
+        new Category
         {
-            new Category
+            Title = BikaResourcesHelper.GetString(BikaResourceKey.Leaderboard),
+            Thumb = new Thumb
             {
-                Title = BikaResourcesHelper.GetString(BikaResourceKey.Leaderboard),
-                Thumb = new PicaComic.Models.Thumb
-                {
-                    FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_leaderboard.jpg"
-                }
-            },
-            new Category
-            {
-                Title = BikaResourcesHelper.GetString(BikaResourceKey.Random),
-                Thumb = new PicaComic.Models.Thumb
-                {
-                    FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_random.jpg"
-                }
-            },
-            new Category
-            {
-                Title = BikaResourcesHelper.GetString(BikaResourceKey.Latest),
-                Thumb = new PicaComic.Models.Thumb
-                {
-                    FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_latest.jpg"
-                }
+                FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_leaderboard.jpg"
             }
-        };
-
-        public static ClassificationViewModel Current { get; } = new();
-        private ICallableToolKit Caller { get; } = DiFactory.Current.Services.GetService<ICallableToolKit>();
-
-        public async Task GetClassification()
+        },
+        new Category
         {
-            if (Categories.Count <= 5)
+            Title = BikaResourcesHelper.GetString(BikaResourceKey.Random),
+            Thumb = new Thumb
             {
-                await BikaHttpHelper.TryRequest(this, PicaClient.Categories(), res =>
-                {
-                    foreach (var item in res.Data.Categories)
-                    {
-                        Categories.Add(item);
-                    }
-                });
+                FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_random.jpg"
+            }
+        },
+        new Category
+        {
+            Title = BikaResourcesHelper.GetString(BikaResourceKey.Latest),
+            Thumb = new Thumb
+            {
+                FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_latest.jpg"
             }
         }
+    };
+
+    private ICallableService Caller { get; }
+
+    public async Task GetClassification()
+    {
+        if (Categories.Count <= 5)
+            await BikaHttpHelper.TryRequest(this, BikaClient.Categories(), res =>
+            {
+                foreach (var item in res.Data.Categories) Categories.Add(item);
+            });
     }
 }

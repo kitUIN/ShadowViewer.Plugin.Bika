@@ -16,12 +16,15 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
 using CommunityToolkit.WinUI;
+using DryIoc;
 using Microsoft.Extensions.DependencyInjection;
 using PicaComic;
 using PicaComic.Responses;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
 using SqlSugar;
 
@@ -29,9 +32,11 @@ namespace ShadowViewer.Plugin.Bika.Controls
 {
     public sealed partial class LoginTip : UserControl
     {
+        private IPicaClient BikaClient { get; }
         public LoginTip()
         {
             this.LoadComponent(ref _contentLoaded);
+            BikaClient = DiFactory.Services.Resolve<IPicaClient>();
         }
 
         public void Show()
@@ -48,7 +53,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
         /// </summary>
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            var caller = DiFactory.Services.Resolve<ICallableService>();
             if (string.IsNullOrEmpty(Email.Text) || string.IsNullOrEmpty(Password.Password))
             {
                 caller.TopGrid(this, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown,
@@ -56,12 +61,12 @@ namespace ShadowViewer.Plugin.Bika.Controls
                 return;
             }
 
-            await BikaHttpHelper.TryRequest(this, PicaClient.SignIn(Email.Text, Password.Password),
+            await BikaHttpHelper.TryRequest(this, BikaClient.SignIn(Email.Text, Password.Password),
                 res =>
                 {
                     DispatcherQueue.TryEnqueue(() =>
                         {
-                            var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                            var db = DiFactory.Services.Resolve<ISqlSugarClient>();
                             db.Storageable(new BikaUser()
                             {
                                 Email = Email.Text,
@@ -73,7 +78,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
                         }
                     );
                 });
-            await BikaHttpHelper.TryRequest(this, PicaClient.Profile(), res =>
+            await BikaHttpHelper.TryRequest(this, BikaClient.Profile(), res =>
             {
                 BikaData.Current.CurrentUser = res.Data.User;
                 caller.TopGrid(this, new TipPopup(
@@ -111,7 +116,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
             if (BikaConfigHelper.Contains(BikaConfigKey.LastBikaUser))
             {
                 var user = BikaConfig.LastBikaUser;
-                var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                var db = DiFactory.Services.Resolve<ISqlSugarClient>();
                 if (db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
                 {
                     if (RememberMeBox.IsChecked ?? false)

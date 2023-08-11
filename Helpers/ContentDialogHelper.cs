@@ -8,7 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using static Dm.net.buffer.ByteArrayBuffer;
 using Microsoft.UI.Text;
+using Microsoft.UI.Xaml.Media.Imaging;
 using PicaComic;
+using Serilog;
+using ShadowViewer.Helpers;
+using ShadowViewer.Plugin.Bika.Enums;
 
 namespace ShadowViewer.Plugin.Bika.Helpers
 {

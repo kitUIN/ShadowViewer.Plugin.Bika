@@ -1,18 +1,20 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using DryIoc;
 using PicaComic;
 using PicaComic.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SqlSugar;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
     public partial class BikaInfoViewModel: ObservableObject
     {
+        private IPicaClient BikaClient { get; }
+        public BikaInfoViewModel(IPicaClient client)
+        {
+            BikaClient = client;
+        }
         public string ComicId { get; set; }
         [ObservableProperty]
         private ComicInfo currentComic = new();
@@ -28,11 +30,14 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         public ObservableCollection<Comment> Comments { get;  }= new();
         [ObservableProperty] private string favouriteText = BikaResourcesHelper.GetString(BikaResourceKey.Favourite);
         [ObservableProperty] private string likeText = BikaResourcesHelper.GetString(BikaResourceKey.Like);
+        
+        
+        
         public async void RefreshComments(int page = 1)
         {
             if (CommentEmpty && page==1)
             {
-                await BikaHttpHelper.TryRequest(this, PicaClient.ComicComments(ComicId, page), res =>
+                await BikaHttpHelper.TryRequest(this, BikaClient.ComicComments(ComicId, page), res =>
                 {
                     if (page == 1 && res.Data.TopComments.Count != 0)
                     {
@@ -54,7 +59,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         {
             if (RecommendEmpty)
             {
-                await BikaHttpHelper.TryRequest(this, PicaClient.Recommendation(ComicId), res =>
+                await BikaHttpHelper.TryRequest(this, BikaClient.Recommendation(ComicId), res =>
                 {
                     foreach (var item in res.Data.Comics)
                     {
@@ -67,7 +72,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             
             public async void Refresh()
         {
-            await BikaHttpHelper.TryRequest(this, PicaClient.ComicInfo(ComicId), res =>
+            await BikaHttpHelper.TryRequest(this, BikaClient.ComicInfo(ComicId), res =>
             {
                 CurrentComic = res.Data.Comic;
                 order = CurrentComic.TotalComments;
@@ -78,7 +83,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             });
             var i = 1;
             var total =  1;
-            await BikaHttpHelper.TryRequest(this, PicaClient.Episodes(ComicId, i), res =>
+            await BikaHttpHelper.TryRequest(this, BikaClient.Episodes(ComicId, i), res =>
             {
                 foreach (var item in res.Data.Episodes.Docs)
                 {
@@ -89,7 +94,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             });
             for (i++; i <= total; i++)
             {
-                await BikaHttpHelper.TryRequest(this, PicaClient.Episodes(ComicId, i), res =>
+                await BikaHttpHelper.TryRequest(this, BikaClient.Episodes(ComicId, i), res =>
                 {
                     foreach (var item in res.Data.Episodes.Docs)
                     {

@@ -1,4 +1,8 @@
-﻿namespace ShadowViewer.Plugin.Bika.Extensions
+﻿using Microsoft.UI.Xaml.Markup;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
+
+namespace ShadowViewer.Plugin.Bika.Extensions
 {
     /// <summary>
     /// 多语言本地化[哔咔插件]
