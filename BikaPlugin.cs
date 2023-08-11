@@ -9,6 +9,7 @@ using PicaComic;
 using Serilog;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
+using ShadowViewer.Extensions;
 using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Models;
@@ -36,7 +37,7 @@ public class BikaPlugin : PluginBase
     /// <summary>
     /// µÇÂ¼´°Ìå
     /// </summary>
-    public static LoginTip MainLoginTip = new();
+    private static LoginTip _mainLoginTip = new();
 
     /// <summary>
     /// <inheritdoc/>
@@ -44,20 +45,14 @@ public class BikaPlugin : PluginBase
     public override LocalTag AffiliationTag { get; } =
         new(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
 
-    public new static readonly PluginMetaData MetaData = new(
-        "Bika",
-        "ßÙßÇÂþ»­",
-        "ßÙßÇÂþ»­ÊÊÅäÆ÷",
-        "kitUIN", "0.1.0",
-        "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
-        "ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png",
-        20230808);
+    public new static PluginMetaData MetaData { get; private set; }
 
     private IPicaClient BikaClient { get; }
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
         CompressService compressService, IPluginService pluginService) :
         base(callableService, sqlSugarClient, compressService, pluginService)
     {
+        MetaData = this.GetPluginMetaData();
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
         DiFactory.Services.Register<BikaSettingsViewModel>(reuse: Reuse.Singleton);
@@ -110,9 +105,9 @@ public class BikaPlugin : PluginBase
         }
         else
         {
-            MainLoginTip = new LoginTip();
-            Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
-            MainLoginTip.Show();
+            _mainLoginTip = new LoginTip();
+            Caller.TopGrid(this, _mainLoginTip, TopGridMode.Dialog);
+            _mainLoginTip.Show();
         }
     }
 
@@ -132,7 +127,7 @@ public class BikaPlugin : PluginBase
     protected override void PluginDisabled()
     {
         // ¹Ø±ÕµÇÂ¼´°Ìå
-        MainLoginTip.Hide();
+        _mainLoginTip.Hide();
     }
 
     /// <summary>
@@ -166,9 +161,9 @@ public class BikaPlugin : PluginBase
 
             if (!b)
             {
-                MainLoginTip = new LoginTip();
-                Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
-                MainLoginTip.Show();
+                _mainLoginTip = new LoginTip();
+                Caller.TopGrid(this, _mainLoginTip, TopGridMode.Dialog);
+                _mainLoginTip.Show();
             }
             else
             {
