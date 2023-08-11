@@ -60,8 +60,8 @@ public class BikaPlugin : PluginBase
     {
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
-        DiFactory.Services.Register<BikaSettingsViewModel>(setup: Setup.With(openResolutionScope: true),reuse: Reuse.Singleton);
-        DiFactory.Services.Register<ClassificationViewModel>(setup: Setup.With(openResolutionScope: true),reuse: Reuse.Singleton);
+        DiFactory.Services.Register<BikaSettingsViewModel>(reuse: Reuse.Singleton);
+        DiFactory.Services.Register<ClassificationViewModel>(reuse: Reuse.Singleton);
         DiFactory.Services.Register<BikaInfoViewModel>(reuse: Reuse.Transient);
         DiFactory.Services.Register<BikaCategoryViewModel>(reuse: Reuse.Transient);
     }

@@ -18,13 +18,6 @@ public partial class BikaSettingsViewModel : ObservableObject
 {
     private IPicaClient BikaClient { get; }
 
-     
-    public BikaSettingsViewModel(IPicaClient client)
-    {
-        BikaClient = client;
-        
-    }
-
     [ObservableProperty] private bool pingShow;
     [ObservableProperty] private int apiShunt= IPicaClient.AppChannel - 1;
     [ObservableProperty] private int picShunt= IPicaClient.FileChannel - 1;
@@ -36,8 +29,9 @@ public partial class BikaSettingsViewModel : ObservableObject
     [ObservableProperty] private FluentIconSymbol pingIcon = FluentIconSymbol.CheckmarkCircleFilled;
     private ICallableService Caller { get; }
 
-    public BikaSettingsViewModel(ICallableService callableService)
+    public BikaSettingsViewModel(ICallableService callableService, IPicaClient client)
     {
+        BikaClient = client;
         Caller = callableService;
         LoadLockComicShow = !BikaConfig.IsIgnoreLockComic;
         CanTemporaryUnlockShow = !BikaConfig.IsIgnoreLockComic && BikaConfig.LoadLockComic;
@@ -147,6 +141,5 @@ public partial class BikaSettingsViewModel : ObservableObject
                 InfoBarSeverity.Error), TopGridMode.Tip);
         }
     }
-    
-    
+
 }
