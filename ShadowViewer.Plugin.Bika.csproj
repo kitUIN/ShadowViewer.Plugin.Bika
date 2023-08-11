@@ -37,6 +37,7 @@
     <Content Update="Assets\Icons\logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
+    <Content Remove="pica_telegram.jpg" />
   </ItemGroup>
 
   <ItemGroup>

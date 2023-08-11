@@ -33,9 +33,9 @@ namespace ShadowViewer.Plugin.Bika;
 public class BikaPlugin : PluginBase
 {
     /// <summary>
-    /// µÇÂ¼´°Ìå
+    /// Login Frame
     /// </summary>
-    public static LoginTip MainLoginTip = new();
+    public static LoginTip MainLoginTip { get; set; }
 
     /// <summary>
     /// <inheritdoc/>
@@ -103,9 +103,7 @@ public class BikaPlugin : PluginBase
         }
         else
         {
-            MainLoginTip = new LoginTip();
-            Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
-            MainLoginTip.Show();
+            ShowLoginFrame();
         }
     }
 
@@ -124,12 +122,12 @@ public class BikaPlugin : PluginBase
     /// </summary>
     protected override void PluginDisabled()
     {
-        // ¹Ø±ÕµÇÂ¼´°Ìå
+        // Close Login Frame
         MainLoginTip.Hide();
     }
 
     /// <summary>
-    /// ×Ô¶¯µÇÂ¼
+    /// Auto Login
     /// </summary>
     private bool TryAutoLogin()
     {
@@ -137,55 +135,55 @@ public class BikaPlugin : PluginBase
         if (Db.Queryable<BikaUser>().First(x => x.Email == user) is { } bikaUser)
         {
             BikaClient.SetToken(bikaUser.Token);
-            Caller.TopGrid(this, new TipPopup(
+            NotificationHelper.Notify(this,
                 $"[{MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
-                InfoBarSeverity.Success), TopGridMode.Tip);
+                InfoBarSeverity.Success);
             return true;
         }
 
         return false;
     }
-
     /// <summary>
-    /// ¼ì²éµÇÂ¼Æ¾Ö¤
+    /// Show Login Frame On Main Window
+    /// </summary>
+    private void ShowLoginFrame()
+    {
+        MainLoginTip = new LoginTip();
+        Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
+        MainLoginTip.Show();
+    }
+    /// <summary>
+    /// Check Token
     /// </summary>
     private async void CheckToken()
     {
-        // Î´¼ÓÔØµÇÂ¼Æ¾Ö¤Ôò¼ÓÔØ
-        if (!BikaClient.HasToken)
+        // if no token then load token
+        if (BikaClient.HasToken) return;
+        var b = false;
+        if (BikaConfig.AutoLogin) b = TryAutoLogin();
+        if (!b)
         {
-            var b = false;
-            if (BikaConfig.AutoLogin) b = TryAutoLogin();
-
-            if (!b)
-            {
-                MainLoginTip = new LoginTip();
-                Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
-                MainLoginTip.Show();
-            }
-            else
-            {
-                await BikaHttpHelper.Profile(this);
-                await BikaHttpHelper.PunchIn(this);
-                await BikaHttpHelper.Keywords();
-            }
+            ShowLoginFrame();
+        }
+        else
+        {
+            await BikaHttpHelper.Profile(this);
+            await BikaHttpHelper.PunchIn(this);
+            await BikaHttpHelper.Keywords();
         }
     }
 
     /// <summary>
-    /// ¼ì²é·âÓ¡
+    /// Check Locks
     /// </summary>
-    private void CheckLock()
+    private static void CheckLock()
     {
-        // Î´¼ÓÔØ·âÓ¡Ôò¼ÓÔØ
-        if (BikaData.Current.Locks.Count == 0)
-            foreach (var item in BikaData.Categories)
-                if (ConfigHelper.Contains(item))
-                    BikaData.Current.Locks.Add(
-                        new BikaLock(item,
-                            ConfigHelper.GetBoolean(item))
-                    );
-                else
-                    ConfigHelper.Set(item, true);
+        // if no locks then load locks
+        if (BikaData.Current.Locks.Count != 0) return;
+        foreach (var item in BikaData.Categories)
+            if (ConfigHelper.Contains(item))
+                BikaData.Current.Locks.Add( new BikaLock(item, ConfigHelper.GetBoolean(item)));
+            else
+                ConfigHelper.Set(item, true);
     }
 }
