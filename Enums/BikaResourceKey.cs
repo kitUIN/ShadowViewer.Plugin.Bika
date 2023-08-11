@@ -107,5 +107,6 @@
         BlockEmpty,
         RecommendComics,
         Comments,
+        Reply,
     }
 }

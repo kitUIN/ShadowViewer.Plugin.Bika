@@ -435,4 +435,7 @@
   <data name="Comments" xml:space="preserve">
     <value>评论</value>
   </data>
+  <data name="Reply" xml:space="preserve">
+    <value>回复</value>
+  </data>
 </root>
