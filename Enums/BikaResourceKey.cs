@@ -99,7 +99,7 @@
         CurrentPageCounts,
         UpdateTime,
         Favourite,
-        Favorited,
+        Favourited,
         Like,
         Liked,
         BookChapters,

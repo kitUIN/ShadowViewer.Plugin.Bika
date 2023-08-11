@@ -107,7 +107,14 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 else
                 {
                     LeftScrollViewer.Height = LeftGrid.ActualHeight;
-                    
+                    if(RightGrid.SelectedIndex == 0)
+                    {
+                        // RightScrollViewer.Height;
+                    }
+                    else
+                    {
+                        
+                    }
                 }
             }
 

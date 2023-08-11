@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PicaComic;
 using PicaComic.Models;
 using PicaComic.Responses;
@@ -10,7 +12,7 @@ using Thumb = PicaComic.Models.Thumb;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 
-public class ClassificationViewModel
+public partial class ClassificationViewModel:ObservableObject
 {
     private IPicaClient BikaClient { get; }
     public ClassificationViewModel(ICallableService caller,IPicaClient client)
@@ -19,6 +21,7 @@ public class ClassificationViewModel
         BikaClient = client;
     }
 
+     
     public ObservableCollection<Category> Categories { get; } = new()
     {
         new Category
