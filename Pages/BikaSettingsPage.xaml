@@ -168,7 +168,7 @@
                     IsActionIconVisible="True"
                     IsClickEnabled="True">
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="© 2023-2023 kitUIN. All rights reserved." Header="{x:Bind local:BikaPlugin.Meta.Name}">
+                        <local2:ShadowSettingHeader Description="© 2023-2023 kitUIN. All rights reserved." Header="{x:Bind local:BikaPlugin.MetaData.Name}">
                             <BitmapIcon
                                 Width="30"
                                 Height="30"

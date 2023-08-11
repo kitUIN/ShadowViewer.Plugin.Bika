@@ -36,7 +36,7 @@
                 HorizontalAlignment="Center"
                 FontSize="30"
                 FontWeight="SemiBold"
-                Text="{x:Bind local:BikaPlugin.Meta.Name}" />
+                Text="{x:Bind local:BikaPlugin.MetaData.Name}" />
             <TextBlock
                 Grid.Row="2"
                 HorizontalAlignment="Center"
@@ -57,12 +57,12 @@
                     LeftBackground="#FF5e5e5e"
                     LeftTitle="{ex:BikaLocale Key=PluginVersion}"
                     RightBackground="#FF6e9bc5"
-                    RightTitle="{x:Bind local:BikaPlugin.Meta.Version}" />
+                    RightTitle="{x:Bind local:BikaPlugin.MetaData.Version}" />
                 <controls:Badge
                     LeftBackground="#FF5e5e5e"
                     LeftTitle="{ex:BikaLocale Key=LowestVersion}"
                     RightBackground="#FFf0932b"
-                    RightTitle="{x:Bind local:BikaPlugin.Meta.MinVersion}" />
+                    RightTitle="{x:Bind local:BikaPlugin.MetaData.MinVersion}" />
                 <controls:Badge
                     LeftBackground="#FF5e5e5e"
                     LeftTitle="{ex:BikaLocale Key=License}"

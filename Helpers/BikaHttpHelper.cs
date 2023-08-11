@@ -109,7 +109,7 @@ public class BikaHttpHelper
             await TryRequest(sender, client.PunchIn(), res =>
             {
                 caller.TopGrid(sender, new TipPopup(
-                    $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoPunchInSuccess)}",
+                    $"[{BikaPlugin.MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoPunchInSuccess)}",
                     InfoBarSeverity.Success), TopGridMode.Tip);
             });
         }

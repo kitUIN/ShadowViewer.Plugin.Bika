@@ -22,7 +22,13 @@ using ShadowViewer.Plugins;
 using ShadowViewer.Services;
 
 namespace ShadowViewer.Plugin.Bika;
-
+[PluginMetaData( "Bika",
+    "ßÙßÇÂþ»­",
+    "ßÙßÇÂþ»­ÊÊÅäÆ÷",
+    "kitUIN", "0.1.0",
+    "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
+    "ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png",
+    20230808)]
 public class BikaPlugin : PluginBase
 {
     private static readonly ILogger Logger = Log.ForContext<BikaPlugin>();
@@ -35,34 +41,29 @@ public class BikaPlugin : PluginBase
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override PluginMetaData MetaData { get; }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
     public override LocalTag AffiliationTag { get; } =
         new(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
 
-    public static readonly PluginMetaData Meta = new(
+    public new static readonly PluginMetaData MetaData = new(
         "Bika",
         "ßÙßÇÂþ»­",
         "ßÙßÇÂþ»­ÊÊÅäÆ÷",
         "kitUIN", "0.1.0",
-        new Uri("https://github.com/kitUIN/ShadowViewer.Plugin.Bika/"),
-        new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"),
+        "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
+        "ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png",
         20230808);
-    public IPicaClient BikaClient { get; }
+
+    private IPicaClient BikaClient { get; }
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
         CompressService compressService, IPluginService pluginService) :
         base(callableService, sqlSugarClient, compressService, pluginService)
     {
-        DiFactory.Services.Register<IPicaClient, PicaClient>(Reuse.Singleton);
-        BikaClient = DiFactory.Services.Resolve<IPicaClient>();
-        DiFactory.Services.Register<BikaSettingsViewModel>(reuse: Reuse.Singleton);
-        DiFactory.Services.Register<ClassificationViewModel>(reuse: Reuse.Singleton);
+        BikaClient = new PicaClient();
+        DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
+        DiFactory.Services.Register<BikaSettingsViewModel>(setup: Setup.With(openResolutionScope: true),reuse: Reuse.Singleton);
+        DiFactory.Services.Register<ClassificationViewModel>(setup: Setup.With(openResolutionScope: true),reuse: Reuse.Singleton);
         DiFactory.Services.Register<BikaInfoViewModel>(reuse: Reuse.Transient);
         DiFactory.Services.Register<BikaCategoryViewModel>(reuse: Reuse.Transient);
-        MetaData = Meta;
     }
 
     /// <summary>
@@ -144,7 +145,7 @@ public class BikaPlugin : PluginBase
         {
             BikaClient.SetToken(bikaUser.Token);
             Caller.TopGrid(this, new TipPopup(
-                $"[{Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
+                $"[{MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
                 InfoBarSeverity.Success), TopGridMode.Tip);
             return true;
         }

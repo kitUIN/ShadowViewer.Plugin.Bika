@@ -82,7 +82,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
             {
                 BikaData.Current.CurrentUser = res.Data.User;
                 caller.TopGrid(this, new TipPopup(
-                    $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
+                    $"[{BikaPlugin.MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
                     InfoBarSeverity.Success), TopGridMode.Tip);
             });
             await BikaHttpHelper.PunchIn(this);

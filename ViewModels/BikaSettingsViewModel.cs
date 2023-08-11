@@ -137,13 +137,13 @@ public partial class BikaSettingsViewModel : ObservableObject
             BikaClient.SetProxy(uri);
             BikaConfig.Proxy = text;
             Caller.TopGrid(this, new TipPopup(
-                $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetSuccess)}",
+                $"[{BikaPlugin.MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetSuccess)}",
                 InfoBarSeverity.Success), TopGridMode.Tip);
         }
         catch (Exception)
         {
             Caller.TopGrid(this, new TipPopup(
-                $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetError)}",
+                $"[{BikaPlugin.MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetError)}",
                 InfoBarSeverity.Error), TopGridMode.Tip);
         }
     }
