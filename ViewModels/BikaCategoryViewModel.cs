@@ -1,8 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using PicaComic;
 using PicaComic.Models;
 using PicaComic.Utils;
 using System.Collections.ObjectModel;
+using System.Linq;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {

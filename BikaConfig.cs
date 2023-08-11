@@ -1,4 +1,7 @@
-﻿using PicaComic;
+﻿using System;
+using PicaComic;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 
 namespace ShadowViewer.Plugin.Bika
 {

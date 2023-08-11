@@ -1,11 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DryIoc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml.Controls;
 using PicaComic;
 using PicaComic.Responses;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Bika.Enums;
 
 namespace ShadowViewer.Plugin.Bika.Helpers;
 
@@ -13,7 +16,7 @@ public class BikaHttpHelper
 {
     public static async Task TryRequest<T>(object sender,Task<T> req,Action<T> success) where T : PicaResponse
     {
-        var caller = DiFactory.Services.Resolve<ICallableToolKit>();
+        var caller = DiFactory.Services.Resolve<ICallableService>();
         try
         {
             var res =  await req;
@@ -52,7 +55,7 @@ public class BikaHttpHelper
     }
     public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Action<T> success) where T : PicaResponse
     {
-        var caller = DiFactory.Services.Resolve<ICallableToolKit>();
+        var caller = DiFactory.Services.Resolve<ICallableService>();
         try
         {
             var res =  await req;
@@ -100,7 +103,7 @@ public class BikaHttpHelper
     {
         if (BikaData.Current.CurrentUser != null && !BikaData.Current.CurrentUser.IsPunched)
         {
-            var caller = DiFactory.Services.Resolve<ICallableToolKit>();
+            var caller = DiFactory.Services.Resolve<ICallableService>();
             await TryRequest(sender,PicaClient.PunchIn(), res =>
             {
                 caller.TopGrid(sender, new TipPopup(

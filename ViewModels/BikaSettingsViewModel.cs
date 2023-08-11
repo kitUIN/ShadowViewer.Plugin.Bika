@@ -14,6 +14,10 @@ using ShadowViewer.Interfaces;
 using ShadowViewer.Extensions;
 using System.Drawing;
 using DryIoc;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -37,11 +41,10 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         private SolidColorBrush pingColor = new SolidColorBrush(Colors.Green);
         [ObservableProperty]
         private FluentIconSymbol pingIcon = FluentIconSymbol.CheckmarkCircleFilled;
-        public static BikaSettingsViewModel Current { get; set; } = new BikaSettingsViewModel();
-        private ICallableToolKit Caller { get; }
-        public BikaSettingsViewModel()
+        private ICallableService Caller { get; }
+        public BikaSettingsViewModel(ICallableService callableService)
         { 
-            Caller = DiFactory.Services.Resolve<ICallableToolKit>();
+            Caller = callableService;
             LoadLockComicShow = !BikaConfig.IsIgnoreLockComic;
             CanTemporaryUnlockShow = !BikaConfig.IsIgnoreLockComic && BikaConfig.LoadLockComic;
         }

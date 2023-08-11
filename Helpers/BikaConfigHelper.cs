@@ -1,4 +1,8 @@
-﻿namespace ShadowViewer.Plugin.Bika.Helpers;
+﻿using System;
+using ShadowViewer.Helpers;
+using ShadowViewer.Plugin.Bika.Enums;
+
+namespace ShadowViewer.Plugin.Bika.Helpers;
 
 public class BikaConfigHelper
 {

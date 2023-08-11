@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShadowViewer.Plugin.Bika.Enums;
 
 namespace ShadowViewer.Plugin.Bika.Args
 {

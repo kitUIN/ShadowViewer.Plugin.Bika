@@ -23,6 +23,8 @@ using PicaComic.Responses;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
 using SqlSugar;
 
@@ -49,7 +51,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
         /// </summary>
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            var caller = DiFactory.Services.Resolve<ICallableToolKit>();
+            var caller = DiFactory.Services.Resolve<ICallableService>();
             if (string.IsNullOrEmpty(Email.Text) || string.IsNullOrEmpty(Password.Password))
             {
                 caller.TopGrid(this, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown,

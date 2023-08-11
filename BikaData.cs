@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using PicaComic.Models;
 using ShadowViewer.Plugin.Bika.Models;
 
