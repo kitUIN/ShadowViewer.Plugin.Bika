@@ -57,6 +57,8 @@ public class BikaPlugin : PluginBase
         DiFactory.Services.Register<ClassificationViewModel>(reuse: Reuse.Singleton);
         DiFactory.Services.Register<BikaInfoViewModel>(reuse: Reuse.Transient);
         DiFactory.Services.Register<BikaCategoryViewModel>(reuse: Reuse.Transient);
+        DiFactory.Services.Register<LoginTipViewModel>(reuse: Reuse.Transient);
+        BikaConfig.Init();
     }
 
     /// <summary>

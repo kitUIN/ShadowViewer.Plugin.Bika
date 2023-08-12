@@ -441,16 +441,19 @@
   <data name="Success" xml:space="preserve">
     <value>成功</value>
   </data>
-  <data name="SendComicComment" xml:space="preserve">
-    <value></value>
+  <data name="SendComment" xml:space="preserve">
+    <value>发送评论</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>操作</value>
   </data>
   <data name="GetProfile" xml:space="preserve">
-    <value></value>
+    <value>获取个人信息</value>
   </data>
   <data name="GetKeywords" xml:space="preserve">
-    <value></value>
+    <value>获取热门标签</value>
+  </data>
+  <data name="Logining" xml:space="preserve">
+    <value>登录中</value>
   </data>
 </root>

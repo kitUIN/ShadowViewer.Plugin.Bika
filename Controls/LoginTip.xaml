@@ -6,9 +6,15 @@
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:local="using:ShadowViewer.Plugin.Bika.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d">
-
-    <TeachingTip
+    <UserControl.Resources>
+        <converters:BoolToObjectConverter
+            x:Key="CanLoginConverter"
+            FalseValue="{ex:BikaLocale Key=Logining}"
+            TrueValue="{ex:BikaLocale Key=Login}" />
+    </UserControl.Resources>
+    <TeachingTip IsOpen="{x:Bind ViewModel.IsOpen,Mode=TwoWay}"
         x:Name="Login"
         Title="{ex:BikaLocale Key=LoginTitle}"
         IsLightDismissEnabled="False"
@@ -35,7 +41,7 @@
                 HorizontalAlignment="Center"
                 Background="Transparent"
                 ColumnSpacing="10"
-                Loaded="FrameworkElement_OnLoaded">
+                >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -53,7 +59,7 @@
                 <TextBox
                     x:Name="Email"
                     Grid.Row="0"
-                    Grid.Column="1"
+                    Grid.Column="1" Text="{x:Bind ViewModel.Email,Mode=TwoWay}"
                     HorizontalAlignment="Stretch"
                     PlaceholderText="{ex:BikaLocale Key=UserName}" />
                 <TextBlock
@@ -61,39 +67,36 @@
                     Grid.Column="0"
                     Margin="0,5,0,0"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Center" 
                     Text="{ex:BikaLocale Key=Password}" />
                 <PasswordBox
                     x:Name="Password"
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="0,5,0,0"
-                    HorizontalAlignment="Stretch"
-                    KeyDown="Password_OnKeyDown"
+                    HorizontalAlignment="Stretch" Password="{x:Bind ViewModel.Password,Mode=TwoWay}"
+                    KeyDown="{x:Bind  ViewModel.Password_OnKeyDown}"
                     PlaceholderText="{ex:BikaLocale Key=Password}" />
             </Grid>
             <Grid Grid.Row="2" Padding="0,5">
                 <CheckBox
-                    x:Name="RememberMeBox"
-                    HorizontalAlignment="Left"
-                    Checked="RememberMe_OnChecked"
-                    Content="{ex:BikaLocale Key=RememberMe}"
-                    Unchecked="RememberMe_OnChecked" />
+                    x:Name="RememberMeBox" IsChecked="{x:Bind ViewModel.RememberMe,Mode=TwoWay}"
+                    HorizontalAlignment="Left" 
+                    Content="{ex:BikaLocale Key=RememberMe}" />
                 <CheckBox
                     x:Name="AutoLoginBox"
                     HorizontalAlignment="Right"
-                    Checked="AutoLogin_OnChecked"
+                    IsChecked="{x:Bind ViewModel.AutoLogin,Mode=TwoWay}" 
                     Content="{ex:BikaLocale Key=AutoLogin}"
-                    FlowDirection="RightToLeft"
-                    Unchecked="AutoLogin_OnChecked" />
+                    FlowDirection="RightToLeft"  />
             </Grid>
             <Button
                 Grid.Row="3"
                 Width="100"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Click="Login_Click"
-                Content="{ex:BikaLocale Key=Login}" />
+                Command="{x:Bind ViewModel.LoginCommand,Mode=OneWay}"
+                Content="{x:Bind ViewModel.CanLogin ,Mode=OneWay,Converter={StaticResource CanLoginConverter}}" />
         </Grid>
     </TeachingTip>
 </UserControl>
