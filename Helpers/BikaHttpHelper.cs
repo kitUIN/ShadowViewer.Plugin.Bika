@@ -14,8 +14,47 @@ namespace ShadowViewer.Plugin.Bika.Helpers;
 
 public class BikaHttpHelper
 {
-    public static async Task TryRequest<T>(object sender,Task<T> req,Action<T> success) where T : PicaResponse
-    {
+    public static async Task TryRequest<T>(object sender,Task<T> req, Func<T,Task> success) where T : PicaResponse
+    { 
+        var caller = DiFactory.Services.Resolve<ICallableService>();
+        try
+        {
+            var res =  await req;
+            if (res.Code != 200)
+            {
+                if (res.Code == 401)
+                {
+                    caller.TopGrid(sender,
+                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, null),
+                        TopGridMode.ContentDialog);
+                }
+                else
+                {
+                    caller.TopGrid(sender,
+                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message),
+                        TopGridMode.ContentDialog);
+                }
+            }
+            else
+            {
+                await success.Invoke(res);
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            caller.TopGrid(sender,
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, null),
+                TopGridMode.ContentDialog);
+        }
+        catch (Exception exception)
+        {
+            caller.TopGrid(sender,
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()),
+                TopGridMode.ContentDialog);
+        }
+    }
+    public static async Task TryRequest<T>(object sender,Task<T> req, Action<T> success) where T : PicaResponse
+    { 
         var caller = DiFactory.Services.Resolve<ICallableService>();
         try
         {

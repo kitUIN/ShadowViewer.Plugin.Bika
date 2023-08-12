@@ -47,6 +47,10 @@
                 x:Key="EmptyToVisibilityConverter"
                 EmptyValue="Collapsed"
                 NotEmptyValue="Visible" />
+            <converters:EmptyCollectionToObjectConverter
+                x:Key="EmptyToReplyConverter"
+                EmptyValue="{ex:BikaLocale Key=Comments}"
+                NotEmptyValue="{ex:BikaLocale Key=Reply}" />
             <converters1:CollectionCountToVisibilityConverter
                 x:Key="CollectionToVisibilityConverter"
                 EmptyValue="Visible"
@@ -608,7 +612,7 @@
                                             x:Name="LikesCount"
                                             Margin="5,0,0,0"
                                             FontSize="18"
-                                            Text="{x:Bind ViewModel.CurrentComic.TotalLikes, Mode=OneWay}" />
+                                            Text="{x:Bind ViewModel.CurrentComic.LikesCount, Mode=OneWay}" />
                                         <FontIcon
                                             Margin="10,0,0,0"
                                             Foreground="{ThemeResource BikaAccentColorDark1}"
@@ -617,7 +621,7 @@
                                             x:Name="TotalViews"
                                             Margin="5,0,0,0"
                                             FontSize="18"
-                                            Text="{x:Bind ViewModel.CurrentComic.TotalViews, Mode=OneWay}" />
+                                            Text="{x:Bind ViewModel.CurrentComic.ViewsCount, Mode=OneWay}" />
                                     </StackPanel>
                                     <TextBlock
                                         x:Name="CategoriesString"
@@ -746,14 +750,6 @@
 
                                         </StackPanel>
                                     </StackPanel>
-                                    <i:Interaction.Behaviors>
-                                        <ic:EventTriggerBehavior EventName="Tapped">
-                                            <labs:StartTransitionAction
-                                                Source="{Binding ElementName=FirstCreatorBorder}"
-                                                Target="{Binding ElementName=SecondCreatorBorder}"
-                                                Transition="{StaticResource MyTransitionHelper}" />
-                                        </ic:EventTriggerBehavior>
-                                    </i:Interaction.Behaviors>
                                 </Grid>
                                 <StackPanel
                                     Grid.Row="1"
@@ -786,7 +782,6 @@
                                             <AppBarToggleButton.Icon>
                                                 <FontIcon Foreground="HotPink" Glyph="&#xEB52;" />
                                             </AppBarToggleButton.Icon>
-
                                         </AppBarToggleButton>
                                         <InfoBadge
                                             x:Name="LikeCounts"
@@ -873,9 +868,13 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <controls2:EmptyTip Width="400" Visibility="{x:Bind ViewModel.Comments.Count, Mode=OneWay, Converter={StaticResource CollectionToVisibilityConverter}}" />
-                            <ScrollViewer Grid.Row="0" Padding="10,10,10,0">
+                            <ScrollViewer
+                                x:Name="CommentsScrollViewer"
+                                Grid.Row="0"
+                                Padding="10,10,10,0"
+                                ViewChanged="ScrollViewer_OnViewChanged">
                                 <ItemsRepeater
-                                    x:Name="BookComments"
+                                    x:Name="CommentsItemsRepeater"
                                     HorizontalAlignment="Stretch"
                                     ItemTemplate="{StaticResource MainCommentTemplate}"
                                     ItemsSource="{x:Bind ViewModel.Comments}">
@@ -909,7 +908,7 @@
                                         Width="32"
                                         HorizontalAlignment="Center"
                                         Glyph="&#xE97A;" />
-                                    <StackPanel Grid.Column="1">
+                                    <StackPanel Grid.Column="1" Tapped="UIElement_OnTapped">
                                         <TextBlock
                                             Foreground="{ThemeResource BikaAccentColorDark2}"
                                             Text="{x:Bind ViewModel.ReplyComment.User.Name, Mode=OneWay}"
@@ -934,18 +933,17 @@
                                         Width="32"
                                         VerticalAlignment="Top"
                                         ProfilePicture="{x:Bind local:BikaData.Current.CurrentUser.Avatar.FilePath, Mode=OneWay}" />
-                                    <TextBox
+                                    <TextBox 
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
                                         AcceptsReturn="True"
                                         IsSpellCheckEnabled="True"
                                         Text="{x:Bind ViewModel.ReplyText, Mode=TwoWay}"
                                         TextWrapping="Wrap" />
-                                    <Button
-                                        Grid.Column="2"
-                                        VerticalAlignment="Top"
-                                        Command="{x:Bind ViewModel.CommentCommand}"
-                                        Content="{ex:BikaLocale Key=Comments}" />
+                                    <Button Content = "{x:Bind ViewModel.ReplyComment.Id, Mode=OneWay, Converter={StaticResource EmptyToReplyConverter}}"
+                                            Grid.Column="2"
+                                            VerticalAlignment="Top"
+                                            Command="{x:Bind ViewModel.CommentCommand}"  />
                                 </Grid>
 
                             </Grid>
