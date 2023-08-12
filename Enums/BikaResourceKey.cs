@@ -108,5 +108,10 @@
         RecommendComics,
         Comments,
         Reply,
+        Success,
+        SendComment,
+        Action,
+        GetProfile,
+        GetKeywords,
     }
 }

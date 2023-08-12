@@ -8,6 +8,7 @@ using PicaComic;
 using PicaComic.Models;
 using ShadowViewer.Args;
 using ShadowViewer.Plugin.Bika.Args;
+using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
@@ -54,7 +55,7 @@ public partial class BikaInfoViewModel : ObservableObject
         if (string.IsNullOrEmpty(ReplyText)) return;
         if (string.IsNullOrEmpty(ReplyComment.Id))
         {
-            await BikaHttpHelper.TryRequest(this, BikaClient.SendComicComment(CurrentComic.Id, ReplyText), async res =>
+            await BikaHttpHelper.TryRequestWithTip(this, BikaClient.SendComicComment(CurrentComic.Id, ReplyText), async res =>
             {
                 ReplyComment = new Comment();
                 ReplyText = "";
@@ -62,12 +63,11 @@ public partial class BikaInfoViewModel : ObservableObject
                 CurrentCommentPage = 1;
                 Comments.Clear();
                 await LoadComments();
-            });
+            },$"[{BikaResourcesHelper.GetString(BikaResourceKey.SendComment)}]");
         }
         else
         {
-            
-            await BikaHttpHelper.TryRequest(this, BikaClient.SendCommentChildren(ReplyComment.Id, ReplyText),
+            await BikaHttpHelper.TryRequestWithTip(this, BikaClient.SendCommentChildren(ReplyComment.Id, ReplyText),
                 async (res) =>
                 {
                     var id = ReplyComment.Id;
@@ -77,7 +77,7 @@ public partial class BikaInfoViewModel : ObservableObject
                     var comment = Comments.FirstOrDefault(x => x.Id == id);
                     ScrollToComment(Comments.IndexOf(comment));
                     await RefreshCommentChildren(comment);
-                });
+                },$"[{BikaResourcesHelper.GetString(BikaResourceKey.SendComment)}]");
         }
     }
     public void ScrollToComment(int index)
@@ -99,7 +99,7 @@ public partial class BikaInfoViewModel : ObservableObject
     [RelayCommand]
     private async Task LikeAsync()
     {
-        await BikaHttpHelper.TryRequest(this, BikaClient.ComicLike(CurrentComic.Id), res =>
+        await BikaHttpHelper.TryRequestWithTip(this, BikaClient.ComicLike(CurrentComic.Id), res =>
         {
             switch (res.Data.action)
             {
@@ -114,7 +114,7 @@ public partial class BikaInfoViewModel : ObservableObject
                     CurrentComic.IsLiked = false;
                     break;
             }
-        });
+        },BikaResourcesHelper.GetString(BikaResourceKey.Action));
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public partial class BikaInfoViewModel : ObservableObject
     [RelayCommand]
     private async Task Favourite()
     {
-        await BikaHttpHelper.TryRequest(this, BikaClient.ComicFavourite(CurrentComic.Id), res =>
+        await BikaHttpHelper.TryRequestWithTip(this, BikaClient.ComicFavourite(CurrentComic.Id), res =>
         {
             CurrentComic.IsFavourite = res.Data.action switch
             {
@@ -131,7 +131,7 @@ public partial class BikaInfoViewModel : ObservableObject
                 "un_favourite" => false,
                 _ => CurrentComic.IsFavourite
             };
-        });
+        },BikaResourcesHelper.GetString(BikaResourceKey.Action));
     }
 
     /// <summary>
@@ -140,7 +140,7 @@ public partial class BikaInfoViewModel : ObservableObject
     public async Task LikeComment(Comment comment)
     {
         comment.IsLiked = !comment.IsLiked;
-        await BikaHttpHelper.TryRequest(this, BikaClient.CommentLike(comment.Id), res =>
+        await BikaHttpHelper.TryRequestWithTip(this, BikaClient.CommentLike(comment.Id), res =>
         {
             switch (res.Data.action)
             {
@@ -153,7 +153,7 @@ public partial class BikaInfoViewModel : ObservableObject
                     comment.IsLiked = false;
                     break;
             }
-        });
+        },BikaResourcesHelper.GetString(BikaResourceKey.Action));
     }
 
     /// <summary>
@@ -177,7 +177,7 @@ public partial class BikaInfoViewModel : ObservableObject
         var order = comment.TotalComments;
         var i = 1;
         var total = 1;
-        await BikaHttpHelper.TryRequest(this, BikaClient.CommentChildren(comment.Id, i), res =>
+        await BikaHttpHelper.TryRequestWithTip(this, BikaClient.CommentChildren(comment.Id, i), res =>
         {
             foreach (var item in res.Data.Comments.Docs)
             {
@@ -185,16 +185,16 @@ public partial class BikaInfoViewModel : ObservableObject
                 comment.Children.Add(item);
             }
             total = res.Data.Comments.Pages;
-        });
+        },isSendSuccess:false);
         for (i++; i <= total; i++)
-            await BikaHttpHelper.TryRequest(this, BikaClient.CommentChildren(comment.Id, i), res =>
+            await BikaHttpHelper.TryRequestWithTip(this, BikaClient.CommentChildren(comment.Id, i), res =>
             {
                 foreach (var item in res.Data.Comments.Docs)
                 {
                     item.Order = order--;
                     comment.Children.Add(item);
                 }
-            });
+            },isSendSuccess:false);
     }
 
     private async Task ReLoadComments()
@@ -223,7 +223,7 @@ public partial class BikaInfoViewModel : ObservableObject
     public async Task LoadComments(int page = 1)
     {
         if (TotalCommentPage < page) return;
-        await BikaHttpHelper.TryRequest(this, BikaClient.ComicComments(ComicId, page), res =>
+        await BikaHttpHelper.TryRequestWithTip(this, BikaClient.ComicComments(ComicId, page), res =>
         {
             if (CommentOrder == 0)
             {
@@ -244,16 +244,16 @@ public partial class BikaInfoViewModel : ObservableObject
             {
                 CurrentCommentPage = res.Data.Comments.Page;
             }
-        });
+        },isSendSuccess:false);
     }
 
     public async void RefreshRecommendation()
     {
         if (RecommendComics.Count == 0)
-            await BikaHttpHelper.TryRequest(this, BikaClient.Recommendation(ComicId), res =>
+            await BikaHttpHelper.TryRequestWithTip(this, BikaClient.Recommendation(ComicId), res =>
             {
                 foreach (var item in res.Data.Comics) RecommendComics.Add(item);
-            });
+            },isSendSuccess:false);
     }
 
     public async void Refresh()

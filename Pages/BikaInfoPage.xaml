@@ -840,7 +840,7 @@
                         <ScrollViewer x:Name="RecommendScrollViewer">
                             <Grid x:Name="RecommendGrid" Padding="10">
                                 <controls2:EmptyTip Width="400" Visibility="{x:Bind ViewModel.RecommendComics.Count, Mode=OneWay, Converter={StaticResource CollectionToVisibilityConverter}}" />
-                                <GridView
+                                <GridView ItemClick="GridV_ItemClick"
                                     HorizontalAlignment="Center"
                                     IsItemClickEnabled="True"
                                     ItemTemplate="{StaticResource RecommendComicTemplate}"

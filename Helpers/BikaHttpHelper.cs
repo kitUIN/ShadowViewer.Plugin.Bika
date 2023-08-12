@@ -4,9 +4,11 @@ using DryIoc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using PicaComic;
+using PicaComic.Exceptions;
 using PicaComic.Responses;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
+using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
 
@@ -92,78 +94,75 @@ public class BikaHttpHelper
                 TopGridMode.ContentDialog);
         }
     }
-    public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Action<T> success) where T : PicaResponse
+    public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Action<T> success,string title="",bool isSendSuccess=true) where T : PicaResponse
     {
-        var caller = DiFactory.Services.Resolve<ICallableService>();
         try
         {
-            var res =  await req;
-            if (res.Code != 200)
-            {
-                if (res.Code == 401)
-                {
-                    caller.TopGrid(sender,
-                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, null),
-                        TopGridMode.ContentDialog);
-                }
-                else
-                {
-                    caller.TopGrid(sender,
-                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message),
-                        TopGridMode.ContentDialog);
-                }
-            }
-            else
-            {
-                success.Invoke(res);
-            }
+            success.Invoke(await req);
+            if(isSendSuccess)
+                NotificationHelper.Notify(sender,title + BikaResourcesHelper.GetString(BikaResourceKey.Success),InfoBarSeverity.Success);
+        }
+        catch (PicaComicException picaComicException)
+        {
+            NotificationHelper.Notify(sender,title + picaComicException.ChineseMessage,InfoBarSeverity.Error);
         }
         catch (TaskCanceledException)
         {
-            caller.TopGrid(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, null),
-                TopGridMode.ContentDialog);
+            NotificationHelper.Notify(sender,title + BikaResourcesHelper.GetString(BikaResourceKey.TimeOut),InfoBarSeverity.Error);
         }
         catch (Exception exception)
         {
-            caller.TopGrid(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()),
-                TopGridMode.ContentDialog);
+            NotificationHelper.Notify(sender,title + exception.GetType().FullName,InfoBarSeverity.Error);
+        }
+    }
+    public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Func<T,Task> success,string title="",bool isSendSuccess=true) where T : PicaResponse
+    {
+        try
+        {
+            await success.Invoke(await req);
+            if(isSendSuccess)
+                NotificationHelper.Notify(sender,title + BikaResourcesHelper.GetString(BikaResourceKey.Success),InfoBarSeverity.Success);
+        }
+        catch (PicaComicException picaComicException)
+        {
+            NotificationHelper.Notify(sender,title + picaComicException.ChineseMessage,InfoBarSeverity.Error);
+        }
+        catch (TaskCanceledException)
+        {
+            NotificationHelper.Notify(sender,title + BikaResourcesHelper.GetString(BikaResourceKey.TimeOut),InfoBarSeverity.Error);
+        }
+        catch (Exception exception)
+        {
+            NotificationHelper.Notify(sender,title + exception.GetType().FullName,InfoBarSeverity.Error);
         }
     }
     public static async Task Profile(object sender)
     {
         var client = DiFactory.Services.Resolve<IPicaClient>();
-        await TryRequest(sender, client.Profile(), res =>
+        await TryRequestWithTip(sender, client.Profile(), res =>
         {
             BikaData.Current.CurrentUser = res.Data.User;
-        });
+        },$"[{BikaResourcesHelper.GetString(BikaResourceKey.GetProfile)}]",isSendSuccess:false);
     }
     public static async Task PunchIn(object sender)
     {
         if (BikaData.Current.CurrentUser != null && !BikaData.Current.CurrentUser.IsPunched)
         {
             var client = DiFactory.Services.Resolve<IPicaClient>();
-            var caller = DiFactory.Services.Resolve<ICallableService>();
-            await TryRequest(sender, client.PunchIn(), res =>
-            {
-                caller.TopGrid(sender, new TipPopup(
-                    $"[{BikaPlugin.MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoPunchInSuccess)}",
-                    InfoBarSeverity.Success), TopGridMode.Tip);
-            });
+            await TryRequestWithTip(sender, client.PunchIn(), _ => { },
+                $"[{BikaResourcesHelper.GetString(BikaResourceKey.AutoPunchInSuccess)}]");
         }
     }
-    public static async Task Keywords()
+    public static async Task Keywords(object sender)
     {
         var client = DiFactory.Services.Resolve<IPicaClient>();
-        var res = await client.Keywords();
-        if (res.Code == 200)
+        await TryRequestWithTip(sender, client.Keywords(), res =>
         {
             BikaData.Current.Keywords.Clear();
             foreach (var keyword in res.Data.Keywords)
             {
                 BikaData.Current.Keywords.Add(keyword);
             }
-        }
+        },$"[{BikaResourcesHelper.GetString(BikaResourceKey.GetKeywords)}]",isSendSuccess:false);
     }
 }

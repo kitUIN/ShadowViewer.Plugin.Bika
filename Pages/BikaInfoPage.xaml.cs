@@ -21,7 +21,13 @@ public sealed partial class BikaInfoPage : Page
         ViewModel = DiFactory.Services.Resolve<BikaInfoViewModel>();
         ViewModel.ScrollToCommentEvent += ViewModelOnScrollToCommentEvent;
     }
-
+    private void GridV_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        if (e.ClickedItem is CategoryComic { IsLocked: false } comic)
+        {
+            Frame.Navigate(typeof(BikaInfoPage), comic.Id);
+        }
+    }
     private void ViewModelOnScrollToCommentEvent(object sender, ScrollToCommentEventArg e)
     {
         var element =  CommentsItemsRepeater.GetOrCreateElement(e.Index);

@@ -438,4 +438,19 @@
   <data name="Reply" xml:space="preserve">
     <value>回复</value>
   </data>
+  <data name="Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="SendComicComment" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="GetProfile" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="GetKeywords" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

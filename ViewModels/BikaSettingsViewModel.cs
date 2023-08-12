@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using PicaComic;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
+using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
@@ -130,15 +131,13 @@ public partial class BikaSettingsViewModel : ObservableObject
             var uri = new Uri(text);
             BikaClient.SetProxy(uri);
             BikaConfig.Proxy = text;
-            Caller.TopGrid(this, new TipPopup(
-                $"[{BikaPlugin.MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetSuccess)}",
-                InfoBarSeverity.Success), TopGridMode.Tip);
+            NotificationHelper.Notify(this,$"{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetSuccess)}",
+                InfoBarSeverity.Success);
         }
         catch (Exception)
         {
-            Caller.TopGrid(this, new TipPopup(
-                $"[{BikaPlugin.MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetError)}",
-                InfoBarSeverity.Error), TopGridMode.Tip);
+            NotificationHelper.Notify(this,$"{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetError)}",
+                InfoBarSeverity.Success);
         }
     }
 

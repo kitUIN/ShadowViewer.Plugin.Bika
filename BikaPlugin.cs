@@ -169,7 +169,7 @@ public class BikaPlugin : PluginBase
         {
             await BikaHttpHelper.Profile(this);
             await BikaHttpHelper.PunchIn(this);
-            await BikaHttpHelper.Keywords();
+            await BikaHttpHelper.Keywords(this);
         }
     }
 
