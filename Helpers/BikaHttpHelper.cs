@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DryIoc;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using PicaComic;
 using PicaComic.Exceptions;
