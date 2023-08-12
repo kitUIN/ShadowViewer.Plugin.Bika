@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:controls1="using:ShadowViewer.Controls"
+    xmlns:controls2="using:ShadowViewer.Plugin.Bika.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:converters1="using:ShadowViewer.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -13,8 +15,6 @@
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:PicaComic.Models"
-    xmlns:converters1="using:ShadowViewer.Converters"
-    xmlns:controls2="using:ShadowViewer.Plugin.Bika.Controls"
     SizeChanged="Page_SizeChanged"
     mc:Ignorable="d">
     <Page.Resources>
@@ -42,11 +42,15 @@
             <converters:BoolToObjectConverter
                 x:Key="CommentChildrenShowConverter"
                 FalseValue="Transparent"
-                TrueValue="{ThemeResource BikaAccentColorLight2Brush}" />
-            <converters:EmptyCollectionToObjectConverter x:Key="EmptyToVisibilityConverter" NotEmptyValue="Visible"
-                                                         EmptyValue="Collapsed" />
-            <converters1:CollectionCountToVisibilityConverter x:Key="CollectionToVisibilityConverter" NotEmptyValue="Collapsed"
-                                                             EmptyValue="Visible" />
+                TrueValue="{ThemeResource BikaAccentColorDark1Brush}" />
+            <converters:EmptyCollectionToObjectConverter
+                x:Key="EmptyToVisibilityConverter"
+                EmptyValue="Collapsed"
+                NotEmptyValue="Visible" />
+            <converters1:CollectionCountToVisibilityConverter
+                x:Key="CollectionToVisibilityConverter"
+                EmptyValue="Visible"
+                NotEmptyValue="Collapsed" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <DataTemplate x:Key="CommentChildTemplate" x:DataType="models:Comment">
                 <Border
@@ -154,15 +158,15 @@
                                     VerticalAlignment="Bottom"
                                     Click="LikeComment_OnClick"
                                     Tag="{x:Bind}">
-                                    <StackPanel Orientation="Horizontal" Spacing="3">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
                                         <FontIcon
                                             FontSize="17"
-                                            Foreground="{ThemeResource BikaAccentColorDark1}"
+                                            Foreground="{ThemeResource BikaAccentColorLight1}"
                                             Glyph="{x:Bind IsLiked, Mode=OneWay, Converter={StaticResource CommentHeartConverter}}" />
 
                                         <TextBlock
                                             VerticalAlignment="Center"
-                                            Foreground="{ThemeResource BikaAccentColorDark3}"
+                                            Foreground="{ThemeResource BikaAccentColorLight1}"
                                             Text="{x:Bind LikesCount, Mode=OneWay}" />
                                     </StackPanel>
                                 </HyperlinkButton>
@@ -177,307 +181,317 @@
                 </Border>
             </DataTemplate>
             <DataTemplate x:Key="RecommendComicTemplate" x:DataType="models:CategoryComic">
-                                            <Grid
-                                                Width="400"
-                                                Height="180"
-                                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                BorderThickness=".5"
-                                                CornerRadius="5">
-                                                <Grid
-                                                    Name="Connected"
-                                                    Width="400"
-                                                    Height="180"
-                                                    Padding="5"
-                                                    ColumnSpacing="10">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="120" />
-                                                        <ColumnDefinition Width="*" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border
-                                                        Name="ConnectedElement"
-                                                        Grid.Column="0"
-                                                        VerticalAlignment="Center"
-                                                        CornerRadius="10">
-                                                        <Image Source="{x:Bind Thumb.FilePath, Mode=OneWay}" />
-                                                    </Border>
-                                                    <Grid Grid.Column="1">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="*" />
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
-                                                        <Grid
-                                                            Grid.Row="0"
-                                                            HorizontalAlignment="Left"
-                                                            VerticalAlignment="Top">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="*" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <TextBlock
-                                                                Name="ConnectedElement3"
-                                                                Grid.Row="0"
-                                                                FontSize="17"
-                                                                FontWeight="Bold"
-                                                                Text="{x:Bind Title, Mode=OneWay}"
-                                                                TextTrimming="CharacterEllipsis"
-                                                                TextWrapping="Wrap"
-                                                                ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
-                                                            <TextBlock
-                                                                Grid.Row="1"
-                                                                FontSize="15"
-                                                                Foreground="{ThemeResource BikaAccentColorDark2}"
-                                                                Text="{x:Bind Author, Mode=OneWay}"
-                                                                TextTrimming="CharacterEllipsis" />
-                                                        </Grid>
-                                                        <Grid
-                                                            Grid.Row="1"
-                                                            VerticalAlignment="Bottom"
-                                                            RowSpacing="2">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto" />
-                                                                <RowDefinition Height="*" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <StackPanel
-                                                                Grid.Row="0"
-                                                                Orientation="Horizontal"
-                                                                Spacing="10">
-                                                                <StackPanel Orientation="Horizontal" Spacing="5">
-                                                                    <FontIcon
-                                                                        Foreground="{ThemeResource BikaAccentColorDark2}"
-                                                                        Glyph="&#xEB52;" />
-                                                                    <TextBlock FontSize="17"
-                                                                               Text="{x:Bind TotalLikes, Mode=OneWay}" />
-                                                                </StackPanel>
-                                                                <StackPanel Orientation="Horizontal" Spacing="5">
-                                                                    <FontIcon
-                                                                        Foreground="{ThemeResource BikaAccentColorDark2}"
-                                                                        Glyph="&#xe7b3;" />
-                                                                    <TextBlock FontSize="17"
-                                                                               Text="{x:Bind TotalViews, Mode=OneWay}" />
-                                                                </StackPanel>
-                                                            </StackPanel>
-                                                            <TextBlock
-                                                                Grid.Row="1"
-                                                                FontWeight="Black"
-                                                                Foreground="Gray"
-                                                                Text="{x:Bind CategoryString, Mode=OneWay}"
-                                                                TextTrimming="CharacterEllipsis"
-                                                                TextWrapping="Wrap"
-                                                                ToolTipService.ToolTip="{x:Bind CategoryString, Mode=OneWay}" />
-                                                            <Grid Grid.Row="2">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <FontIcon Foreground="Gray" Glyph="&#xe7b8;" />
-                                                                    <TextBlock
-                                                                        Margin="5,0,0,0"
-                                                                        FontSize="17"
-                                                                        Foreground="Gray"
-                                                                        Text="{x:Bind EpsCount, Mode=OneWay}" />
-                                                                    <TextBlock
-                                                                        FontSize="17"
-                                                                        Foreground="Gray"
-                                                                        Text="E" />
-                                                                    <TextBlock
-                                                                        Margin="4,0,0,0"
-                                                                        FontSize="17"
-                                                                        Foreground="Gray"
-                                                                        Text="/" />
-                                                                    <TextBlock
-                                                                        Margin="4,0,0,0"
-                                                                        FontSize="17"
-                                                                        Foreground="Gray"
-                                                                        Text="{x:Bind PagesCount, Mode=OneWay}" />
-                                                                    <TextBlock
-                                                                        FontSize="17"
-                                                                        Foreground="Gray"
-                                                                        Text="P" />
-                                                                </StackPanel>
-                                                                <Border
-                                                                    Padding="5"
-                                                                    HorizontalAlignment="Right"
-                                                                    VerticalAlignment="Bottom"
-                                                                    Background="{ThemeResource LayerFillColorDefaultBrush}"
-                                                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                                    BorderThickness=".5"
-                                                                    CornerRadius="7"
-                                                                    Visibility="{x:Bind Finished, Mode=OneWay}">
-                                                                    <TextBlock
-                                                                        FontSize="12"
-                                                                        FontWeight="Bold"
-                                                                        Foreground="{ThemeResource BikaAccentColorDark2}"
-                                                                        Text="{ex:BikaLocale Key=Finished}" />
-                                                                </Border>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        </DataTemplate>
+                <Grid
+                    Width="400"
+                    Height="180"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness=".5"
+                    CornerRadius="5">
+                    <Grid
+                        Name="Connected"
+                        Width="400"
+                        Height="180"
+                        Padding="5"
+                        ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border
+                            Name="ConnectedElement"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            CornerRadius="10">
+                            <Image Source="{x:Bind Thumb.FilePath, Mode=OneWay}" />
+                        </Border>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid
+                                Grid.Row="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Name="ConnectedElement3"
+                                    Grid.Row="0"
+                                    FontSize="17"
+                                    FontWeight="Bold"
+                                    Text="{x:Bind Title, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap"
+                                    ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    FontSize="15"
+                                    Foreground="{ThemeResource BikaAccentColorDark2}"
+                                    Text="{x:Bind Author, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
+                            <Grid
+                                Grid.Row="1"
+                                VerticalAlignment="Bottom"
+                                RowSpacing="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Spacing="10">
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <FontIcon Foreground="{ThemeResource BikaAccentColorDark2}" Glyph="&#xEB52;" />
+                                        <TextBlock FontSize="17" Text="{x:Bind TotalLikes, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <FontIcon Foreground="{ThemeResource BikaAccentColorDark2}" Glyph="&#xe7b3;" />
+                                        <TextBlock FontSize="17" Text="{x:Bind TotalViews, Mode=OneWay}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    FontWeight="Black"
+                                    Foreground="Gray"
+                                    Text="{x:Bind CategoryString, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap"
+                                    ToolTipService.ToolTip="{x:Bind CategoryString, Mode=OneWay}" />
+                                <Grid Grid.Row="2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon Foreground="Gray" Glyph="&#xe7b8;" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            FontSize="17"
+                                            Foreground="Gray"
+                                            Text="{x:Bind EpsCount, Mode=OneWay}" />
+                                        <TextBlock
+                                            FontSize="17"
+                                            Foreground="Gray"
+                                            Text="E" />
+                                        <TextBlock
+                                            Margin="4,0,0,0"
+                                            FontSize="17"
+                                            Foreground="Gray"
+                                            Text="/" />
+                                        <TextBlock
+                                            Margin="4,0,0,0"
+                                            FontSize="17"
+                                            Foreground="Gray"
+                                            Text="{x:Bind PagesCount, Mode=OneWay}" />
+                                        <TextBlock
+                                            FontSize="17"
+                                            Foreground="Gray"
+                                            Text="P" />
+                                    </StackPanel>
+                                    <Border
+                                        Padding="5"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Background="{ThemeResource LayerFillColorDefaultBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness=".5"
+                                        CornerRadius="7"
+                                        Visibility="{x:Bind Finished, Mode=OneWay}">
+                                        <TextBlock
+                                            FontSize="12"
+                                            FontWeight="Bold"
+                                            Foreground="{ThemeResource BikaAccentColorDark2}"
+                                            Text="{ex:BikaLocale Key=Finished}" />
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
             <DataTemplate x:Key="MainCommentTemplate" x:DataType="models:Comment">
-                                            <Grid HorizontalAlignment="Stretch" RowSpacing="5">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Border
-                                                    Background="{ThemeResource LayerFillColorDefaultBrush}"
-                                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
-                                                    <Grid Padding="10,5" RowSpacing="10">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto" />
-                                                            <RowDefinition Height="*" />
-                                                        </Grid.RowDefinitions>
-                                                        <Grid Grid.Row="0" ColumnSpacing="10">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto" />
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <PersonPicture
-                                                                Grid.Column="0"
-                                                                Width="48"
-                                                                Height="48"
-                                                                HorizontalAlignment="Left"
-                                                                VerticalAlignment="Top"
-                                                                ProfilePicture="{x:Bind User.Avatar.FilePath, Mode=OneWay}" />
-                                                            <StackPanel Grid.Column="1">
-                                                                <TextBlock
-                                                                    HorizontalAlignment="Left"
-                                                                    VerticalAlignment="Center"
-                                                                    FontSize="16"
-                                                                    FontWeight="Bold"
-                                                                    Foreground="{ThemeResource BikaAccentColorDark2}"
-                                                                    Text="{x:Bind User.Name, Mode=OneWay}" />
-                                                                <StackPanel
-                                                                    HorizontalAlignment="Left"
-                                                                    VerticalAlignment="Center"
-                                                                    Orientation="Horizontal">
-                                                                    <TextBlock
-                                                                        VerticalAlignment="Center"
-                                                                        FontSize="15"
-                                                                        Text="{x:Bind User.Level, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
-                                                                    <Border
-                                                                        Margin="10,0,0,0"
-                                                                        Padding="6,3,6,3"
-                                                                        VerticalAlignment="Center"
-                                                                        Background="#ffb401"
-                                                                        CornerRadius="12">
-                                                                        <TextBlock
-                                                                            HorizontalAlignment="Center"
-                                                                            VerticalAlignment="Center"
-                                                                            FontSize="12"
-                                                                            Text="{x:Bind User.Title, Mode=OneWay}" />
-                                                                    </Border>
-                                                                </StackPanel>
-                                                            </StackPanel>
-                                                            <TextBlock
-                                                                Grid.Column="2"
-                                                                Margin="5"
-                                                                HorizontalAlignment="Right"
-                                                                VerticalAlignment="Top"
-                                                                Text="{x:Bind Order, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='#{0}'}"
-                                                                Visibility="{x:Bind IsTop, Mode=OneWay, Converter={StaticResource NotToVisibilityConverter}}" />
-                                                            <Image
-                                                                Grid.Column="2"
-                                                                Width="100"
-                                                                HorizontalAlignment="Center"
-                                                                VerticalAlignment="Center"
-                                                                Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/icon_top_comment.png"
-                                                                Visibility="{x:Bind IsTop, Mode=OneWay}" />
-                                                        </Grid>
-                                                        <Grid Grid.Row="1">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto" />
-                                                                <RowDefinition Height="*" />
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <Grid
-                                                                Grid.Row="0"
-                                                                HorizontalAlignment="Left"
-                                                                VerticalAlignment="Center">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                </Grid.ColumnDefinitions>
+                <Grid HorizontalAlignment="Stretch" RowSpacing="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Background="{ThemeResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                        <Grid Padding="10,5" RowSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <PersonPicture
+                                    Grid.Column="0"
+                                    Width="48"
+                                    Height="48"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    ProfilePicture="{x:Bind User.Avatar.FilePath, Mode=OneWay}" />
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Foreground="{ThemeResource BikaAccentColorDark2}"
+                                        Text="{x:Bind User.Name, Mode=OneWay}" />
+                                    <StackPanel
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="15"
+                                            Text="{x:Bind User.Level, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
+                                        <Border
+                                            Margin="10,0,0,0"
+                                            Padding="6,3,6,3"
+                                            VerticalAlignment="Center"
+                                            Background="#ffb401"
+                                            CornerRadius="12">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="12"
+                                                Text="{x:Bind User.Title, Mode=OneWay}" />
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Column="2"
+                                    Margin="5"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Text="{x:Bind Order, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='#{0}'}"
+                                    Visibility="{x:Bind IsTop, Mode=OneWay, Converter={StaticResource NotToVisibilityConverter}}" />
+                                <Image
+                                    Grid.Column="2"
+                                    Width="100"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/icon_top_comment.png"
+                                    Visibility="{x:Bind IsTop, Mode=OneWay}" />
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                                            </Grid>
-                                                            <TextBlock
-                                                                Grid.Row="1"
-                                                                FontSize="17"
-                                                                IsTextSelectionEnabled="True"
-                                                                Text="{x:Bind Content, Mode=OneWay}"
-                                                                TextWrapping="Wrap" />
-                                                            <Grid
-                                                                Grid.Row="2"
-                                                                Padding="0,10,0,0"
-                                                                ColumnSpacing="10">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition Width="*" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                </Grid.ColumnDefinitions>
-                                                                <HyperlinkButton
-                                                                    Grid.Column="0"
-                                                                    Padding="5,3"
-                                                                    VerticalAlignment="Bottom"
-                                                                    Click="LikeComment_OnClick"
-                                                                    Tag="{x:Bind}">
-                                                                    <StackPanel Orientation="Horizontal" Spacing="3">
-                                                                        <FontIcon
-                                                                            FontSize="17"
-                                                                            Foreground="{ThemeResource BikaAccentColorDark2}"
-                                                                            Glyph="{x:Bind IsLiked, Mode=OneWay, Converter={StaticResource CommentHeartConverter}}" />
-
-                                                                        <TextBlock
-                                                                            VerticalAlignment="Center"
-                                                                            Foreground="{ThemeResource BikaAccentColorDark3}"
-                                                                            Text="{x:Bind LikesCount, Mode=OneWay}" />
-                                                                    </StackPanel>
-                                                                </HyperlinkButton>
-                                                                <HyperlinkButton
-                                                                    Grid.Column="1"
-                                                                    Padding="5,3"
-                                                                    VerticalAlignment="Bottom"
-                                                                    Background="{x:Bind IsShowChildren, Mode=OneWay, Converter={StaticResource CommentChildrenShowConverter}}"
-                                                                    Click="CommentChild_OnClick"
-                                                                    Tag="{x:Bind}">
-                                                                    <StackPanel Orientation="Horizontal" Spacing="3">
-                                                                        <FontIcon
-                                                                            FontSize="17"
-                                                                            Foreground="{ThemeResource BikaAccentColorDark2}"
-                                                                            Glyph="&#xE8BD;" />
-                                                                        <TextBlock
-                                                                            VerticalAlignment="Center"
-                                                                            Foreground="{ThemeResource BikaAccentColorDark3}"
-                                                                            Text="{x:Bind CommentsCount, Mode=OneWay}" />
-                                                                    </StackPanel>
-                                                                </HyperlinkButton>
-
-                                                                <TextBlock
-                                                                    Grid.Column="3"
-                                                                    HorizontalAlignment="Right"
-                                                                    VerticalAlignment="Center"
-                                                                    Text="{x:Bind CreatedAt, Mode=OneWay}" />
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </Border>
-                                                <ItemsRepeater
-                                                    Grid.Row="1"
-                                                    Margin="40,0,0,0"
-                                                    ItemTemplate="{StaticResource CommentChildTemplate}"
-                                                    ItemsSource="{x:Bind Children, Mode=OneWay}"
-                                                    Visibility="{x:Bind IsShowChildren, Mode=OneWay}">
-                                                    <ItemsRepeater.Layout>
-                                                        <StackLayout Orientation="Vertical" Spacing="5" />
-                                                    </ItemsRepeater.Layout>
-                                                </ItemsRepeater>
-                                            </Grid>
-                                        </DataTemplate>
+                                </Grid>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    FontSize="17"
+                                    IsTextSelectionEnabled="True"
+                                    Text="{x:Bind Content, Mode=OneWay}"
+                                    TextWrapping="Wrap" />
+                                <Grid
+                                    Grid.Row="2"
+                                    Padding="0,10,0,0"
+                                    ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <HyperlinkButton
+                                        Grid.Column="0"
+                                        Padding="5,3"
+                                        VerticalAlignment="Bottom"
+                                        Click="LikeComment_OnClick"
+                                        Tag="{x:Bind}">
+                                        <StackPanel Orientation="Horizontal" Spacing="5">
+                                            <FontIcon
+                                                FontSize="17"
+                                                Foreground="{ThemeResource BikaAccentColorLight1}"
+                                                Glyph="{x:Bind IsLiked, Mode=OneWay, Converter={StaticResource CommentHeartConverter}}" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Foreground="{ThemeResource BikaAccentColorLight1}"
+                                                Text="{x:Bind LikesCount, Mode=OneWay}" />
+                                        </StackPanel>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton
+                                        Grid.Column="1"
+                                        Padding="5,3"
+                                        VerticalAlignment="Bottom"
+                                        Background="{x:Bind IsShowChildren, Mode=OneWay, Converter={StaticResource CommentChildrenShowConverter}}"
+                                        Click="CommentChild_OnClick"
+                                        Tag="{x:Bind}">
+                                        <StackPanel Orientation="Horizontal" Spacing="5">
+                                            <FontIcon
+                                                FontSize="17"
+                                                Foreground="{ThemeResource BikaAccentColorLight1}"
+                                                Glyph="&#xE8BD;" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Foreground="{ThemeResource BikaAccentColorLight1}"
+                                                Text="{x:Bind CommentsCount, Mode=OneWay}" />
+                                        </StackPanel>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton
+                                        Grid.Column="2"
+                                        Padding="5,3"
+                                        VerticalAlignment="Bottom"
+                                        Click="Reply_OnClick"
+                                        Tag="{x:Bind}">
+                                        <StackPanel Orientation="Horizontal" Spacing="3">
+                                            <FontIcon
+                                                FontSize="17"
+                                                Foreground="{ThemeResource BikaAccentColorLight1}"
+                                                Glyph="&#xE97A;" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Foreground="{ThemeResource BikaAccentColorLight1}"
+                                                Text="{ex:BikaLocale Key=Reply}" />
+                                        </StackPanel>
+                                    </HyperlinkButton>
+                                    <TextBlock
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind CreatedAt, Mode=OneWay}" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ItemsRepeater
+                        Grid.Row="1"
+                        Margin="40,0,0,0"
+                        ItemTemplate="{StaticResource CommentChildTemplate}"
+                        ItemsSource="{x:Bind Children, Mode=OneWay}"
+                        Visibility="{x:Bind IsShowChildren, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
+                            <StackLayout Orientation="Vertical" Spacing="5" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </Grid>
+            </DataTemplate>
             <!--  Breakpoints  -->
 
             <x:Double x:Key="Breakpoint1240Plus">1240</x:Double>
@@ -494,7 +508,6 @@
                 <labs:TransitionConfig Id="level" ScaleMode="Scale" />
                 <labs:TransitionConfig Id="slogan" ScaleMode="Scale" />
             </labs:TransitionHelper>
-
         </ResourceDictionary>
     </Page.Resources>
     <ScrollViewer x:Name="MainScrollViewer" Padding="0,0,10,10">
@@ -534,7 +547,6 @@
                                 <RowDefinition Height="280" />
                             </Grid.RowDefinitions>
                             <Image
-                                x:Name="Img"
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
@@ -680,40 +692,36 @@
                     </controls1:TitleBorder>
                     <controls1:TitleBorder Grid.Row="2" Header="{ex:BikaLocale Key=Description}">
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
                             <TextBlock
                                 x:Name="Description"
-                                Grid.Row="0"
+                                Grid.Column="0"
                                 Margin="3,10,0,10"
                                 HorizontalAlignment="Left"
                                 FontSize="17"
                                 IsTextSelectionEnabled="True"
                                 Text="{x:Bind ViewModel.CurrentComic.Description, Mode=OneWay}"
                                 TextWrapping="Wrap" />
-                            <Grid Grid.Row="1" MinWidth="520">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
                                 <Grid
                                     x:Name="FirstCreatorBorder"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Left"
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
                                     CornerRadius="10">
-                                    <Border
-                                        labs:TransitionHelper.Id="background"
-                                        Background="{ThemeResource HyperlinkButtonBackgroundPointerOver}"
-                                        CornerRadius="10" />
                                     <StackPanel Padding="10" Orientation="Horizontal">
                                         <PersonPicture
                                             Width="64"
                                             Height="64"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Top"
-                                            labs:TransitionHelper.Id="image"
                                             ProfilePicture="{x:Bind ViewModel.CurrentComic.Creator.Avatar.FilePath, Mode=OneWay}" />
                                         <StackPanel Margin="10,0,0,0">
                                             <TextBlock
@@ -747,94 +755,8 @@
                                         </ic:EventTriggerBehavior>
                                     </i:Interaction.Behaviors>
                                 </Grid>
-                                <Grid
-                                    x:Name="SecondCreatorBorder"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Left"
-                                    Visibility="Collapsed">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border
-                                        Grid.Column="0"
-                                        labs:TransitionHelper.Id="background"
-                                        Background="{ThemeResource HyperlinkButtonBackgroundPointerOver}"
-                                        CornerRadius="10" />
-                                    <Grid
-                                        Grid.Column="0"
-                                        Padding="10"
-                                        ColumnSpacing="10">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <PersonPicture
-                                            Grid.Column="0"
-                                            Width="64"
-                                            Height="64"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top"
-                                            labs:TransitionHelper.Id="image"
-                                            ProfilePicture="{x:Bind ViewModel.CurrentComic.Creator.Avatar.FilePath, Mode=OneWay}" />
-                                        <Grid Grid.Column="1" HorizontalAlignment="Center">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <TextBlock
-                                                Grid.Row="0"
-                                                VerticalAlignment="Center"
-                                                labs:TransitionHelper.Id="name"
-                                                FontSize="16"
-                                                FontWeight="Bold"
-                                                Text="{x:Bind ViewModel.CurrentComic.Creator.Name, Mode=OneWay}"
-                                                TextTrimming="CharacterEllipsis" />
-                                            <StackPanel
-                                                Grid.Row="1"
-                                                labs:TransitionHelper.Id="level"
-                                                Orientation="Horizontal"
-                                                Spacing="5">
-                                                <TextBlock
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    FontSize="14"
-                                                    IsTextSelectionEnabled="True"
-                                                    Text="{x:Bind ViewModel.CurrentComic.Creator.Level, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
-                                                <Border
-                                                    Padding="6,3"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Center"
-                                                    Background="#ffb401"
-                                                    CornerRadius="12">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        FontSize="12"
-                                                        IsTextSelectionEnabled="True"
-                                                        Text="{x:Bind ViewModel.CurrentComic.Creator.Title, Mode=OneWay}" />
-                                                </Border>
-                                            </StackPanel>
-                                            <TextBlock
-                                                Grid.Row="2"
-                                                Margin="0,6,0,0"
-                                                labs:TransitionHelper.Id="slogan"
-                                                labs:TransitionHelper.IsIndependent="True"
-                                                Text="{x:Bind ViewModel.CurrentComic.Creator.Slogan, Mode=OneWay}"
-                                                TextWrapping="Wrap" />
-                                        </Grid>
-                                    </Grid>
-                                    <i:Interaction.Behaviors>
-                                        <ic:EventTriggerBehavior EventName="Tapped">
-                                            <labs:StartTransitionAction
-                                                Source="{Binding ElementName=SecondCreatorBorder}"
-                                                Target="{Binding ElementName=FirstCreatorBorder}"
-                                                Transition="{StaticResource MyTransitionHelper}" />
-                                        </ic:EventTriggerBehavior>
-                                    </i:Interaction.Behaviors>
-                                </Grid>
                                 <StackPanel
-                                    Grid.Column="1"
+                                    Grid.Row="1"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
                                     Background="Transparent"
@@ -845,10 +767,8 @@
                                         IsChecked="{x:Bind ViewModel.CurrentComic.IsFavourite, Mode=TwoWay}"
                                         Label="{x:Bind ViewModel.CurrentComic.IsFavourite, Mode=OneWay, Converter={StaticResource FavouriteConverter}}">
                                         <AppBarToggleButton.Resources>
-                                            <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked"
-                                                             Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
-                                            <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver"
-                                                             Color="{ThemeResource BikaLockBackgroundPointerOver}" />
+                                            <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
+                                            <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
                                         </AppBarToggleButton.Resources>
                                         <AppBarToggleButton.Icon>
                                             <FontIcon Foreground="HotPink" Glyph="&#xe735;" />
@@ -860,10 +780,8 @@
                                             IsChecked="{x:Bind ViewModel.CurrentComic.IsLiked, Mode=TwoWay}"
                                             Label="{x:Bind ViewModel.CurrentComic.IsLiked, Mode=OneWay, Converter={StaticResource LikeConverter}}">
                                             <AppBarToggleButton.Resources>
-                                                <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked"
-                                                                 Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
-                                                <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver"
-                                                                 Color="{ThemeResource BikaLockBackgroundPointerOver}" />
+                                                <SolidColorBrush x:Key="AppBarToggleButtonBackgroundChecked" Color="{ThemeResource BikaLockBackgroundCheckedPressed}" />
+                                                <SolidColorBrush x:Key="AppBarToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource BikaLockBackgroundPointerOver}" />
                                             </AppBarToggleButton.Resources>
                                             <AppBarToggleButton.Icon>
                                                 <FontIcon Foreground="HotPink" Glyph="&#xEB52;" />
@@ -926,15 +844,14 @@
                     <PivotItem Header="{ex:BikaLocale Key=RecommendComics}">
                         <ScrollViewer x:Name="RecommendScrollViewer">
                             <Grid x:Name="RecommendGrid" Padding="10">
-                                <controls2:EmptyTip Visibility="{x:Bind ViewModel.RecommendComics.Count ,Mode=OneWay,Converter={StaticResource CollectionToVisibilityConverter}}"
-                                          Width="400"/>  
+                                <controls2:EmptyTip Width="400" Visibility="{x:Bind ViewModel.RecommendComics.Count, Mode=OneWay, Converter={StaticResource CollectionToVisibilityConverter}}" />
                                 <GridView
                                     HorizontalAlignment="Center"
                                     IsItemClickEnabled="True"
+                                    ItemTemplate="{StaticResource RecommendComicTemplate}"
                                     ItemsSource="{x:Bind ViewModel.RecommendComics, Mode=OneWay}"
-                                    Opacity="1" ItemTemplate="{StaticResource RecommendComicTemplate}"
-                                    SelectionMode="None">
-                                </GridView>
+                                    Opacity="1"
+                                    SelectionMode="None" />
                             </Grid>
                         </ScrollViewer>
                     </PivotItem>
@@ -955,16 +872,16 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <controls2:EmptyTip Visibility="{x:Bind ViewModel.Comments.Count ,Mode=OneWay,Converter={StaticResource CollectionToVisibilityConverter}}"
-                                                Width="400"/>  
+                            <controls2:EmptyTip Width="400" Visibility="{x:Bind ViewModel.Comments.Count, Mode=OneWay, Converter={StaticResource CollectionToVisibilityConverter}}" />
                             <ScrollViewer Grid.Row="0" Padding="10,10,10,0">
                                 <ItemsRepeater
-                                    x:Name="BookComments" ItemTemplate="{StaticResource MainCommentTemplate}"
+                                    x:Name="BookComments"
                                     HorizontalAlignment="Stretch"
+                                    ItemTemplate="{StaticResource MainCommentTemplate}"
                                     ItemsSource="{x:Bind ViewModel.Comments}">
                                     <ItemsRepeater.Layout>
                                         <StackLayout Orientation="Vertical" Spacing="10" />
-                                    </ItemsRepeater.Layout> 
+                                    </ItemsRepeater.Layout>
                                 </ItemsRepeater>
                             </ScrollViewer>
                             <Grid
@@ -978,9 +895,10 @@
                                 </Grid.RowDefinitions>
 
                                 <Rectangle Grid.Row="0" Fill="{ThemeResource CardStrokeColorDefaultBrush}" />
-                                <Grid Grid.Row="1" ColumnSpacing="10" 
-                                      Visibility="{x:Bind ViewModel.ReplyComment.Id ,Mode=OneWay,Converter={StaticResource EmptyToVisibilityConverter}}"
-                                      >
+                                <Grid
+                                    Grid.Row="1"
+                                    ColumnSpacing="10"
+                                    Visibility="{x:Bind ViewModel.ReplyComment.Id, Mode=OneWay, Converter={StaticResource EmptyToVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="32" />
                                         <ColumnDefinition Width="*" />
@@ -992,15 +910,17 @@
                                         HorizontalAlignment="Center"
                                         Glyph="&#xE97A;" />
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock   Foreground="{ThemeResource BikaAccentColorDark2}"
-                                                     Text="{x:Bind ViewModel.ReplyComment.User.Name,Mode=OneWay}"
-                                                     TextTrimming="CharacterEllipsis" />
                                         <TextBlock
-                                                   Text="{x:Bind ViewModel.ReplyComment.Content,Mode=OneWay}"
-                                                   TextTrimming="CharacterEllipsis" />
+                                            Foreground="{ThemeResource BikaAccentColorDark2}"
+                                            Text="{x:Bind ViewModel.ReplyComment.User.Name, Mode=OneWay}"
+                                            TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{x:Bind ViewModel.ReplyComment.Content, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                                     </StackPanel>
-                                    <HyperlinkButton Command="{x:Bind ViewModel.RemoveReplyCommand}" Grid.Column="2" Padding="5">
-                                        <FontIcon Glyph="&#xE711;" />
+                                    <HyperlinkButton
+                                        Grid.Column="2"
+                                        Padding="5"
+                                        Command="{x:Bind ViewModel.RemoveReplyCommand}">
+                                        <FontIcon Foreground="{ThemeResource BikaAccentColorLight1}" Glyph="&#xE711;" />
                                     </HyperlinkButton>
                                 </Grid>
                                 <Grid Grid.Row="2" ColumnSpacing="5">
@@ -1012,14 +932,20 @@
                                     <PersonPicture
                                         Grid.Column="0"
                                         Width="32"
-                                        VerticalAlignment="Center"
+                                        VerticalAlignment="Top"
                                         ProfilePicture="{x:Bind local:BikaData.Current.CurrentUser.Avatar.FilePath, Mode=OneWay}" />
-                                    <TextBox VerticalAlignment="Center"
-                                        Grid.Column="1" Text="{x:Bind ViewModel.ReplyText,Mode=TwoWay}"
+                                    <TextBox
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
                                         AcceptsReturn="True"
                                         IsSpellCheckEnabled="True"
+                                        Text="{x:Bind ViewModel.ReplyText, Mode=TwoWay}"
                                         TextWrapping="Wrap" />
-                                    <Button Command="{x:Bind ViewModel.CommentCommand}" Grid.Column="2" Content="{ex:BikaLocale Key=Comments}" />
+                                    <Button
+                                        Grid.Column="2"
+                                        VerticalAlignment="Top"
+                                        Command="{x:Bind ViewModel.CommentCommand}"
+                                        Content="{ex:BikaLocale Key=Comments}" />
                                 </Grid>
 
                             </Grid>

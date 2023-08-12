@@ -2,10 +2,8 @@
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DryIoc;
 using PicaComic;
 using PicaComic.Models;
-using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
@@ -18,28 +16,27 @@ public partial class BikaInfoViewModel : ObservableObject
     {
         BikaClient = client;
     }
-    
+
     public string ComicId { get; set; }
     [ObservableProperty] private ComicInfo currentComic = new();
-    [ObservableProperty] private Comment  replyComment = new();
-    [ObservableProperty] private bool recommendEmpty = true;
-    [ObservableProperty] private bool commentEmpty = true;
+    [ObservableProperty] private Comment replyComment = new();
     [ObservableProperty] private string replyText;
-     
+
     public ObservableCollection<string> Tags { get; } = new();
     public int CommentPage { get; set; }
     public ObservableCollection<Episode> Episodes { get; } = new();
     public ObservableCollection<CategoryComic> RecommendComics { get; } = new();
-    [ObservableProperty] 
-    private ObservableCollection<Comment> comments = new();
+    public ObservableCollection<Comment> Comments { get; } = new();
+
     /// <summary> 
     /// 取消回复
     /// </summary>
     [RelayCommand]
     private void RemoveReply()
     {
-        ReplyComment = new ();
+        ReplyComment = new Comment();
     }
+
     /// <summary>
     /// 评论
     /// </summary>
@@ -48,22 +45,15 @@ public partial class BikaInfoViewModel : ObservableObject
     {
         if (string.IsNullOrEmpty(ReplyText)) return;
         if (string.IsNullOrEmpty(ReplyComment.Id))
-        {
-            await BikaHttpHelper.TryRequest(this, BikaClient.SendComicComment(CurrentComic.Id,ReplyText), res =>
-            {
-             
-            });
-        }
+            await BikaHttpHelper.TryRequest(this, BikaClient.SendComicComment(CurrentComic.Id, ReplyText), res => { });
         else
-        {
-            await BikaHttpHelper.TryRequest(this, BikaClient.SendCommentChildren(ReplyComment.Id,ReplyText), res =>
-            {
-             
-            });
-        }
-        CommentEmpty = true;
+            await BikaHttpHelper.TryRequest(this, BikaClient.SendCommentChildren(ReplyComment.Id, ReplyText),
+                res => { });
+        
         Comments.Clear();
         RefreshComments();
+        ReplyText = "";
+        ReplyComment = new Comment();
     }
 
     /// <summary>
@@ -89,6 +79,7 @@ public partial class BikaInfoViewModel : ObservableObject
             }
         });
     }
+
     /// <summary>
     /// 收藏漫画
     /// </summary>
@@ -105,6 +96,7 @@ public partial class BikaInfoViewModel : ObservableObject
             };
         });
     }
+
     /// <summary>
     /// 喜欢评论
     /// </summary>
@@ -126,13 +118,21 @@ public partial class BikaInfoViewModel : ObservableObject
             }
         });
     }
+
+    /// <summary>
+    /// 点击回复
+    /// </summary>
+    public void ReplyCommentOnClick(Comment comment)
+    {
+        ReplyComment = comment;
+    }
+
     /// <summary>
     /// 加载子评论
     /// </summary>
     /// <param name="comment"></param>
     public async void RefreshCommentChildren(Comment comment)
     {
-        ReplyComment = comment;
         if (comment.TotalComments == 0) return;
         comment.IsShowChildren = !comment.IsShowChildren;
         if (comment.TotalComments == comment.Children.Count) return;
@@ -147,6 +147,7 @@ public partial class BikaInfoViewModel : ObservableObject
                 item.Order = order--;
                 comment.Children.Add(item);
             }
+
             total = res.Data.Comments.Pages;
         });
         for (i++; i <= total; i++)
@@ -158,11 +159,12 @@ public partial class BikaInfoViewModel : ObservableObject
                     comment.Children.Add(item);
                 }
             });
-    } 
+    }
+
     public async void RefreshComments(int page = 1)
     {
         var order = 0;
-        if (CommentEmpty && page == 1)
+        if (Comments.Count == 0&&page == 1)
             await BikaHttpHelper.TryRequest(this, BikaClient.ComicComments(ComicId, page), res =>
             {
                 order = res.Data.Comments.Total;
@@ -172,23 +174,18 @@ public partial class BikaInfoViewModel : ObservableObject
                 foreach (var item in res.Data.Comments.Docs)
                 {
                     item.Order = order--;
-                    if (!item.IsTop&&!item.IsHide)
-                    {
-                        Comments.Add(item);
-                    }
+                    if (!item.IsTop && !item.IsHide) Comments.Add(item);
                 }
             });
-        CommentEmpty = Comments.Count == 0;
     }
 
     public async void RefreshRecommendation()
     {
-        if (RecommendEmpty)
+        if (RecommendComics.Count == 0)
             await BikaHttpHelper.TryRequest(this, BikaClient.Recommendation(ComicId), res =>
             {
                 foreach (var item in res.Data.Comics) RecommendComics.Add(item);
             });
-        RecommendEmpty = RecommendComics.Count == 0;
     }
 
     public async void Refresh()
