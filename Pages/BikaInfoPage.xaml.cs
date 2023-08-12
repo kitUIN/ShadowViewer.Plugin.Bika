@@ -21,14 +21,8 @@ using DryIoc;
 using PicaComic;
 using PicaComic.Models;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace ShadowViewer.Plugin.Bika.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class BikaInfoPage : Page
     {
         public BikaInfoViewModel ViewModel { get; }
@@ -42,21 +36,6 @@ namespace ShadowViewer.Plugin.Bika.Pages
             if (e.Parameter is not string id) return;
             ViewModel.ComicId = id;
             ViewModel.Refresh();
-        }
-
-        private void Border_OnPointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            if (sender is Border border)
-            {
-                border.Background = Application.Current.Resources["HyperlinkButtonBackgroundPointerOver"] as Brush;
-            }
-        }
-        private void Border_OnPointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            if (sender is Border border)
-            {
-                border.Background = new SolidColorBrush(Colors.Transparent);
-            }
         }
 
         private void Author_OnClick(object sender, RoutedEventArgs e)

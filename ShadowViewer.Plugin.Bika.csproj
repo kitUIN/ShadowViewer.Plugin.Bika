@@ -9,6 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Contorls\LoginTip.xaml" />
+    <None Remove="Controls\EmptyTip.xaml" />
     <None Remove="Controls\LockTip.xaml" />
     <None Remove="Pages\AboutPage.xaml" />
     <None Remove="Pages\BikaCategoryPage.xaml" />
@@ -42,6 +43,9 @@
 
   <ItemGroup>
     <Page Update="Pages\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\EmptyTip.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <None Update="Plugin.json">

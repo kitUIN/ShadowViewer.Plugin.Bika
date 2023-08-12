@@ -21,7 +21,7 @@ public partial class BikaInfoViewModel : ObservableObject
     
     public string ComicId { get; set; }
     [ObservableProperty] private ComicInfo currentComic = new();
-    [ObservableProperty] private Comment  replyComment;
+    [ObservableProperty] private Comment  replyComment = new();
     [ObservableProperty] private bool recommendEmpty = true;
     [ObservableProperty] private bool commentEmpty = true;
     [ObservableProperty] private string replyText;
@@ -30,14 +30,15 @@ public partial class BikaInfoViewModel : ObservableObject
     public int CommentPage { get; set; }
     public ObservableCollection<Episode> Episodes { get; } = new();
     public ObservableCollection<CategoryComic> RecommendComics { get; } = new();
-    public ObservableCollection<Comment> Comments { get; } = new();
-    /// <summary>
+    [ObservableProperty] 
+    private ObservableCollection<Comment> comments = new();
+    /// <summary> 
     /// 取消回复
     /// </summary>
     [RelayCommand]
     private void RemoveReply()
     {
-        ReplyComment.Id = "" ;
+        ReplyComment = new ();
     }
     /// <summary>
     /// 评论
