@@ -1,11 +1,13 @@
 using System;
 using CustomExtensions.WinUI;
 using DryIoc;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
 using ShadowViewer.Extensions;
+using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
@@ -45,6 +47,7 @@ public sealed partial class ClassificationPage : Page
         }
         else if (category.Title == BikaResourcesHelper.GetString(BikaResourceKey.Leaderboard))
         {
+            
         }
         else
         {
@@ -59,5 +62,15 @@ public sealed partial class ClassificationPage : Page
                     break;
             }
         }
+    }
+
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
+        if(sender is Button { Content: string tag })
+            DiFactory.Services.Resolve<ICallableService>().NavigateTo(typeof(BikaCategoryPage),
+                new CategoryArg
+                {
+                    Category = tag , Mode = CategoryMode.Search
+                });
     }
 }

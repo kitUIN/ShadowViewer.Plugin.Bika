@@ -8,8 +8,10 @@ using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
 using Serilog;
 using ShadowViewer.Args;
+using ShadowViewer.Interfaces;
 using ShadowViewer.Pages;
 using ShadowViewer.Plugin.Bika.Args;
+using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.ViewModels;
 
 namespace ShadowViewer.Plugin.Bika.Pages;
@@ -47,10 +49,22 @@ public sealed partial class BikaInfoPage : Page
 
     private void Author_OnClick(object sender, RoutedEventArgs e)
     {
+        if(sender is HyperlinkButton { Content: string tag })
+            DiFactory.Services.Resolve<ICallableService>().NavigateTo(typeof(BikaCategoryPage),
+                new CategoryArg
+                {
+                    Category = tag , Mode = CategoryMode.Search
+                });
     }
 
     private void ChineseTeam_OnClick(object sender, RoutedEventArgs e)
     {
+        if(sender is HyperlinkButton { Content: string tag })
+            DiFactory.Services.Resolve<ICallableService>().NavigateTo(typeof(BikaCategoryPage),
+                new CategoryArg
+                {
+                    Category = tag , Mode = CategoryMode.Search
+                });
     }
 
     private async void Segmented_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -69,9 +83,9 @@ public sealed partial class BikaInfoPage : Page
         if (sender is FrameworkElement { Tag: Comment comment }) await ViewModel.LikeComment(comment);
     }
 
-    private void CommentChild_OnClick(object sender, RoutedEventArgs e)
+    private async void CommentChild_OnClick(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { Tag: Comment comment }) ViewModel.RefreshCommentChildren(comment);
+        if (sender is FrameworkElement { Tag: Comment comment }) await ViewModel.RefreshCommentChildren(comment);
     }
 
     private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -117,7 +131,12 @@ public sealed partial class BikaInfoPage : Page
 
     private void Tag_OnClick(object sender, RoutedEventArgs e)
     {
-        
+        if(sender is Button { Content: string tag })
+            DiFactory.Services.Resolve<ICallableService>().NavigateTo(typeof(BikaCategoryPage),
+                new CategoryArg
+                {
+                    Category = tag , Mode = CategoryMode.Search
+                });
     }
 
     private void EpisodesButton_OnClick(object sender, RoutedEventArgs e)

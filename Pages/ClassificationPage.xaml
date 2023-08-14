@@ -36,7 +36,7 @@
             <ItemsRepeater ItemsSource="{x:Bind local:BikaData.Current.Keywords, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
-                        <Button Content="{x:Bind}" Style="{ThemeResource TagStyle}" />
+                        <Button Content="{x:Bind}" Click="ButtonBase_OnClick" Style="{ThemeResource TagStyle}" />
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
                 <ItemsRepeater.Layout>
