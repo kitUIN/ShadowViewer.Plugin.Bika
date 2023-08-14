@@ -28,11 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\winui3\PicaComic\PicaComic\PicaComic.csproj" />
-    <ProjectReference Include="..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Assets\Icons\github.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
@@ -40,6 +35,11 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
     <Content Remove="pica_telegram.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\winui3\PicaComic\PicaComic\PicaComic.csproj" />
+    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

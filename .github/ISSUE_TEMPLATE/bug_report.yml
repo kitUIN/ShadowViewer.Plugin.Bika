@@ -1,5 +1,5 @@
 name: 🐛Bug 报告
-description: 提交 Bug 以帮助我们提高ShadowViewer应用体验
+description: 提交 Bug 以帮助我们提高哔咔漫画插件体验
 title: "[Bug] 我的标题"
 assignees: kitUIN
 labels:
@@ -45,15 +45,15 @@ body:
     validations:
       required: true
     attributes:
-      label: ShadowViewer应用版本
-      description: 你发现问题的ShadowViewer应用版本(设置页面->关于 右侧为版本号)
+      label: 哔咔漫画插件应用版本
+      description: 你发现问题的哔咔漫画插件应用版本
          
   - type: textarea
     validations:
       required: true
     attributes:
       label: 电脑系统
-      description: 你的电脑系统是?
+      description: 你的电脑系统是(Win11:系统->系统信息->Windows规格)
   - type: textarea
     id: screenshots
     attributes:
