@@ -78,7 +78,7 @@ public class BikaPlugin : PluginBase
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override IList<ShadowNavigationItem> NavigationViewMenuItems => new List<ShadowNavigationItem>()
+    public override IEnumerable<ShadowNavigationItem> NavigationViewMenuItems => new List<ShadowNavigationItem>()
     {
         new()
         {
@@ -91,7 +91,7 @@ public class BikaPlugin : PluginBase
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override IList<ShadowNavigationItem> NavigationViewFooterItems => new List<ShadowNavigationItem>();
+    public override IEnumerable<ShadowNavigationItem> NavigationViewFooterItems => new List<ShadowNavigationItem>();
 
     /// <summary>
     /// <inheritdoc/>
