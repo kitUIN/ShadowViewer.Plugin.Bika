@@ -36,7 +36,7 @@ namespace ShadowViewer.Plugin.Bika;
     "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
     "ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png",
     20230808)]
-public class BikaPlugin : PluginBase
+public partial class BikaPlugin : PluginBase
 {
     /// <summary>
     /// Login Frame
@@ -76,45 +76,7 @@ public class BikaPlugin : PluginBase
         base.Loaded(isEnabled);
     }
 
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override Type SettingsPage => typeof(BikaSettingsPage);
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override IEnumerable<ShadowNavigationItem> NavigationViewMenuItems => new List<ShadowNavigationItem>()
-    {
-        new()
-        {
-            Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
-            Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
-            Id = MetaData.Id
-        }
-    };
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override IEnumerable<ShadowNavigationItem> NavigationViewFooterItems => new List<ShadowNavigationItem>();
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
-    {
-        if (BikaClient.HasToken)
-        {
-            page = typeof(ClassificationPage);
-            parameter = null;
-        }
-        else
-        {
-            ShowLoginFrame();
-        }
-    }
-
+    
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -282,7 +244,12 @@ public class BikaPlugin : PluginBase
     {
         if (args.ChosenSuggestion is BikaSearchItem item)
         {
-            
+            Caller.NavigateTo(typeof(BikaCategoryPage),
+                new CategoryArg
+                {
+                    Category = item.Title, Mode = CategoryMode.Search
+                });
         }
     }
+    
 }

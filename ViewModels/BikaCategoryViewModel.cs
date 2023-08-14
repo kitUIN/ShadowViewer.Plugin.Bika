@@ -83,6 +83,21 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                         }
                     });
                     break;
+                case CategoryMode.Search:
+                    await BikaHttpHelper.TryRequest(this, BikaClient.AdvancedSearch(CategoryTitle,Page, Sort), res =>
+                    {
+                        Pages = res.Data.Comics.Pages;
+                        Page = res.Data.Comics.Page;
+                        foreach (var comic in res.Data.Comics.Docs)
+                        {
+                            CheckCategoryLock(comic);
+                            if (!(comic.IsLocked && BikaConfig.IsIgnoreLockComic))
+                            {
+                                CategoryComics.Add(comic);
+                            }
+                        }
+                    });
+                    break;
             }
 
         }

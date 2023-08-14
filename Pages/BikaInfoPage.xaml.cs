@@ -117,7 +117,7 @@ public sealed partial class BikaInfoPage : Page
 
     private void Tag_OnClick(object sender, RoutedEventArgs e)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     private void EpisodesButton_OnClick(object sender, RoutedEventArgs e)
