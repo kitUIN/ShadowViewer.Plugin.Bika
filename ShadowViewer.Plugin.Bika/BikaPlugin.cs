@@ -76,7 +76,6 @@ public partial class BikaPlugin : PluginBase
         base.Loaded(isEnabled);
     }
 
-    
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
