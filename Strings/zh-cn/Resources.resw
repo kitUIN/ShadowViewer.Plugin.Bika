@@ -456,4 +456,10 @@
   <data name="Logining" xml:space="preserve">
     <value>登录中</value>
   </data>
+  <data name="BikaSearch" xml:space="preserve">
+    <value>哔咔搜索</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>历史记录</value>
+  </data>
 </root>

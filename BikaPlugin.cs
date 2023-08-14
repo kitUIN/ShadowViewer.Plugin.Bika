@@ -254,4 +254,35 @@ public class BikaPlugin : PluginBase
             else
                 ConfigHelper.Set(item, true);
     }
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override IEnumerable<IShadowSearchItem> SearchTextChanged(AutoSuggestBox sender,
+        AutoSuggestBoxTextChangedEventArgs args)
+    {
+        var res = new List<IShadowSearchItem>();
+        if (!string.IsNullOrEmpty(sender.Text) && BikaClient.HasToken )
+        {
+            res.Add(new BikaSearchItem(sender.Text,MetaData.Id,BikaSearchMode.Search));
+        }
+        return res;
+    }
+
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override void SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    {
+        
+    }
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override void SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (args.ChosenSuggestion is BikaSearchItem item)
+        {
+            
+        }
+    }
 }

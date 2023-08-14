@@ -114,5 +114,7 @@
         GetProfile,
         GetKeywords,
         Logining,
+        BikaSearch,
+        History,
     }
 }
