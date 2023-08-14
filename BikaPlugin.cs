@@ -125,7 +125,11 @@ public class BikaPlugin : PluginBase
     protected override void PluginDisabled()
     {
         // Close Login Frame
-        MainLoginTip.Hide();
+        if (MainLoginTip!=null)
+        {
+            MainLoginTip.Hide();
+        }
+        
     }
 
     /// <summary>
