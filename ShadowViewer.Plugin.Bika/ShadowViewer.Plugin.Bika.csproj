@@ -39,7 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\winui3\PicaComic\PicaComic\PicaComic.csproj" />
-    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
+    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
