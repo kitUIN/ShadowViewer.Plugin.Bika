@@ -1,3 +1,4 @@
+using System;
 using CustomExtensions.WinUI;
 using DryIoc;
 using Microsoft.UI.Xaml;
@@ -6,6 +7,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
 using Serilog;
+using ShadowViewer.Args;
+using ShadowViewer.Pages;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.ViewModels;
 
@@ -60,9 +63,6 @@ public sealed partial class BikaInfoPage : Page
         }
     }
 
-    private void LeftGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-    }
 
     private async void LikeComment_OnClick(object sender, RoutedEventArgs e)
     {
@@ -113,5 +113,19 @@ public sealed partial class BikaInfoPage : Page
     private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
     {
         ViewModel.ScrollToComment(ViewModel.ReplyComment);
+    }
+
+    private void Tag_OnClick(object sender, RoutedEventArgs e)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void EpisodesButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button { Tag: Episode episode })
+        {
+            Frame.Navigate(typeof(PicPage), new PicViewArg(BikaPlugin.MetaData.Id, new ComicArg
+                { ComicInfo = ViewModel.CurrentComic, CurrentEpisode = episode.Order, Episodes = ViewModel.Episodes }));
+        }
     }
 }

@@ -683,13 +683,13 @@
                         </Grid>
                     </Border>
                     <controls1:TitleBorder Grid.Row="1" Header="{ex:BikaLocale Key=Tag}">
-                        <ItemsRepeater x:Name="TagsContent" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
+                        <ItemsRepeater x:Name="TagsContent"  ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
                             <ItemsRepeater.Layout>
                                 <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="10" />
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate x:DataType="x:String">
-                                    <Button Content="{x:Bind}" Style="{ThemeResource TagStyle}" />
+                                    <Button x:Name="Tag" Content="{x:Bind}" Click="Tag_OnClick" Style="{ThemeResource TagStyle}" />
                                 </DataTemplate>
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
@@ -812,7 +812,8 @@
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate x:DataType="models:Episode">
-                                    <Button
+                                    <Button Tag="{x:Bind}"
+                                        x:Name="EpisodesButton" Click="EpisodesButton_OnClick"
                                         Content="{x:Bind Title}"
                                         Style="{ThemeResource TagStyle}"
                                         ToolTipService.ToolTip="{x:Bind Title}" />

@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.Storage;
 using DryIoc;
 using Microsoft.UI.Xaml.Controls;
 using ShadowViewer.Plugin.Bika.Enums;
 using PicaComic;
+using PicaComic.Models;
 using Serilog;
+using ShadowViewer.Args;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
@@ -21,9 +24,12 @@ using ShadowViewer.Plugin.Bika.ViewModels;
 using ShadowViewer.Plugins;
 using ShadowViewer.Services;
 using ShadowViewer.Extensions;
+using ShadowViewer.Plugin.Bika.Args;
+using ShadowViewer.ViewModels;
 
 namespace ShadowViewer.Plugin.Bika;
-[PluginMetaData( "Bika",
+
+[PluginMetaData("Bika",
     "ßÙßÇÂþ»­",
     "ßÙßÇÂþ»­ÊÊÅäÆ÷",
     "kitUIN", "0.1.0",
@@ -44,8 +50,9 @@ public class BikaPlugin : PluginBase
         new(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
 
     public new static readonly PluginMetaData MetaData = typeof(BikaPlugin).GetPluginMetaData();
-    private ILogger Logger { get; } 
+    private ILogger Logger { get; }
     private IPicaClient BikaClient { get; }
+
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
         CompressService compressService, IPluginService pluginService, ILogger logger) :
         base(callableService, sqlSugarClient, compressService, pluginService)
@@ -53,11 +60,11 @@ public class BikaPlugin : PluginBase
         Logger = logger;
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
-        DiFactory.Services.Register<BikaSettingsViewModel>(reuse: Reuse.Singleton);
-        DiFactory.Services.Register<ClassificationViewModel>(reuse: Reuse.Singleton);
-        DiFactory.Services.Register<BikaInfoViewModel>(reuse: Reuse.Transient);
-        DiFactory.Services.Register<BikaCategoryViewModel>(reuse: Reuse.Transient);
-        DiFactory.Services.Register<LoginTipViewModel>(reuse: Reuse.Transient);
+        DiFactory.Services.Register<BikaSettingsViewModel>(Reuse.Singleton);
+        DiFactory.Services.Register<ClassificationViewModel>(Reuse.Singleton);
+        DiFactory.Services.Register<BikaInfoViewModel>(Reuse.Transient);
+        DiFactory.Services.Register<BikaCategoryViewModel>(Reuse.Transient);
+        DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
         BikaConfig.Init();
     }
 
@@ -66,7 +73,6 @@ public class BikaPlugin : PluginBase
     /// </summary>
     public override void Loaded(bool isEnabled)
     {
-        
         base.Loaded(isEnabled);
     }
 
@@ -114,6 +120,8 @@ public class BikaPlugin : PluginBase
     /// </summary>
     protected override void PluginEnabled()
     {
+        Caller.PicturesLoadStartingEvent += CallerOnPicturesLoadStartingEvent;
+        Caller.CurrentEpisodeIndexChangedEvent += CallerOnCurrentEpisodeIndexChangedEvent;
         Db.CodeFirst.InitTables<BikaUser>();
         CheckLock();
         CheckToken();
@@ -124,12 +132,64 @@ public class BikaPlugin : PluginBase
     /// </summary>
     protected override void PluginDisabled()
     {
+        Caller.PicturesLoadStartingEvent -= CallerOnPicturesLoadStartingEvent;
+        Caller.CurrentEpisodeIndexChangedEvent -= CallerOnCurrentEpisodeIndexChangedEvent;
         // Close Login Frame
-        if (MainLoginTip!=null)
+        if (MainLoginTip != null) MainLoginTip.Hide();
+    }
+
+    /// <summary>
+    /// »° ±ä»¯
+    /// </summary>
+    private async void CallerOnCurrentEpisodeIndexChangedEvent(object sender, CurrentEpisodeIndexChangedEventArg e)
+    {
+        if (sender is not PicViewModel viewModel) return;
+        if (e.OldValue == e.NewValue) return;
+        if (viewModel.Affiliation != MetaData.Id) return;
+        viewModel.Images.Clear();
+        var index = 0;
+        if (viewModel.Episodes.Count > 0 && viewModel.Episodes[e.NewValue] is BikaEpisode episode)
         {
-            MainLoginTip.Hide();
+            var pages = 1;
+            var page = 1;
+            await BikaHttpHelper.TryRequest(this, BikaClient.Pictures(episode.ComicId, episode.Order, page), res =>
+            {
+                pages = res.Data.Pages.Pages;
+                foreach (var item in res.Data.Pages.Docs)
+                {
+                    viewModel.Images.Add(new BikaPicture(++index, item.Media.FilePath));
+                }
+            });
+            for (var i = 2; i <= pages; i++)
+            {
+                await BikaHttpHelper.TryRequest(this, BikaClient.Pictures(episode.ComicId, episode.Order, page), res =>
+                {
+                    foreach (var item in res.Data.Pages.Docs)
+                    {
+                        viewModel.Images.Add(new BikaPicture(++index, item.Media.FilePath));
+                    }
+                });
+            }
         }
-        
+    }
+
+    /// <summary>
+    /// ³õÊ¼»¯ Âþ»­ Í¼Æ¬
+    /// </summary>
+    private void CallerOnPicturesLoadStartingEvent(object sender, PicViewArg e)
+    {
+        if (sender is not PicViewModel viewModel) return;
+        if (e.Affiliation != MetaData.Id || e.Parameter is not ComicArg arg) return;
+        var orders = new List<int>();
+        foreach (var episode in arg.Episodes.Reverse())
+        {
+            orders.Add(episode.Order);
+            viewModel.Episodes.Add(
+                new BikaEpisode(episode,arg.ComicInfo.Id));
+        }
+
+        if (viewModel.CurrentEpisodeIndex == -1 && orders.Count > 0)
+            viewModel.CurrentEpisodeIndex = orders.IndexOf(arg.CurrentEpisode);
     }
 
     /// <summary>
@@ -149,6 +209,7 @@ public class BikaPlugin : PluginBase
 
         return false;
     }
+
     /// <summary>
     /// Show Login Frame On Main Window
     /// </summary>
@@ -158,6 +219,7 @@ public class BikaPlugin : PluginBase
         Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
         MainLoginTip.Show();
     }
+
     /// <summary>
     /// Check Token
     /// </summary>
@@ -188,7 +250,7 @@ public class BikaPlugin : PluginBase
         if (BikaData.Current.Locks.Count != 0) return;
         foreach (var item in BikaData.Categories)
             if (ConfigHelper.Contains(item))
-                BikaData.Current.Locks.Add( new BikaLock(item, ConfigHelper.GetBoolean(item)));
+                BikaData.Current.Locks.Add(new BikaLock(item, ConfigHelper.GetBoolean(item)));
             else
                 ConfigHelper.Set(item, true);
     }
