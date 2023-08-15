@@ -76,7 +76,7 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     public override IEnumerable<ResourceDictionary> ResourceDictionaries => new List<ResourceDictionary>
     {
-        new ResourceDictionary() { Source ="/Themes/BikaTheme.xaml".AssetUri(this) }
+        new ResourceDictionary() { Source ="/Themes/BikaTheme.xaml".AssetUri<BikaPlugin>() }
     };
     /// <summary>
     /// <inheritdoc/>
@@ -251,12 +251,22 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     public override void SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        if (args.ChosenSuggestion is BikaSearchItem item)
+        BikaSearchItem item = null;
+        if (args.ChosenSuggestion is BikaSearchItem item1)
+        {
+            item = item1;
+        }
+        else if(args.ChosenSuggestion == null && sender.Items[0] is BikaSearchItem item2)
+        {
+            item = item2;
+        }
+        if (item != null)
         {
             Caller.NavigateTo(typeof(BikaCategoryPage),
                 new CategoryArg
                 {
-                    Category = item.Title, Mode = CategoryMode.Search
+                    Category = item.Title,
+                    Mode = CategoryMode.Search
                 });
         }
     }
