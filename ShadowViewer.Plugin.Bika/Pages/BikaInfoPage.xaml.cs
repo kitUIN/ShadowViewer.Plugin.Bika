@@ -70,7 +70,10 @@ public sealed partial class BikaInfoPage : Page
     private async void Segmented_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (RightGrid.SelectedIndex == 0)
+        {
             ViewModel.RefreshRecommendation();
+            
+        }
         else if (ViewModel.Comments.Count == 0)
         {
             await ViewModel.LoadComments();
@@ -145,5 +148,10 @@ public sealed partial class BikaInfoPage : Page
             Frame.Navigate(typeof(PicPage), new PicViewArg(BikaPlugin.Meta.Id, new ComicArg
                 { ComicInfo = ViewModel.CurrentComic, CurrentEpisode = episode.Order, Episodes = ViewModel.Episodes }));
         }
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        Page_SizeChanged(this, null); // 刚进入的时候不会响应更改
     }
 }

@@ -29,7 +29,7 @@
                     <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorDark1}" />
                     <SolidColorBrush x:Key="BikaTagPressedBackground" Color="{StaticResource BikaAccentColorDark2}" />
                     <SolidColorBrush x:Key="BikaTagPointerOverBackground" Color="{StaticResource BikaAccentColorLight1}" />
-                    <SolidColorBrush x:Key="BikaTagForeground" Color="{StaticResource BikaAccentColorLight4}" />
+                    <SolidColorBrush x:Key="BikaTagForeground" Color="White" />
 
                     <Color x:Key="BikaLockBackgroundChecked">#FFE480A7</Color>
                     <Color x:Key="BikaLockBackgroundPointerOver">#FFFBA3C4</Color>

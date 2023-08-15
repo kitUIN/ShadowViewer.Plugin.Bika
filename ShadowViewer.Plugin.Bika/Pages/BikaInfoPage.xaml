@@ -16,7 +16,7 @@
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:PicaComic.Models"
-    SizeChanged="Page_SizeChanged"
+    SizeChanged="Page_SizeChanged" Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolToObjectConverter
@@ -509,7 +509,8 @@
                 x:Name="LeftScrollViewer"
                 Grid.Row="0"
                 Grid.Column="0"
-                Padding="0,0,10,0">
+                Padding="0,0,10,0"
+                VerticalAlignment="Top">
                 <Grid x:Name="LeftGrid" RowSpacing="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
