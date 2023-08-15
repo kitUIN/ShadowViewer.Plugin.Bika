@@ -26,6 +26,7 @@ using ShadowViewer.Services;
 using ShadowViewer.Extensions;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.ViewModels;
+using CustomExtensions.WinUI;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -34,7 +35,7 @@ namespace ShadowViewer.Plugin.Bika;
     "ßÙßÇÂþ»­ÊÊÅäÆ÷",
     "kitUIN", "0.1.0",
     "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
-    "ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png",
+    "/Assets/Icons/logo.png",
     20230808)]
 public partial class BikaPlugin : PluginBase
 {
@@ -49,7 +50,8 @@ public partial class BikaPlugin : PluginBase
     public override LocalTag AffiliationTag { get; } =
         new(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
 
-    public new static readonly PluginMetaData MetaData = typeof(BikaPlugin).GetPluginMetaData();
+    public override PluginMetaData MetaData { get; } = typeof(BikaPlugin).GetPluginMetaData();
+    public  static readonly PluginMetaData Meta = typeof(BikaPlugin).GetPluginMetaData();
     private ILogger Logger { get; }
     private IPicaClient BikaClient { get; }
 

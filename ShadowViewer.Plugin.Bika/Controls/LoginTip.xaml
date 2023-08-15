@@ -2,11 +2,12 @@
     x:Class="ShadowViewer.Plugin.Bika.Controls.LoginTip"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ee="using:CustomExtensions.WinUI"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:local="using:ShadowViewer.Plugin.Bika.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:BoolToObjectConverter
@@ -14,10 +15,11 @@
             FalseValue="{ex:BikaLocale Key=Logining}"
             TrueValue="{ex:BikaLocale Key=Login}" />
     </UserControl.Resources>
-    <TeachingTip IsOpen="{x:Bind ViewModel.IsOpen,Mode=TwoWay}"
+    <TeachingTip
         x:Name="Login"
         Title="{ex:BikaLocale Key=LoginTitle}"
         IsLightDismissEnabled="False"
+        IsOpen="{x:Bind ViewModel.IsOpen, Mode=TwoWay}"
         PreferredPlacement="Center">
         <TeachingTip.IconSource>
             <SymbolIconSource Symbol="AddFriend" />
@@ -30,18 +32,19 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Image
+                x:Name="Logo"
                 Grid.Row="0"
                 Width="120"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/login-bg.png" />
+                Loaded="Logo_Loaded"
+                Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/login-bg.png')}" />
             <Grid
                 Grid.Row="1"
                 Width="240"
                 HorizontalAlignment="Center"
                 Background="Transparent"
-                ColumnSpacing="10"
-                >
+                ColumnSpacing="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -59,44 +62,47 @@
                 <TextBox
                     x:Name="Email"
                     Grid.Row="0"
-                    Grid.Column="1" Text="{x:Bind ViewModel.Email,Mode=TwoWay}"
+                    Grid.Column="1"
                     HorizontalAlignment="Stretch"
-                    PlaceholderText="{ex:BikaLocale Key=UserName}" />
+                    PlaceholderText="{ex:BikaLocale Key=UserName}"
+                    Text="{x:Bind ViewModel.Email, Mode=TwoWay}" />
                 <TextBlock
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="0,5,0,0"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Center" 
+                    VerticalAlignment="Center"
                     Text="{ex:BikaLocale Key=Password}" />
                 <PasswordBox
                     x:Name="Password"
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="0,5,0,0"
-                    HorizontalAlignment="Stretch" Password="{x:Bind ViewModel.Password,Mode=TwoWay}"
-                    KeyDown="{x:Bind  ViewModel.Password_OnKeyDown}"
+                    HorizontalAlignment="Stretch"
+                    KeyDown="{x:Bind ViewModel.Password_OnKeyDown}"
+                    Password="{x:Bind ViewModel.Password, Mode=TwoWay}"
                     PlaceholderText="{ex:BikaLocale Key=Password}" />
             </Grid>
             <Grid Grid.Row="2" Padding="0,5">
                 <CheckBox
-                    x:Name="RememberMeBox" IsChecked="{x:Bind ViewModel.RememberMe,Mode=TwoWay}"
-                    HorizontalAlignment="Left" 
-                    Content="{ex:BikaLocale Key=RememberMe}" />
+                    x:Name="RememberMeBox"
+                    HorizontalAlignment="Left"
+                    Content="{ex:BikaLocale Key=RememberMe}"
+                    IsChecked="{x:Bind ViewModel.RememberMe, Mode=TwoWay}" />
                 <CheckBox
                     x:Name="AutoLoginBox"
                     HorizontalAlignment="Right"
-                    IsChecked="{x:Bind ViewModel.AutoLogin,Mode=TwoWay}" 
                     Content="{ex:BikaLocale Key=AutoLogin}"
-                    FlowDirection="RightToLeft"  />
+                    FlowDirection="RightToLeft"
+                    IsChecked="{x:Bind ViewModel.AutoLogin, Mode=TwoWay}" />
             </Grid>
             <Button
                 Grid.Row="3"
                 Width="100"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Command="{x:Bind ViewModel.LoginCommand,Mode=OneWay}"
-                Content="{x:Bind ViewModel.CanLogin ,Mode=OneWay,Converter={StaticResource CanLoginConverter}}" />
+                Command="{x:Bind ViewModel.LoginCommand, Mode=OneWay}"
+                Content="{x:Bind ViewModel.CanLogin, Mode=OneWay, Converter={StaticResource CanLoginConverter}}" />
         </Grid>
     </TeachingTip>
 </UserControl>

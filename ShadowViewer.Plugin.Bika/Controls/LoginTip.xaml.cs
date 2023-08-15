@@ -13,6 +13,7 @@ using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.ViewModels;
 using SqlSugar;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace ShadowViewer.Plugin.Bika.Controls;
 
@@ -24,6 +25,7 @@ public sealed partial class LoginTip : UserControl
     {
         this.LoadComponent(ref _contentLoaded);
         ViewModel = DiFactory.Services.Resolve<LoginTipViewModel>();
+
     }
 
     public void Show()
@@ -34,7 +36,13 @@ public sealed partial class LoginTip : UserControl
     public void Hide()
     {
         ViewModel.IsOpen = false;
-    } 
-
-    
+    }
+    private string Hi(string tx)
+    {
+        return tx;
+    }
+    private void Logo_Loaded(object sender, RoutedEventArgs e)
+    {
+        
+    }
 }

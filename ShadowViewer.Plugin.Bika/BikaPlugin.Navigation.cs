@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CustomExtensions.WinUI;
 using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
 using ShadowViewer.Models;

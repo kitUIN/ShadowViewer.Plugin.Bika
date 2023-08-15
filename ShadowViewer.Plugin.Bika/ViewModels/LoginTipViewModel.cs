@@ -99,7 +99,7 @@ public partial class LoginTipViewModel : ObservableObject
         {
             BikaData.Current.CurrentUser = res.Data.User;
             NotificationHelper.Notify(this,
-                $"[{BikaPlugin.MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
+                $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
                 InfoBarSeverity.Success);
         });
         await BikaHttpHelper.PunchIn(this);
