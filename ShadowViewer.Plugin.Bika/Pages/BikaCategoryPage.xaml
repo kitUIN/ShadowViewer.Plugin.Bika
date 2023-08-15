@@ -344,23 +344,20 @@
             </CommandBar>
         </Grid>
         <ScrollViewer x:Name="MainScrollViewer" Grid.Row="1">
-            <RefreshContainer>
-                <GridView
-                    HorizontalAlignment="Center"
-                    IsItemClickEnabled="True"
-                    ItemClick="GridV_ItemClick"
-                    ItemContainerStyle="{StaticResource BikaGridViewItemStyle}"
-                    ItemTemplateSelector="{StaticResource CategoryComicDataTemplateSelector}"
-                    ItemsSource="{x:Bind ViewModel.CategoryComics, Mode=OneWay}"
-                    SelectionMode="None">
-                    <GridView.Transitions>
-                        <TransitionCollection>
-                            <EntranceThemeTransition IsStaggeringEnabled="True" />
-                        </TransitionCollection>
-                    </GridView.Transitions>
-                </GridView>
-            </RefreshContainer>
-
+            <GridView
+                HorizontalAlignment="Center"
+                IsItemClickEnabled="True"
+                ItemClick="GridV_ItemClick"
+                ItemContainerStyle="{StaticResource BikaGridViewItemStyle}"
+                ItemTemplateSelector="{StaticResource CategoryComicDataTemplateSelector}"
+                ItemsSource="{x:Bind ViewModel.CategoryComics, Mode=OneWay}"
+                SelectionMode="None">
+                <GridView.Transitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition IsStaggeringEnabled="True" />
+                    </TransitionCollection>
+                </GridView.Transitions>
+            </GridView>
         </ScrollViewer>
         <Border
             Grid.Row="1"
