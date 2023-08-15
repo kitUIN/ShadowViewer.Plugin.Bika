@@ -16,6 +16,8 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private int pages = 1;
         [ObservableProperty]
+        private bool isGotoOpen;
+        [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Index))]
         private int page = 1;
         public int Index
@@ -136,6 +138,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             {
                 Refresh();
             }
+            SetCurrentPageString();
         }
         partial void OnPagesChanged(int oldValue, int newValue)
         {
