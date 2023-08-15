@@ -1,16 +1,9 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml;
-using ShadowViewer.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Dm.net.buffer.ByteArrayBuffer;
+﻿using CustomExtensions.WinUI;
 using Microsoft.UI.Text;
-using Microsoft.UI.Xaml.Media.Imaging;
-using PicaComic;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Serilog;
+using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
 using ShadowViewer.Plugin.Bika.Enums;
 
@@ -49,9 +42,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
             switch (status)
             {
                 case BikaHttpStatus.TimeOut:
-                    img.Source =
-                        new BitmapImage(
-                            new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/icon_unknown_error.png"));
+                    img.Source = "Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper));
                     title.Text = BikaResourcesHelper.GetString(BikaResourceKey.TimeOut);
                     var stack = new StackPanel()
                     {
@@ -79,9 +70,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                     dialog.Content = stack;
                     break;
                 case BikaHttpStatus.NoAuth:
-                    img.Source =
-                        new BitmapImage(
-                            new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/icon_exclamation_error.png"));
+                    img.Source = "/Assets/Picacgs/icon_exclamation_error.png".ImageSource(typeof(ContentDialogHelper));
                     title.Text = BikaResourcesHelper.GetString(BikaResourceKey.NoAuth);
                     dialog.Content = new TextBlock
                     {
@@ -92,9 +81,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                     break;
                 case BikaHttpStatus.Unknown:
                     title.Text = BikaResourcesHelper.GetString(BikaResourceKey.Unknown);
-                    img.Source =
-                        new BitmapImage(
-                            new Uri("ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/icon_unknown_error.png"));
+                    img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper)); 
                     dialog.Content = new TextBlock
                     {
                         TextWrapping = TextWrapping.Wrap,

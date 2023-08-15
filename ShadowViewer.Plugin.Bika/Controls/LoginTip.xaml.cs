@@ -36,13 +36,5 @@ public sealed partial class LoginTip : UserControl
     public void Hide()
     {
         ViewModel.IsOpen = false;
-    }
-    private string Hi(string tx)
-    {
-        return tx;
-    }
-    private void Logo_Loaded(object sender, RoutedEventArgs e)
-    {
-        
-    }
+    } 
 }

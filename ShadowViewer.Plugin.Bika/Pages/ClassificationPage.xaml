@@ -4,15 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ee="using:CustomExtensions.WinUI"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pica="using:PicaComic.Models"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <Page.Resources>
-        <ResourceDictionary Source="ms-appx:///ShadowViewer.Plugin.Bika/Themes/BikaTheme.xaml" />
-    </Page.Resources>
     <Grid
         x:Name="RootGrid"
         Padding="10,10,0,0"
@@ -36,7 +34,10 @@
             <ItemsRepeater ItemsSource="{x:Bind local:BikaData.Current.Keywords, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
-                        <Button Content="{x:Bind}" Click="ButtonBase_OnClick" Style="{ThemeResource TagStyle}" />
+                        <Button
+                            Click="ButtonBase_OnClick"
+                            Content="{x:Bind}"
+                            Style="{ThemeResource TagStyle}" />
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
                 <ItemsRepeater.Layout>

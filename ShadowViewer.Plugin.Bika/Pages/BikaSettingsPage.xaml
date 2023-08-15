@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:ShadowViewer.Plugin.Bika.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ee="using:CustomExtensions.WinUI"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
@@ -173,7 +174,7 @@
                                 Width="30"
                                 Height="30"
                                 ShowAsMonochrome="False"
-                                UriSource="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/logo.png" />
+                                UriSource="{x:Bind ee:WinUIExtensions.AssetUri('/Assets/Icons/logo.png')}" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.ActionIcon>

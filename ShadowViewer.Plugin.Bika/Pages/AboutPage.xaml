@@ -4,14 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:ShadowViewer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ee="using:CustomExtensions.WinUI"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pica="using:PicaComic"
     mc:Ignorable="d">
-    <Page.Resources>
-        <ResourceDictionary Source="ms-appx:///ShadowViewer.Plugin.Bika/Themes/BikaTheme.xaml" />
-    </Page.Resources>
     <ScrollViewer
         Padding="0,10,0,0"
         Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -30,7 +28,7 @@
             <Image
                 Grid.Row="0"
                 Width="300"
-                Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/logo.png" />
+                Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/logo.png')}" />
             <TextBlock
                 Grid.Row="1"
                 HorizontalAlignment="Center"
@@ -109,7 +107,7 @@
                         Grid.Column="0"
                         Width="60"
                         Margin="5"
-                        Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/logo_round.png" />
+                        Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/logo_round.png')}" />
                     <StackPanel
                         Grid.Column="1"
                         Margin="0,0,5,0"
@@ -136,7 +134,7 @@
                         Width="60"
                         Height="60"
                         Margin="5"
-                        Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/picacomic_2.png" />
+                        Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/picacomic_2.png')}" />
                     <StackPanel
                         Grid.Column="1"
                         Margin="0,0,5,0"
@@ -162,7 +160,7 @@
                         Grid.Column="0"
                         Width="60"
                         Margin="5"
-                        Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/pica_telegram.jpg" />
+                        Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/pica_telegram.jpg')}" />
                     <StackPanel
                         Grid.Column="1"
                         Margin="0,0,5,0"
@@ -188,7 +186,7 @@
                         Grid.Column="0"
                         Width="60"
                         Margin="5"
-                        Source="ms-appx:///ShadowViewer.Plugin.Bika/Assets/Icons/discord.png" />
+                        Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Icons/jpg.png')}" />
                     <StackPanel
                         Grid.Column="1"
                         Margin="0,0,5,0"

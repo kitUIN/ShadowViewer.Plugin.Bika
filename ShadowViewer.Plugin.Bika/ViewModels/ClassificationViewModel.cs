@@ -9,7 +9,7 @@ using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 using Thumb = PicaComic.Models.Thumb;
-
+using CustomExtensions.WinUI;
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 
 public partial class ClassificationViewModel:ObservableObject
@@ -21,7 +21,6 @@ public partial class ClassificationViewModel:ObservableObject
         BikaClient = client;
     }
 
-     
     public ObservableCollection<Category> Categories { get; } = new()
     {
         new Category
@@ -29,7 +28,7 @@ public partial class ClassificationViewModel:ObservableObject
             Title = BikaResourcesHelper.GetString(BikaResourceKey.Leaderboard),
             Thumb = new Thumb
             {
-                FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_leaderboard.jpg"
+                FilePath = "/Assets/Picacgs/cat_leaderboard.jpg".AssetPath(typeof(BikaPlugin)),
             }
         },
         new Category
@@ -37,7 +36,7 @@ public partial class ClassificationViewModel:ObservableObject
             Title = BikaResourcesHelper.GetString(BikaResourceKey.Random),
             Thumb = new Thumb
             {
-                FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_random.jpg"
+                FilePath = "/Assets/Picacgs/cat_random.jpg".AssetPath(typeof(BikaPlugin)),
             }
         },
         new Category
@@ -45,7 +44,7 @@ public partial class ClassificationViewModel:ObservableObject
             Title = BikaResourcesHelper.GetString(BikaResourceKey.Latest),
             Thumb = new Thumb
             {
-                FilePath = @"ms-appx:///ShadowViewer.Plugin.Bika/Assets/Picacgs/cat_latest.jpg"
+                FilePath = "/Assets/Picacgs/cat_latest.jpg".AssetPath(typeof(BikaPlugin)),
             }
         }
     };

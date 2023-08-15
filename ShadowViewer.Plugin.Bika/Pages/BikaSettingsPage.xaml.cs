@@ -16,7 +16,7 @@ public sealed partial class BikaSettingsPage : Page
 
     public BikaSettingsPage()
     {
-        this.LoadComponent(ref _contentLoaded);
+       this.LoadComponent(ref _contentLoaded);
         ViewModel = DiFactory.Services.Resolve<BikaSettingsViewModel>();
     }
 
@@ -57,7 +57,7 @@ public sealed partial class BikaSettingsPage : Page
 
     private void LockButton_Click(object sender, RoutedEventArgs e)
     {
-        LockTip.Show();
+        //LockTip.Show();
     }
 
     private void AboutCard_Click(object sender, RoutedEventArgs e)

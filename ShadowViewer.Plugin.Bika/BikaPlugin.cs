@@ -27,6 +27,7 @@ using ShadowViewer.Extensions;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.ViewModels;
 using CustomExtensions.WinUI;
+using Microsoft.UI.Xaml;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -36,7 +37,8 @@ namespace ShadowViewer.Plugin.Bika;
     "kitUIN", "0.1.0",
     "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
     "/Assets/Icons/logo.png",
-    20230808)]
+    20230808,
+    "zh-CN")]
 public partial class BikaPlugin : PluginBase
 {
     /// <summary>
@@ -58,7 +60,7 @@ public partial class BikaPlugin : PluginBase
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
         CompressService compressService, IPluginService pluginService, ILogger logger) :
         base(callableService, sqlSugarClient, compressService, pluginService)
-    {
+    { 
         Logger = logger;
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
@@ -69,7 +71,13 @@ public partial class BikaPlugin : PluginBase
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
         BikaConfig.Init();
     }
-
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override IEnumerable<ResourceDictionary> ResourceDictionaries => new List<ResourceDictionary>
+    {
+        new ResourceDictionary() { Source ="/Themes/BikaTheme.xaml".AssetUri(this) }
+    };
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
