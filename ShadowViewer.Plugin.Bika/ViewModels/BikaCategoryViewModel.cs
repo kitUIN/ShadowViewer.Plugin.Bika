@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
@@ -15,6 +16,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private int pages = 1;
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Index))]
         private int page = 1;
         public int Index
         {
@@ -45,6 +47,23 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             foreach (var comic in CategoryComics)
             {
                 CheckCategoryLock(comic);
+            }
+        }
+        [RelayCommand]
+        private void NextPage()
+        {
+            if (Page + 1 <= Pages)
+            {
+                Page += 1;
+            }
+        }
+
+        [RelayCommand]
+        private void PreviousPage()
+        {
+            if (Page - 1 > 0)
+            {
+                Page -= 1;
             }
         }
         public async void Refresh()

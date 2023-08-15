@@ -116,5 +116,7 @@
         Logining,
         BikaSearch,
         History,
+        PreviousPage,
+        NextPage,
     }
 }
