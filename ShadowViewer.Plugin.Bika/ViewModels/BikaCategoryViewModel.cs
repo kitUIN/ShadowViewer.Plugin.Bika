@@ -95,11 +95,11 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             }
         }
         [RelayCommand] 
-        private async Task RefreshButton()
+        private void RefreshButton()
         {
-            await Refresh();
+             Refresh();
         }
-        public async Task Refresh()
+        public async void Refresh()
         {
             CategoryComics.Clear();
             switch (Mode)
