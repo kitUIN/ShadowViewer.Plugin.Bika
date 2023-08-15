@@ -468,4 +468,7 @@
   <data name="NextPage" xml:space="preserve">
     <value>下一页</value>
   </data>
+  <data name="WarnPage" xml:space="preserve">
+    <value>错误的页数</value>
+  </data>
 </root>

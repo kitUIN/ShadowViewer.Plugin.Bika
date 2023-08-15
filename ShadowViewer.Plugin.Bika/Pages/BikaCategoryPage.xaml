@@ -278,7 +278,7 @@
                 IsOpen="False">
                 <AppBarButton
                     x:Name="RefreshButton"
-                    Click="RefreshButton_Click"
+                    Command="{x:Bind ViewModel.RefreshButtonCommand}"
                     Label="{ex:BikaLocale Key=Refresh}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE72C;" />
@@ -333,7 +333,7 @@
                 </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
-                    Click="CurrentPageButton_Click"
+                    Command="{x:Bind ViewModel.CurrentPageCommand}"
                     Label="{x:Bind ViewModel.CurrentPageString, Mode=OneWay}"
                     ToolTipService.Placement="Bottom"
                     ToolTipService.ToolTip="{ex:BikaLocale Key=ClickGoto}">
@@ -399,9 +399,9 @@
                 SelectedPageIndex="{x:Bind ViewModel.Index, Mode=TwoWay}" />
         </Border>
         <TeachingTip
-            x:Name="Goto"
             Title="{ex:BikaLocale Key=Goto}"
             IsLightDismissEnabled="False"
+            IsOpen="{x:Bind ViewModel.IsGotoOpen, Mode=TwoWay}"
             PreferredPlacement="Center">
             <Grid
                 Margin="0,10,0,0"
@@ -422,7 +422,8 @@
                     Value="{x:Bind ViewModel.Page, Mode=OneWay}" />
                 <Button
                     Grid.Column="1"
-                    Click="GotoButton_Click"
+                    Command="{x:Bind ViewModel.GotoCommand}"
+                    CommandParameter="{x:Bind GotoPageBox.Value, Mode=OneWay}"
                     Content="{ex:BikaLocale Key=Goto}" />
             </Grid>
         </TeachingTip>

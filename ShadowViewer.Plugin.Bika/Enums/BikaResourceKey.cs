@@ -118,5 +118,6 @@
         History,
         PreviousPage,
         NextPage,
+        WarnPage,
     }
 }

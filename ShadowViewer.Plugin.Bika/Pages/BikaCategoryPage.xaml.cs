@@ -28,7 +28,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
             ViewModel = DiFactory.Services.Resolve<BikaCategoryViewModel>();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is CategoryArg arg && (!first || Arg != null && arg.Category != Arg.Category))
             {
@@ -36,14 +36,14 @@ namespace ShadowViewer.Plugin.Bika.Pages
                 ViewModel.Page = arg.Page;
                 ViewModel.CategoryTitle = arg.Category;
                 ViewModel.Mode = arg.Mode;
-                ViewModel.Refresh();
+                await ViewModel.Refresh();
                 first = true;
                 Arg = arg;
                 MainScrollViewer.ScrollToVerticalOffset(0);
             }
             else
             {
-                ViewModel.Refresh();
+                await ViewModel.Refresh();
             }
 
             LockTip.LockChangedEvenet += ViewModel.CheckAllCategoryComicLock;
@@ -60,30 +60,6 @@ namespace ShadowViewer.Plugin.Bika.Pages
         private void LockButton_Click(object sender, RoutedEventArgs e)
         {
             LockTip.Show();
-        }
-
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.Refresh();
-        }
-
-        private void GotoButton_Click(object sender, RoutedEventArgs e)
-        {
-            var go = GotoPageBox.Value;
-            if (go <= ViewModel.Pages && go >= 1)
-            {
-                ViewModel.Page = (int)go;
-                Goto.IsOpen = false;
-            }
-            else
-            {
-                GotoPageBox.Value = ViewModel.Page;
-            }
-        }
-
-        private void CurrentPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            Goto.IsOpen = true;
         }
 
         /// <summary>

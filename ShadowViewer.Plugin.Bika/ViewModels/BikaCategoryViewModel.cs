@@ -8,17 +8,24 @@ using System.Linq;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
+using Windows.UI.Notifications;
+using ShadowViewer.Helpers;
+using Serilog;
+using System.Threading.Tasks;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
     public partial class BikaCategoryViewModel: ObservableObject
     {
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CurrentPageString))]
         private int pages = 1;
         [ObservableProperty]
         private bool isGotoOpen;
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Index))]
+        [NotifyPropertyChangedFor(nameof(CurrentPageString))]
         private int page = 1;
         public int Index
         {
@@ -30,8 +37,8 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         }
         [ObservableProperty]
         private string categoryTitle;
-        [ObservableProperty]
-        private string currentPageString;
+
+        public string CurrentPageString => BikaResourcesHelper.GetString(BikaResourceKey.Number) + $"{Page}/{Pages}" + BikaResourcesHelper.GetString(BikaResourceKey.Page);
         [ObservableProperty]
         private string sortRuleText;
         [ObservableProperty]
@@ -59,7 +66,26 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 Page += 1;
             }
         }
-
+        [RelayCommand]
+        private void CurrentPage()
+        {
+            IsGotoOpen = true;
+        }
+        [RelayCommand]
+        private void Goto(double go)
+        { 
+            if (go <= Pages && go >= 1)
+            {
+                Log.Information(go.ToString());
+                Page = (int)go;
+                IsGotoOpen = false;
+            }
+            else
+            {
+                NotificationHelper.Notify(this,BikaResourcesHelper.GetString(BikaResourceKey.WarnPage),
+                    Microsoft.UI.Xaml.Controls.InfoBarSeverity.Warning);
+            }
+        }
         [RelayCommand]
         private void PreviousPage()
         {
@@ -68,7 +94,12 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 Page -= 1;
             }
         }
-        public async void Refresh()
+        [RelayCommand] 
+        private async Task RefreshButton()
+        {
+            await Refresh();
+        }
+        public async Task Refresh()
         {
             CategoryComics.Clear();
             switch (Mode)
@@ -128,22 +159,15 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             comic.LockCategories = comic.Categories.Where(x => BikaData.Current.Locks.Any(y => y.Title == x && !y.IsOpened)).ToList();
             comic.IsLocked = comic.LockCategories.Count > 0;
         }
-        private void SetCurrentPageString()
-        {
-            CurrentPageString = BikaResourcesHelper.GetString(BikaResourceKey.Number) + $"{Page}/{Pages}" + BikaResourcesHelper.GetString(BikaResourceKey.Page);
-        }
+
         partial void OnPageChanged(int oldValue, int newValue)
         {
             if (!string.IsNullOrEmpty(SortRuleText))
             {
                 Refresh();
             }
-            SetCurrentPageString();
         }
-        partial void OnPagesChanged(int oldValue, int newValue)
-        {
-            SetCurrentPageString();
-        }
+
         partial void OnSortChanged(SortRule oldValue, SortRule newValue)
         {
             if (oldValue == newValue) return;
