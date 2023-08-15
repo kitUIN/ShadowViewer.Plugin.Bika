@@ -106,6 +106,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="call thin.bat $(OutDir) $(ProjectDir)" />
+    <Exec Command="PowerShell .\thin.ps1 $(OutDir) $(ProjectDir) $(AssemblyName) $(Configuration)" />
   </Target>
 </Project>
