@@ -471,4 +471,10 @@
   <data name="WarnPage" xml:space="preserve">
     <value>错误的页数</value>
   </data>
+  <data name="User" xml:space="preserve">
+    <value>用户</value>
+  </data>
+  <data name="SearchCreater" xml:space="preserve">
+    <value>搜索这个骑士上传的作品</value>
+  </data>
 </root>

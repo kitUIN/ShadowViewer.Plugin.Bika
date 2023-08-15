@@ -1,0 +1,89 @@
+<UserControl
+    x:Class="ShadowViewer.Plugin.Bika.Controls.UserTip"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
+    xmlns:local="using:ShadowViewer.Plugin.Bika.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+    </UserControl.Resources>
+    <TeachingTip
+        x:Name="CurrentUserTip"
+        Title="{ex:BikaLocale Key=User}"
+        IsLightDismissEnabled="False"
+        PreferredPlacement="Center">
+        <TeachingTip.IconSource>
+            <SymbolIconSource Symbol="Contact" />
+        </TeachingTip.IconSource>
+        <Grid Padding="10" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <PersonPicture
+                    Grid.Column="0"
+                    Width="48"
+                    Height="48"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    ProfilePicture="{x:Bind CurrentUser.Avatar.FilePath, Mode=OneWay}" />
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{ThemeResource BikaAccentColorDark2}"
+                        Text="{x:Bind CurrentUser.Name, Mode=OneWay}" />
+                    <StackPanel
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="10">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="15"
+                            Text="{x:Bind CurrentUser.Level, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Lv.{0}'}" />
+                        <Border
+                            Padding="6,3,6,3"
+                            VerticalAlignment="Center"
+                            Background="{ThemeResource BikaUserTitleBackground}"
+                            CornerRadius="8">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Text="{x:Bind CurrentUser.Title, Mode=OneWay}" />
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <TextBlock
+                Grid.Row="1"
+                Text="{x:Bind CurrentUser.Slogan, Mode=OneWay}"
+                TextWrapping="Wrap" />
+            <HyperlinkButton
+                Grid.Row="2"
+                HorizontalAlignment="Right"
+                Click="HyperlinkButton_Click"
+                Content="{ex:BikaLocale Key=SearchCreater}" />
+        </Grid>
+    </TeachingTip>
+</UserControl>

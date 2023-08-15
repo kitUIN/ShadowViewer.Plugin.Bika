@@ -16,6 +16,7 @@
                     <Color x:Key="BikaAccentColorDark3">#FFB9527E</Color>
                     <Color x:Key="BikaAccentColorDark4">#FFA43B6A</Color>
                     <Color x:Key="BikaAccentColorDark5">#FF8E2456</Color>
+                    <Color x:Key="BikaUserTitleColor">#FFFFB401</Color>
                     <Color x:Key="BikaComicItemAccentColor">#FF4D4D4D</Color>
                     <Color x:Key="BikaComicFinishAccentColor">#FF575757</Color>
                     <SolidColorBrush x:Key="BikaAccentColorDark4Brush" Color="{StaticResource BikaAccentColorDark4}" />
@@ -26,6 +27,7 @@
                     <SolidColorBrush x:Key="BikaAccentColorLight2Brush" Color="{StaticResource BikaAccentColorLight2}" />
                     <SolidColorBrush x:Key="BikaAccentColorLight3Brush" Color="{StaticResource BikaAccentColorLight3}" />
 
+                    <SolidColorBrush x:Key="BikaUserTitleBackground" Color="{StaticResource BikaUserTitleColor}" />
                     <SolidColorBrush x:Key="BikaTagBackground" Color="{StaticResource BikaAccentColorDark1}" />
                     <SolidColorBrush x:Key="BikaTagPressedBackground" Color="{StaticResource BikaAccentColorDark2}" />
                     <SolidColorBrush x:Key="BikaTagPointerOverBackground" Color="{StaticResource BikaAccentColorLight1}" />
@@ -53,6 +55,8 @@
                     <Color x:Key="BikaAccentColorDark5">#FF8E2456</Color>
                     <Color x:Key="BikaComicItemAccentColor">#FFfdd7e6</Color>
                     <Color x:Key="BikaComicFinishAccentColor">#FFffe8f4</Color>
+                    <Color x:Key="BikaUserTitleColor">#FFFFB401</Color>
+                    <SolidColorBrush x:Key="BikaUserTitleBackground" Color="{StaticResource BikaUserTitleColor}" />
                     <SolidColorBrush x:Key="BikaAccentColorDark4Brush" Color="{StaticResource BikaAccentColorDark4}" />
                     <SolidColorBrush x:Key="BikaAccentColorDark3Brush" Color="{StaticResource BikaAccentColorDark3}" />
                     <SolidColorBrush x:Key="BikaAccentColorDark2Brush" Color="{StaticResource BikaAccentColorDark2}" />

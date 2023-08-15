@@ -154,4 +154,13 @@ public sealed partial class BikaInfoPage : Page
     {
         Page_SizeChanged(this, null); // 刚进入的时候不会响应更改
     }
+
+    private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { Tag: Creater creater } )
+        {
+            CreatorTip.CurrentUser = creater;
+            CreatorTip.Show();
+        } 
+    }
 }

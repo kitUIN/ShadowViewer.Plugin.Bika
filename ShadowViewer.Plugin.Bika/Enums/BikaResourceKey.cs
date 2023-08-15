@@ -119,5 +119,7 @@
         PreviousPage,
         NextPage,
         WarnPage,
+        User,
+        SearchCreater,
     }
 }
