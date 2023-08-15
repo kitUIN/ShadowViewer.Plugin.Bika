@@ -267,7 +267,7 @@ public partial class BikaPlugin : PluginBase
                 {
                     Category = item.Title,
                     Mode = CategoryMode.Search
-                });
+                },true);
         }
     }
     

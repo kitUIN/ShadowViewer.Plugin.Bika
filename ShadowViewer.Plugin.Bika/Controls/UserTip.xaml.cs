@@ -47,7 +47,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
                     {
                         Category = tag,
                         Mode = CategoryMode.Search
-                    });
+                    }, true);
         }
     }
 }

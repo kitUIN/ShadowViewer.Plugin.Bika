@@ -19,7 +19,6 @@ namespace ShadowViewer.Plugin.Bika.Pages
     public sealed partial class BikaCategoryPage : Page
     {
         private BikaCategoryViewModel ViewModel { get; }
-        private bool first = false;
         private CategoryArg Arg { get; set; }
 
         public BikaCategoryPage()
@@ -30,14 +29,13 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is CategoryArg arg && (!first || Arg != null && arg.Category != Arg.Category))
+            if (e.Parameter is CategoryArg arg && (Arg == null || arg.Category != Arg.Category))
             {
                 ViewModel.Sort = arg.SortRule;
                 ViewModel.Page = arg.Page;
                 ViewModel.CategoryTitle = arg.Category;
                 ViewModel.Mode = arg.Mode;
                 await ViewModel.Refresh();
-                first = true;
                 Arg = arg;
                 MainScrollViewer.ScrollToVerticalOffset(0);
             }

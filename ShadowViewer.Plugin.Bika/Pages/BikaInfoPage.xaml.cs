@@ -54,7 +54,7 @@ public sealed partial class BikaInfoPage : Page
                 new CategoryArg
                 {
                     Category = tag , Mode = CategoryMode.Search
-                });
+                }, true);
     }
 
     private void ChineseTeam_OnClick(object sender, RoutedEventArgs e)
@@ -64,7 +64,7 @@ public sealed partial class BikaInfoPage : Page
                 new CategoryArg
                 {
                     Category = tag , Mode = CategoryMode.Search
-                });
+                }, true);
     }
 
     private async void Segmented_SelectionChanged(object sender, SelectionChangedEventArgs e)
