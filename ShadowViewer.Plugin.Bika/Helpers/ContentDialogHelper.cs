@@ -42,7 +42,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
             switch (status)
             {
                 case BikaHttpStatus.TimeOut:
-                    img.Source = "Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper));
+                    img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper));
                     title.Text = BikaResourcesHelper.GetString(BikaResourceKey.TimeOut);
                     var stack = new StackPanel()
                     {
