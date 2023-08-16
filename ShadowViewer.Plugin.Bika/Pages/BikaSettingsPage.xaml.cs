@@ -57,7 +57,7 @@ public sealed partial class BikaSettingsPage : Page
 
     private void LockButton_Click(object sender, RoutedEventArgs e)
     {
-        //LockTip.Show();
+        LockTip.Show();
     }
 
     private void AboutCard_Click(object sender, RoutedEventArgs e)

@@ -36,7 +36,7 @@ namespace ShadowViewer.Plugin.Bika;
 [PluginMetaData("Bika",
     "ßÙßÇÂþ»­",
     "ßÙßÇÂþ»­ÊÊÅäÆ÷",
-    "kitUIN", "0.1.0",
+    "kitUIN", "0.2.0",
     "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
     "ms-appx:///Assets/Icons/logo.png",
     20230808, 
