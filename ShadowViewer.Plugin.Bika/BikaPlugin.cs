@@ -77,6 +77,17 @@ public partial class BikaPlugin : PluginBase
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
         BikaConfig.Init();
     }
+
+    public override void PluginDeleting()
+    {
+        DiFactory.Services.Unregister<IPicaClient>();
+        DiFactory.Services.Unregister<BikaSettingsViewModel>();
+        DiFactory.Services.Unregister<ClassificationViewModel>();
+        DiFactory.Services.Unregister<BikaInfoViewModel>();
+        DiFactory.Services.Unregister<BikaCategoryViewModel>();
+        DiFactory.Services.Unregister<LoginTipViewModel>();
+    }
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
