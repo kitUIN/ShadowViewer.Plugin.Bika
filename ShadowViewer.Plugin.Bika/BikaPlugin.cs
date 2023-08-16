@@ -54,7 +54,7 @@ public partial class BikaPlugin : PluginBase
     /// <inheritdoc/>
     /// </summary>
     public override LocalTag AffiliationTag { get; } =
-        new(BikaResourcesHelper.GetString(BikaResourceKey.Tag), "#000000", "#ef97b9");
+        new(BikaResourcesHelper.GetString(BikaResourceKey.BikaTag), "#000000", "#ef97b9");
 
     public override PluginMetaData MetaData { get; } = typeof(BikaPlugin).GetPluginMetaData();
     public  static readonly PluginMetaData Meta = typeof(BikaPlugin).GetPluginMetaData();

@@ -122,5 +122,6 @@
         User,
         SearchCreater,
         Confirm,
+        BikaTag,
     }
 }
