@@ -477,4 +477,7 @@
   <data name="SearchCreater" xml:space="preserve">
     <value>搜索这个骑士上传的作品</value>
   </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
 </root>

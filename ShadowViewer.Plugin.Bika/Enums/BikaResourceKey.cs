@@ -121,5 +121,6 @@
         WarnPage,
         User,
         SearchCreater,
+        Confirm,
     }
 }

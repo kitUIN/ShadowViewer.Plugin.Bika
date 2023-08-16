@@ -37,7 +37,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
             {
                 DefaultButton = ContentDialogButton.Primary,
                 Title = stackPanel,
-                CloseButtonText = CoreResourcesHelper.GetString(CoreResourceKey.Confirm),
+                CloseButtonText = BikaResourcesHelper.GetString(BikaResourceKey.Confirm),
             };
             switch (status)
             {
