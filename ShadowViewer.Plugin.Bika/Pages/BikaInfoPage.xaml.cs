@@ -9,10 +9,10 @@ using PicaComic.Models;
 using Serilog;
 using ShadowViewer.Args;
 using ShadowViewer.Interfaces;
-using ShadowViewer.Pages;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.ViewModels;
+using ShadowViewer.Plugin.Local.Pages;
 
 namespace ShadowViewer.Plugin.Bika.Pages;
 

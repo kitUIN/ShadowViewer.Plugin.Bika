@@ -28,6 +28,8 @@ using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.ViewModels;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Xaml;
+using ShadowViewer.Plugin.Local.Services;
+using ShadowViewer.Plugin.Local.ViewModels;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -56,11 +58,13 @@ public partial class BikaPlugin : PluginBase
     public  static readonly PluginMetaData Meta = typeof(BikaPlugin).GetPluginMetaData();
     private ILogger Logger { get; }
     private IPicaClient BikaClient { get; }
+    private PicViewService PicViewService { get; }
 
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressService, IPluginService pluginService, ILogger logger) :
+        CompressService compressService, IPluginService pluginService, ILogger logger,PicViewService picViewService) :
         base(callableService, sqlSugarClient, compressService, pluginService)
-    { 
+    {
+        PicViewService = picViewService;
         Logger = logger;
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
@@ -91,8 +95,8 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     protected override void PluginEnabled()
     {
-        Caller.PicturesLoadStartingEvent += CallerOnPicturesLoadStartingEvent;
-        Caller.CurrentEpisodeIndexChangedEvent += CallerOnCurrentEpisodeIndexChangedEvent;
+        PicViewService.PicturesLoadStartingEvent += CallerOnPicturesLoadStartingEvent;
+        PicViewService.CurrentEpisodeIndexChangedEvent += CallerOnCurrentEpisodeIndexChangedEvent;
         Db.CodeFirst.InitTables<BikaUser>();
         CheckLock();
         CheckToken();
@@ -103,8 +107,8 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     protected override void PluginDisabled()
     {
-        Caller.PicturesLoadStartingEvent -= CallerOnPicturesLoadStartingEvent;
-        Caller.CurrentEpisodeIndexChangedEvent -= CallerOnCurrentEpisodeIndexChangedEvent;
+        PicViewService.PicturesLoadStartingEvent -= CallerOnPicturesLoadStartingEvent;
+        PicViewService.CurrentEpisodeIndexChangedEvent -= CallerOnCurrentEpisodeIndexChangedEvent;
         // Close Login Frame
         if (MainLoginTip != null) MainLoginTip.Hide();
     }
