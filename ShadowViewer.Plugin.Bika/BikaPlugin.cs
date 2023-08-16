@@ -39,8 +39,10 @@ namespace ShadowViewer.Plugin.Bika;
     "kitUIN", "0.1.0",
     "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
     "/Assets/Icons/logo.png",
-    20230808,
-    "zh-CN")]
+    20230808, 
+    new []{"Local"},
+    new []{"zh-CN"}
+    )]
 public partial class BikaPlugin : PluginBase
 {
     /// <summary>
