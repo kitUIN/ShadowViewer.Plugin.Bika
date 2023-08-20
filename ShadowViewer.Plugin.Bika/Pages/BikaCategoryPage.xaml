@@ -131,9 +131,7 @@
                                     Padding="5"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
-                                    Background="{ThemeResource LayerFillColorDefaultBrush}"
-                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                    BorderThickness=".5"
+                                    Background="{ThemeResource LayerOnMicaBaseAltFillColorSecondaryBrush}"
                                     CornerRadius="7"
                                     Visibility="{x:Bind Finished, Mode=OneWay}">
                                     <TextBlock

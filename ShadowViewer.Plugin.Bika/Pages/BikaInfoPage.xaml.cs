@@ -84,21 +84,21 @@ public sealed partial class BikaInfoPage : Page
     private void Page_SizeChanged(object sender, SizeChangedEventArgs? e)
     {
         if (sender is not Page page) return;
-        if (MainGrid.RowDefinitions[1].ActualHeight == 0)
+         
+        if (page.ActualWidth >= 1140)
         {
+            Grid.SetRow(RightScrollViewer,0);
+            Grid.SetColumn(RightScrollViewer,1);
             LeftScrollViewer.Height = page.ActualHeight - 20;
             RightScrollViewer.Height = page.ActualHeight - 20;
+            RightScrollViewer.MaxWidth = 475;
         }
         else
         {
+            Grid.SetRow(RightScrollViewer,1);
+            Grid.SetColumn(RightScrollViewer,0);
+            RightScrollViewer.MaxWidth = LeftGrid.ActualWidth;
             LeftScrollViewer.Height = LeftGrid.ActualHeight;
-            if (RightGrid.SelectedIndex == 0)
-            {
-                // RightScrollViewer.Height;
-            }
-            else
-            {
-            }
         }
     }
 
@@ -146,4 +146,5 @@ public sealed partial class BikaInfoPage : Page
         CreatorTip.CurrentUser = creator;
         CreatorTip.Show();
     }
+ 
 }
