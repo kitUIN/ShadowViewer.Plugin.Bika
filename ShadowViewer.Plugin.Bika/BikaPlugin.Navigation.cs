@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using CustomExtensions.WinUI;
 using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
+using ShadowViewer.Interfaces;
 using ShadowViewer.Models;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
+using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
 
 namespace ShadowViewer.Plugin.Bika;
@@ -21,9 +23,9 @@ public partial class BikaPlugin
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override IEnumerable<ShadowNavigationItem> NavigationViewMenuItems => new List<ShadowNavigationItem>()
+    public override IEnumerable<IShadowNavigationItem> NavigationViewMenuItems => new List<IShadowNavigationItem>()
     {
-        new()
+        new BikaNavigationItem()
         {
             Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
             Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
@@ -34,7 +36,7 @@ public partial class BikaPlugin
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override IEnumerable<ShadowNavigationItem> NavigationViewFooterItems => new List<ShadowNavigationItem>();
+    public override IEnumerable<IShadowNavigationItem> NavigationViewFooterItems => new List<IShadowNavigationItem>();
 
     /// <summary>
     /// <inheritdoc/>
