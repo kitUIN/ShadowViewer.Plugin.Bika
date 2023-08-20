@@ -15,7 +15,7 @@
     <Grid
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-        BorderThickness="1"
+        BorderThickness="1"  RowSpacing="10"
         CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -164,7 +164,6 @@
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:BikaLocale Key=About}" />
                 <labs:SettingsCard
-                    x:Name="AboutCard"
                     Click="AboutCard_Click"
                     IsActionIconVisible="True"
                     IsClickEnabled="True">
