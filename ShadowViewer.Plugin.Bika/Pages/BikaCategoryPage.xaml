@@ -267,97 +267,100 @@
                 FontWeight="ExtraBlack"
                 IsTextSelectionEnabled="True"
                 Text="{x:Bind ViewModel.CategoryTitle, Mode=OneWay}" />
-            <CommandBar
-                Grid.Column="0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                DefaultLabelPosition="Right"
-                IsOpen="False">
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <CommandBar
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    DefaultLabelPosition="Right"
+                    IsOpen="False">
+                    <AppBarButton
+                        x:Name="RefreshButton"
+                        Command="{x:Bind ViewModel.RefreshButtonCommand}"
+                        Label="{ex:BikaLocale Key=Refresh}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE72C;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton
+                        x:Name="LockButton"
+                        Click="LockButton_Click"
+                        Label="{ex:BikaLocale Key=Lock}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE72E;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton
+                        x:Name="SortButton"
+                        Label="{x:Bind ViewModel.SortRuleText, Mode=OneWay}"
+                        Loaded="SortButton_Loaded"
+                        ToolTipService.Placement="Bottom"
+                        ToolTipService.ToolTip="{ex:BikaLocale Key=ClickSelect}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8CB;" />
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout x:Name="SortFlyout" Placement="Bottom">
+                                <MenuFlyoutItem
+                                    Click="MenuFlyoutItem_Click"
+                                    Tag="dd"
+                                    Text="{ex:BikaLocale Key=DD}">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE7B3;" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    Click="MenuFlyoutItem_Click"
+                                    Tag="da"
+                                    Text="{ex:BikaLocale Key=DA}" />
+                                <MenuFlyoutItem
+                                    Click="MenuFlyoutItem_Click"
+                                    Tag="ld"
+                                    Text="{ex:BikaLocale Key=LD}" />
+                                <MenuFlyoutItem
+                                    Click="MenuFlyoutItem_Click"
+                                    Tag="vd"
+                                    Text="{ex:BikaLocale Key=VD}" />
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton Click="SettingsButton_Click" Label="{ex:BikaLocale Key=Settings}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE713;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarSeparator />
+                    <AppBarButton
+                        Command="{x:Bind ViewModel.CurrentPageCommand}"
+                        Label="{x:Bind ViewModel.CurrentPageString, Mode=OneWay}"
+                        ToolTipService.Placement="Bottom"
+                        ToolTipService.ToolTip="{ex:BikaLocale Key=ClickGoto}">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE770;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar>
                 <AppBarButton
-                    x:Name="RefreshButton"
-                    Command="{x:Bind ViewModel.RefreshButtonCommand}"
-                    Label="{ex:BikaLocale Key=Refresh}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE72C;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton
-                    x:Name="LockButton"
-                    Click="LockButton_Click"
-                    Label="{ex:BikaLocale Key=Lock}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE72E;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton
-                    x:Name="SortButton"
-                    Label="{x:Bind ViewModel.SortRuleText, Mode=OneWay}"
-                    Loaded="SortButton_Loaded"
-                    ToolTipService.Placement="Bottom"
-                    ToolTipService.ToolTip="{ex:BikaLocale Key=ClickSelect}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE8CB;" />
-                    </AppBarButton.Icon>
-                    <AppBarButton.Flyout>
-                        <MenuFlyout x:Name="SortFlyout" Placement="Bottom">
-                            <MenuFlyoutItem
-                                Click="MenuFlyoutItem_Click"
-                                Tag="dd"
-                                Text="{ex:BikaLocale Key=DD}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE7B3;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                Click="MenuFlyoutItem_Click"
-                                Tag="da"
-                                Text="{ex:BikaLocale Key=DA}" />
-                            <MenuFlyoutItem
-                                Click="MenuFlyoutItem_Click"
-                                Tag="ld"
-                                Text="{ex:BikaLocale Key=LD}" />
-                            <MenuFlyoutItem
-                                Click="MenuFlyoutItem_Click"
-                                Tag="vd"
-                                Text="{ex:BikaLocale Key=VD}" />
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton Click="SettingsButton_Click" Label="{ex:BikaLocale Key=Settings}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE713;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarSeparator />
-                <AppBarButton
-                    Command="{x:Bind ViewModel.CurrentPageCommand}"
-                    Label="{x:Bind ViewModel.CurrentPageString, Mode=OneWay}"
-                    ToolTipService.Placement="Bottom"
-                    ToolTipService.ToolTip="{ex:BikaLocale Key=ClickGoto}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE770;" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton
+                    Width="40"
+                    Padding="5"
                     Command="{x:Bind ViewModel.PreviousPageCommand}"
-                    Label="{ex:BikaLocale Key=PreviousPage}"
                     ToolTipService.Placement="Bottom"
                     ToolTipService.ToolTip="{ex:BikaLocale Key=PreviousPage}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE760;" />
-                    </AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE760;" />
                 </AppBarButton>
                 <AppBarButton
+                    Width="40"
+                    Padding="5"
                     Command="{x:Bind ViewModel.NextPageCommand}"
-                    Label="{ex:BikaLocale Key=NextPage}"
                     ToolTipService.Placement="Bottom"
                     ToolTipService.ToolTip="{ex:BikaLocale Key=NextPage}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE761;" />
-                    </AppBarButton.Icon>
+                    <FontIcon
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Glyph="&#xE761;" />
                 </AppBarButton>
-            </CommandBar>
+            </StackPanel>
+
         </Grid>
         <ScrollViewer x:Name="MainScrollViewer" Grid.Row="1">
             <GridView

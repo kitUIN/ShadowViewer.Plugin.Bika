@@ -1,12 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PicaComic;
 using PicaComic.Models;
-using ShadowViewer.Args;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
@@ -15,7 +14,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels;
 
 public partial class BikaInfoViewModel : ObservableObject
 {
-    public event EventHandler<ScrollToCommentEventArg> ScrollToCommentEvent;
+    public event EventHandler<ScrollToCommentEventArg>? ScrollToCommentEvent;
     private IPicaClient BikaClient { get; }
 
     public BikaInfoViewModel(IPicaClient client)
@@ -23,10 +22,10 @@ public partial class BikaInfoViewModel : ObservableObject
         BikaClient = client;
     }
 
-    public string ComicId { get; set; }
+    public string ComicId { get; set; } = "";
     [ObservableProperty] private ComicInfo currentComic = new();
     [ObservableProperty] private Comment replyComment = new();
-    [ObservableProperty] private string replyText;
+    [ObservableProperty] private string replyText = "";
     
     public ObservableCollection<string> Tags { get; } = new();
     public int CommentPage { get; set; }
@@ -35,7 +34,7 @@ public partial class BikaInfoViewModel : ObservableObject
     public ObservableCollection<Comment> Comments { get; } = new();
     private int CurrentCommentPage { get; set; } = 1;
     private int TotalCommentPage { get; set; } = 1;
-    private int CommentOrder { get; set; } = 0;
+    private int CommentOrder { get; set; }
     private bool CommentLoading { get; set; }
     /// <summary> 
     /// 取消回复
@@ -55,7 +54,7 @@ public partial class BikaInfoViewModel : ObservableObject
         if (string.IsNullOrEmpty(ReplyText)) return;
         if (string.IsNullOrEmpty(ReplyComment.Id))
         {
-            await BikaHttpHelper.TryRequestWithTip(this, BikaClient.SendComicComment(CurrentComic.Id, ReplyText), async res =>
+            await BikaHttpHelper.TryRequestWithTip(this, BikaClient.SendComicComment(CurrentComic.Id, ReplyText), async _ =>
             {
                 ReplyComment = new Comment();
                 ReplyText = "";
@@ -68,19 +67,23 @@ public partial class BikaInfoViewModel : ObservableObject
         else
         {
             await BikaHttpHelper.TryRequestWithTip(this, BikaClient.SendCommentChildren(ReplyComment.Id, ReplyText),
-                async (res) =>
+                async _ =>
                 {
                     var id = ReplyComment.Id;
                     ReplyComment = new Comment();
                     ReplyText = "";
                     await ReLoadComments();
                     var comment = Comments.FirstOrDefault(x => x.Id == id);
-                    ScrollToComment(Comments.IndexOf(comment));
-                    await RefreshCommentChildren(comment);
+                    if (comment != null)
+                    {
+                        ScrollToComment(Comments.IndexOf(comment));
+                        await RefreshCommentChildren(comment);
+                    }
                 },$"[{BikaResourcesHelper.GetString(BikaResourceKey.SendComment)}]");
         }
     }
-    public void ScrollToComment(int index)
+
+    private void ScrollToComment(int index)
     {
         if (index > -1)
         {
@@ -89,9 +92,11 @@ public partial class BikaInfoViewModel : ObservableObject
     }
     public void ScrollToComment(Comment comment)
     {
-        if(comment == null|| string.IsNullOrEmpty(comment.Id) ) return;
-        var index = Comments.IndexOf(Comments.FirstOrDefault(x => x.Id == comment.Id));
-        ScrollToComment(index);
+        if(string.IsNullOrEmpty(comment.Id)) return;
+        if (Comments.FirstOrDefault(x => x.Id == comment.Id) is { } com)
+        {
+            ScrollToComment(Comments.IndexOf(com));
+        }
     }
     /// <summary>
     /// 喜欢漫画
@@ -237,7 +242,7 @@ public partial class BikaInfoViewModel : ObservableObject
             foreach (var item in res.Data.Comments.Docs)
             {
                 item.Order = CommentOrder--;
-                if (!item.IsTop && !item.IsHide) Comments.Add(item);
+                if (item is { IsTop: false, IsHide: false }) Comments.Add(item);
             }
 
             if (CommentLoading)
