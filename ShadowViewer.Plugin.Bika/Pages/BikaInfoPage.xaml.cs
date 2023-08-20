@@ -12,7 +12,6 @@ using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.ViewModels;
-using ShadowViewer.Plugin.Local.Pages;
 
 namespace ShadowViewer.Plugin.Bika.Pages;
 
@@ -145,8 +144,8 @@ public sealed partial class BikaInfoPage : Page
     {
         if (sender is Button { Tag: Episode episode })
         {
-            Frame.Navigate(typeof(PicPage), new PicViewArg(BikaPlugin.Meta.Id, new ComicArg
-                { ComicInfo = ViewModel.CurrentComic, CurrentEpisode = episode.Order, Episodes = ViewModel.Episodes }));
+            /*Frame.Navigate(typeof(PicPage), new PicViewArg(BikaPlugin.Meta.Id, new ComicArg
+                { ComicInfo = ViewModel.CurrentComic, CurrentEpisode = episode.Order, Episodes = ViewModel.Episodes }));*/
         }
     }
 

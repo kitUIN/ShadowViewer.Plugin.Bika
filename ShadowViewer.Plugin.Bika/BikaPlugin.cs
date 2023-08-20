@@ -29,7 +29,6 @@ using ShadowViewer.ViewModels;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Xaml;
 using ShadowViewer.Plugin.Local.Services;
-using ShadowViewer.Plugin.Local.ViewModels;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -131,7 +130,7 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     private async void CallerOnCurrentEpisodeIndexChangedEvent(object sender, CurrentEpisodeIndexChangedEventArg e)
     {
-        if (sender is not PicViewModel viewModel) return;
+        /*if (sender is not PicViewModel viewModel) return;
         if (e.OldValue == e.NewValue) return;
         if (viewModel.Affiliation != MetaData.Id) return;
         viewModel.Images.Clear();
@@ -158,7 +157,7 @@ public partial class BikaPlugin : PluginBase
                     }
                 });
             }
-        }
+        }*/
     }
 
     /// <summary>
@@ -166,7 +165,7 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     private void CallerOnPicturesLoadStartingEvent(object sender, PicViewArg e)
     {
-        if (sender is not PicViewModel viewModel) return;
+        /*if (sender is not PicViewModel viewModel) return;
         if (e.Affiliation != MetaData.Id || e.Parameter is not ComicArg arg) return;
         var orders = new List<int>();
         foreach (var episode in arg.Episodes.Reverse())
@@ -177,7 +176,7 @@ public partial class BikaPlugin : PluginBase
         }
 
         if (viewModel.CurrentEpisodeIndex == -1 && orders.Count > 0)
-            viewModel.CurrentEpisodeIndex = orders.IndexOf(arg.CurrentEpisode);
+            viewModel.CurrentEpisodeIndex = orders.IndexOf(arg.CurrentEpisode);*/
     }
 
     /// <summary>
