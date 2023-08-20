@@ -1,62 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using CustomExtensions.WinUI;
-using ShadowViewer.Enums;
+using PicaComic;
 using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
-using ShadowViewer.Models;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
+using ShadowViewer.Responders;
+using ShadowViewer.Services;
+using SqlSugar;
 
-namespace ShadowViewer.Plugin.Bika;
+namespace ShadowViewer.Plugin.Bika.Responders;
 
-public partial class BikaPlugin
+public class BikaNavigationResponder : NavigationResponderBase
 {
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override Type SettingsPage => typeof(BikaSettingsPage);
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override IEnumerable<IShadowNavigationItem> NavigationViewMenuItems => new List<IShadowNavigationItem>()
-    {
-        new BikaNavigationItem()
+    public override IEnumerable<IShadowNavigationItem> NavigationViewMenuItems { get; } =
+        new List<IShadowNavigationItem>
         {
-            Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
-            Icon = XamlHelper.CreateImageIcon(MetaData.Logo),
-            Id = MetaData.Id
-        }
-    };
+            new BikaNavigationItem()
+            {
+                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
+                Icon = XamlHelper.CreateImageIcon(BikaPlugin.Meta.Logo),
+                Id = BikaPlugin.Meta.Id
+            }
+        };
 
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override IEnumerable<IShadowNavigationItem> NavigationViewFooterItems => new List<IShadowNavigationItem>();
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
+    public override void NavigationViewItemInvokedHandler(IShadowNavigationItem item, ref Type? page,
+        ref object? parameter)
     {
-        if (BikaClient.HasToken)
+        if (item.Id != BikaPlugin.Meta.Id) return;
+        if (Client.HasToken)
         {
             page = typeof(ClassificationPage);
             parameter = null;
         }
         else
         {
-            ShowLoginFrame();
+            (PluginService.GetEnabledPlugin(Id) as BikaPlugin)?.ShowLoginFrame();
         }
     }
 
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
     public override void Navigate(Uri uri, string[] urls)
     {
         if (urls.Length == 0) return;
@@ -66,10 +51,10 @@ public partial class BikaPlugin
                 if (urls.Length == 2) Caller.NavigateTo(typeof(BikaInfoPage), urls[1]);
                 break;
             case "classification":
-                if (BikaClient.HasToken)
+                if (Client.HasToken)
                     Caller.NavigateTo(typeof(ClassificationPage), null);
                 else
-                    ShowLoginFrame();
+                    (PluginService.GetEnabledPlugin(Id) as BikaPlugin)?.ShowLoginFrame();
                 break;
             case "settings":
                 Caller.NavigateTo(typeof(BikaSettingsPage), null);
@@ -89,5 +74,15 @@ public partial class BikaPlugin
                     });
                 break;
         }
+    }
+
+    private IPicaClient Client { get; }
+
+    public BikaNavigationResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,
+        CompressService compressServices, PluginService pluginService, IPicaClient picaClient, string id) : base(
+        callableService,
+        sqlSugarClient, compressServices, pluginService, id)
+    {
+        Client = picaClient;
     }
 }

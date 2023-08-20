@@ -47,7 +47,10 @@ public partial class BikaPlugin : PluginBase
     /// Login Frame
     /// </summary>
     public static LoginTip MainLoginTip { get; set; }
-
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override Type SettingsPage => typeof(BikaSettingsPage);
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -89,7 +92,7 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     public override IEnumerable<ResourceDictionary> ResourceDictionaries => new List<ResourceDictionary>
     {
-        new ResourceDictionary() { Source ="/Themes/BikaTheme.xaml".AssetUri<BikaPlugin>() }
+        new() { Source ="/Themes/BikaTheme.xaml".AssetUri<BikaPlugin>() }
     };
     /// <summary>
     /// <inheritdoc/>
@@ -194,7 +197,7 @@ public partial class BikaPlugin : PluginBase
     /// <summary>
     /// Show Login Frame On Main Window
     /// </summary>
-    private void ShowLoginFrame()
+    public void ShowLoginFrame()
     {
         MainLoginTip = new LoginTip();
         Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
