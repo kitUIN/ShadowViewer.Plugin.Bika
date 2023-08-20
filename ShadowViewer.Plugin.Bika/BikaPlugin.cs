@@ -50,7 +50,7 @@ public partial class BikaPlugin : PluginBase
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override Type SettingsPage => typeof(BikaSettingsPage);
+    public override Type? SettingsPage => typeof(BikaSettingsPage);
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -121,60 +121,9 @@ public partial class BikaPlugin : PluginBase
         // Close Login Frame
         if (MainLoginTip != null) MainLoginTip.Hide();
     }
+    
 
-    /// <summary>
-    /// 话 变化
-    /// </summary>
-    private async void CallerOnCurrentEpisodeIndexChangedEvent(object sender, CurrentEpisodeIndexChangedEventArg e)
-    {
-        /*if (sender is not PicViewModel viewModel) return;
-        if (e.OldValue == e.NewValue) return;
-        if (viewModel.Affiliation != MetaData.Id) return;
-        viewModel.Images.Clear();
-        var index = 0;
-        if (viewModel.Episodes.Count > 0 && viewModel.Episodes[e.NewValue] is BikaEpisode episode)
-        {
-            var pages = 1;
-            var page = 1;
-            await BikaHttpHelper.TryRequest(this, BikaClient.Pictures(episode.ComicId, episode.Order, page), res =>
-            {
-                pages = res.Data.Pages.Pages;
-                foreach (var item in res.Data.Pages.Docs)
-                {
-                    viewModel.Images.Add(new BikaPicture(++index, item.Media.FilePath));
-                }
-            });
-            for (var i = 2; i <= pages; i++)
-            {
-                await BikaHttpHelper.TryRequest(this, BikaClient.Pictures(episode.ComicId, episode.Order, page), res =>
-                {
-                    foreach (var item in res.Data.Pages.Docs)
-                    {
-                        viewModel.Images.Add(new BikaPicture(++index, item.Media.FilePath));
-                    }
-                });
-            }
-        }*/
-    }
-
-    /// <summary>
-    /// 初始化 漫画 图片
-    /// </summary>
-    private void CallerOnPicturesLoadStartingEvent(object sender, PicViewArg e)
-    {
-        /*if (sender is not PicViewModel viewModel) return;
-        if (e.Affiliation != MetaData.Id || e.Parameter is not ComicArg arg) return;
-        var orders = new List<int>();
-        foreach (var episode in arg.Episodes.Reverse())
-        {
-            orders.Add(episode.Order);
-            viewModel.Episodes.Add(
-                new BikaEpisode(episode,arg.ComicInfo.Id));
-        }
-
-        if (viewModel.CurrentEpisodeIndex == -1 && orders.Count > 0)
-            viewModel.CurrentEpisodeIndex = orders.IndexOf(arg.CurrentEpisode);*/
-    }
+ 
 
     /// <summary>
     /// Auto Login
