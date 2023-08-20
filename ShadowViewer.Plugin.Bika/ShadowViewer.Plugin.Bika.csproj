@@ -41,7 +41,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Core.csproj" />
-    <ProjectReference Include="..\..\ShadowViewer\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
   </ItemGroup>
 
   <ItemGroup>
