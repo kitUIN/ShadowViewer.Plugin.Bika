@@ -37,7 +37,7 @@ namespace ShadowViewer.Plugin.Bika;
     "kitUIN", "0.2.0",
     "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
     "ms-appx:///Assets/Icons/logo.png",
-    20230808, 
+    20230821, 
     new []{"Local"},
     new []{"zh-CN"}
     )]
