@@ -51,6 +51,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
         {
             if (e.ClickedItem is CategoryComic { IsLocked: false } comic)
             {
+                BikaHistoryHelper.Add(comic);
                 Frame.Navigate(typeof(BikaInfoPage), comic.Id);
             }
         }

@@ -9,6 +9,7 @@ using ShadowViewer.Args;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.ViewModels;
 using ShadowViewer.Plugin.Local.Pages;
 
@@ -27,7 +28,9 @@ public sealed partial class BikaInfoPage : Page
 
     private void GridV_ItemClick(object sender, ItemClickEventArgs e)
     {
-        if (e.ClickedItem is CategoryComic { IsLocked: false } comic) Frame.Navigate(typeof(BikaInfoPage), comic.Id);
+        if (e.ClickedItem is not CategoryComic { IsLocked: false } comic) return;
+        BikaHistoryHelper.Add(comic);
+        Frame.Navigate(typeof(BikaInfoPage), comic.Id);
     }
 
     private void ViewModelOnScrollToCommentEvent(object? sender, ScrollToCommentEventArg e)
