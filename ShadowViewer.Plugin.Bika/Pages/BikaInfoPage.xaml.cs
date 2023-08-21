@@ -29,8 +29,8 @@ public sealed partial class BikaInfoPage : Page
     private void GridV_ItemClick(object sender, ItemClickEventArgs e)
     {
         if (e.ClickedItem is not CategoryComic { IsLocked: false } comic) return;
-        BikaHistoryHelper.Add(comic);
         Frame.Navigate(typeof(BikaInfoPage), comic.Id);
+        BikaHistoryHelper.Add(comic);
     }
 
     private void ViewModelOnScrollToCommentEvent(object? sender, ScrollToCommentEventArg e)

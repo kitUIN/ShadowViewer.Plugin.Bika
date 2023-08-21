@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ShadowViewer.Enums;
 using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
 using ShadowViewer.Responders;
@@ -32,6 +33,7 @@ public class BikaHistoryResponder : HistoryResponderBase
     public override void ClickHistoryHandler(IHistory history)
     {
         Caller.NavigateTo(typeof(BikaInfoPage), history.Id);
+        BikaHistoryHelper.Add(history);
     }
 
     public override void DeleteHistoryHandler(IHistory history)
