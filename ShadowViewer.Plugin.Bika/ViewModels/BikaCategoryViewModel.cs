@@ -49,7 +49,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             BikaClient = bikaClient;
             SortRuleText = BikaResourcesHelper.GetString(Sort.ToString().ToUpper());
         }
-        public void CheckAllCategoryComicLock(object sender, EventArgs e)
+        public void CheckAllCategoryComicLock(object? sender, EventArgs e)
         {
             foreach (var comic in CategoryComics)
             {

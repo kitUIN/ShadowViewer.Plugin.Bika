@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using PicaComic;
 using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
@@ -22,7 +24,10 @@ public class BikaNavigationResponder : NavigationResponderBase
             new BikaNavigationItem()
             {
                 Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
-                Icon = XamlHelper.CreateImageIcon(BikaPlugin.Meta.Logo),
+                Icon =  new ImageIcon()
+                {
+                    Source = new BitmapImage(new System.Uri(BikaPlugin.Meta.Logo))
+                },
                 Id = BikaPlugin.Meta.Id
             }
         };

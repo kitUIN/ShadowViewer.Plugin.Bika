@@ -19,7 +19,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
     public sealed partial class BikaCategoryPage : Page
     {
         private BikaCategoryViewModel ViewModel { get; }
-        private CategoryArg Arg { get; set; }
+        private CategoryArg? Arg { get; set; }
 
         public BikaCategoryPage()
         {
@@ -46,12 +46,14 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
             LockTip.LockChangedEvenet += ViewModel.CheckAllCategoryComicLock;
         }
-
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            LockTip.LockChangedEvenet -= ViewModel.CheckAllCategoryComicLock;
+        }
         private void GridV_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is CategoryComic { IsLocked: false } comic)
             {
-                BikaHistoryHelper.Add(comic);
                 Frame.Navigate(typeof(BikaInfoPage), comic.Id);
             }
         }
@@ -66,10 +68,13 @@ namespace ShadowViewer.Plugin.Bika.Pages
         /// </summary>
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.Sort = EnumHelper.GetEnum<SortRule>(((MenuFlyoutItem)sender).Tag.ToString());
-            foreach (var item in SortFlyout.Items.Cast<MenuFlyoutItem>())
+            if(sender is MenuFlyoutItem { Tag :string tag })
             {
-                item.Icon = item.Text == SortButton.Label ? new FontIcon() { Glyph = "\uE7B3" } : null;
+                ViewModel.Sort = EnumHelper.GetEnum<SortRule>(tag);
+                foreach (var item in SortFlyout.Items.Cast<MenuFlyoutItem>())
+                {
+                    item.Icon = item.Text == SortButton.Label ? new FontIcon() { Glyph = "\uE7B3" } : null;
+                }
             }
         }
 
@@ -87,10 +92,14 @@ namespace ShadowViewer.Plugin.Bika.Pages
             {
                 if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel)
                 {
-                    var icon = stackPanel.Children[0] as FontIcon;
-                    var text1 = stackPanel.Children[1] as TextBlock;
-                    icon.Glyph = "\uE785";
-                    text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.ClickOpenLock);
+                    if(stackPanel.Children[0] is FontIcon icon)
+                    {
+                        icon.Glyph = "\uE785";
+                    }
+                    if(stackPanel.Children[1] is TextBlock text1)
+                    {
+                        text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.ClickOpenLock);
+                    }
                 }
             }
         }
@@ -101,10 +110,14 @@ namespace ShadowViewer.Plugin.Bika.Pages
             {
                 if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel)
                 {
-                    var icon = stackPanel.Children[0] as FontIcon;
-                    var text1 = stackPanel.Children[1] as TextBlock;
-                    icon.Glyph = "\uE72E";
-                    text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.Locked);
+                    if (stackPanel.Children[0] is FontIcon icon)
+                    {
+                        icon.Glyph = "\uE72E";
+                    }
+                    if (stackPanel.Children[1] is TextBlock text1)
+                    {
+                        text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.Locked);
+                    }
                 }
             }
         }
@@ -122,7 +135,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(BikaSettingsPage), null,
+            Frame.Navigate(typeof(BikaSettingsPage), null,
                 new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
     }

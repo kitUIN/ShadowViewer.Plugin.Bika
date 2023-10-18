@@ -146,7 +146,7 @@
                 </Grid>
                 <Grid CornerRadius="5" Visibility="{x:Bind IsLocked, Mode=OneWay}">
                     <Grid.Background>
-                        <media:BackdropBlurBrush Amount="8" />
+                        <media:BackdropBlurBrush Amount="10" />
                     </Grid.Background>
                     <Grid
                         Margin="50"
@@ -268,6 +268,23 @@
                 IsTextSelectionEnabled="True"
                 Text="{x:Bind ViewModel.CategoryTitle, Mode=OneWay}" />
             <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button
+                    x:Name="RefreshButton"
+                    Height="36"
+                    Command="{x:Bind ViewModel.RefreshButtonCommand}"
+                    Style="{ThemeResource PointerOverButtonStyle}"
+                    ToolTipService.Placement="Bottom"
+                    ToolTipService.ToolTip="{ex:BikaLocale Key=Refresh}">
+                    <FontIcon FontSize="16" Glyph="&#xE72C;" />
+                </Button>
+                <Button
+                    Height="36"
+                    Click="SettingsButton_Click"
+                    Style="{ThemeResource PointerOverButtonStyle}"
+                    ToolTipService.Placement="Bottom"
+                    ToolTipService.ToolTip="{ex:BikaLocale Key=Settings}">
+                    <FontIcon FontSize="16" Glyph="&#xE713;" />
+                </Button>
                 <CommandBar
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
@@ -275,21 +292,16 @@
                     DefaultLabelPosition="Right"
                     IsOpen="False">
                     <AppBarButton
-                        x:Name="RefreshButton"
-                        Command="{x:Bind ViewModel.RefreshButtonCommand}"
-                        Label="{ex:BikaLocale Key=Refresh}">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE72C;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                    <AppBarButton
                         x:Name="LockButton"
                         Click="LockButton_Click"
-                        Label="{ex:BikaLocale Key=Lock}">
+                        Label="{ex:BikaLocale Key=Lock}"
+                        ToolTipService.Placement="Bottom"
+                        ToolTipService.ToolTip="{ex:BikaLocale Key=Lock}">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE72E;" />
                         </AppBarButton.Icon>
                     </AppBarButton>
+                    <AppBarSeparator />
                     <AppBarButton
                         x:Name="SortButton"
                         Label="{x:Bind ViewModel.SortRuleText, Mode=OneWay}"
@@ -324,12 +336,6 @@
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
-                    <AppBarButton Click="SettingsButton_Click" Label="{ex:BikaLocale Key=Settings}">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE713;" />
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                    <AppBarSeparator />
                     <AppBarButton
                         Command="{x:Bind ViewModel.CurrentPageCommand}"
                         Label="{x:Bind ViewModel.CurrentPageString, Mode=OneWay}"
@@ -340,25 +346,22 @@
                         </AppBarButton.Icon>
                     </AppBarButton>
                 </CommandBar>
-                <AppBarButton
-                    Width="40"
-                    Padding="5"
+                <Button
+                    Height="36"
                     Command="{x:Bind ViewModel.PreviousPageCommand}"
+                    Style="{ThemeResource PointerOverButtonStyle}"
                     ToolTipService.Placement="Bottom"
                     ToolTipService.ToolTip="{ex:BikaLocale Key=PreviousPage}">
-                    <FontIcon Glyph="&#xE760;" />
-                </AppBarButton>
-                <AppBarButton
-                    Width="40"
-                    Padding="5"
+                    <FontIcon FontSize="16" Glyph="&#xE760;" />
+                </Button>
+                <Button
+                    Height="36"
                     Command="{x:Bind ViewModel.NextPageCommand}"
+                    Style="{ThemeResource PointerOverButtonStyle}"
                     ToolTipService.Placement="Bottom"
                     ToolTipService.ToolTip="{ex:BikaLocale Key=NextPage}">
-                    <FontIcon
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Glyph="&#xE761;" />
-                </AppBarButton>
+                    <FontIcon FontSize="16" Glyph="&#xE761;" />
+                </Button>
             </StackPanel>
 
         </Grid>
@@ -393,10 +396,10 @@
                 x:Name="Pips"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                NextButtonVisibility="VisibleOnPointerOver"
+                NextButtonVisibility="Visible"
                 NumberOfPages="{x:Bind ViewModel.Pages, Mode=OneWay}"
                 Orientation="Horizontal"
-                PreviousButtonVisibility="VisibleOnPointerOver"
+                PreviousButtonVisibility="Visible"
                 SelectedPageIndex="{x:Bind ViewModel.Index, Mode=TwoWay}" />
         </Border>
         <TeachingTip

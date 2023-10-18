@@ -24,13 +24,29 @@ public sealed partial class BikaInfoPage : Page
         this.LoadComponent(ref _contentLoaded);
         ViewModel = DiFactory.Services.Resolve<BikaInfoViewModel>();
         ViewModel.ScrollToCommentEvent += ViewModelOnScrollToCommentEvent;
+       
+    }
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        DiFactory.Services.Resolve<ICallableService>().OverlappedChangedEvent += BikaInfoPage_OverlappedChangedEvent;
+        if (e.Parameter is not string id) return;
+        ViewModel.ComicId = id;
+        ViewModel.Refresh();
+        BikaHistoryHelper.Add(ViewModel.CurrentComic);
+    }
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        DiFactory.Services.Resolve<ICallableService>().OverlappedChangedEvent -= BikaInfoPage_OverlappedChangedEvent;
+    }
+    private void BikaInfoPage_OverlappedChangedEvent(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowChangedEventArgs args)
+    {
+        Page_SizeChanged(this, null);
     }
 
     private void GridV_ItemClick(object sender, ItemClickEventArgs e)
     {
         if (e.ClickedItem is not CategoryComic { IsLocked: false } comic) return;
         Frame.Navigate(typeof(BikaInfoPage), comic.Id);
-        BikaHistoryHelper.Add(comic);
     }
 
     private void ViewModelOnScrollToCommentEvent(object? sender, ScrollToCommentEventArg e)
@@ -38,13 +54,6 @@ public sealed partial class BikaInfoPage : Page
         var element = CommentsItemsRepeater.GetOrCreateElement(e.Index);
         CommentsItemsRepeater.UpdateLayout();
         element.StartBringIntoView(new BringIntoViewOptions() { VerticalOffset = 0D, VerticalAlignmentRatio = 0.0f });
-    }
-
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        if (e.Parameter is not string id) return;
-        ViewModel.ComicId = id;
-        ViewModel.Refresh();
     }
 
     private void Author_OnClick(object sender, RoutedEventArgs e)
@@ -86,14 +95,12 @@ public sealed partial class BikaInfoPage : Page
 
     private void Page_SizeChanged(object sender, SizeChangedEventArgs? e)
     {
-        if (sender is not Page page) return;
-         
-        if (page.ActualWidth >= 1140)
+        if (ActualWidth >= 1140)
         {
             Grid.SetRow(RightScrollViewer,0);
             Grid.SetColumn(RightScrollViewer,1);
-            LeftScrollViewer.Height = page.ActualHeight - 20;
-            RightScrollViewer.Height = page.ActualHeight - 20;
+            LeftScrollViewer.Height = ActualHeight - 20;
+            RightScrollViewer.Height = ActualHeight - 20;
             RightScrollViewer.MaxWidth = 475;
         }
         else
@@ -101,6 +108,7 @@ public sealed partial class BikaInfoPage : Page
             Grid.SetRow(RightScrollViewer,1);
             Grid.SetColumn(RightScrollViewer,0);
             RightScrollViewer.MaxWidth = LeftGrid.ActualWidth;
+            RightScrollViewer.Height = ActualHeight - 20;
             LeftScrollViewer.Height = LeftGrid.ActualHeight;
         }
     }

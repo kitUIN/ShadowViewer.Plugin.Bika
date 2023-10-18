@@ -500,14 +500,14 @@
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
-        </DataTemplate> 
+        </DataTemplate>
     </Page.Resources>
-    <ScrollViewer x:Name="MainScrollViewer"  Padding="0,0,10,10">
+    <ScrollViewer x:Name="MainScrollViewer" Padding="0,0,10,10">
         <Grid>
             <Grid x:Name="MainGrid" RowSpacing="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
