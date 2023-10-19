@@ -28,19 +28,12 @@ public sealed partial class BikaInfoPage : Page
     }
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        DiFactory.Services.Resolve<ICallableService>().OverlappedChangedEvent += BikaInfoPage_OverlappedChangedEvent;
         if (e.Parameter is not string id) return;
         ViewModel.ComicId = id;
         ViewModel.Refresh();
-        BikaHistoryHelper.Add(ViewModel.CurrentComic);
     }
     protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
-        DiFactory.Services.Resolve<ICallableService>().OverlappedChangedEvent -= BikaInfoPage_OverlappedChangedEvent;
-    }
-    private void BikaInfoPage_OverlappedChangedEvent(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowChangedEventArgs args)
-    {
-        Page_SizeChanged(this, null);
     }
 
     private void GridV_ItemClick(object sender, ItemClickEventArgs e)
@@ -78,9 +71,9 @@ public sealed partial class BikaInfoPage : Page
 
     private async void Segmented_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (RightGrid.SelectedIndex == 0)
+        if (RightGrid.SelectedIndex == 1)
             ViewModel.RefreshRecommendation();
-        else if (ViewModel.Comments.Count == 0) await ViewModel.LoadComments();
+        else if (RightGrid.SelectedIndex == 2&&ViewModel.Comments.Count == 0) await ViewModel.LoadComments();
     }
 
     private async void LikeComment_OnClick(object sender, RoutedEventArgs e)
@@ -91,26 +84,6 @@ public sealed partial class BikaInfoPage : Page
     private async void CommentChild_OnClick(object sender, RoutedEventArgs e)
     {
         if (sender is FrameworkElement { Tag: Comment comment }) await ViewModel.RefreshCommentChildren(comment);
-    }
-
-    private void Page_SizeChanged(object sender, SizeChangedEventArgs? e)
-    {
-        if (ActualWidth >= 1140)
-        {
-            Grid.SetRow(RightScrollViewer,0);
-            Grid.SetColumn(RightScrollViewer,1);
-            LeftScrollViewer.Height = ActualHeight - 20;
-            RightScrollViewer.Height = ActualHeight - 20;
-            RightScrollViewer.MaxWidth = 475;
-        }
-        else
-        {
-            Grid.SetRow(RightScrollViewer,1);
-            Grid.SetColumn(RightScrollViewer,0);
-            RightScrollViewer.MaxWidth = LeftGrid.ActualWidth;
-            RightScrollViewer.Height = ActualHeight - 20;
-            LeftScrollViewer.Height = LeftGrid.ActualHeight;
-        }
     }
 
     private void Reply_OnClick(object sender, RoutedEventArgs e)
@@ -144,11 +117,6 @@ public sealed partial class BikaInfoPage : Page
         if (sender is Button { Tag: Episode episode })
             Frame.Navigate(typeof(PicPage), new PicViewArg(BikaPlugin.Meta.Id, new ComicArg
                 { ComicInfo = ViewModel.CurrentComic, CurrentEpisode = episode.Order, Episodes = ViewModel.Episodes }));
-    }
-
-    private void Page_Loaded(object sender, RoutedEventArgs e)
-    {
-        Page_SizeChanged(this, null); // 刚进入的时候不会响应更改
     }
 
     private void Grid_Tapped(object sender, TappedRoutedEventArgs e)

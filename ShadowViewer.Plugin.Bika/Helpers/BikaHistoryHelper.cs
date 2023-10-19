@@ -9,7 +9,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers;
 
 public class BikaHistoryHelper
 {
-    public static void Add(Comic? comic)
+    public static void Add(ComicInfo? comic)
     {
         if(comic != null)
         {

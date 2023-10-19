@@ -266,6 +266,7 @@ public partial class BikaInfoViewModel : ObservableObject
         await BikaHttpHelper.TryRequest(this, BikaClient.ComicInfo(ComicId), res =>
         {
             CurrentComic = res.Data.Comic;
+            BikaHistoryHelper.Add(res.Data.Comic);
             foreach (var item in CurrentComic.Tags) Tags.Add(item);
         });
         var i = 1;
