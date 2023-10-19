@@ -28,6 +28,9 @@ using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.ViewModels;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Xaml;
+using System.Threading.Tasks;
+using DryIoc.ImTools;
+using PicaComic.Exceptions;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -125,12 +128,24 @@ public partial class BikaPlugin : PluginBase
     /// <summary>
     /// Auto Login
     /// </summary>
-    private bool TryAutoLogin()
+    private async Task<bool> TryAutoLogin()
     {
         var user = BikaConfig.LastBikaUser;
         if (Db.Queryable<BikaUser>().First(x => x.Email == user) is { } bikaUser)
         {
             BikaClient.SetToken(bikaUser.Token);
+            try
+            {
+                var res = await BikaClient.Profile();
+                BikaData.Current.CurrentUser = res.Data.User;
+            }
+            catch (Exception)
+            {
+                NotificationHelper.Notify(this,
+                $"[{MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginFail)}",
+                InfoBarSeverity.Error);
+                return false;
+            }
             NotificationHelper.Notify(this,
                 $"[{MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
                 InfoBarSeverity.Success);
@@ -158,14 +173,14 @@ public partial class BikaPlugin : PluginBase
         // if no token then load token
         if (BikaClient.HasToken) return;
         var b = false;
-        if (BikaConfig.AutoLogin) b = TryAutoLogin();
+        if (BikaConfig.AutoLogin) b = await TryAutoLogin();
         if (!b)
         {
             ShowLoginFrame();
         }
         else
         {
-            await BikaHttpHelper.Profile(this);
+            
             await BikaHttpHelper.PunchIn(this);
             await BikaHttpHelper.Keywords(this);
         }

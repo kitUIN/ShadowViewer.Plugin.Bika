@@ -123,5 +123,6 @@
         SearchCreater,
         Confirm,
         BikaTag,
+        AutoLoginFail,
     }
 }

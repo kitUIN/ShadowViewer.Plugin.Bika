@@ -483,4 +483,7 @@
   <data name="BikaTag" xml:space="preserve">
     <value>哔咔</value>
   </data>
+  <data name="AutoLoginFail" xml:space="preserve">
+    <value>自动登录失败</value>
+  </data>
 </root>
