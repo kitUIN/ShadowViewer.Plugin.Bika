@@ -46,7 +46,7 @@ public partial class BikaPlugin : PluginBase
     /// <summary>
     /// Login Frame
     /// </summary>
-    public static LoginTip MainLoginTip { get; set; }
+    public static LoginTip? MainLoginTip { get; set; }
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -121,9 +121,6 @@ public partial class BikaPlugin : PluginBase
         // Close Login Frame
         if (MainLoginTip != null) MainLoginTip.Hide();
     }
-    
-
- 
 
     /// <summary>
     /// Auto Login

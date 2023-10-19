@@ -56,5 +56,9 @@ if(Test-Path -Path $ZipFile)
 {
     Remove-Item -Path $ZipFile
 }
-Compress-Archive -Path $DebugDir -DestinationPath $ZipFile
+$file_list = Get-ChildItem -Path $DebugDir -File | Select-Object -ExpandProperty FullName
+$directory_list = Get-ChildItem -Path $DebugDir -Directory | Select-Object -ExpandProperty FullName
+$DebugDirFiles = $file_list + $directory_list
+Write-Host $DebugDirFiles
+Compress-Archive -Path $DebugDirFiles -DestinationPath $ZipFile
 Write-Host "Create Zip:" $ZipFile
