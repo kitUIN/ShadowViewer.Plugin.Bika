@@ -35,7 +35,7 @@
 
 使用请移步到本体[ShadowViewer](https://github.com/kitUIN/ShadowViewer/)
 
-安装本体后,将本插件拖入界面即可
+安装本体后,在`插件管理器`页面选择`添加插件`进行导入
 
 ## 截图🎨
 
