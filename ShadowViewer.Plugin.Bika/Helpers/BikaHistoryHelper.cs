@@ -9,15 +9,19 @@ namespace ShadowViewer.Plugin.Bika.Helpers;
 
 public class BikaHistoryHelper
 {
-    public static void Add(Comic comic)
+    public static void Add(Comic? comic)
     {
-        DiFactory.Services.Resolve<ISqlSugarClient>().Storageable(new BikaHistory()
+        if(comic != null)
         {
-            Id = comic.Id,
-            Time = DateTime.Now,
-            Icon = comic.Thumb.FilePath,
-            Title = comic.Title,
-        }).ExecuteCommand();
+            var obj = new BikaHistory()
+            {
+                Id = comic.Id,
+                Time = DateTime.Now,
+                Icon = comic.Thumb.FilePath,
+                Title = comic.Title,
+            };
+            DiFactory.Services.Resolve<ISqlSugarClient>().Storageable(obj).ExecuteCommand();
+        }
     }
     public static void Add(IHistory history)
     {
