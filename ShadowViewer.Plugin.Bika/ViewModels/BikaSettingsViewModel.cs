@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using FluntIcon;
+using FluentIcon.WinUI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -27,7 +27,7 @@ public partial class BikaSettingsViewModel : ObservableObject
     [ObservableProperty] private bool loadLockComic = BikaConfig.LoadLockComic;
     [ObservableProperty] private bool isIgnoreLockComic = BikaConfig.IsIgnoreLockComic;
     [ObservableProperty] private SolidColorBrush pingColor = new(Colors.Green);
-    [ObservableProperty] private FluentIconSymbol pingIcon = FluentIconSymbol.CheckmarkCircleFilled;
+    [ObservableProperty] private FluentRegularIconSymbol pingIcon = FluentRegularIconSymbol.CheckmarkCircle24Regular;
     private ICallableService Caller { get; }
 
     public BikaSettingsViewModel(ICallableService callableService, IPicaClient client)
@@ -107,19 +107,19 @@ public partial class BikaSettingsViewModel : ObservableObject
     {
         PingShow = true;
         PingText = BikaResourcesHelper.GetString(BikaResourceKey.Pinging);
-        PingIcon = FluentIconSymbol.ArrowSyncCircleFilled;
+        PingIcon = FluentRegularIconSymbol.ArrowSyncCircle24Regular;
         PingColor = new SolidColorBrush(Colors.Orange);
         try
         {
             var ms = await BikaClient.PingBaseUrl();
             PingText = $"{ms}ms";
-            PingIcon = FluentIconSymbol.CheckmarkCircleFilled;
+            PingIcon = FluentRegularIconSymbol.CheckmarkCircle24Regular;
             PingColor = new SolidColorBrush(Colors.Green);
         }
         catch (Exception)
         {
             PingText = BikaResourcesHelper.GetString(BikaResourceKey.TimeOut);
-            PingIcon = FluentIconSymbol.DismissCircleFilled;
+            PingIcon = FluentRegularIconSymbol.DismissCircle24Regular;
             PingColor = new SolidColorBrush(Colors.Red);
         }
     }

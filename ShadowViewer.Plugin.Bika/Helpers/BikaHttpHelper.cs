@@ -25,15 +25,11 @@ public class BikaHttpHelper
             {
                 if (res.Code == 401)
                 {
-                    caller.TopGrid(sender,
-                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, null),
-                        TopGridMode.ContentDialog);
+                    NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
                 }
                 else
                 {
-                    caller.TopGrid(sender,
-                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message),
-                        TopGridMode.ContentDialog);
+                    NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message));
                 }
             }
             else
@@ -43,20 +39,19 @@ public class BikaHttpHelper
         }
         catch (TaskCanceledException)
         {
-            caller.TopGrid(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, null),
-                TopGridMode.ContentDialog);
+            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
+        }
+        catch (PicaComicException exception)
+        {
+            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
         }
         catch (Exception exception)
         {
-            caller.TopGrid(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()),
-                TopGridMode.ContentDialog);
+            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
         }
     }
     public static async Task TryRequest<T>(object sender,Task<T> req, Action<T> success) where T : PicaResponse
-    { 
-        var caller = DiFactory.Services.Resolve<ICallableService>();
+    {
         try
         {
             var res =  await req;
@@ -64,15 +59,11 @@ public class BikaHttpHelper
             {
                 if (res.Code == 401)
                 {
-                    caller.TopGrid(sender,
-                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, null),
-                        TopGridMode.ContentDialog);
+                    NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
                 }
                 else
                 {
-                    caller.TopGrid(sender,
-                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message),
-                        TopGridMode.ContentDialog);
+                    NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message));
                 }
             }
             else
@@ -82,15 +73,15 @@ public class BikaHttpHelper
         }
         catch (TaskCanceledException)
         {
-            caller.TopGrid(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, null),
-                TopGridMode.ContentDialog);
+            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
+        }
+        catch (PicaComicException exception)
+        {
+            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
         }
         catch (Exception exception)
         {
-            caller.TopGrid(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()),
-                TopGridMode.ContentDialog);
+            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
         }
     }
     public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Action<T> success,string title="",bool isSendSuccess=true) where T : PicaResponse
