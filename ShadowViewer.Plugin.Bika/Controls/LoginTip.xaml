@@ -14,6 +14,10 @@
             x:Key="CanLoginConverter"
             FalseValue="{ex:BikaLocale Key=Logining}"
             TrueValue="{ex:BikaLocale Key=Login}" />
+        <converters:BoolToObjectConverter
+            x:Key="CanLoginNegationConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
     </UserControl.Resources>
     <TeachingTip
         x:Name="Login"
@@ -100,8 +104,20 @@
                 Width="100"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Command="{x:Bind ViewModel.LoginCommand, Mode=OneWay}"
-                Content="{x:Bind ViewModel.CanLogin, Mode=OneWay, Converter={StaticResource CanLoginConverter}}" />
+                Command="{x:Bind ViewModel.LoginCommand, Mode=OneWay}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock Text="{x:Bind ViewModel.CanLogin, Mode=OneWay, Converter={StaticResource CanLoginConverter}}" Visibility="{x:Bind ViewModel.CanLogin}" />
+                    <ProgressRing
+                        Width="15"
+                        Height="15"
+                        Margin="5,0,0,0"
+                        IsIndeterminate="True"
+                        Visibility="{x:Bind ViewModel.CanLogin, Mode=OneWay, Converter={StaticResource CanLoginNegationConverter}}" />
+                </StackPanel>
+            </Button>
         </Grid>
     </TeachingTip>
 </UserControl>

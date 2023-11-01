@@ -36,5 +36,5 @@ public sealed partial class LoginTip : UserControl
     public void Hide()
     {
         ViewModel.IsOpen = false;
-    } 
+    }
 }
