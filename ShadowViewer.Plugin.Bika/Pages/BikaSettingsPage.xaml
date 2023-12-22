@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ee="using:CustomExtensions.WinUI"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
-    xmlns:icons="using:FluentIcon"
+    xmlns:icons="using:FluentIcon.WinUI"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:local2="using:ShadowViewer.Controls"
@@ -15,8 +15,9 @@
     <Grid
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-        BorderThickness="1"  RowSpacing="10"
-        CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}">
+        BorderThickness="1"
+        CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}"
+        RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -37,11 +38,11 @@
                 <labs:SettingsExpander Loaded="SettingsExpander_Loaded">
                     <labs:SettingsExpander.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=ShuntDescription}" Header="{ex:BikaLocale Key=Shunt}">
-                            <icons:FluentIcon
+                            <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
                                 FontSize="25"
-                                Symbol="ArrowShuffleRegular" />
+                                Symbol="ArrowShuffle24Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsExpander.Header>
                     <labs:SettingsExpander.Items>
@@ -64,11 +65,11 @@
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=ProxyDescription}" Header="{ex:BikaLocale Key=Proxy}">
-                            <icons:FluentIcon
+                            <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
                                 FontSize="25"
-                                Symbol="AirplaneRegular" />
+                                Symbol="Airplane24Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <StackPanel Orientation="Horizontal" Spacing="10">
@@ -82,11 +83,11 @@
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Header="{ex:BikaLocale Key=Ping}">
-                            <icons:FluentIcon
+                            <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
                                 FontSize="25"
-                                Symbol="CellularData1Regular" />
+                                Symbol="CellularData124Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <StackPanel Orientation="Horizontal" Spacing="10">
@@ -95,7 +96,7 @@
                             Orientation="Horizontal"
                             Spacing="5"
                             Visibility="{x:Bind ViewModel.PingShow, Mode=OneWay}">
-                            <icons:FluentIcon Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" Symbol="{x:Bind ViewModel.PingIcon, Mode=OneWay}" />
+                            <icons:FluentFilledIcon Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" Symbol="{x:Bind ViewModel.PingIcon, Mode=OneWay}" />
                             <TextBlock Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" Text="{x:Bind ViewModel.PingText, Mode=OneWay}" />
                         </StackPanel>
                         <Button Click="Ping_Click" Content="{ex:BikaLocale Key=Ping}" />
@@ -117,11 +118,11 @@
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=IsIgnoreLockComicDescription}" Header="{ex:BikaLocale Key=IsIgnoreLockComic}">
-                            <icons:FluentIcon
+                            <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
                                 FontSize="25"
-                                Symbol="NotebookEyeRegular" />
+                                Symbol="NotebookEye20Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch
@@ -132,11 +133,11 @@
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=LoadLockComicDescription}" Header="{ex:BikaLocale Key=LoadLockComic}">
-                            <icons:FluentIcon
+                            <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
                                 FontSize="25"
-                                Symbol="BookArrowClockwiseRegular" />
+                                Symbol="BookArrowClockwise24Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch
@@ -148,11 +149,11 @@
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=CanTemporaryUnlockComicDescription}" Header="{ex:BikaLocale Key=CanTemporaryUnlockComic}">
-                            <icons:FluentIcon
+                            <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
                                 FontSize="25"
-                                Symbol="LockClosedKeyRegular" />
+                                Symbol="LockClosedKey24Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch

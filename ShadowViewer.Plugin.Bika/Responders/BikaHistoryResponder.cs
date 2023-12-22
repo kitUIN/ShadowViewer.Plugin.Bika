@@ -7,6 +7,7 @@ using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
 using ShadowViewer.Responders;
 using ShadowViewer.Services;
+using ShadowViewer.Services.Interfaces;
 using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
@@ -42,7 +43,7 @@ public class BikaHistoryResponder : HistoryResponderBase
     }
 
     public BikaHistoryResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressServices, PluginService pluginService, string id) : base(callableService,
+        CompressService compressServices, IPluginService pluginService, string id) : base(callableService,
         sqlSugarClient, compressServices, pluginService, id)
     {
     }

@@ -12,6 +12,7 @@ using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
 using ShadowViewer.Responders;
 using ShadowViewer.Services;
+using ShadowViewer.Services.Interfaces;
 using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
@@ -84,7 +85,7 @@ public class BikaNavigationResponder : NavigationResponderBase
     private IPicaClient Client { get; }
 
     public BikaNavigationResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressServices, PluginService pluginService, IPicaClient picaClient, string id) : base(
+        CompressService compressServices, IPluginService pluginService, IPicaClient picaClient, string id) : base(
         callableService,
         sqlSugarClient, compressServices, pluginService, id)
     {

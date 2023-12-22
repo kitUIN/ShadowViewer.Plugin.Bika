@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using FluntIcon;
+using FluentIcon.WinUI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using PicaComic;
-using ShadowViewer.Controls;
-using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
@@ -27,7 +25,7 @@ public partial class BikaSettingsViewModel : ObservableObject
     [ObservableProperty] private bool loadLockComic = BikaConfig.LoadLockComic;
     [ObservableProperty] private bool isIgnoreLockComic = BikaConfig.IsIgnoreLockComic;
     [ObservableProperty] private SolidColorBrush pingColor = new(Colors.Green);
-    [ObservableProperty] private FluentIconSymbol pingIcon = FluentIconSymbol.CheckmarkCircleFilled;
+    [ObservableProperty] private FluentFilledIconSymbol pingIcon = FluentFilledIconSymbol.CheckmarkCircle20Filled;
     private ICallableService Caller { get; }
 
     public BikaSettingsViewModel(ICallableService callableService, IPicaClient client)
@@ -107,19 +105,19 @@ public partial class BikaSettingsViewModel : ObservableObject
     {
         PingShow = true;
         PingText = BikaResourcesHelper.GetString(BikaResourceKey.Pinging);
-        PingIcon = FluentIconSymbol.ArrowSyncCircleFilled;
+        PingIcon = FluentFilledIconSymbol.ArrowSyncCircle20Filled;
         PingColor = new SolidColorBrush(Colors.Orange);
         try
         {
             var ms = await BikaClient.PingBaseUrl();
             PingText = $"{ms}ms";
-            PingIcon = FluentIconSymbol.CheckmarkCircleFilled;
+            PingIcon = FluentFilledIconSymbol.CheckmarkCircle20Filled;
             PingColor = new SolidColorBrush(Colors.Green);
         }
         catch (Exception)
         {
             PingText = BikaResourcesHelper.GetString(BikaResourceKey.TimeOut);
-            PingIcon = FluentIconSymbol.DismissCircleFilled;
+            PingIcon = FluentFilledIconSymbol.DismissCircle20Filled;
             PingColor = new SolidColorBrush(Colors.Red);
         }
     }

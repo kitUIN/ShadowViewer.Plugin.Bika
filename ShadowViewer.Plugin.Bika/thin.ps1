@@ -46,10 +46,10 @@ Get-ChildItem $DebugDir | ForEach-Object -Process {
 }
 
 if($Configuration -eq "Debug"){
-    $file = $AssemblyName + "-Debug.zip"
+    $file = $AssemblyName + "-Debug-°æ±¾ºÅ.zip"
 }
 else{
-    $file = $AssemblyName + ".zip"
+    $file = $AssemblyName + "-°æ±¾ºÅ.zip"
 }
 $ZipFile = Join-Path -Path $PackagesPath -ChildPath $file
 if(Test-Path -Path $ZipFile)

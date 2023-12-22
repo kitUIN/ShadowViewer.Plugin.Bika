@@ -31,6 +31,7 @@ using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using DryIoc.ImTools;
 using PicaComic.Exceptions;
+using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -60,13 +61,12 @@ public partial class BikaPlugin : PluginBase
     public override LocalTag AffiliationTag { get; } =
         new(BikaResourcesHelper.GetString(BikaResourceKey.BikaTag), "#000000", "#ef97b9");
 
-    public override PluginMetaData MetaData { get; } = typeof(BikaPlugin).GetPluginMetaData();
     public  static readonly PluginMetaData Meta = typeof(BikaPlugin).GetPluginMetaData();
     private ILogger Logger { get; }
     private IPicaClient BikaClient { get; }
 
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressService, PluginService pluginService, ILogger logger) :
+        CompressService compressService, IPluginService pluginService, ILogger logger) :
         base(callableService, sqlSugarClient, compressService, pluginService)
     {
         Logger = logger;

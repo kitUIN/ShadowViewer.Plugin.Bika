@@ -9,6 +9,7 @@ using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Local.ViewModels;
 using ShadowViewer.Responders;
 using ShadowViewer.Services;
+using ShadowViewer.Services.Interfaces;
 using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
@@ -63,7 +64,7 @@ public class BikaPicViewResponder:PicViewResponderBase
         }
     }
     private IPicaClient Client { get; }
-    public BikaPicViewResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,IPicaClient picaClient, CompressService compressServices, PluginService pluginService, string id) : base(callableService, sqlSugarClient, compressServices, pluginService, id)
+    public BikaPicViewResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,IPicaClient picaClient, CompressService compressServices, IPluginService pluginService, string id) : base(callableService, sqlSugarClient, compressServices, pluginService, id)
     {
         Client = picaClient;
     }
