@@ -28,7 +28,7 @@ public partial class LoginTipViewModel : ObservableObject
         Db = db;
         if (BikaConfigHelper.Contains(BikaConfigKey.LastBikaUser))
         {
-            var user = BikaConfig.LastBikaUser; 
+            var user = BikaConfig.LastBikaUser;
             if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
                 if (RememberMe)
                 {
@@ -43,15 +43,15 @@ public partial class LoginTipViewModel : ObservableObject
     [ObservableProperty] private bool autoLogin = BikaConfig.AutoLogin;
     [ObservableProperty] private bool isOpen;
     [ObservableProperty] private bool canLogin = true;
-    [ObservableProperty] private string email;
-    [ObservableProperty] private string password;
+    [ObservableProperty] private string email = "";
+    [ObservableProperty] private string password = "";
 
     /// <summary>
     /// 密码栏回车
     /// </summary>
-    public async void Password_OnKeyDown(object sender, KeyRoutedEventArgs e)
+    public void Password_OnKeyDown(object sender, KeyRoutedEventArgs e)
     {
-        if (e.Key == VirtualKey.Enter) await Login();
+        if (e.Key == VirtualKey.Enter) LoginCommand.Execute(null);
     }
     partial void OnAutoLoginChanged(bool oldValue, bool newValue)
     {
@@ -62,7 +62,6 @@ public partial class LoginTipViewModel : ObservableObject
                 RememberMe = true;
         }
     }
-    
     partial void OnRememberMeChanged(bool oldValue, bool newValue)
     {
         if (oldValue != newValue)
@@ -75,15 +74,17 @@ public partial class LoginTipViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanLogin))]
     private async Task Login()
     {
+        CanLogin = false;
         if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
         {
             NotificationHelper.Dialog(this, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown,
                 BikaResourcesHelper.GetString(BikaResourceKey.BlankLogin)));
+            CanLogin = true;
             return;
         }
 
         await BikaHttpHelper.TryRequest(this, Client.SignIn(Email, Password),
-            res =>
+            async res =>
             {
                 var db = DiFactory.Services.Resolve<ISqlSugarClient>();
                 db.Storageable(new BikaUser()
@@ -94,15 +95,16 @@ public partial class LoginTipViewModel : ObservableObject
                 }).ExecuteCommand();
                 IsOpen = false;
                 BikaConfig.LastBikaUser = Email;
+                await BikaHttpHelper.TryRequest(this, Client.Profile(), res =>
+                {
+                    BikaData.Current.CurrentUser = res.Data.User;
+                    NotificationHelper.Notify(this,
+                        $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
+                        InfoBarSeverity.Success);
+                });
+                await BikaHttpHelper.PunchIn(this);
+                await BikaHttpHelper.Keywords(this);
             });
-        await BikaHttpHelper.TryRequest(this, Client.Profile(), res =>
-        {
-            BikaData.Current.CurrentUser = res.Data.User;
-            NotificationHelper.Notify(this,
-                $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
-                InfoBarSeverity.Success);
-        });
-        await BikaHttpHelper.PunchIn(this);
-        await BikaHttpHelper.Keywords(this);
+        CanLogin = true;
     }
 }

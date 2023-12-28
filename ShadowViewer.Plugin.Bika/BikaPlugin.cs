@@ -110,7 +110,6 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     protected override void PluginEnabled()
     {
-        
         Db.CodeFirst.InitTables<BikaUser>();
         CheckLock();
         CheckToken();
@@ -122,7 +121,7 @@ public partial class BikaPlugin : PluginBase
     protected override void PluginDisabled()
     {
         // Close Login Frame
-        if (MainLoginTip != null) MainLoginTip.Hide();
+        MainLoginTip?.Hide();
     }
 
     /// <summary>
@@ -225,7 +224,7 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     public override void SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        BikaSearchItem item = null;
+        BikaSearchItem? item = null;
         if (args.ChosenSuggestion is BikaSearchItem item1)
         {
             item = item1;
