@@ -61,15 +61,10 @@ public partial class BikaPlugin : PluginBase
     public override LocalTag AffiliationTag { get; } =
         new(BikaResourcesHelper.GetString(BikaResourceKey.BikaTag), "#000000", "#ef97b9");
 
-    public  static readonly PluginMetaData Meta = typeof(BikaPlugin).GetPluginMetaData();
-    private ILogger Logger { get; }
-    private IPicaClient BikaClient { get; }
+    public static readonly PluginMetaData Meta = typeof(BikaPlugin).GetPluginMetaData();
 
-    public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressService, IPluginService pluginService, ILogger logger) :
-        base(callableService, sqlSugarClient, compressService, pluginService)
+    public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient, CompressService compressServices, IPluginService pluginService, ILogger logger) : base(callableService, sqlSugarClient, compressServices, pluginService, logger)
     {
-        Logger = logger;
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
         DiFactory.Services.Register<BikaSettingsViewModel>(Reuse.Singleton);
@@ -79,6 +74,8 @@ public partial class BikaPlugin : PluginBase
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
         BikaConfig.Init();
     }
+
+    private IPicaClient BikaClient { get; }
 
     public override void PluginDeleting()
     {
