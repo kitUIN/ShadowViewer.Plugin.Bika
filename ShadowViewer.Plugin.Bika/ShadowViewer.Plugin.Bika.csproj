@@ -5,8 +5,36 @@
     <RootNamespace>ShadowViewer.Plugin.Bika</RootNamespace>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
-	  <Nullable>enable</Nullable>
+	<Nullable>enable</Nullable>
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	  <!--插件元数据 -->
+
+	  <!--ShadowViewer.Plugin.{插件id}(请与RootNamespace相同)  (nuget包ID)-->
+	  <PackageId>ShadowViewer.Plugin.Bika</PackageId>
+	  <!--插件名称-->
+	  <PluginName>哔咔漫画适配器</PluginName>
+	  <!--插件图标-->
+	  <PluginLogo>ms-appx:///Assets/Icons/logo.png</PluginLogo>
+	  <!--插件支持的语言(以;分隔)-->
+	  <PluginLang>zh-CN</PluginLang>
+	  <!--插件版本号(nuget包版本号)-->
+	  <Version>0.2.2.0</Version>
+	  <!--插件仓库地址(nuget包仓库地址)-->
+	  <RepositoryUrl>https://github.com/kitUIN/ShadowViewer.Plugin.Bika</RepositoryUrl>
+	  <!--插件介绍(nuget包介绍)-->
+	  <Description>ShadowViewer哔咔漫画插件</Description>
+	  <!--插件作者(nuget包作者)-->
+	  <Authors>kitUIN</Authors>
+
+	  <!--nuget数据 -->
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageProjectUrl>https://github.com/kitUIN/ShadowViewer.Plugin.Bika</PackageProjectUrl>
+	  <Copyright>Copyright 2023</Copyright>
+	  <PackageTags>kitUIN;wasdk;ShadowViewer;plugin;winui;bika;PicaComic</PackageTags>
+	  <PackageOutputPath>.</PackageOutputPath>
+
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <NoWarn>MSB3277</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Contorls\LoginTip.xaml" />
@@ -20,17 +48,19 @@
     <None Remove="Pages\BikaInfoPage.xaml" />
     <None Remove="Pages\BikaSettingsPage.xaml" />
     <None Remove="Pages\ClassificationPage.xaml" />
-    <None Remove="Plugin.json" />
     <None Remove="Styles\ResourceDictionary2.xaml" />
   </ItemGroup>
-
+	<ItemGroup>
+		<AdditionalFiles Include="ShadowViewer.Plugin.Bika.csproj" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
   <ItemGroup>
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
 	  <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />
-	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.1" />
-	  <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224" />
-	  <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224" />
+	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.5.3" />
   </ItemGroup>
 
   <ItemGroup>

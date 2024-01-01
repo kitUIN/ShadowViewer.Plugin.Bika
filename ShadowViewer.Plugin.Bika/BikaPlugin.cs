@@ -26,16 +26,7 @@ using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika;
 
-[PluginMetaData("Bika",
-    "ßÙßÇÂþ»­",
-    "ßÙßÇÂþ»­ÊÊÅäÆ÷",
-    "kitUIN", "0.2.1",
-    "https://github.com/kitUIN/ShadowViewer.Plugin.Bika/",
-    "ms-appx:///Assets/Icons/logo.png",
-    20230821, 
-    new []{"Local"},
-    new []{"zh-CN"}
-    )]
+[AutoPluginMeta]
 public partial class BikaPlugin : PluginBase
 {
     /// <summary>
@@ -51,8 +42,6 @@ public partial class BikaPlugin : PluginBase
     /// </summary>
     public override LocalTag AffiliationTag { get; } =
         new(BikaResourcesHelper.GetString(BikaResourceKey.BikaTag), "#000000", "#ef97b9");
-
-    public static readonly PluginMetaData Meta = typeof(BikaPlugin).GetPluginMetaData();
 
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient, CompressService compressServices, IPluginService pluginService, ILogger logger) : base(callableService, sqlSugarClient, compressServices, pluginService, logger)
     {
