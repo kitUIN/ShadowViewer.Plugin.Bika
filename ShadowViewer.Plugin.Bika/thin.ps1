@@ -45,17 +45,6 @@ Get-ChildItem $DebugDir | ForEach-Object -Process {
     }
 }
 
-if($Configuration -eq "Debug"){
-    $file = $AssemblyName + "-Debug-°æ±¾ºÅ.zip"
-}
-else{
-    $file = $AssemblyName + "-°æ±¾ºÅ.zip"
-}
-$ZipFile = Join-Path -Path $PackagesPath -ChildPath $file
-if(Test-Path -Path $ZipFile)
-{
-    Remove-Item -Path $ZipFile
-}
 $csproj = $OutDir + $AssemblyName + ".csproj" 
 $outjson = $OutDir + "plugin.json"
 $xmldata = [xml](Get-Content $csproj)
@@ -67,7 +56,7 @@ $version = $xmldata.Project.PropertyGroup.Version
 $author = $xmldata.Project.PropertyGroup.Authors
 $webUri = $xmldata.Project.PropertyGroup.RepositoryUrl
 $lang = $xmldata.Project.PropertyGroup.PluginLang.Split(";") -join ","
-$require = @{}
+$require = @()
 foreach ($itemGroup in $xmldata.Project.ItemGroup)
 {
   foreach ($item in $itemGroup.ChildNodes)
@@ -76,7 +65,8 @@ foreach ($itemGroup in $xmldata.Project.ItemGroup)
     {
         if($item.GetAttribute("Include").StartsWith("ShadowViewer.Plugin."))
         {
-            $require.Add($key,$item.GetAttribute("Version"))
+            $key = $item.GetAttribute("Include").Replace("ShadowViewer.Plugin.","")
+            $require+= $key+"="+$item.GetAttribute("Version")
         }
     }
   }
@@ -87,6 +77,19 @@ if(Test-Path -Path $csproj)
 {
     Remove-Item -Path $csproj
 }
+
+if($Configuration -eq "Debug"){
+    $file = $AssemblyName + "-Debug-"+$version+".zip"
+}
+else{
+    $file = $AssemblyName + "-"+$version+".zip"
+}
+$ZipFile = Join-Path -Path $PackagesPath -ChildPath $file
+if(Test-Path -Path $ZipFile)
+{
+    Remove-Item -Path $ZipFile
+}
+
 $file_list = Get-ChildItem -Path $DebugDir -File | Select-Object -ExpandProperty FullName
 $directory_list = Get-ChildItem -Path $DebugDir -Directory | Select-Object -ExpandProperty FullName
 $DebugDirFiles = $file_list + $directory_list
