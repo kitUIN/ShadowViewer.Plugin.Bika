@@ -13,7 +13,7 @@
     mc:Ignorable="d">
     <TeachingTip
         x:Name="Lock"
-        Title="{ex:BikaLocale Key=Lock}"
+        Title="{ex:Locale Key=Lock}"
         IsLightDismissEnabled="False"
         PreferredPlacement="Center">
         <Grid>
@@ -35,7 +35,7 @@
                         Width="16"
                         Height="16"
                         Fill="{ThemeResource BikaLockBackgroundChecked}" />
-                    <TextBlock Text="{ex:BikaLocale Key=IsOpened}" />
+                    <TextBlock Text="{ex:Locale Key=IsOpened}" />
                 </StackPanel>
             </Grid>
             <ScrollViewer

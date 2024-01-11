@@ -78,7 +78,7 @@ public partial class LoginTipViewModel : ObservableObject
         if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
         {
             NotificationHelper.Dialog(this, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown,
-                BikaResourcesHelper.GetString(BikaResourceKey.BlankLogin)));
+                ResourcesHelper.GetString(ResourceKey.BlankLogin)));
             CanLogin = true;
             return;
         }
@@ -99,7 +99,7 @@ public partial class LoginTipViewModel : ObservableObject
                 {
                     BikaData.Current.CurrentUser = res.Data.User;
                     NotificationHelper.Notify(this,
-                        $"[{BikaPlugin.Meta.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
+                        $"[{BikaPlugin.Meta.Name}]{ResourcesHelper.GetString(ResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
                         InfoBarSeverity.Success);
                 });
                 await BikaHttpHelper.PunchIn(this);

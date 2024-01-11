@@ -138,7 +138,7 @@
                                         FontSize="12"
                                         FontWeight="Bold"
                                         Foreground="{ThemeResource BikaAccentColorDark2}"
-                                        Text="{ex:BikaLocale Key=Finished}" />
+                                        Text="{ex:Locale Key=Finished}" />
                                 </Border>
                             </Grid>
                         </Grid>
@@ -173,7 +173,7 @@
                             <TextBlock
                                 VerticalAlignment="Top"
                                 FontWeight="SemiBold"
-                                Text="{ex:BikaLocale Key=Locked}" />
+                                Text="{ex:Locale Key=Locked}" />
                             <TextBlock
                                 VerticalAlignment="Top"
                                 FontWeight="SemiBold"
@@ -220,7 +220,7 @@
                         <TextBlock
                             VerticalAlignment="Top"
                             FontWeight="SemiBold"
-                            Text="{ex:BikaLocale Key=Locked}" />
+                            Text="{ex:Locale Key=Locked}" />
                         <TextBlock
                             VerticalAlignment="Top"
                             FontWeight="SemiBold"
@@ -274,7 +274,7 @@
                     Command="{x:Bind ViewModel.RefreshButtonCommand}"
                     Style="{ThemeResource PointerOverButtonStyle}"
                     ToolTipService.Placement="Bottom"
-                    ToolTipService.ToolTip="{ex:BikaLocale Key=Refresh}">
+                    ToolTipService.ToolTip="{ex:Locale Key=Refresh}">
                     <FontIcon FontSize="16" Glyph="&#xE72C;" />
                 </Button>
                 <Button
@@ -282,7 +282,7 @@
                     Click="SettingsButton_Click"
                     Style="{ThemeResource PointerOverButtonStyle}"
                     ToolTipService.Placement="Bottom"
-                    ToolTipService.ToolTip="{ex:BikaLocale Key=Settings}">
+                    ToolTipService.ToolTip="{ex:Locale Key=Settings}">
                     <FontIcon FontSize="16" Glyph="&#xE713;" />
                 </Button>
                 <CommandBar
@@ -294,9 +294,9 @@
                     <AppBarButton
                         x:Name="LockButton"
                         Click="LockButton_Click"
-                        Label="{ex:BikaLocale Key=Lock}"
+                        Label="{ex:Locale Key=Lock}"
                         ToolTipService.Placement="Bottom"
-                        ToolTipService.ToolTip="{ex:BikaLocale Key=Lock}">
+                        ToolTipService.ToolTip="{ex:Locale Key=Lock}">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE72E;" />
                         </AppBarButton.Icon>
@@ -307,7 +307,7 @@
                         Label="{x:Bind ViewModel.SortRuleText, Mode=OneWay}"
                         Loaded="SortButton_Loaded"
                         ToolTipService.Placement="Bottom"
-                        ToolTipService.ToolTip="{ex:BikaLocale Key=ClickSelect}">
+                        ToolTipService.ToolTip="{ex:Locale Key=ClickSelect}">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE8CB;" />
                         </AppBarButton.Icon>
@@ -316,7 +316,7 @@
                                 <MenuFlyoutItem
                                     Click="MenuFlyoutItem_Click"
                                     Tag="dd"
-                                    Text="{ex:BikaLocale Key=DD}">
+                                    Text="{ex:Locale Key=DD}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE7B3;" />
                                     </MenuFlyoutItem.Icon>
@@ -324,15 +324,15 @@
                                 <MenuFlyoutItem
                                     Click="MenuFlyoutItem_Click"
                                     Tag="da"
-                                    Text="{ex:BikaLocale Key=DA}" />
+                                    Text="{ex:Locale Key=DA}" />
                                 <MenuFlyoutItem
                                     Click="MenuFlyoutItem_Click"
                                     Tag="ld"
-                                    Text="{ex:BikaLocale Key=LD}" />
+                                    Text="{ex:Locale Key=LD}" />
                                 <MenuFlyoutItem
                                     Click="MenuFlyoutItem_Click"
                                     Tag="vd"
-                                    Text="{ex:BikaLocale Key=VD}" />
+                                    Text="{ex:Locale Key=VD}" />
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
@@ -340,7 +340,7 @@
                         Command="{x:Bind ViewModel.CurrentPageCommand}"
                         Label="{x:Bind ViewModel.CurrentPageString, Mode=OneWay}"
                         ToolTipService.Placement="Bottom"
-                        ToolTipService.ToolTip="{ex:BikaLocale Key=ClickGoto}">
+                        ToolTipService.ToolTip="{ex:Locale Key=ClickGoto}">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE770;" />
                         </AppBarButton.Icon>
@@ -351,7 +351,7 @@
                     Command="{x:Bind ViewModel.PreviousPageCommand}"
                     Style="{ThemeResource PointerOverButtonStyle}"
                     ToolTipService.Placement="Bottom"
-                    ToolTipService.ToolTip="{ex:BikaLocale Key=PreviousPage}">
+                    ToolTipService.ToolTip="{ex:Locale Key=PreviousPage}">
                     <FontIcon FontSize="16" Glyph="&#xE760;" />
                 </Button>
                 <Button
@@ -359,7 +359,7 @@
                     Command="{x:Bind ViewModel.NextPageCommand}"
                     Style="{ThemeResource PointerOverButtonStyle}"
                     ToolTipService.Placement="Bottom"
-                    ToolTipService.ToolTip="{ex:BikaLocale Key=NextPage}">
+                    ToolTipService.ToolTip="{ex:Locale Key=NextPage}">
                     <FontIcon FontSize="16" Glyph="&#xE761;" />
                 </Button>
             </StackPanel>
@@ -403,7 +403,7 @@
                 SelectedPageIndex="{x:Bind ViewModel.Index, Mode=TwoWay}" />
         </Border>
         <TeachingTip
-            Title="{ex:BikaLocale Key=Goto}"
+            Title="{ex:Locale Key=Goto}"
             IsLightDismissEnabled="False"
             IsOpen="{x:Bind ViewModel.IsGotoOpen, Mode=TwoWay}"
             PreferredPlacement="Center">
@@ -428,7 +428,7 @@
                     Grid.Column="1"
                     Command="{x:Bind ViewModel.GotoCommand}"
                     CommandParameter="{x:Bind GotoPageBox.Value, Mode=OneWay}"
-                    Content="{ex:BikaLocale Key=Goto}" />
+                    Content="{ex:Locale Key=Goto}" />
             </Grid>
         </TeachingTip>
         <controls:LockTip x:Name="LockTip" />

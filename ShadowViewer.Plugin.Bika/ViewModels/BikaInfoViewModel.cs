@@ -62,7 +62,7 @@ public partial class BikaInfoViewModel : ObservableObject
                 CurrentCommentPage = 1;
                 Comments.Clear();
                 await LoadComments();
-            },$"[{BikaResourcesHelper.GetString(BikaResourceKey.SendComment)}]");
+            },$"[{ResourcesHelper.GetString(ResourceKey.SendComment)}]");
         }
         else
         {
@@ -79,7 +79,7 @@ public partial class BikaInfoViewModel : ObservableObject
                         ScrollToComment(Comments.IndexOf(comment));
                         await RefreshCommentChildren(comment);
                     }
-                },$"[{BikaResourcesHelper.GetString(BikaResourceKey.SendComment)}]");
+                },$"[{ResourcesHelper.GetString(ResourceKey.SendComment)}]");
         }
     }
 
@@ -119,7 +119,7 @@ public partial class BikaInfoViewModel : ObservableObject
                     CurrentComic.IsLiked = false;
                     break;
             }
-        },BikaResourcesHelper.GetString(BikaResourceKey.Action));
+        },ResourcesHelper.GetString(ResourceKey.Action));
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public partial class BikaInfoViewModel : ObservableObject
                 "un_favourite" => false,
                 _ => CurrentComic.IsFavourite
             };
-        },BikaResourcesHelper.GetString(BikaResourceKey.Action));
+        },ResourcesHelper.GetString(ResourceKey.Action));
     }
 
     /// <summary>
@@ -158,7 +158,7 @@ public partial class BikaInfoViewModel : ObservableObject
                     comment.IsLiked = false;
                     break;
             }
-        },BikaResourcesHelper.GetString(BikaResourceKey.Action));
+        },ResourcesHelper.GetString(ResourceKey.Action));
     }
 
     /// <summary>

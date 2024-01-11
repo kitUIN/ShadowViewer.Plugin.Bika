@@ -90,7 +90,7 @@ public class BikaHttpHelper
         {
             success.Invoke(await req);
             if(isSendSuccess)
-                NotificationHelper.Notify(sender,title + BikaResourcesHelper.GetString(BikaResourceKey.Success),InfoBarSeverity.Success);
+                NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.Success),InfoBarSeverity.Success);
         }
         catch (PicaComicException picaComicException)
         {
@@ -98,7 +98,7 @@ public class BikaHttpHelper
         }
         catch (TaskCanceledException)
         {
-            NotificationHelper.Notify(sender,title + BikaResourcesHelper.GetString(BikaResourceKey.TimeOut),InfoBarSeverity.Error);
+            NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.TimeOut),InfoBarSeverity.Error);
         }
         catch (Exception exception)
         {
@@ -111,7 +111,7 @@ public class BikaHttpHelper
         {
             await success.Invoke(await req);
             if(isSendSuccess)
-                NotificationHelper.Notify(sender,title + BikaResourcesHelper.GetString(BikaResourceKey.Success),InfoBarSeverity.Success);
+                NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.Success),InfoBarSeverity.Success);
         }
         catch (PicaComicException picaComicException)
         {
@@ -119,7 +119,7 @@ public class BikaHttpHelper
         }
         catch (TaskCanceledException)
         {
-            NotificationHelper.Notify(sender,title + BikaResourcesHelper.GetString(BikaResourceKey.TimeOut),InfoBarSeverity.Error);
+            NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.TimeOut),InfoBarSeverity.Error);
         }
         catch (Exception exception)
         {
@@ -132,7 +132,7 @@ public class BikaHttpHelper
         await TryRequestWithTip(sender, client.Profile(), res =>
         {
             BikaData.Current.CurrentUser = res.Data.User;
-        },$"[{BikaResourcesHelper.GetString(BikaResourceKey.GetProfile)}]",isSendSuccess:false);
+        },$"[{ResourcesHelper.GetString(ResourceKey.GetProfile)}]",isSendSuccess:false);
     }
     public static async Task PunchIn(object sender)
     {
@@ -140,7 +140,7 @@ public class BikaHttpHelper
         {
             var client = DiFactory.Services.Resolve<IPicaClient>();
             await TryRequestWithTip(sender, client.PunchIn(), _ => { },
-                $"[{BikaResourcesHelper.GetString(BikaResourceKey.AutoPunchInSuccess)}]");
+                $"[{ResourcesHelper.GetString(ResourceKey.AutoPunchInSuccess)}]");
         }
     }
     public static async Task Keywords(object sender)
@@ -153,6 +153,6 @@ public class BikaHttpHelper
             {
                 BikaData.Current.Keywords.Add(keyword);
             }
-        },$"[{BikaResourcesHelper.GetString(BikaResourceKey.GetKeywords)}]",isSendSuccess:false);
+        },$"[{ResourcesHelper.GetString(ResourceKey.GetKeywords)}]",isSendSuccess:false);
     }
 }

@@ -36,7 +36,7 @@ public sealed partial class ClassificationPage : Page
     private void GridV_OnItemClick(object sender, ItemClickEventArgs e)
     {
         var category = (Category)e.ClickedItem;
-        if (category.Title == BikaResourcesHelper.GetString(BikaResourceKey.Random))
+        if (category.Title == ResourcesHelper.GetString(ResourceKey.Random))
         {
             Frame.Navigate(typeof(BikaCategoryPage), new CategoryArg
                 {
@@ -45,7 +45,7 @@ public sealed partial class ClassificationPage : Page
                 },
                 new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
         }
-        else if (category.Title == BikaResourcesHelper.GetString(BikaResourceKey.Leaderboard))
+        else if (category.Title == ResourcesHelper.GetString(ResourceKey.Leaderboard))
         {
             
         }

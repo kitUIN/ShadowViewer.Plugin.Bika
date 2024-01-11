@@ -13,7 +13,7 @@
     </UserControl.Resources>
     <TeachingTip
         x:Name="CurrentUserTip"
-        Title="{ex:BikaLocale Key=User}"
+        Title="{ex:Locale Key=User}"
         IsLightDismissEnabled="False"
         PreferredPlacement="Center">
         <TeachingTip.IconSource>
@@ -83,7 +83,7 @@
                 Grid.Row="2"
                 HorizontalAlignment="Right"
                 Click="HyperlinkButton_Click"
-                Content="{ex:BikaLocale Key=SearchCreater}" />
+                Content="{ex:Locale Key=SearchCreater}" />
         </Grid>
     </TeachingTip>
 </UserControl>

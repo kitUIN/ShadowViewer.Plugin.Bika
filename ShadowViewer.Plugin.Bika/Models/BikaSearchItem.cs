@@ -24,11 +24,11 @@ public class BikaSearchItem : IShadowSearchItem
         switch (mode)
         {
             case BikaSearchMode.Search:
-                SubTitle = BikaResourcesHelper.GetString(BikaResourceKey.BikaSearch);
+                SubTitle = ResourcesHelper.GetString(ResourceKey.BikaSearch);
                 Icon = new FontIconSource() { Glyph = "\uE773" ,Foreground = new SolidColorBrush("#FFE480A7".ToColor())};
                 break;
             case BikaSearchMode.History:
-                SubTitle = BikaResourcesHelper.GetString(BikaResourceKey.History);
+                SubTitle = ResourcesHelper.GetString(ResourceKey.History);
                 break;
             default:
                 break;

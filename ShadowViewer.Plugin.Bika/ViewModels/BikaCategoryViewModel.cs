@@ -36,7 +36,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty]
         private string categoryTitle = "";
 
-        public string CurrentPageString => BikaResourcesHelper.GetString(BikaResourceKey.Number) + $"{Page}/{Pages}" + BikaResourcesHelper.GetString(BikaResourceKey.Page);
+        public string CurrentPageString => ResourcesHelper.GetString(ResourceKey.Number) + $"{Page}/{Pages}" + ResourcesHelper.GetString(ResourceKey.Page);
         [ObservableProperty]
         private string sortRuleText;
         [ObservableProperty]
@@ -47,7 +47,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         public BikaCategoryViewModel(IPicaClient bikaClient)
         {
             BikaClient = bikaClient;
-            SortRuleText = BikaResourcesHelper.GetString(Sort.ToString().ToUpper());
+            SortRuleText = ResourcesHelper.GetString(Sort.ToString().ToUpper());
         }
         public void CheckAllCategoryComicLock(object? sender, EventArgs e)
         {
@@ -83,7 +83,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             }
             else
             {
-                NotificationHelper.Notify(this,BikaResourcesHelper.GetString(BikaResourceKey.WarnPage),
+                NotificationHelper.Notify(this,ResourcesHelper.GetString(ResourceKey.WarnPage),
                     InfoBarSeverity.Warning);
             }
         }
@@ -173,7 +173,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         partial void OnSortChanged(SortRule oldValue, SortRule newValue)
         {
             if (oldValue == newValue) return;
-            SortRuleText = BikaResourcesHelper.GetString(newValue.ToString().ToUpper());
+            SortRuleText = ResourcesHelper.GetString(newValue.ToString().ToUpper());
             if (!string.IsNullOrEmpty(SortRuleText))
             {
                 Refresh();

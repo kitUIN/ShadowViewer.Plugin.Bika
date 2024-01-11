@@ -30,7 +30,7 @@
             <TextBlock
                 FontSize="18"
                 Foreground="{ThemeResource BikaAccentColorDark1}"
-                Text="{ex:BikaLocale Key=BikaKeywords}" />
+                Text="{ex:Locale Key=BikaKeywords}" />
             <ItemsRepeater ItemsSource="{x:Bind local:BikaData.Current.Keywords, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="x:String">

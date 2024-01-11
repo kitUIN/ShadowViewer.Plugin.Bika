@@ -41,7 +41,7 @@ public partial class BikaPlugin : PluginBase
     /// <inheritdoc/>
     /// </summary>
     public override LocalTag AffiliationTag { get; } =
-        new(BikaResourcesHelper.GetString(BikaResourceKey.BikaTag), "#000000", "#ef97b9");
+        new(ResourcesHelper.GetString(ResourceKey.BikaTag), "#000000", "#ef97b9");
 
     public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient, CompressService compressServices, IPluginService pluginService, ILogger logger) : base(callableService, sqlSugarClient, compressServices, pluginService, logger)
     {
@@ -118,12 +118,12 @@ public partial class BikaPlugin : PluginBase
             catch (Exception)
             {
                 NotificationHelper.Notify(this,
-                $"[{MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginFail)}",
+                $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginFail)}",
                 InfoBarSeverity.Error);
                 return false;
             }
             NotificationHelper.Notify(this,
-                $"[{MetaData.Name}]{BikaResourcesHelper.GetString(BikaResourceKey.AutoLoginSuccess)}",
+                $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginSuccess)}",
                 InfoBarSeverity.Success);
             return true;
         }

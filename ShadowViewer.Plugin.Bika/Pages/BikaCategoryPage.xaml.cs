@@ -98,7 +98,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
                     }
                     if(stackPanel.Children[1] is TextBlock text1)
                     {
-                        text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.ClickOpenLock);
+                        text1.Text = ResourcesHelper.GetString(ResourceKey.ClickOpenLock);
                     }
                 }
             }
@@ -116,7 +116,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
                     }
                     if (stackPanel.Children[1] is TextBlock text1)
                     {
-                        text1.Text = BikaResourcesHelper.GetString(BikaResourceKey.Locked);
+                        text1.Text = ResourcesHelper.GetString(ResourceKey.Locked);
                     }
                 }
             }

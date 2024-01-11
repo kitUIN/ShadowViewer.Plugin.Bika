@@ -18,7 +18,7 @@
 	  <!--插件支持的语言(以;分隔)-->
 	  <PluginLang>zh-CN</PluginLang>
 	  <!--插件版本号(nuget包版本号)-->
-	  <Version>0.2.2.0</Version>
+	  <Version>0.2.2.1</Version>
 	  <!--插件仓库地址(nuget包仓库地址)-->
 	  <RepositoryUrl>https://github.com/kitUIN/ShadowViewer.Plugin.Bika</RepositoryUrl>
 	  <!--插件介绍(nuget包介绍)-->
@@ -52,12 +52,13 @@
   </ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="ShadowViewer.Plugin.Bika.csproj" CopyToOutputDirectory="PreserveNewest" />
+		<AdditionalFiles Include="Strings/**/*"   />
 	</ItemGroup>
   <ItemGroup>
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
 	  <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />
-	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.5.3" />
+	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.5.4" />
   </ItemGroup>
 
   <ItemGroup>

@@ -25,7 +25,7 @@ public partial class ClassificationViewModel:ObservableObject
     {
         new Category
         {
-            Title = BikaResourcesHelper.GetString(BikaResourceKey.Leaderboard),
+            Title = ResourcesHelper.GetString(ResourceKey.Leaderboard),
             Thumb = new Thumb
             {
                 FilePath = "/Assets/Picacgs/cat_leaderboard.jpg".AssetPath(typeof(BikaPlugin)),
@@ -33,7 +33,7 @@ public partial class ClassificationViewModel:ObservableObject
         },
         new Category
         {
-            Title = BikaResourcesHelper.GetString(BikaResourceKey.Random),
+            Title = ResourcesHelper.GetString(ResourceKey.Random),
             Thumb = new Thumb
             {
                 FilePath = "/Assets/Picacgs/cat_random.jpg".AssetPath(typeof(BikaPlugin)),
@@ -41,7 +41,7 @@ public partial class ClassificationViewModel:ObservableObject
         },
         new Category
         {
-            Title = BikaResourcesHelper.GetString(BikaResourceKey.Latest),
+            Title = ResourcesHelper.GetString(ResourceKey.Latest),
             Thumb = new Thumb
             {
                 FilePath = "/Assets/Picacgs/cat_latest.jpg".AssetPath(typeof(BikaPlugin)),

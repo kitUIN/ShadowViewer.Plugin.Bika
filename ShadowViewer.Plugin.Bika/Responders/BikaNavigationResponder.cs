@@ -24,7 +24,7 @@ public class BikaNavigationResponder : NavigationResponderBase
         {
             new BikaNavigationItem()
             {
-                Content = BikaResourcesHelper.GetString(BikaResourceKey.Title),
+                Content = ResourcesHelper.GetString(ResourceKey.Title),
                 Icon =  new ImageIcon()
                 {
                     Source = new BitmapImage(new System.Uri(BikaPlugin.Meta.Logo))
@@ -76,7 +76,7 @@ public class BikaNavigationResponder : NavigationResponderBase
                 Caller.NavigateTo(typeof(BikaCategoryPage),
                     new CategoryArg
                     {
-                        Category = BikaResourcesHelper.GetString(BikaResourceKey.Random), Mode = CategoryMode.Random
+                        Category = ResourcesHelper.GetString(ResourceKey.Random), Mode = CategoryMode.Random
                     });
                 break;
         }

@@ -17,12 +17,12 @@
     <Page.Resources>
         <converters:BoolToObjectConverter
             x:Key="FavouriteConverter"
-            FalseValue="{ex:BikaLocale Key=Favourite}"
-            TrueValue="{ex:BikaLocale Key=Favourited}" />
+            FalseValue="{ex:Locale Key=Favourite}"
+            TrueValue="{ex:Locale Key=Favourited}" />
         <converters:BoolToObjectConverter
             x:Key="LikeConverter"
-            FalseValue="{ex:BikaLocale Key=Like}"
-            TrueValue="{ex:BikaLocale Key=Liked}" />
+            FalseValue="{ex:Locale Key=Like}"
+            TrueValue="{ex:Locale Key=Liked}" />
         <converters:BoolToObjectConverter
             x:Key="CommentHeartConverter"
             FalseValue="&#xEB51;"
@@ -41,8 +41,8 @@
             NotEmptyValue="Visible" />
         <converters:EmptyCollectionToObjectConverter
             x:Key="EmptyToReplyConverter"
-            EmptyValue="{ex:BikaLocale Key=Comments}"
-            NotEmptyValue="{ex:BikaLocale Key=Reply}" />
+            EmptyValue="{ex:Locale Key=Comments}"
+            NotEmptyValue="{ex:Locale Key=Reply}" />
         <converters1:CollectionCountToVisibilityConverter
             x:Key="CollectionToVisibilityConverter"
             EmptyValue="Visible"
@@ -299,7 +299,7 @@
                                         FontSize="12"
                                         FontWeight="Bold"
                                         Foreground="{ThemeResource BikaAccentColorDark2}"
-                                        Text="{ex:BikaLocale Key=Finished}" />
+                                        Text="{ex:Locale Key=Finished}" />
                                 </Border>
                             </Grid>
                         </Grid>
@@ -472,7 +472,7 @@
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             Foreground="{ThemeResource BikaCommentColor}"
-                                            Text="{ex:BikaLocale Key=Reply}" />
+                                            Text="{ex:Locale Key=Reply}" />
                                     </StackPanel>
                                 </HyperlinkButton>
                                 <TextBlock
@@ -653,14 +653,14 @@
                                             FontSize="12"
                                             FontWeight="Bold"
                                             Foreground="{ThemeResource BikaAccentColorDark2}"
-                                            Text="{ex:BikaLocale Key=Finished}" />
+                                            Text="{ex:Locale Key=Finished}" />
                                     </Border>
                                 </StackPanel>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Border>
-                <controls1:TitleBorder Grid.Row="1" Header="{ex:BikaLocale Key=Tag}">
+                <controls1:TitleBorder Grid.Row="1" Header="{ex:Locale Key=Tag}">
                     <ItemsRepeater x:Name="TagsContent" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
                         <ItemsRepeater.Layout>
                             <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="10" />
@@ -676,7 +676,7 @@
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
                 </controls1:TitleBorder>
-                <controls1:TitleBorder Grid.Row="2" Header="{ex:BikaLocale Key=Description}">
+                <controls1:TitleBorder Grid.Row="2" Header="{ex:Locale Key=Description}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -726,7 +726,7 @@
                                             FontSize="13"
                                             FontWeight="SemiBold"
                                             Foreground="Gray"
-                                            Text="{ex:BikaLocale Key=UpdateTime}" />
+                                            Text="{ex:Locale Key=UpdateTime}" />
 
                                     </StackPanel>
                                 </StackPanel>
@@ -788,7 +788,7 @@
                     Height="500"
                     SelectedIndex="0"
                     SelectionChanged="Segmented_SelectionChanged">
-                    <PivotItem Header="{ex:BikaLocale Key=BookChapters}">
+                    <PivotItem Header="{ex:Locale Key=BookChapters}">
                         <ScrollViewer Padding="10">
                             <ItemsRepeater
                                 x:Name="EpisodesContent"
@@ -811,7 +811,7 @@
                             </ItemsRepeater>
                         </ScrollViewer>
                     </PivotItem>
-                    <PivotItem Header="{ex:BikaLocale Key=RecommendComics}">
+                    <PivotItem Header="{ex:Locale Key=RecommendComics}">
                         <ScrollViewer x:Name="RecommendScrollViewer">
                             <Grid x:Name="RecommendGrid" Padding="10">
                                 <controls2:EmptyTip Width="400" Visibility="{x:Bind ViewModel.RecommendComics.Count, Mode=OneWay, Converter={StaticResource CollectionToVisibilityConverter}}" />
@@ -829,7 +829,7 @@
                     <PivotItem>
                         <PivotItem.Header>
                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBlock Text="{ex:BikaLocale Key=Comments}" />
+                                <TextBlock Text="{ex:Locale Key=Comments}" />
                                 <InfoBadge
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"

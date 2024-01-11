@@ -39,7 +39,7 @@
                 Grid.Row="2"
                 HorizontalAlignment="Center"
                 FontSize="18"
-                Text="{ex:BikaLocale Key=AboutDescription}" />
+                Text="{ex:Locale Key=AboutDescription}" />
             <StackPanel
                 Grid.Row="3"
                 Margin="0,5,0,0"
@@ -48,22 +48,22 @@
                 Spacing="5">
                 <controls:Badge
                     LeftBackground="#FF5e5e5e"
-                    LeftTitle="{ex:BikaLocale Key=AppVersion}"
+                    LeftTitle="{ex:Locale Key=AppVersion}"
                     RightBackground="{ThemeResource BikaAccentColorLight1Brush}"
                     RightTitle="{x:Bind pica:PicaClient.AppVersion}" />
                 <controls:Badge
                     LeftBackground="#FF5e5e5e"
-                    LeftTitle="{ex:BikaLocale Key=PluginVersion}"
+                    LeftTitle="{ex:Locale Key=PluginVersion}"
                     RightBackground="#FF6e9bc5"
                     RightTitle="{x:Bind local:BikaPlugin.Meta.Version}" />
                 <controls:Badge
                     LeftBackground="#FF5e5e5e"
-                    LeftTitle="{ex:BikaLocale Key=LowestVersion}"
+                    LeftTitle="{ex:Locale Key=LowestVersion}"
                     RightBackground="#FFf0932b"
                     RightTitle="{x:Bind local:BikaPlugin.Meta.MinVersion}" />
                 <controls:Badge
                     LeftBackground="#FF5e5e5e"
-                    LeftTitle="{ex:BikaLocale Key=License}"
+                    LeftTitle="{ex:Locale Key=License}"
                     RightBackground="#FF10ac84"
                     RightTitle="MIT" />
             </StackPanel>
@@ -72,9 +72,9 @@
                 HorizontalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="5">
-                <HyperlinkButton Content="{ex:BikaLocale Key=BugRequest}" NavigateUri="https://github.com/kitUIN/ShadowViewer.Plugin.Bika/issues/new/choose" />
-                <HyperlinkButton Content="{ex:BikaLocale Key=SponsorBika}" NavigateUri="https://donate.bidobido.xyz" />
-                <HyperlinkButton Content="{ex:BikaLocale Key=Sponsor}" NavigateUri="https://afdian.net/@kituin" />
+                <HyperlinkButton Content="{ex:Locale Key=BugRequest}" NavigateUri="https://github.com/kitUIN/ShadowViewer.Plugin.Bika/issues/new/choose" />
+                <HyperlinkButton Content="{ex:Locale Key=SponsorBika}" NavigateUri="https://donate.bidobido.xyz" />
+                <HyperlinkButton Content="{ex:Locale Key=Sponsor}" NavigateUri="https://afdian.net/@kituin" />
             </StackPanel>
             <Grid
                 Grid.Row="5"
@@ -113,8 +113,8 @@
                         Margin="0,0,5,0"
                         VerticalAlignment="Center"
                         Spacing="5">
-                        <TextBlock HorizontalAlignment="Center" Text="{ex:BikaLocale Key=AppDownload}" />
-                        <HyperlinkButton Content="{ex:BikaLocale Key=ClickGoUri}" NavigateUri="https://picacomic.com" />
+                        <TextBlock HorizontalAlignment="Center" Text="{ex:Locale Key=AppDownload}" />
+                        <HyperlinkButton Content="{ex:Locale Key=ClickGoUri}" NavigateUri="https://picacomic.com" />
                     </StackPanel>
                 </Grid>
                 <Grid
@@ -140,8 +140,8 @@
                         Margin="0,0,5,0"
                         VerticalAlignment="Center"
                         Spacing="5">
-                        <TextBlock HorizontalAlignment="Center" Text="{ex:BikaLocale Key=AppWeb}" />
-                        <HyperlinkButton Content="{ex:BikaLocale Key=ClickGoUri}" NavigateUri="https://manhuabika.com/plogin" />
+                        <TextBlock HorizontalAlignment="Center" Text="{ex:Locale Key=AppWeb}" />
+                        <HyperlinkButton Content="{ex:Locale Key=ClickGoUri}" NavigateUri="https://manhuabika.com/plogin" />
                     </StackPanel>
                 </Grid>
                 <Grid
@@ -166,8 +166,8 @@
                         Margin="0,0,5,0"
                         VerticalAlignment="Center"
                         Spacing="5">
-                        <TextBlock HorizontalAlignment="Center" Text="{ex:BikaLocale Key=AppTelegram}" />
-                        <HyperlinkButton Content="{ex:BikaLocale Key=ClickGoUri}" NavigateUri="https://t.me/PicACG" />
+                        <TextBlock HorizontalAlignment="Center" Text="{ex:Locale Key=AppTelegram}" />
+                        <HyperlinkButton Content="{ex:Locale Key=ClickGoUri}" NavigateUri="https://t.me/PicACG" />
                     </StackPanel>
                 </Grid>
                 <Grid
@@ -192,8 +192,8 @@
                         Margin="0,0,5,0"
                         VerticalAlignment="Center"
                         Spacing="5">
-                        <TextBlock HorizontalAlignment="Center" Text="{ex:BikaLocale Key=AppDiscord}" />
-                        <HyperlinkButton Content="{ex:BikaLocale Key=ClickGoUri}" NavigateUri="https://discord.gg/vbkmySBxTw" />
+                        <TextBlock HorizontalAlignment="Center" Text="{ex:Locale Key=AppDiscord}" />
+                        <HyperlinkButton Content="{ex:Locale Key=ClickGoUri}" NavigateUri="https://discord.gg/vbkmySBxTw" />
                     </StackPanel>
                 </Grid>
             </Grid>

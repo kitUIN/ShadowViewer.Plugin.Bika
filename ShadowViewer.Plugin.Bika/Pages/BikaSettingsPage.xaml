@@ -26,7 +26,7 @@
             Grid.Row="0"
             Margin="20,10,0,0"
             FontSize="25"
-            Text="{ex:BikaLocale Key=BikaPluginSettings}" />
+            Text="{ex:Locale Key=BikaPluginSettings}" />
         <ScrollViewer Grid.Row="1" Padding="20,0">
             <StackPanel HorizontalAlignment="Stretch" Spacing="3">
                 <StackPanel.ChildrenTransitions>
@@ -34,10 +34,10 @@
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:BikaLocale Key=MainSettings}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=MainSettings}" />
                 <labs:SettingsExpander Loaded="SettingsExpander_Loaded">
                     <labs:SettingsExpander.Header>
-                        <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=ShuntDescription}" Header="{ex:BikaLocale Key=Shunt}">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=ShuntDescription}" Header="{ex:Locale Key=Shunt}">
                             <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
@@ -46,25 +46,25 @@
                         </local2:ShadowSettingHeader>
                     </labs:SettingsExpander.Header>
                     <labs:SettingsExpander.Items>
-                        <labs:SettingsCard Header="{ex:BikaLocale Key=ApiShunt}">
+                        <labs:SettingsCard Header="{ex:Locale Key=ApiShunt}">
                             <ComboBox SelectedIndex="{x:Bind ViewModel.ApiShunt, Mode=TwoWay}">
-                                <ComboBoxItem Content="{ex:BikaLocale Key=ShuntOne}" />
-                                <ComboBoxItem Content="{ex:BikaLocale Key=ShuntTwo}" />
-                                <ComboBoxItem Content="{ex:BikaLocale Key=ShuntThree}" />
+                                <ComboBoxItem Content="{ex:Locale Key=ShuntOne}" />
+                                <ComboBoxItem Content="{ex:Locale Key=ShuntTwo}" />
+                                <ComboBoxItem Content="{ex:Locale Key=ShuntThree}" />
                             </ComboBox>
                         </labs:SettingsCard>
-                        <labs:SettingsCard Header="{ex:BikaLocale Key=PicShunt}">
+                        <labs:SettingsCard Header="{ex:Locale Key=PicShunt}">
                             <ComboBox SelectedIndex="{x:Bind ViewModel.PicShunt, Mode=TwoWay}">
-                                <ComboBoxItem Content="{ex:BikaLocale Key=ShuntOne}" />
-                                <ComboBoxItem Content="{ex:BikaLocale Key=ShuntTwo}" />
-                                <ComboBoxItem Content="{ex:BikaLocale Key=ShuntThree}" />
+                                <ComboBoxItem Content="{ex:Locale Key=ShuntOne}" />
+                                <ComboBoxItem Content="{ex:Locale Key=ShuntTwo}" />
+                                <ComboBoxItem Content="{ex:Locale Key=ShuntThree}" />
                             </ComboBox>
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=ProxyDescription}" Header="{ex:BikaLocale Key=Proxy}">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=ProxyDescription}" Header="{ex:Locale Key=Proxy}">
                             <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
@@ -73,16 +73,16 @@
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Button Click="ResetButton_OnClick" Content="{ex:BikaLocale Key=Reset}" />
+                        <Button Click="ResetButton_OnClick" Content="{ex:Locale Key=Reset}" />
                         <TextBox
                             x:Name="ProxyBox"
                             LostFocus="ProxyBox_OnLostFocus"
-                            PlaceholderText="{ex:BikaLocale Key=SystemProxy}" />
+                            PlaceholderText="{ex:Locale Key=SystemProxy}" />
                     </StackPanel>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Header="{ex:BikaLocale Key=Ping}">
+                        <local2:ShadowSettingHeader Header="{ex:Locale Key=Ping}">
                             <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
@@ -99,25 +99,25 @@
                             <icons:FluentFilledIcon Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" Symbol="{x:Bind ViewModel.PingIcon, Mode=OneWay}" />
                             <TextBlock Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" Text="{x:Bind ViewModel.PingText, Mode=OneWay}" />
                         </StackPanel>
-                        <Button Click="Ping_Click" Content="{ex:BikaLocale Key=Ping}" />
+                        <Button Click="Ping_Click" Content="{ex:Locale Key=Ping}" />
                     </StackPanel>
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=LockDescription}" Header="{ex:BikaLocale Key=Lock}">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=LockDescription}" Header="{ex:Locale Key=Lock}">
                             <FontIcon
                                 Width="30"
                                 Height="30"
                                 Glyph="&#xE72E;" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
-                    <Button Click="LockButton_Click" Content="{ex:BikaLocale Key=Set}" />
+                    <Button Click="LockButton_Click" Content="{ex:Locale Key=Set}" />
                 </labs:SettingsCard>
                 <!--  ShowSettings  -->
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:BikaLocale Key=ShowSettings}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=ShowSettings}" />
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=IsIgnoreLockComicDescription}" Header="{ex:BikaLocale Key=IsIgnoreLockComic}">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=IsIgnoreLockComicDescription}" Header="{ex:Locale Key=IsIgnoreLockComic}">
                             <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
@@ -127,12 +127,12 @@
                     </labs:SettingsCard.Header>
                     <ToggleSwitch
                         IsOn="{x:Bind ViewModel.IsIgnoreLockComic, Mode=TwoWay}"
-                        OffContent="{ex:BikaLocale Key=UnIgnore}"
-                        OnContent="{ex:BikaLocale Key=Ignore}" />
+                        OffContent="{ex:Locale Key=UnIgnore}"
+                        OnContent="{ex:Locale Key=Ignore}" />
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=LoadLockComicDescription}" Header="{ex:BikaLocale Key=LoadLockComic}">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=LoadLockComicDescription}" Header="{ex:Locale Key=LoadLockComic}">
                             <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
@@ -143,12 +143,12 @@
                     <ToggleSwitch
                         IsEnabled="{x:Bind ViewModel.LoadLockComicShow, Mode=OneWay}"
                         IsOn="{x:Bind ViewModel.LoadLockComic, Mode=TwoWay}"
-                        OffContent="{ex:BikaLocale Key=UnLoad}"
-                        OnContent="{ex:BikaLocale Key=Load}" />
+                        OffContent="{ex:Locale Key=UnLoad}"
+                        OnContent="{ex:Locale Key=Load}" />
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="{ex:BikaLocale Key=CanTemporaryUnlockComicDescription}" Header="{ex:BikaLocale Key=CanTemporaryUnlockComic}">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=CanTemporaryUnlockComicDescription}" Header="{ex:Locale Key=CanTemporaryUnlockComic}">
                             <icons:FluentRegularIcon
                                 Width="30"
                                 Height="30"
@@ -159,11 +159,11 @@
                     <ToggleSwitch
                         IsEnabled="{x:Bind ViewModel.CanTemporaryUnlockShow, Mode=OneWay}"
                         IsOn="{x:Bind ViewModel.CanTemporaryUnlock, Mode=TwoWay}"
-                        OffContent="{ex:BikaLocale Key=UnAllow}"
-                        OnContent="{ex:BikaLocale Key=Allow}" />
+                        OffContent="{ex:Locale Key=UnAllow}"
+                        OnContent="{ex:Locale Key=Allow}" />
                 </labs:SettingsCard>
                 <!--  About  -->
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:BikaLocale Key=About}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=About}" />
                 <labs:SettingsCard
                     Click="AboutCard_Click"
                     IsActionIconVisible="True"
@@ -180,7 +180,7 @@
                     <labs:SettingsCard.ActionIcon>
                         <FontIcon Glyph="&#xE76C;" />
                     </labs:SettingsCard.ActionIcon>
-                    <TextBlock Text="{ex:BikaLocale Key=About}" />
+                    <TextBlock Text="{ex:Locale Key=About}" />
                 </labs:SettingsCard>
 
             </StackPanel>

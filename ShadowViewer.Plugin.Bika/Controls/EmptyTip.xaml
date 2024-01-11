@@ -19,6 +19,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="18"
-            Text="{ex:BikaLocale Key=BlockEmpty}" />
+            Text="{ex:Locale Key=BlockEmpty}" />
     </StackPanel>
 </UserControl>

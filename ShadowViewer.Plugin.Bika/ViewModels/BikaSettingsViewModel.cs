@@ -104,7 +104,7 @@ public partial class BikaSettingsViewModel : ObservableObject
     public async Task Ping()
     {
         PingShow = true;
-        PingText = BikaResourcesHelper.GetString(BikaResourceKey.Pinging);
+        PingText = ResourcesHelper.GetString(ResourceKey.Pinging);
         PingIcon = FluentFilledIconSymbol.ArrowSyncCircle20Filled;
         PingColor = new SolidColorBrush(Colors.Orange);
         try
@@ -116,7 +116,7 @@ public partial class BikaSettingsViewModel : ObservableObject
         }
         catch (Exception)
         {
-            PingText = BikaResourcesHelper.GetString(BikaResourceKey.TimeOut);
+            PingText = ResourcesHelper.GetString(ResourceKey.TimeOut);
             PingIcon = FluentFilledIconSymbol.DismissCircle20Filled;
             PingColor = new SolidColorBrush(Colors.Red);
         }
@@ -129,12 +129,12 @@ public partial class BikaSettingsViewModel : ObservableObject
             var uri = new Uri(text);
             BikaClient.SetProxy(uri);
             BikaConfig.Proxy = text;
-            NotificationHelper.Notify(this,$"{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetSuccess)}",
+            NotificationHelper.Notify(this,$"{ResourcesHelper.GetString(ResourceKey.Proxy)}({text}){ResourcesHelper.GetString(ResourceKey.SetSuccess)}",
                 InfoBarSeverity.Success);
         }
         catch (Exception)
         {
-            NotificationHelper.Notify(this,$"{BikaResourcesHelper.GetString(BikaResourceKey.Proxy)}({text}){BikaResourcesHelper.GetString(BikaResourceKey.SetError)}",
+            NotificationHelper.Notify(this,$"{ResourcesHelper.GetString(ResourceKey.Proxy)}({text}){ResourcesHelper.GetString(ResourceKey.SetError)}",
                 InfoBarSeverity.Success);
         }
     }
