@@ -1,6 +1,7 @@
 ﻿using CustomExtensions.WinUI;
 using Windows.ApplicationModel.Resources.Core;
 using ShadowViewer.Plugin.Bika.Enums;
+using System;
 
 namespace ShadowViewer.Plugin.Bika.Helpers
 {
@@ -9,7 +10,11 @@ namespace ShadowViewer.Plugin.Bika.Helpers
         private static readonly ResourceMap ResourceManager;
         static BikaResourcesHelper()
         {
-            ResourceManager = ApplicationExtensionHost.GetResourceMapForAssembly();
+
+            var map = ApplicationExtensionHost.GetResourceMapForAssembly();
+            if (map is not null) ResourceManager = map;
+            else
+                throw new NotImplementedException();
         }
         public static string GetString(string key) 
         {
