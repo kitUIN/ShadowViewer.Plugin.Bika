@@ -22,7 +22,6 @@ using ShadowViewer.Plugin.Bika.Args;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
-using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika;
 
