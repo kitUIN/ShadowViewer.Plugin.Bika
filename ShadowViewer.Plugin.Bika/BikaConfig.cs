@@ -1,6 +1,7 @@
 ﻿using System;
 using DryIoc;
 using PicaComic;
+using ShadowPluginLoader.WinUI;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 

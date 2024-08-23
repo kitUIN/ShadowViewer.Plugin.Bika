@@ -28,7 +28,8 @@
             <Image
                 Grid.Row="0"
                 Width="300"
-                Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/logo.png')}" />
+                />
+            <!--Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/logo.png')}"-->
             <TextBlock
                 Grid.Row="1"
                 HorizontalAlignment="Center"
@@ -60,7 +61,7 @@
                     LeftBackground="#FF5e5e5e"
                     LeftTitle="{ex:Locale Key=LowestVersion}"
                     RightBackground="#FFf0932b"
-                    RightTitle="{x:Bind local:BikaPlugin.Meta.MinVersion}" />
+                    RightTitle="" />
                 <controls:Badge
                     LeftBackground="#FF5e5e5e"
                     LeftTitle="{ex:Locale Key=License}"
@@ -107,7 +108,8 @@
                         Grid.Column="0"
                         Width="60"
                         Margin="5"
-                        Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/logo_round.png')}" />
+                         />
+                    <!--Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/logo_round.png')}"-->
                     <StackPanel
                         Grid.Column="1"
                         Margin="0,0,5,0"
@@ -134,7 +136,8 @@
                         Width="60"
                         Height="60"
                         Margin="5"
-                        Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/picacomic_2.png')}" />
+                         />
+                    <!--Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/picacomic_2.png')}"-->
                     <StackPanel
                         Grid.Column="1"
                         Margin="0,0,5,0"
@@ -160,7 +163,8 @@
                         Grid.Column="0"
                         Width="60"
                         Margin="5"
-                        Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/pica_telegram.jpg')}" />
+                         />
+                    <!--Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/pica_telegram.jpg')}"-->
                     <StackPanel
                         Grid.Column="1"
                         Margin="0,0,5,0"
@@ -186,7 +190,8 @@
                         Grid.Column="0"
                         Width="60"
                         Margin="5"
-                        Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Icons/discord.png')}" />
+                         />
+                    <!--Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Icons/discord.png')}"-->
                     <StackPanel
                         Grid.Column="1"
                         Margin="0,0,5,0"

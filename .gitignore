@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /test.py
 /ShadowViewer.Plugin.Bika/test.py
+/ShadowViewer.Plugin.Bika/Assets/FluentSystemIcons-Filled.ttf
+/ShadowViewer.Plugin.Bika/Assets/FluentSystemIcons-Regular.ttf
+/ShadowViewer.Plugin.Bika/plugin.json

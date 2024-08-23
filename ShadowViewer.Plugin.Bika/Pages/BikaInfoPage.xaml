@@ -2,10 +2,10 @@
     x:Class="ShadowViewer.Plugin.Bika.Pages.BikaInfoPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:controls1="using:ShadowViewer.Controls"
     xmlns:controls2="using:ShadowViewer.Plugin.Bika.Controls"
-    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:converters1="using:ShadowViewer.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ee="using:CustomExtensions.WinUI"
@@ -387,8 +387,9 @@
                                 Width="100"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/icon_top_comment.png')}"
                                 Visibility="{x:Bind IsTop, Mode=OneWay}" />
+                            <!--  Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/icon_top_comment.png')}"  -->
+
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>

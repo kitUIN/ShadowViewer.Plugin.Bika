@@ -18,6 +18,6 @@ public partial class BikaNavigationItem: ObservableObject,IShadowNavigationItem
     /// <inheritdoc />
     /// </summary>
     public string? Id { get; set; }
-    
-    
+
+    public string PluginId => BikaPlugin.Meta.Id;
 }

@@ -1,0 +1,52 @@
+{
+  "Namespace": "ShadowViewer.Plugins",
+  "Type": "PluginMetaData",
+  "Properties": {
+    "Description": {
+      "Type": "string",
+      "PropertyGroupName": "Description"
+    },
+    "Authors": {
+      "Type": "string",
+      "PropertyGroupName": "Authors"
+    },
+    "WebUri": {
+      "Type": "string",
+      "PropertyGroupName": "WebUri"
+    },
+    "Logo": {
+      "Type": "string",
+      "PropertyGroupName": "Logo"
+    },
+    "Id": {
+      "Type": "string",
+      "PropertyGroupName": "Id"
+    },
+    "Name": {
+      "Type": "string",
+      "PropertyGroupName": "Name"
+    },
+    "DllName": {
+      "Type": "string",
+      "PropertyGroupName": "DllName"
+    },
+    "Version": {
+      "Type": "string",
+      "PropertyGroupName": "Version"
+    },
+    "Dependencies": {
+      "Type": "string[]",
+      "PropertyGroupName": "Dependencies"
+    }
+  },
+  "Required": [
+    "Description",
+    "Authors",
+    "WebUri",
+    "Logo",
+    "Id",
+    "Name",
+    "Version",
+    "Dependencies"
+  ]
+}

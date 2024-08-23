@@ -9,7 +9,7 @@
     xmlns:helpers="using:ShadowViewer.Plugin.Bika.Helpers"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
+    xmlns:media="using:CommunityToolkit.WinUI.Media"
     xmlns:models="using:PicaComic.Models"
     xmlns:models1="using:ShadowViewer.Plugin.Bika.Models"
     xmlns:plugin="using:ShadowViewer.Plugin.Bika"

@@ -10,6 +10,7 @@ using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 using Thumb = PicaComic.Models.Thumb;
 using CustomExtensions.WinUI;
+using ShadowViewer.Services;
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 
 public partial class ClassificationViewModel:ObservableObject

@@ -5,11 +5,13 @@ using Microsoft.UI.Xaml.Controls;
 using PicaComic;
 using PicaComic.Exceptions;
 using PicaComic.Responses;
+using ShadowPluginLoader.WinUI;
 using ShadowViewer.Controls;
 using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Services;
 
 namespace ShadowViewer.Plugin.Bika.Helpers;
 
@@ -89,20 +91,20 @@ public class BikaHttpHelper
         try
         {
             success.Invoke(await req);
-            if(isSendSuccess)
-                NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.Success),InfoBarSeverity.Success);
+            //if(isSendSuccess)
+                //NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.Success),InfoBarSeverity.Success);
         }
         catch (PicaComicException picaComicException)
         {
-            NotificationHelper.Notify(sender,title + picaComicException.ChineseMessage,InfoBarSeverity.Error);
+            //NotificationHelper.Notify(sender,title + picaComicException.ChineseMessage,InfoBarSeverity.Error);
         }
         catch (TaskCanceledException)
         {
-            NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.TimeOut),InfoBarSeverity.Error);
+            //NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.TimeOut),InfoBarSeverity.Error);
         }
         catch (Exception exception)
         {
-            NotificationHelper.Notify(sender,title + exception.GetType().FullName,InfoBarSeverity.Error);
+            //NotificationHelper.Notify(sender,title + exception.GetType().FullName,InfoBarSeverity.Error);
         }
     }
     public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Func<T,Task> success,string title="",bool isSendSuccess=true) where T : PicaResponse
@@ -110,20 +112,20 @@ public class BikaHttpHelper
         try
         {
             await success.Invoke(await req);
-            if(isSendSuccess)
-                NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.Success),InfoBarSeverity.Success);
+            //if(isSendSuccess)
+            //    NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.Success),InfoBarSeverity.Success);
         }
         catch (PicaComicException picaComicException)
         {
-            NotificationHelper.Notify(sender,title + picaComicException.ChineseMessage,InfoBarSeverity.Error);
+            //NotificationHelper.Notify(sender,title + picaComicException.ChineseMessage,InfoBarSeverity.Error);
         }
         catch (TaskCanceledException)
         {
-            NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.TimeOut),InfoBarSeverity.Error);
+            //NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.TimeOut),InfoBarSeverity.Error);
         }
         catch (Exception exception)
         {
-            NotificationHelper.Notify(sender,title + exception.GetType().FullName,InfoBarSeverity.Error);
+            //NotificationHelper.Notify(sender,title + exception.GetType().FullName,InfoBarSeverity.Error);
         }
     }
     public static async Task Profile(object sender)

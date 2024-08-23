@@ -6,12 +6,14 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
+using ShadowPluginLoader.WinUI;
 using ShadowViewer.Extensions;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.ViewModels;
+using ShadowViewer.Services;
 
 namespace ShadowViewer.Plugin.Bika.Pages;
 

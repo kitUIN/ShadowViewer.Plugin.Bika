@@ -43,7 +43,7 @@ public class BikaHistoryResponder : HistoryResponderBase
     }
 
     public BikaHistoryResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressServices, IPluginService pluginService, string id) : base(callableService,
+        CompressService compressServices, PluginLoader pluginService, string id) : base(callableService,
         sqlSugarClient, compressServices, pluginService, id)
     {
     }

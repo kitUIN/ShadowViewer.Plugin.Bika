@@ -64,7 +64,7 @@ public class BikaPicViewResponder:PicViewResponderBase
         }
     }
     private IPicaClient Client { get; }
-    public BikaPicViewResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,IPicaClient picaClient, CompressService compressServices, IPluginService pluginService, string id) : base(callableService, sqlSugarClient, compressServices, pluginService, id)
+    public BikaPicViewResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,IPicaClient picaClient, CompressService compressServices, PluginLoader pluginService, string id) : base(callableService, sqlSugarClient, compressServices, pluginService, id)
     {
         Client = picaClient;
     }

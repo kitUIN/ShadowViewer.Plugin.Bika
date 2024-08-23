@@ -42,7 +42,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
             switch (status)
             {
                 case BikaHttpStatus.TimeOut:
-                    img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper));
+                    //img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper));
                     title.Text = ResourcesHelper.GetString(ResourceKey.TimeOut);
                     var stack = new StackPanel()
                     {
@@ -70,7 +70,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                     dialog.Content = stack;
                     break;
                 case BikaHttpStatus.NoAuth:
-                    img.Source = "/Assets/Picacgs/icon_exclamation_error.png".ImageSource(typeof(ContentDialogHelper));
+                    //img.Source = "/Assets/Picacgs/icon_exclamation_error.png".ImageSource(typeof(ContentDialogHelper));
                     title.Text = ResourcesHelper.GetString(ResourceKey.NoAuth);
                     dialog.Content = new TextBlock
                     {
@@ -81,7 +81,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                     break;
                 case BikaHttpStatus.Unknown:
                     title.Text = ResourcesHelper.GetString(ResourceKey.Unknown);
-                    img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper)); 
+                    //img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper)); 
                     dialog.Content = new TextBlock
                     {
                         TextWrapping = TextWrapping.Wrap,

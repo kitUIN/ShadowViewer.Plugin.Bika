@@ -12,6 +12,7 @@ using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
 using SqlSugar;
+using ShadowPluginLoader.WinUI;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 
@@ -98,9 +99,9 @@ public partial class LoginTipViewModel : ObservableObject
                 await BikaHttpHelper.TryRequest(this, Client.Profile(), res =>
                 {
                     BikaData.Current.CurrentUser = res.Data.User;
-                    NotificationHelper.Notify(this,
-                        $"[{BikaPlugin.Meta.Name}]{ResourcesHelper.GetString(ResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
-                        InfoBarSeverity.Success);
+                    //NotificationHelper.Notify(this,
+                    //    $"[{BikaPlugin.Meta.Name}]{ResourcesHelper.GetString(ResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
+                    //    InfoBarSeverity.Success);
                 });
                 await BikaHttpHelper.PunchIn(this);
                 await BikaHttpHelper.Keywords(this);

@@ -22,11 +22,13 @@ using ShadowViewer.Plugin.Bika.Args;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
+using ShadowPluginLoader.MetaAttributes;
+using ShadowPluginLoader.WinUI;
 
 namespace ShadowViewer.Plugin.Bika;
 
 [AutoPluginMeta]
-public partial class BikaPlugin : PluginBase
+public partial class BikaPlugin : AShadowViewerPlugin
 {
     /// <summary>
     /// Login Frame
@@ -42,7 +44,8 @@ public partial class BikaPlugin : PluginBase
     public override LocalTag AffiliationTag { get; } =
         new(ResourcesHelper.GetString(ResourceKey.BikaTag), "#000000", "#ef97b9");
 
-    public BikaPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient, CompressService compressServices, IPluginService pluginService, ILogger logger) : base(callableService, sqlSugarClient, compressServices, pluginService, logger)
+    public BikaPlugin(ICallableService caller, ISqlSugarClient db, CompressService compressService, ILogger logger, PluginLoader pluginService, INotifyService notifyService) :
+        base(caller, db, compressService, logger, pluginService, notifyService)
     {
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
@@ -56,49 +59,38 @@ public partial class BikaPlugin : PluginBase
 
     private IPicaClient BikaClient { get; }
 
-    public override void PluginDeleting()
-    {
-        DiFactory.Services.Unregister<IPicaClient>();
-        DiFactory.Services.Unregister<BikaSettingsViewModel>();
-        DiFactory.Services.Unregister<ClassificationViewModel>();
-        DiFactory.Services.Unregister<BikaInfoViewModel>();
-        DiFactory.Services.Unregister<BikaCategoryViewModel>();
-        DiFactory.Services.Unregister<LoginTipViewModel>();
-    }
 
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override IEnumerable<ResourceDictionary> ResourceDictionaries => new List<ResourceDictionary>
+    public override IEnumerable<string> ResourceDictionaries => new List<string>()
     {
-        new() { Source ="/Themes/BikaTheme.xaml".AssetUri<BikaPlugin>() }
+        "ms-appx:///Themes/BikaTheme.xaml"
     };
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override void Loaded(bool isEnabled)
-    {
-        base.Loaded(isEnabled);
-    }
 
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    protected override void PluginEnabled()
-    {
-        Db.CodeFirst.InitTables<BikaUser>();
-        CheckLock();
-        CheckToken();
-    }
+    public override PluginMetaData MetaData => Meta;
 
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    protected override void PluginDisabled()
-    {
-        // Close Login Frame
-        MainLoginTip?.Hide();
-    }
+    public override string DisplayName => "ßÙßÇÂþ»­";
+
+
+    ///// <summary>
+    ///// <inheritdoc/>
+    ///// </summary>
+    //protected override void PluginEnabled()
+    //{
+    //    Db.CodeFirst.InitTables<BikaUser>();
+    //    CheckLock();
+    //    CheckToken();
+    //}
+
+    ///// <summary>
+    ///// <inheritdoc/>
+    ///// </summary>
+    //protected override void PluginDisabled()
+    //{
+    //    // Close Login Frame
+    //    MainLoginTip?.Hide();
+    //}
 
     /// <summary>
     /// Auto Login
@@ -116,14 +108,14 @@ public partial class BikaPlugin : PluginBase
             }
             catch (Exception)
             {
-                NotificationHelper.Notify(this,
-                $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginFail)}",
-                InfoBarSeverity.Error);
+                //NotificationHelper.Notify(this,
+                //$"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginFail)}",
+                //InfoBarSeverity.Error);
                 return false;
             }
-            NotificationHelper.Notify(this,
-                $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginSuccess)}",
-                InfoBarSeverity.Success);
+            //NotificationHelper.Notify(this,
+            //    $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginSuccess)}",
+            //    InfoBarSeverity.Success);
             return true;
         }
 

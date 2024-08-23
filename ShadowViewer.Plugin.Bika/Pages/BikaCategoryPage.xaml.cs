@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
 using PicaComic.Utils;
+using ShadowPluginLoader.WinUI;
 using ShadowViewer.Helpers;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;

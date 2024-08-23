@@ -7,7 +7,7 @@
     xmlns:ee="using:CustomExtensions.WinUI"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:icons="using:FluentIcon.WinUI"
-    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:labs="using:CommunityToolkit.WinUI.Controls"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:local2="using:ShadowViewer.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -173,8 +173,8 @@
                             <BitmapIcon
                                 Width="30"
                                 Height="30"
-                                ShowAsMonochrome="False"
-                                UriSource="{x:Bind ee:WinUIExtensions.AssetUri('/Assets/Icons/logo.png')}" />
+                                ShowAsMonochrome="False" />
+                            <!--  UriSource="{x:Bind ee:WinUIExtensions.AssetUri('/Assets/Icons/logo.png')}"  -->
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.ActionIcon>

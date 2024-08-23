@@ -83,8 +83,8 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
             }
             else
             {
-                NotificationHelper.Notify(this,ResourcesHelper.GetString(ResourceKey.WarnPage),
-                    InfoBarSeverity.Warning);
+                //NotificationHelper.Notify(this,ResourcesHelper.GetString(ResourceKey.WarnPage),
+                //    InfoBarSeverity.Warning);
             }
         }
         [RelayCommand(CanExecute = nameof(CanPreviousPageExecute))]

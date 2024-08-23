@@ -13,5 +13,6 @@ public partial class BikaHistory: ObservableObject,IHistory
     [ObservableProperty] private DateTime time;
     [SugarColumn(IsIgnore = true)]
     public string Plugin => BikaPlugin.Meta.Id;
-    
+
+    public string PluginId => BikaPlugin.Meta.Id;
 }

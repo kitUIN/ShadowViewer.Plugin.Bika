@@ -10,6 +10,7 @@ using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
+using ShadowViewer.Services;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 
@@ -129,13 +130,13 @@ public partial class BikaSettingsViewModel : ObservableObject
             var uri = new Uri(text);
             BikaClient.SetProxy(uri);
             BikaConfig.Proxy = text;
-            NotificationHelper.Notify(this,$"{ResourcesHelper.GetString(ResourceKey.Proxy)}({text}){ResourcesHelper.GetString(ResourceKey.SetSuccess)}",
-                InfoBarSeverity.Success);
+            //NotificationHelper.Notify(this,$"{ResourcesHelper.GetString(ResourceKey.Proxy)}({text}){ResourcesHelper.GetString(ResourceKey.SetSuccess)}",
+            //    InfoBarSeverity.Success);
         }
         catch (Exception)
         {
-            NotificationHelper.Notify(this,$"{ResourcesHelper.GetString(ResourceKey.Proxy)}({text}){ResourcesHelper.GetString(ResourceKey.SetError)}",
-                InfoBarSeverity.Success);
+            //NotificationHelper.Notify(this,$"{ResourcesHelper.GetString(ResourceKey.Proxy)}({text}){ResourcesHelper.GetString(ResourceKey.SetError)}",
+            //    InfoBarSeverity.Success);
         }
     }
 

@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using PicaComic;
+using ShadowPluginLoader.WinUI;
 using ShadowViewer.Extensions;
 using ShadowViewer.Plugin.Bika.ViewModels;
 

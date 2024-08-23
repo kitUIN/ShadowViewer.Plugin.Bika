@@ -14,6 +14,7 @@ using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.ViewModels;
 using SqlSugar;
 using Microsoft.UI.Xaml.Media.Imaging;
+using ShadowPluginLoader.WinUI;
 
 namespace ShadowViewer.Plugin.Bika.Controls;
 

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PicaComic;
+using ShadowViewer.Controls;
 using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
+using ShadowViewer.Models;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
@@ -17,7 +19,7 @@ using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 
-public class BikaAbstractNavigationResponder : NavigationResponderBase
+public class BikaAbstractNavigationResponder : AbstractNavigationResponder
 {
     public override IEnumerable<IShadowNavigationItem> NavigationViewMenuItems { get; } =
         new List<IShadowNavigationItem>
@@ -29,25 +31,30 @@ public class BikaAbstractNavigationResponder : NavigationResponderBase
                 {
                     Source = new BitmapImage(new System.Uri(BikaPlugin.Meta.Logo))
                 },
-                Id = BikaPlugin.Meta.Id
+                Id = "Bika.Classification"
             }
         };
 
-    public override void NavigationViewItemInvokedHandler(IShadowNavigationItem item, ref Type? page,
-        ref object? parameter)
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override ShadowNavigation? NavigationViewItemInvokedHandler(IShadowNavigationItem item)
     {
-        if (item.Id != BikaPlugin.Meta.Id) return;
-        if (Client.HasToken)
+        //if (Client.HasToken)
+        //{
+        //    page = typeof(ClassificationPage);
+        //    parameter = null;
+        //}
+        //else
+        //{
+        //    (PluginService.GetEnabledPlugin(Id) as BikaPlugin)?.ShowLoginFrame();
+        //}
+        return item.Id switch
         {
-            page = typeof(ClassificationPage);
-            parameter = null;
-        }
-        else
-        {
-            (PluginService.GetEnabledPlugin(Id) as BikaPlugin)?.ShowLoginFrame();
-        }
+            "Bika.Classification" => new ShadowNavigation(typeof(ClassificationPage)),
+            _ => null
+        };
     }
-
     public override void Navigate(Uri uri, string[] urls)
     {
         if (urls.Length == 0) return;
@@ -85,7 +92,7 @@ public class BikaAbstractNavigationResponder : NavigationResponderBase
     private IPicaClient Client { get; }
 
     public BikaAbstractNavigationResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressServices, IPluginService pluginService, IPicaClient picaClient, string id) : base(
+        CompressService compressServices, PluginLoader pluginService, IPicaClient picaClient, string id) : base(
         callableService,
         sqlSugarClient, compressServices, pluginService, id)
     {
