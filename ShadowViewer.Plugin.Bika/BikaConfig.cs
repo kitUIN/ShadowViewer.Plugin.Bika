@@ -4,7 +4,7 @@ using PicaComic;
 using ShadowPluginLoader.WinUI;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
-
+using Serilog;
 namespace ShadowViewer.Plugin.Bika
 {
     public static class BikaConfig
@@ -23,14 +23,18 @@ namespace ShadowViewer.Plugin.Bika
             if (BikaConfigHelper.Contains(BikaConfigKey.Proxy))
             {
                 Proxy = BikaConfigHelper.GetString(BikaConfigKey.Proxy);
-                try
+                if (!string.IsNullOrEmpty(Proxy))
                 {
-                    bikaClient.SetProxy(new Uri(Proxy));
+                    try
+                    {
+                        bikaClient.SetProxy(new Uri(Proxy));
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"{ex}", ex);
+                    }
                 }
-                catch (Exception)
-                {
-                    // ignored
-                }
+                
             }
             else
             {

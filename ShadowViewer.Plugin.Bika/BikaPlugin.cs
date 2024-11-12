@@ -65,7 +65,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     public override IEnumerable<string> ResourceDictionaries => new List<string>()
     {
-        "ms-appx:///Themes/BikaTheme.xaml"
+        "/Themes/BikaTheme.xaml"
     };
 
     public override PluginMetaData MetaData => Meta;
