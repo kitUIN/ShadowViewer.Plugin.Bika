@@ -14,7 +14,7 @@ using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
 using ShadowViewer.Responders;
 using ShadowViewer.Services;
-
+using CustomExtensions.WinUI;
 using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
@@ -29,7 +29,7 @@ public class BikaAbstractNavigationResponder : AbstractNavigationResponder
                 Content = ResourcesHelper.GetString(ResourceKey.Title),
                 Icon =  new ImageIcon()
                 {
-                    Source = new BitmapImage(new System.Uri(BikaPlugin.Meta.Logo))
+                    Source = new BitmapImage(new Uri(BikaPlugin.Meta.Logo.PluginPath()))
                 },
                 Id = "Bika.Classification"
             }

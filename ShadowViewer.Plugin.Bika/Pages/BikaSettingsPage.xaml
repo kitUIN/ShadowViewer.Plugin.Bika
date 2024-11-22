@@ -172,9 +172,8 @@
                         <local2:ShadowSettingHeader Description="© 2023-2023 kitUIN. All rights reserved." Header="{x:Bind local:BikaPlugin.Meta.Name}">
                             <BitmapIcon
                                 Width="30"
-                                Height="30"
-                                ShowAsMonochrome="False" />
-                            <!--  UriSource="{x:Bind ee:WinUIExtensions.AssetUri('/Assets/Icons/logo.png')}"  -->
+                                Height="30" UriSource="{ee:PluginUri Source='ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png'}"
+                                ShowAsMonochrome="False" /> 
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <labs:SettingsCard.ActionIcon>

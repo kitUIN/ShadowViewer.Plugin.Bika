@@ -175,7 +175,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
         var res = new List<IShadowSearchItem>();
         if (!string.IsNullOrEmpty(sender.Text) && BikaClient.HasToken )
         {
-            res.Add(new BikaSearchItem(sender.Text,MetaData.Id,BikaSearchMode.Search));
+            res.Add(new BikaSearchItem(sender.Text, MetaData.Id, BikaSearchMode.Search));
         }
         return res;
     }
