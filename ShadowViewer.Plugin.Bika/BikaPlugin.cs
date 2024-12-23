@@ -34,17 +34,20 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// Login Frame
     /// </summary>
     public static LoginTip? MainLoginTip { get; set; }
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     public override Type? SettingsPage => typeof(BikaSettingsPage);
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     public override LocalTag AffiliationTag { get; } =
         new(ResourcesHelper.GetString(ResourceKey.BikaTag), "#000000", "#ef97b9");
 
-    public BikaPlugin(ICallableService caller, ISqlSugarClient db, CompressService compressService, ILogger logger, PluginLoader pluginService, INotifyService notifyService) :
+    public BikaPlugin(ICallableService caller, ISqlSugarClient db, CompressService compressService, ILogger logger,
+        PluginLoader pluginService, INotifyService notifyService) :
         base(caller, db, compressService, logger, pluginService, notifyService)
     {
         BikaClient = new PicaClient();
@@ -73,24 +76,24 @@ public partial class BikaPlugin : AShadowViewerPlugin
     public override string DisplayName => "ßÙßÇÂþ»­";
 
 
-    ///// <summary>
-    ///// <inheritdoc/>
-    ///// </summary>
-    //protected override void PluginEnabled()
-    //{
-    //    Db.CodeFirst.InitTables<BikaUser>();
-    //    CheckLock();
-    //    CheckToken();
-    //}
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    protected override void Enable()
+    {
+        Db.CodeFirst.InitTables<BikaUser>();
+        CheckLock();
+        CheckToken();
+    }
 
-    ///// <summary>
-    ///// <inheritdoc/>
-    ///// </summary>
-    //protected override void PluginDisabled()
-    //{
-    //    // Close Login Frame
-    //    MainLoginTip?.Hide();
-    //}
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    protected override void Disable()
+    {
+        // Close Login Frame
+        MainLoginTip?.Hide();
+    }
 
     /// <summary>
     /// Auto Login
@@ -98,28 +101,26 @@ public partial class BikaPlugin : AShadowViewerPlugin
     private async Task<bool> TryAutoLogin()
     {
         var user = BikaConfig.LastBikaUser;
-        if (Db.Queryable<BikaUser>().First(x => x.Email == user) is { } bikaUser)
+        if (await Db.Queryable<BikaUser>().FirstAsync(x => x.Email == user) is not { } bikaUser) return false;
+        BikaClient.SetToken(bikaUser.Token);
+        try
         {
-            BikaClient.SetToken(bikaUser.Token);
-            try
-            {
-                var res = await BikaClient.Profile();
-                BikaData.Current.CurrentUser = res.Data.User;
-            }
-            catch (Exception)
-            {
-                //NotificationHelper.Notify(this,
-                //$"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginFail)}",
-                //InfoBarSeverity.Error);
-                return false;
-            }
-            //NotificationHelper.Notify(this,
-            //    $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginSuccess)}",
-            //    InfoBarSeverity.Success);
-            return true;
+            var res = await BikaClient.Profile();
+            BikaData.Current.CurrentUser = res.Data.User;
+        }
+        catch (Exception)
+        {
+            Notifier.NotifyTip(this,
+                $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginFail)}",
+                InfoBarSeverity.Error);
+            return false;
         }
 
-        return false;
+        Notifier.NotifyTip(this,
+            $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginSuccess)}",
+            InfoBarSeverity.Success);
+        return true;
+
     }
 
     /// <summary>
@@ -147,7 +148,6 @@ public partial class BikaPlugin : AShadowViewerPlugin
         }
         else
         {
-            
             await BikaHttpHelper.PunchIn(this);
             await BikaHttpHelper.Keywords(this);
         }
@@ -166,6 +166,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
             else
                 ConfigHelper.Set(item, true);
     }
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -173,10 +174,11 @@ public partial class BikaPlugin : AShadowViewerPlugin
         AutoSuggestBoxTextChangedEventArgs args)
     {
         var res = new List<IShadowSearchItem>();
-        if (!string.IsNullOrEmpty(sender.Text) && BikaClient.HasToken )
+        if (!string.IsNullOrEmpty(sender.Text) && BikaClient.HasToken)
         {
             res.Add(new BikaSearchItem(sender.Text, MetaData.Id, BikaSearchMode.Search));
         }
+
         return res;
     }
 
@@ -185,8 +187,8 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     public override void SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
-        
     }
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
@@ -197,10 +199,11 @@ public partial class BikaPlugin : AShadowViewerPlugin
         {
             item = item1;
         }
-        else if(args.ChosenSuggestion == null && sender.Items[0] is BikaSearchItem item2)
+        else if (args.ChosenSuggestion == null && sender.Items[0] is BikaSearchItem item2)
         {
             item = item2;
         }
+
         if (item != null)
         {
             Caller.NavigateTo(typeof(BikaCategoryPage),
@@ -208,8 +211,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
                 {
                     Category = item.Title,
                     Mode = CategoryMode.Search
-                },true);
+                }, true);
         }
     }
-    
 }
