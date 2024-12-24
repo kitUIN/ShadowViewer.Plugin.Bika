@@ -1,0 +1,9 @@
+﻿ShadowViewer.Plugin.Local/*
+runtimes/*
+CommunityToolkit.Mvvm.dll
+CommunityToolkit.Common.dll
+Microsoft.Windows*
+Serilog.dll
+WinRT.Runtime.dll
+Microsoft.WinUI.dll
+Microsoft.InteractiveExperiences.Projection.dll

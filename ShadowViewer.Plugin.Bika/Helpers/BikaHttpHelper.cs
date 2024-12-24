@@ -6,10 +6,7 @@ using PicaComic;
 using PicaComic.Exceptions;
 using PicaComic.Responses;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Controls;
-using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
-using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Services;
 
@@ -17,12 +14,12 @@ namespace ShadowViewer.Plugin.Bika.Helpers;
 
 public class BikaHttpHelper
 {
-    public static async Task TryRequest<T>(object sender,Task<T> req, Func<T,Task> success) where T : PicaResponse
-    { 
+    public static async Task TryRequest<T>(object sender, Task<T> req, Func<T, Task> success) where T : PicaResponse
+    {
         var caller = DiFactory.Services.Resolve<ICallableService>();
         try
         {
-            var res =  await req;
+            var res = await req;
             if (res.Code != 200)
             {
                 if (res.Code == 401)
@@ -31,7 +28,8 @@ public class BikaHttpHelper
                 }
                 else
                 {
-                    NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message));
+                    NotificationHelper.Dialog(sender,
+                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message));
                 }
             }
             else
@@ -45,18 +43,21 @@ public class BikaHttpHelper
         }
         catch (PicaComicException exception)
         {
-            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
+            NotificationHelper.Dialog(sender,
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
         }
         catch (Exception exception)
         {
-            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
+            NotificationHelper.Dialog(sender,
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
         }
     }
-    public static async Task TryRequest<T>(object sender,Task<T> req, Action<T> success) where T : PicaResponse
+
+    public static async Task TryRequest<T>(object sender, Task<T> req, Action<T> success) where T : PicaResponse
     {
         try
         {
-            var res =  await req;
+            var res = await req;
             if (res.Code != 200)
             {
                 if (res.Code == 401)
@@ -65,7 +66,8 @@ public class BikaHttpHelper
                 }
                 else
                 {
-                    NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message));
+                    NotificationHelper.Dialog(sender,
+                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message));
                 }
             }
             else
@@ -79,63 +81,77 @@ public class BikaHttpHelper
         }
         catch (PicaComicException exception)
         {
-            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
+            NotificationHelper.Dialog(sender,
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
         }
         catch (Exception exception)
         {
-            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
+            NotificationHelper.Dialog(sender,
+                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
         }
     }
-    public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Action<T> success,string title="",bool isSendSuccess=true) where T : PicaResponse
+
+    public static async Task TryRequestWithTip<T>(object sender, Task<T> req, Action<T> success, string title = "",
+        bool isSendSuccess = true) where T : PicaResponse
     {
         try
         {
             success.Invoke(await req);
             //if(isSendSuccess)
-                //NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.Success),InfoBarSeverity.Success);
+            DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender,
+                title + ResourcesHelper.GetString(ResourceKey.Success), InfoBarSeverity.Success);
         }
         catch (PicaComicException picaComicException)
         {
-            //NotificationHelper.Notify(sender,title + picaComicException.ChineseMessage,InfoBarSeverity.Error);
+            DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender, title + picaComicException.ChineseMessage,
+                InfoBarSeverity.Error);
         }
         catch (TaskCanceledException)
         {
-            //NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.TimeOut),InfoBarSeverity.Error);
+            DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender,
+                title + ResourcesHelper.GetString(ResourceKey.TimeOut), InfoBarSeverity.Error);
         }
         catch (Exception exception)
         {
-            //NotificationHelper.Notify(sender,title + exception.GetType().FullName,InfoBarSeverity.Error);
+            DiFactory.Services.Resolve<INotifyService>()
+                .NotifyTip(sender, title + exception.GetType().FullName, InfoBarSeverity.Error);
         }
     }
-    public static async Task TryRequestWithTip<T>(object sender,Task<T> req,Func<T,Task> success,string title="",bool isSendSuccess=true) where T : PicaResponse
+
+    public static async Task TryRequestWithTip<T>(object sender, Task<T> req, Func<T, Task> success, string title = "",
+        bool isSendSuccess = true) where T : PicaResponse
     {
         try
         {
             await success.Invoke(await req);
-            //if(isSendSuccess)
-            //    NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.Success),InfoBarSeverity.Success);
+            if (isSendSuccess)
+                DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender,
+                    title + ResourcesHelper.GetString(ResourceKey.Success), InfoBarSeverity.Success);
         }
         catch (PicaComicException picaComicException)
         {
-            //NotificationHelper.Notify(sender,title + picaComicException.ChineseMessage,InfoBarSeverity.Error);
+            DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender, title + picaComicException.ChineseMessage,
+                InfoBarSeverity.Error);
         }
         catch (TaskCanceledException)
         {
-            //NotificationHelper.Notify(sender,title + ResourcesHelper.GetString(ResourceKey.TimeOut),InfoBarSeverity.Error);
+            DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender,
+                title + ResourcesHelper.GetString(ResourceKey.TimeOut), InfoBarSeverity.Error);
         }
         catch (Exception exception)
         {
-            //NotificationHelper.Notify(sender,title + exception.GetType().FullName,InfoBarSeverity.Error);
+            DiFactory.Services.Resolve<INotifyService>()
+                .NotifyTip(sender, title + exception.GetType().FullName, InfoBarSeverity.Error);
         }
     }
+
     public static async Task Profile(object sender)
     {
         var client = DiFactory.Services.Resolve<IPicaClient>();
-        await TryRequestWithTip(sender, client.Profile(), res =>
-        {
-            BikaData.Current.CurrentUser = res.Data.User;
-        },$"[{ResourcesHelper.GetString(ResourceKey.GetProfile)}]",isSendSuccess:false);
+        await TryRequestWithTip(sender, client.Profile(), res => { BikaData.Current.CurrentUser = res.Data.User; },
+            $"[{ResourcesHelper.GetString(ResourceKey.GetProfile)}]", isSendSuccess: false);
     }
+
     public static async Task PunchIn(object sender)
     {
         if (BikaData.Current.CurrentUser != null && !BikaData.Current.CurrentUser.IsPunched)
@@ -145,16 +161,17 @@ public class BikaHttpHelper
                 $"[{ResourcesHelper.GetString(ResourceKey.AutoPunchInSuccess)}]");
         }
     }
+
     public static async Task Keywords(object sender)
     {
         var client = DiFactory.Services.Resolve<IPicaClient>();
         await TryRequestWithTip(sender, client.Keywords(), res =>
-        {
-            BikaData.Current.Keywords.Clear();
-            foreach (var keyword in res.Data.Keywords)
             {
-                BikaData.Current.Keywords.Add(keyword);
-            }
-        },$"[{ResourcesHelper.GetString(ResourceKey.GetKeywords)}]",isSendSuccess:false);
+                BikaData.Current.Keywords.Clear();
+                foreach (var keyword in res.Data.Keywords)
+                {
+                    BikaData.Current.Keywords.Add(keyword);
+                }
+            }, $"[{ResourcesHelper.GetString(ResourceKey.GetKeywords)}]", isSendSuccess: false);
     }
 }

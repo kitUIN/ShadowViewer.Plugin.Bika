@@ -8,8 +8,7 @@
     xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
     xmlns:helpers="using:ShadowViewer.Plugin.Bika.Helpers"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:media="using:CommunityToolkit.WinUI.Media"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:models="using:PicaComic.Models"
     xmlns:models1="using:ShadowViewer.Plugin.Bika.Models"
     xmlns:plugin="using:ShadowViewer.Plugin.Bika"
@@ -146,7 +145,8 @@
                 </Grid>
                 <Grid CornerRadius="5" Visibility="{x:Bind IsLocked, Mode=OneWay}">
                     <Grid.Background>
-                        <media:BackdropBlurBrush Amount="10" />
+                        <AcrylicBrush x:Key="CustomAcrylicBrush"
+                                            TintOpacity="0" TintColor="SkyBlue" FallbackColor="SkyBlue" />
                     </Grid.Background>
                     <Grid
                         Margin="50"

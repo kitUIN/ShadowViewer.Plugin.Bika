@@ -14,8 +14,7 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Orientation="Vertical">
-        <Image Width="{x:Bind Width, Mode=OneWay}" />
-        <!--Source="{x:Bind ee:WinUIExtensions.ImageSource('/Assets/Picacgs/icon_empty.png')}"-->
+        <Image Width="{x:Bind Width, Mode=OneWay}" Source="{ee:PluginImageSource Source=/Assets/Picacgs/icon_empty.png}" />
         <TextBlock
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

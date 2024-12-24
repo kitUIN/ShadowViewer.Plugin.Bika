@@ -1,3 +1,4 @@
+using CustomExtensions.WinUI;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,8 +10,7 @@ namespace ShadowViewer.Controls
     {
         public Badge()
         {
-            this.InitializeComponent();
-            
+            this.LoadComponent(ref _contentLoaded);
         }
         DependencyProperty LeftTitleProperty = DependencyProperty.Register(
                 nameof(LeftTitle),

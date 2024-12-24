@@ -51,7 +51,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
         base(caller, db, compressService, logger, pluginService, notifyService)
     {
         BikaClient = new PicaClient();
-        DiFactory.Services.RegisterInstance<IPicaClient>(BikaClient);
+        DiFactory.Services.RegisterInstance(BikaClient);
         DiFactory.Services.Register<BikaSettingsViewModel>(Reuse.Singleton);
         DiFactory.Services.Register<ClassificationViewModel>(Reuse.Singleton);
         DiFactory.Services.Register<BikaInfoViewModel>(Reuse.Transient);
@@ -66,20 +66,20 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override IEnumerable<string> ResourceDictionaries => new List<string>()
+    protected override IEnumerable<string> ResourceDictionaries => new List<string>()
     {
-        "/Themes/BikaTheme.xaml"
+        "ms-plugin://ShadowViewer.Plugin.Bika/Themes/BikaTheme.xaml"
     };
 
     public override PluginMetaData MetaData => Meta;
 
-    public override string DisplayName => "ßÙßÇÂþ»­";
+    public override string DisplayName => "å“”å’”æ¼«ç”»";
 
 
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    protected override void Enable()
+    protected override void Enabled()
     {
         Db.CodeFirst.InitTables<BikaUser>();
         CheckLock();
@@ -89,7 +89,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    protected override void Disable()
+    protected override void Disabled()
     {
         // Close Login Frame
         MainLoginTip?.Hide();
