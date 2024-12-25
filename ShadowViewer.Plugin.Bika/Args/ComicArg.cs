@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using PicaComic.Models;
 
-namespace ShadowViewer.Plugin.Bika.Args
+namespace ShadowViewer.Plugin.Bika.Args;
+
+public class ComicArg
 {
-    public class ComicArg
+    public ComicArg(ComicInfo comicInfo, int currentEpisode, ObservableCollection<Episode> episodes)
     {
-        public ComicInfo ComicInfo { get; set; }
-        public int CurrentEpisode { get; set; }
-        public ObservableCollection<Episode> Episodes { get; set; }
+        ComicInfo = comicInfo;
+        CurrentEpisode = currentEpisode;
+        Episodes = episodes;
     }
+
+    public ComicInfo ComicInfo { get; init; }
+    public int CurrentEpisode { get; init; }
+    public ObservableCollection<Episode> Episodes { get; init; }
 }

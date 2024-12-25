@@ -46,9 +46,10 @@ public partial class BikaPlugin : AShadowViewerPlugin
     public override LocalTag AffiliationTag { get; } =
         new(ResourcesHelper.GetString(ResourceKey.BikaTag), "#000000", "#ef97b9");
 
-    public BikaPlugin(ICallableService caller, ISqlSugarClient db, CompressService compressService, ILogger logger,
+    public BikaPlugin(ICallableService caller, ISqlSugarClient db, PluginEventService pluginEventService,
+        CompressService compressService, ILogger logger,
         PluginLoader pluginService, INotifyService notifyService) :
-        base(caller, db, compressService, logger, pluginService, notifyService)
+        base(caller, db, pluginEventService, compressService, logger, pluginService, notifyService)
     {
         BikaClient = new PicaClient();
         DiFactory.Services.RegisterInstance(BikaClient);
@@ -89,6 +90,14 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
+    public override void Loaded()
+    {
+        Enabled();
+    }
+
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     protected override void Disabled()
     {
         // Close Login Frame
@@ -120,7 +129,6 @@ public partial class BikaPlugin : AShadowViewerPlugin
             $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginSuccess)}",
             InfoBarSeverity.Success);
         return true;
-
     }
 
     /// <summary>

@@ -7,10 +7,8 @@ using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
 using ShadowPluginLoader.WinUI;
 using ShadowViewer.Args;
-using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
-using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.ViewModels;
 using ShadowViewer.Plugin.Local.Pages;
 using ShadowViewer.Services;
@@ -26,14 +24,15 @@ public sealed partial class BikaInfoPage : Page
         this.LoadComponent(ref _contentLoaded);
         ViewModel = DiFactory.Services.Resolve<BikaInfoViewModel>();
         ViewModel.ScrollToCommentEvent += ViewModelOnScrollToCommentEvent;
-       
     }
+
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         if (e.Parameter is not string id) return;
         ViewModel.ComicId = id;
         ViewModel.Refresh();
     }
+
     protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
     }
@@ -75,7 +74,7 @@ public sealed partial class BikaInfoPage : Page
     {
         if (RightGrid.SelectedIndex == 1)
             ViewModel.RefreshRecommendation();
-        else if (RightGrid.SelectedIndex == 2&&ViewModel.Comments.Count == 0) await ViewModel.LoadComments();
+        else if (RightGrid.SelectedIndex == 2 && ViewModel.Comments.Count == 0) await ViewModel.LoadComments();
     }
 
     private async void LikeComment_OnClick(object sender, RoutedEventArgs e)
@@ -117,8 +116,8 @@ public sealed partial class BikaInfoPage : Page
     private void EpisodesButton_OnClick(object sender, RoutedEventArgs e)
     {
         if (sender is Button { Tag: Episode episode })
-            Frame.Navigate(typeof(PicPage), new PicViewArg(BikaPlugin.Meta.Id, new ComicArg
-                { ComicInfo = ViewModel.CurrentComic, CurrentEpisode = episode.Order, Episodes = ViewModel.Episodes }));
+            Frame.Navigate(typeof(PicPage), new PicViewArg(BikaPlugin.Meta.Id,
+                new ComicArg(ViewModel.CurrentComic, episode.Order, ViewModel.Episodes)));
     }
 
     private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
@@ -127,5 +126,4 @@ public sealed partial class BikaInfoPage : Page
         CreatorTip.CurrentUser = creator;
         CreatorTip.Show();
     }
- 
 }
