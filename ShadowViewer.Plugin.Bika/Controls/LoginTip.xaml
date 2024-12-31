@@ -41,9 +41,8 @@
                 Width="120"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Source="{ee:PluginImageSource Source=/Assets/Picacgs/login-bg.png}"
-                />
-             <Grid
+                Source="{ee:PluginImageSource Source=ms-plugin://ShadowViewer.Plugin.Bika/Assets/Picacgs/login-bg.png}" />
+            <Grid
                 Grid.Row="1"
                 Width="240"
                 HorizontalAlignment="Center"

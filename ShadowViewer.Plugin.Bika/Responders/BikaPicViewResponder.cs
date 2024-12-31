@@ -14,7 +14,7 @@ using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 
-public class BikaPicViewResponder:PicViewResponderBase
+public class BikaPicViewResponder:AbstractPicViewResponder
 {
     public override void PicturesLoadStarting(object sender, PicViewArg e)
     {

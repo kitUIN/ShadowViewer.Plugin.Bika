@@ -19,7 +19,12 @@ using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 
-public class BikaNavigationResponder : AbstractNavigationResponder
+public class BikaNavigationResponder(ICallableService callableService, 
+    ISqlSugarClient sqlSugarClient,
+    CompressService compressServices, PluginLoader pluginService, 
+    IPicaClient picaClient, string id) : AbstractNavigationResponder(
+    callableService,
+    sqlSugarClient, compressServices, pluginService, id)
 {
     public override IEnumerable<IShadowNavigationItem> NavigationViewMenuItems { get; } =
         new List<IShadowNavigationItem>
@@ -89,13 +94,5 @@ public class BikaNavigationResponder : AbstractNavigationResponder
         }
     }
 
-    private IPicaClient Client { get; }
-
-    public BikaNavigationResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressServices, PluginLoader pluginService, IPicaClient picaClient, string id) : base(
-        callableService,
-        sqlSugarClient, compressServices, pluginService, id)
-    {
-        Client = picaClient;
-    }
+    private IPicaClient Client { get; } = picaClient;
 }

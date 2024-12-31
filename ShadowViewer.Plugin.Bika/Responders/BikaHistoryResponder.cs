@@ -12,7 +12,7 @@ using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 
-public class BikaHistoryResponder : HistoryResponderBase
+public class BikaHistoryResponder : AbstractHistoryResponder
 {
     public override IEnumerable<IHistory> GetHistories(HistoryMode mode = HistoryMode.Day)
     {
