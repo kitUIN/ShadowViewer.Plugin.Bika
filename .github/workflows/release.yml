@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: mickem/clean-after-action@v1
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: |
+            6.0.x
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build Packages
+        run: |
+          dotnet restore .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
+          dotnet build -p:Configuration=Release .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
+          
+      - name: Create GitHub release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.RELEASE_TOKEN }}"
+          # automatic_release_tag: ${{ github.ref_name }}
+          title: ${{ github.ref_name }}
+          prerelease: false
+          files: |
+            ..\NugetPackages\ShadowViewer.Plugin.Bika.*.nupkg
+
+      - name: Push package to Nuget registry
+        run: |
+          dotnet nuget push "..\NugetPackages\ShadowViewer.Plugin.Bika.*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY 
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_KEY }}
