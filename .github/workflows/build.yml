@@ -24,11 +24,10 @@ jobs:
             8.0.x
 
       - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v2
         
       - name: Build Packages
         run: |
           dotnet restore .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
-          dotnet build -p:Configuration=Release .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
-
+          msbuild .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj -t:rebuild -verbosity:diag -property:Configuration=Release
  
