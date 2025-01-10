@@ -29,6 +29,6 @@ jobs:
       - name: Build Packages
         run: |
           dotnet restore .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
-          dotnet build -p:Configuration=Release .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj --sdk-version 8.x
+          dotnet build -p:Configuration=Release .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
 
  
