@@ -30,4 +30,7 @@ jobs:
         run: |
           dotnet restore .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
           msbuild .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj -t:rebuild -verbosity:diag -property:Configuration=Release
- 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ShadowViewer.Plugin.Bika_Test
+          path: .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Release\net6.0-windows10.0.22621
