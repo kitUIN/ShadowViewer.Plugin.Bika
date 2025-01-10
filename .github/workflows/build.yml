@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: |
-            6.0.x
             8.0.x
 
       - name: Setup MSBuild.exe
@@ -29,6 +28,7 @@ jobs:
         
       - name: Build Packages
         run: |
+          dotnet build -f net6.0
           dotnet restore .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
           dotnet build -p:Configuration=Release .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
 
