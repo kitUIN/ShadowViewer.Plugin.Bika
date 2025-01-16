@@ -13,7 +13,7 @@
       <!--ShadowViewer.Plugin.{插件id}(请与RootNamespace相同)  (nuget包ID)-->
       <PackageId>ShadowViewer.Plugin.Bika</PackageId>
       <!--插件版本号(nuget包版本号)-->
-      <Version>0.3.0</Version>
+      <Version>0.3.1</Version>
       <!--插件仓库地址(nuget包仓库地址)-->
       <RepositoryUrl>https://github.com/kitUIN/ShadowViewer.Plugin.Bika</RepositoryUrl>
       <!--插件介绍(nuget包介绍)-->
@@ -58,14 +58,13 @@
     <None Remove="Styles\ResourceDictionary2.xaml" />
   </ItemGroup>
     <ItemGroup Label="Dependencies">
-       <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.0" ExcludeAssets="runtime"/>
+       <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.1" ExcludeAssets="runtime"/>
     </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240821" />
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />
     <PackageReference Include="ShadowViewer.Controls.ShadowSettingHeader" Version="1.0.1.3" />
     <PackageReference Include="ShadowViewer.Controls.TitleBorder" Version="1.0.1.3" />
-    <PackageReference Include="ShadowPluginLoader.Tool" Version="1.3.4" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Icons\github.png">
