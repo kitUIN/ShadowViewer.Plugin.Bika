@@ -1,33 +1,23 @@
 using System;
 using System.Collections.Generic;
-using DryIoc;
 using Microsoft.UI.Xaml.Controls;
-using ShadowViewer.Plugin.Bika.Enums;
 using PicaComic;
-using Serilog;
-using ShadowViewer.Enums;
-using ShadowViewer.Helpers;
-using ShadowViewer.Interfaces;
-using ShadowViewer.Models;
-using SqlSugar;
 using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Controls;
 using ShadowViewer.Plugin.Bika.Helpers;
-using ShadowViewer.Plugin.Bika.Pages;
 using ShadowViewer.Plugin.Bika.ViewModels;
-using ShadowViewer.Plugins;
-using ShadowViewer.Services;
-using ShadowViewer.Extensions;
-using ShadowViewer.Plugin.Bika.Args;
-using CustomExtensions.WinUI;
-using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
-using ShadowPluginLoader.MetaAttributes;
+using DryIoc;
+using ShadowPluginLoader.Attributes;
 using ShadowPluginLoader.WinUI;
+using ShadowViewer.Core.Helpers;
+using ShadowViewer.Core.Plugins;
+using ShadowViewer.Plugin.Bika.I18n;
 
 namespace ShadowViewer.Plugin.Bika;
 
-[AutoPluginMeta]
+[MainPlugin]
+[CheckAutowired]
 public partial class BikaPlugin : AShadowViewerPlugin
 {
     /// <summary>
@@ -36,23 +26,11 @@ public partial class BikaPlugin : AShadowViewerPlugin
     public static LoginTip? MainLoginTip { get; set; }
 
     /// <summary>
-    /// <inheritdoc/>
+    /// 
     /// </summary>
-    public override Type? SettingsPage => typeof(BikaSettingsPage);
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override LocalTag AffiliationTag { get; } =
-        new(ResourcesHelper.GetString(ResourceKey.BikaTag), "#000000", "#ef97b9");
-
-    public BikaPlugin(ICallableService caller, ISqlSugarClient db, PluginEventService pluginEventService,
-        CompressService compressService, ILogger logger,
-        PluginLoader pluginService, INotifyService notifyService) :
-        base(caller, db, pluginEventService, compressService, logger, pluginService, notifyService)
+    partial void ConstructorInit()
     {
-        BikaClient = new PicaClient();
-        DiFactory.Services.RegisterInstance(BikaClient);
+        DiFactory.Services.Register<IPicaClient, PicaClient>(Reuse.Singleton);
         DiFactory.Services.Register<BikaSettingsViewModel>(Reuse.Singleton);
         DiFactory.Services.Register<ClassificationViewModel>(Reuse.Singleton);
         DiFactory.Services.Register<BikaInfoViewModel>(Reuse.Transient);
@@ -60,8 +38,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
         BikaConfig.Init();
     }
-
-    private IPicaClient BikaClient { get; }
+     
 
 
     /// <summary>
@@ -72,7 +49,6 @@ public partial class BikaPlugin : AShadowViewerPlugin
         "ms-plugin://ShadowViewer.Plugin.Bika/Themes/BikaTheme.xaml"
     };
 
-    public override PluginMetaData MetaData => Meta;
 
     public override string DisplayName => "哔咔漫画";
 
@@ -109,24 +85,25 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     private async Task<bool> TryAutoLogin()
     {
+        var bikaClient = DiFactory.Services.Resolve<IPicaClient>();
         var user = BikaConfig.LastBikaUser;
         if (await Db.Queryable<BikaUser>().FirstAsync(x => x.Email == user) is not { } bikaUser) return false;
-        BikaClient.SetToken(bikaUser.Token);
+        bikaClient.SetToken(bikaUser.Token);
         try
         {
-            var res = await BikaClient.Profile();
+            var res = await bikaClient.Profile();
             BikaData.Current.CurrentUser = res.Data.User;
         }
         catch (Exception)
         {
             Notifier.NotifyTip(this,
-                $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginFail)}",
+                $"[{MetaData.Name}]{I18N.AutoLoginFail}",
                 InfoBarSeverity.Error);
             return false;
         }
 
         Notifier.NotifyTip(this,
-            $"[{MetaData.Name}]{ResourcesHelper.GetString(ResourceKey.AutoLoginSuccess)}",
+            $"[{MetaData.Name}]{I18N.AutoLoginSuccess}",
             InfoBarSeverity.Success);
         return true;
     }
@@ -136,8 +113,8 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     public void ShowLoginFrame()
     {
-        MainLoginTip = new LoginTip();
-        Caller.TopGrid(this, MainLoginTip, TopGridMode.Dialog);
+        MainLoginTip ??= new LoginTip();
+        Caller.CreateTopLevelControl(MainLoginTip);
         MainLoginTip.Show();
     }
 
@@ -147,7 +124,8 @@ public partial class BikaPlugin : AShadowViewerPlugin
     private async void CheckToken()
     {
         // if no token then load token
-        if (BikaClient.HasToken) return;
+        var bikaClient = DiFactory.Services.Resolve<IPicaClient>();
+        if (bikaClient.HasToken) return;
         var b = false;
         if (BikaConfig.AutoLogin) b = await TryAutoLogin();
         if (!b)
@@ -175,51 +153,5 @@ public partial class BikaPlugin : AShadowViewerPlugin
                 ConfigHelper.Set(item, true);
     }
 
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override IEnumerable<IShadowSearchItem> SearchTextChanged(AutoSuggestBox sender,
-        AutoSuggestBoxTextChangedEventArgs args)
-    {
-        var res = new List<IShadowSearchItem>();
-        if (!string.IsNullOrEmpty(sender.Text) && BikaClient.HasToken)
-        {
-            res.Add(new BikaSearchItem(sender.Text, MetaData.Id, BikaSearchMode.Search));
-        }
-
-        return res;
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override void SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-    {
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public override void SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-    {
-        BikaSearchItem? item = null;
-        if (args.ChosenSuggestion is BikaSearchItem item1)
-        {
-            item = item1;
-        }
-        else if (args.ChosenSuggestion == null && sender.Items[0] is BikaSearchItem item2)
-        {
-            item = item2;
-        }
-
-        if (item != null)
-        {
-            Caller.NavigateTo(typeof(BikaCategoryPage),
-                new CategoryArg
-                {
-                    Category = item.Title,
-                    Mode = CategoryMode.Search
-                }, true);
-        }
-    }
+   
 }

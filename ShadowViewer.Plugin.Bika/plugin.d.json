@@ -1,52 +1,187 @@
 {
-  "Namespace": "ShadowViewer.Plugins",
-  "Type": "PluginMetaData",
+  "Type": "ShadowViewer.Core.Plugins.PluginMetaData",
   "Properties": {
     "Description": {
-      "Type": "string",
-      "PropertyGroupName": "Description"
+      "Type": "System.String",
+      "Required": true,
+      "PropertyGroupName": "Description",
+      "Nullable": false
     },
     "Authors": {
-      "Type": "string",
-      "PropertyGroupName": "Authors"
+      "Type": "System.String",
+      "Required": true,
+      "PropertyGroupName": "Authors",
+      "Nullable": false
     },
     "WebUri": {
-      "Type": "string",
-      "PropertyGroupName": "WebUri"
+      "Type": "System.String",
+      "Required": true,
+      "PropertyGroupName": "WebUri",
+      "Nullable": false
     },
     "Logo": {
-      "Type": "string",
-      "PropertyGroupName": "Logo"
+      "Type": "System.String",
+      "Required": true,
+      "PropertyGroupName": "Logo",
+      "Nullable": false
+    },
+    "PluginManage": {
+      "Type": "ShadowViewer.Core.Plugins.PluginManage",
+      "Required": false,
+      "PropertyGroupName": "PluginManage",
+      "Nullable": false,
+      "Properties": {
+        "CanSwitch": {
+          "Type": "System.Boolean",
+          "Required": false,
+          "PropertyGroupName": "CanSwitch",
+          "Nullable": false
+        },
+        "CanOpenFolder": {
+          "Type": "System.Boolean",
+          "Required": false,
+          "PropertyGroupName": "CanOpenFolder",
+          "Nullable": false
+        },
+        "SettingsPage": {
+          "Type": "System.Type",
+          "Required": false,
+          "PropertyGroupName": "SettingsPage",
+          "Nullable": false,
+          "EntryPointName": "SettingsPage"
+        }
+      }
+    },
+    "PluginResponder": {
+      "Type": "ShadowViewer.Core.Plugins.PluginResponder",
+      "Required": false,
+      "PropertyGroupName": "PluginResponder",
+      "Nullable": false,
+      "Properties": {
+        "HistoryResponder": {
+          "Type": "System.Type",
+          "Required": false,
+          "PropertyGroupName": "HistoryResponder",
+          "Nullable": false,
+          "EntryPointName": "HistoryResponder"
+        },
+        "NavigationResponder": {
+          "Type": "System.Type",
+          "Required": false,
+          "PropertyGroupName": "NavigationResponder",
+          "Nullable": false,
+          "EntryPointName": "NavigationResponder"
+        },
+        "PicViewResponder": {
+          "Type": "System.Type",
+          "Required": false,
+          "PropertyGroupName": "PicViewResponder",
+          "Nullable": false,
+          "EntryPointName": "PicViewResponder"
+        },
+        "SearchSuggestionResponder": {
+          "Type": "System.Type",
+          "Required": false,
+          "PropertyGroupName": "SearchSuggestionResponder",
+          "Nullable": false,
+          "EntryPointName": "SearchSuggestionResponder"
+        },
+        "SettingFolders": {
+          "Type": "System.Array",
+          "Required": false,
+          "PropertyGroupName": "SettingFolders",
+          "Nullable": true,
+          "Item": {
+            "Type": "System.Type",
+            "Nullable": false
+          },
+          "EntryPointName": "SettingFolders"
+        }
+      }
+    },
+    "AffiliationTag": {
+      "Type": "ShadowViewer.Core.Models.ShadowTag",
+      "Required": false,
+      "PropertyGroupName": "AffiliationTag",
+      "Nullable": true,
+      "Properties": {
+        "Name": {
+          "Type": "System.String",
+          "Required": true,
+          "PropertyGroupName": "Name",
+          "Nullable": false
+        },
+        "BackgroundHex": {
+          "Type": "System.String",
+          "Required": true,
+          "PropertyGroupName": "BackgroundHex",
+          "Nullable": false
+        },
+        "ForegroundHex": {
+          "Type": "System.String",
+          "Required": true,
+          "PropertyGroupName": "ForegroundHex",
+          "Nullable": false
+        },
+        "Icon": {
+          "Type": "System.String",
+          "Required": false,
+          "PropertyGroupName": "Icon",
+          "Nullable": true
+        },
+        "PluginId": {
+          "Type": "System.String",
+          "Required": true,
+          "PropertyGroupName": "PluginId",
+          "Nullable": false
+        }
+      }
+    },
+    "CoreVersion": {
+      "Type": "System.String",
+      "Required": true,
+      "PropertyGroupName": "CoreVersion",
+      "Nullable": false
     },
     "Id": {
-      "Type": "string",
-      "PropertyGroupName": "Id"
+      "Type": "System.String",
+      "Required": true,
+      "PropertyGroupName": "Id",
+      "Nullable": false
     },
     "Name": {
-      "Type": "string",
-      "PropertyGroupName": "Name"
+      "Type": "System.String",
+      "Required": true,
+      "PropertyGroupName": "Name",
+      "Nullable": false
     },
     "DllName": {
-      "Type": "string",
-      "PropertyGroupName": "DllName"
+      "Type": "System.String",
+      "Required": false,
+      "PropertyGroupName": "DllName",
+      "Nullable": false
     },
     "Version": {
-      "Type": "string",
-      "PropertyGroupName": "Version"
+      "Type": "System.String",
+      "Required": true,
+      "PropertyGroupName": "Version",
+      "Nullable": false
+    },
+    "Priority": {
+      "Type": "System.Int32",
+      "Required": false,
+      "PropertyGroupName": "Priority",
+      "Nullable": false
     },
     "Dependencies": {
-      "Type": "string[]",
-      "PropertyGroupName": "Dependencies"
+      "Type": "System.Array",
+      "Required": false,
+      "PropertyGroupName": "Dependencies",
+      "Nullable": false,
+      "Item": {
+        "Type": "System.String",
+        "Nullable": false
+      }
     }
-  },
-  "Required": [
-    "Description",
-    "Authors",
-    "WebUri",
-    "Logo",
-    "Id",
-    "Name",
-    "Version",
-    "Dependencies"
-  ]
+  }
 }

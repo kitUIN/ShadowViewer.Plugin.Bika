@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Bika.I18n;
+using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
-using ShadowViewer.Plugin.Bika.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.Models;
 
@@ -16,7 +16,12 @@ public class BikaSearchItem : IShadowSearchItem
     public string ComicId { get; set; }
     public IconSource Icon { get; set; }
     public BikaSearchMode Mode { get; set; }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="id"></param>
+    /// <param name="mode"></param>
     public BikaSearchItem(string title, string id, BikaSearchMode mode)
     {
         Title = title;
@@ -24,11 +29,11 @@ public class BikaSearchItem : IShadowSearchItem
         switch (mode)
         {
             case BikaSearchMode.Search:
-                SubTitle = ResourcesHelper.GetString(ResourceKey.BikaSearch);
+                SubTitle = I18N.BikaSearch;
                 Icon = new FontIconSource() { Glyph = "\uE773" ,Foreground = new SolidColorBrush("#FFE480A7".ToColor())};
                 break;
             case BikaSearchMode.History:
-                SubTitle = ResourcesHelper.GetString(ResourceKey.History);
+                SubTitle = I18N.History;
                 break;
             default:
                 break;

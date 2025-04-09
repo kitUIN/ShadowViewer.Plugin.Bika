@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows10.0.22621</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22621</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>ShadowViewer.Plugin.Bika</RootNamespace>
-    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
@@ -13,7 +13,7 @@
       <!--ShadowViewer.Plugin.{插件id}(请与RootNamespace相同)  (nuget包ID)-->
       <PackageId>ShadowViewer.Plugin.Bika</PackageId>
       <!--插件版本号(nuget包版本号)-->
-      <Version>0.3.1</Version>
+      <Version>0.4.0</Version>
       <!--插件仓库地址(nuget包仓库地址)-->
       <RepositoryUrl>https://github.com/kitUIN/ShadowViewer.Plugin.Bika</RepositoryUrl>
       <!--插件介绍(nuget包介绍)-->
@@ -25,7 +25,7 @@
       <!--nuget数据 -->
       <PackageLicenseExpression>MIT</PackageLicenseExpression>
       <PackageProjectUrl>https://github.com/kitUIN/ShadowViewer.Plugin.Bika</PackageProjectUrl>
-      <Copyright>Copyright 2023-2024</Copyright>
+      <Copyright>Copyright 2023-2025</Copyright>
       <PackageTags>kitUIN;wasdk;ShadowViewer;plugin;winui;bika;PicaComic</PackageTags>
       <PackageOutputPath>..\..\..\NugetPackages</PackageOutputPath>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -40,6 +40,18 @@
           <WebUri>$(PackageProjectUrl)</WebUri>
           <Description>$(Description)</Description>
           <Authors>$(Authors)</Authors>
+	      <CoreVersion>2025.4.8.26</CoreVersion>
+	      <PluginManage>
+		      <CanOpenFolder>true</CanOpenFolder>
+		      <CanSwitch>true</CanSwitch>
+	      </PluginManage>
+	      <AffiliationTag>
+		      <Name>Bika</Name>
+		      <PluginId>Bika</PluginId>
+		      <Icon>ms-plugin://$(PackageId)/Assets/Icons/logo.png</Icon>
+		      <ForegroundHex>#000000</ForegroundHex>
+		      <BackgroundHex>#ef97b9</BackgroundHex>
+	      </AffiliationTag>
       </PluginMeta>
   </PropertyGroup>
   <ItemGroup>
@@ -57,14 +69,9 @@
     <None Remove="plugin.d.json" />
     <None Remove="Styles\ResourceDictionary2.xaml" />
   </ItemGroup>
-    <ItemGroup Label="Dependencies">
-       <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.1" ExcludeAssets="runtime"/>
-    </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240821" />
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />
-    <PackageReference Include="ShadowViewer.Controls.ShadowSettingHeader" Version="1.0.1.3" />
-    <PackageReference Include="ShadowViewer.Controls.TitleBorder" Version="1.0.1.3" />
+    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.3.18" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Icons\github.png">
@@ -140,6 +147,10 @@
     <Page Update="Contorls\LoginTip.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Packages\" />
   </ItemGroup>
 
 </Project>

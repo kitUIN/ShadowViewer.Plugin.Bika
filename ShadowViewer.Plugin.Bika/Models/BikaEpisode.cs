@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using PicaComic.Models;
-using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Local.Models.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika.Models;
 
-public partial class BikaEpisode : ObservableObject, IShadowEpisode
+public partial class BikaEpisode : ObservableObject, IUiEpisode
 {
     [ObservableProperty] private string title;
     public string ComicId { get; set; }

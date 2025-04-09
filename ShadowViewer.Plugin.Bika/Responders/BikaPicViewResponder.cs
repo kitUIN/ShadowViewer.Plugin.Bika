@@ -1,7 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PicaComic;
+using ShadowPluginLoader.Attributes;
 using ShadowViewer.Args;
+using ShadowViewer.Core;
+using ShadowViewer.Core.Args;
+using ShadowViewer.Core.Responders;
+using ShadowViewer.Core.Services;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Helpers;
@@ -14,8 +19,11 @@ using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 
-public class BikaPicViewResponder:AbstractPicViewResponder
+public partial class BikaPicViewResponder:AbstractPicViewResponder
 {
+    [Autowired]
+    public IPicaClient Client { get; }
+
     public override void PicturesLoadStarting(object sender, PicViewArg e)
     {
         if (sender is not PicViewModel viewModel) return;
@@ -63,9 +71,5 @@ public class BikaPicViewResponder:AbstractPicViewResponder
             }
         }
     }
-    private IPicaClient Client { get; }
-    public BikaPicViewResponder(ICallableService callableService, ISqlSugarClient sqlSugarClient,IPicaClient picaClient, CompressService compressServices, PluginLoader pluginService, string id) : base(callableService, sqlSugarClient, compressServices, pluginService, id)
-    {
-        Client = picaClient;
-    }
+ 
 }

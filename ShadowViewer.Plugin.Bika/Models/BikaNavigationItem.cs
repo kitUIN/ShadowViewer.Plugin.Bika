@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ShadowViewer.Interfaces;
+using ShadowViewer.Core.Models.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika.Models;
 

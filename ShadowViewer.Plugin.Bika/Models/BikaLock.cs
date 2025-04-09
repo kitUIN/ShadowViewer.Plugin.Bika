@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ShadowViewer.Helpers;
+using ShadowViewer.Core.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.Models
 {

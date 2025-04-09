@@ -2,11 +2,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Local.Models.Interfaces;
+
 
 namespace ShadowViewer.Plugin.Bika.Models;
  
-public partial class BikaPicture : ObservableObject, IShadowPicture
+public partial class BikaPicture : ObservableObject, IUiPicture
 {
     [ObservableProperty] private int index;
     [ObservableProperty] private ImageSource source;
