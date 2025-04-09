@@ -8,7 +8,6 @@
     xmlns:ex="using:ShadowViewer.Plugin.Bika.I18n"
     xmlns:labs="using:CommunityToolkit.WinUI.Controls"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
-    xmlns:local2="using:ShadowViewer.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winUi="using:FluentIcons.WinUI"
     mc:Ignorable="d">

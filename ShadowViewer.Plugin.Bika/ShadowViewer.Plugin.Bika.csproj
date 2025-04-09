@@ -54,34 +54,12 @@
 	      </AffiliationTag>
       </PluginMeta>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Contorls\LoginTip.xaml" />
-    <None Remove="Controls\EmptyTip.xaml" />
-    <None Remove="Controls\LockTip.xaml" />
-    <None Remove="Controls\UserTip.xaml" />
-    <None Remove="Pages\AboutPage.xaml" />
-    <None Remove="Pages\BikaCategoryPage.xaml" />
-    <None Remove="Pages\BikaHomePage.xaml" />
-    <None Remove="Pages\BikaInfoPage.xaml" />
-    <None Remove="Pages\BikaSettingsPage.xaml" />
-    <None Remove="Pages\ClassificationPage.xaml" />
-    <None Remove="plugin.d.json" />
-    <None Remove="Styles\ResourceDictionary2.xaml" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.3.18" />
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />
-    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.3.18" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Update="Assets\Icons\github.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Icons\logo.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Remove="pica_telegram.jpg" />
-  </ItemGroup>
-
   <ItemGroup>
     <Page Update="Controls\UserTip.xaml">
       <Generator>MSBuild:Compile</Generator>

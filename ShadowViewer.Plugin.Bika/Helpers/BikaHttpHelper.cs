@@ -17,7 +17,6 @@ public class BikaHttpHelper
 {
     public static async Task TryRequest<T>(object sender, Task<T> req, Func<T, Task> success) where T : PicaResponse
     {
-        
         try
         {
             await success.Invoke(await req);
@@ -53,12 +52,13 @@ public class BikaHttpHelper
         }
         catch (TaskCanceledException)
         {
-            await DialogHelper.ShowDialog( ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
+            await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
         }
         catch (PicaComicException exception)
         {
             if (exception.PicaCode == 401)
             {
+                BikaPlugin.ShowLoginFrame();
                 // await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
             }
             else
@@ -88,11 +88,15 @@ public class BikaHttpHelper
         {
             if (picaComicException.PicaCode == 401)
             {
+                DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender,
+                    title + I18N.NoAuth, InfoBarSeverity.Error);
+                BikaPlugin.ShowLoginFrame();
                 // await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
             }
             else
             {
-                DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender, title + picaComicException.ChineseMessage,
+                DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender,
+                    title + picaComicException.ChineseMessage,
                     InfoBarSeverity.Error);
             }
         }
@@ -126,7 +130,8 @@ public class BikaHttpHelper
             }
             else
             {
-                DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender, title + picaComicException.ChineseMessage,
+                DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender,
+                    title + picaComicException.ChineseMessage,
                     InfoBarSeverity.Error);
             }
         }
