@@ -6,13 +6,12 @@
     xmlns:controls1="using:ShadowViewer.Controls"
     xmlns:controls2="using:ShadowViewer.Plugin.Bika.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:converters1="using:ShadowViewer.Converters"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ee="using:CustomExtensions.WinUI"
-    xmlns:ex="using:ShadowViewer.Plugin.Bika.Extensions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:ex="using:ShadowViewer.Plugin.Bika.I18n"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:PicaComic.Models"
+    xmlns:converters2="using:ShadowViewer.Core.Converters"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolToObjectConverter
@@ -43,7 +42,7 @@
             x:Key="EmptyToReplyConverter"
             EmptyValue="{ex:Locale Key=Comments}"
             NotEmptyValue="{ex:Locale Key=Reply}" />
-        <converters1:CollectionCountToVisibilityConverter
+        <converters2:CollectionCountToObjectConverter
             x:Key="CollectionToVisibilityConverter"
             EmptyValue="Visible"
             NotEmptyValue="Collapsed" />

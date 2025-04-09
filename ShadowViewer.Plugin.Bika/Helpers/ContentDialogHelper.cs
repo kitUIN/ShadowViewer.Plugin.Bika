@@ -1,11 +1,9 @@
-﻿using CustomExtensions.WinUI;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Serilog;
-using ShadowViewer.Enums;
-using ShadowViewer.Helpers;
 using ShadowViewer.Plugin.Bika.Enums;
+using ShadowViewer.Plugin.Bika.I18n;
 
 namespace ShadowViewer.Plugin.Bika.Helpers
 {
@@ -37,13 +35,13 @@ namespace ShadowViewer.Plugin.Bika.Helpers
             {
                 DefaultButton = ContentDialogButton.Primary,
                 Title = stackPanel,
-                CloseButtonText = ResourcesHelper.GetString(ResourceKey.Confirm),
+                CloseButtonText = I18N.Confirm,
             };
             switch (status)
             {
                 case BikaHttpStatus.TimeOut:
                     //img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper));
-                    title.Text = ResourcesHelper.GetString(ResourceKey.TimeOut);
+                    title.Text = I18N.TimeOut;
                     var stack = new StackPanel()
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
@@ -51,19 +49,19 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                     };
                     stack.Children.Add(new TextBlock
                     {
-                        Text = ResourcesHelper.GetString(ResourceKey.TimeOutMessage1),
+                        Text = I18N.TimeOutMessage1,
                         FontWeight = FontWeights.SemiBold,
                         HorizontalAlignment = HorizontalAlignment.Center,
                     });
                     stack.Children.Add(new TextBlock
                     {
-                        Text = ResourcesHelper.GetString(ResourceKey.TimeOutMessage2),
+                        Text = I18N.TimeOutMessage2,
                         FontWeight = FontWeights.SemiBold,
                         HorizontalAlignment = HorizontalAlignment.Center,
                     });
                     stack.Children.Add(new TextBlock
                     {
-                        Text = ResourcesHelper.GetString(ResourceKey.TimeOutMessage3),
+                        Text = I18N.TimeOutMessage3,
                         FontWeight = FontWeights.SemiBold,
                         HorizontalAlignment = HorizontalAlignment.Center,
                     });
@@ -71,16 +69,16 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                     break;
                 case BikaHttpStatus.NoAuth:
                     //img.Source = "/Assets/Picacgs/icon_exclamation_error.png".ImageSource(typeof(ContentDialogHelper));
-                    title.Text = ResourcesHelper.GetString(ResourceKey.NoAuth);
+                    title.Text = I18N.NoAuth;
                     dialog.Content = new TextBlock
                     {
-                        Text = ResourcesHelper.GetString(ResourceKey.NoAuthMessage),
+                        Text = I18N.NoAuthMessage,
                         FontWeight = FontWeights.Bold,
                         HorizontalAlignment = HorizontalAlignment.Center,
                     };
                     break;
                 case BikaHttpStatus.Unknown:
-                    title.Text = ResourcesHelper.GetString(ResourceKey.Unknown);
+                    title.Text = I18N.Unknown;
                     //img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper)); 
                     dialog.Content = new TextBlock
                     {

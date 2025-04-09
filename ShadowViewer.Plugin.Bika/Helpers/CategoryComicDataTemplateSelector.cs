@@ -1,4 +1,4 @@
-﻿using PicaComic.Models;
+using PicaComic.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                 return LoadTemplate;
             }
              
-            return !BikaConfig.LoadLockComic && category.IsLocked ?  DontLoadTemplate: LoadTemplate;
+            return !BikaPlugin.Settings.LoadLockComic && category.IsLocked ?  DontLoadTemplate: LoadTemplate;
         }
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)

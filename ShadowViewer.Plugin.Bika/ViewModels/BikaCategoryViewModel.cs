@@ -1,54 +1,55 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml.Controls;
 using PicaComic;
 using PicaComic.Models;
 using PicaComic.Utils;
-using ShadowViewer.Helpers;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
+using ShadowViewer.Plugin.Bika.I18n;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
-    public partial class BikaCategoryViewModel: ObservableObject
+    public partial class BikaCategoryViewModel : ObservableObject
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(CurrentPageString))]
         [NotifyCanExecuteChangedFor(nameof(PreviousPageCommand))]
         [NotifyCanExecuteChangedFor(nameof(NextPageCommand))]
         private int pages = 1;
-        [ObservableProperty]
-        private bool isGotoOpen;
+
+        [ObservableProperty] private bool isGotoOpen;
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Index))]
         [NotifyPropertyChangedFor(nameof(CurrentPageString))]
         [NotifyCanExecuteChangedFor(nameof(PreviousPageCommand))]
         [NotifyCanExecuteChangedFor(nameof(NextPageCommand))]
         private int page = 1;
+
         public int Index
         {
             get => Page - 1;
             set => Page = value + 1;
         }
-        [ObservableProperty]
-        private string categoryTitle = "";
 
-        public string CurrentPageString => ResourcesHelper.GetString(ResourceKey.Number) + $"{Page}/{Pages}" + ResourcesHelper.GetString(ResourceKey.Page);
-        [ObservableProperty]
-        private string sortRuleText;
-        [ObservableProperty]
-        private SortRule sort = SortRule.dd;
-        public ObservableCollection<CategoryComic> CategoryComics { get;  } = new();
+        [ObservableProperty] private string categoryTitle = "";
+
+        public string CurrentPageString => I18N.Number + $"{Page}/{Pages}" + I18N.Page;
+        [ObservableProperty] private string sortRuleText;
+        [ObservableProperty] private SortRule sort = SortRule.dd;
+        public ObservableCollection<CategoryComic> CategoryComics { get; } = new();
         public CategoryMode Mode { get; set; }
         private IPicaClient BikaClient { get; }
+
         public BikaCategoryViewModel(IPicaClient bikaClient)
         {
             BikaClient = bikaClient;
             SortRuleText = ResourcesHelper.GetString(Sort.ToString().ToUpper());
         }
+
         public void CheckAllCategoryComicLock(object? sender, EventArgs e)
         {
             foreach (var comic in CategoryComics)
@@ -56,10 +57,10 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 CheckCategoryLock(comic);
             }
         }
-        
+
         private bool CanNextPageExecute() => Page + 1 <= Pages;
         private bool CanPreviousPageExecute() => Page - 1 > 0;
-        
+
         [RelayCommand(CanExecute = nameof(CanNextPageExecute))]
         private void NextPage()
         {
@@ -68,14 +69,16 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 Page += 1;
             }
         }
+
         [RelayCommand]
         private void CurrentPage()
         {
             IsGotoOpen = true;
         }
+
         [RelayCommand]
         private void Goto(double go)
-        { 
+        {
             if (go <= Pages && go >= 1)
             {
                 Page = (int)go;
@@ -87,6 +90,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 //    InfoBarSeverity.Warning);
             }
         }
+
         [RelayCommand(CanExecute = nameof(CanPreviousPageExecute))]
         private void PreviousPage()
         {
@@ -95,11 +99,13 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                 Page -= 1;
             }
         }
-        [RelayCommand] 
+
+        [RelayCommand]
         private void RefreshButton()
         {
-             Refresh();
+            Refresh();
         }
+
         public async void Refresh()
         {
             CategoryComics.Clear();
@@ -114,7 +120,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                         foreach (var comic in res.Data.Comics.Docs)
                         {
                             CheckCategoryLock(comic);
-                            if (!(comic.IsLocked && BikaConfig.IsIgnoreLockComic))
+                            if (!(comic.IsLocked && BikaPlugin.Settings.IsIgnoreLockComic))
                             {
                                 CategoryComics.Add(comic);
                             }
@@ -129,7 +135,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                         foreach (var comic in res.Data.Comics)
                         {
                             CheckCategoryLock(comic);
-                            if (!(comic.IsLocked && BikaConfig.IsIgnoreLockComic))
+                            if (!(comic.IsLocked && BikaPlugin.Settings.IsIgnoreLockComic))
                             {
                                 CategoryComics.Add(comic);
                             }
@@ -144,7 +150,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                         foreach (var comic in res.Data.Comics.Docs)
                         {
                             CheckCategoryLock(comic);
-                            if (!(comic.IsLocked && BikaConfig.IsIgnoreLockComic))
+                            if (!(comic.IsLocked && BikaPlugin.Settings.IsIgnoreLockComic))
                             {
                                 CategoryComics.Add(comic);
                             }
@@ -158,7 +164,8 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
 
         private static void CheckCategoryLock(Comic comic)
         {
-            comic.LockCategories = comic.Categories.Where(x => BikaData.Current.Locks.Any(y => y.Title == x && !y.IsOpened)).ToList();
+            comic.LockCategories = comic.Categories
+                .Where(x => BikaData.Current.Locks.Any(y => y.Title == x && !y.IsOpened)).ToList();
             comic.IsLocked = comic.LockCategories.Count > 0;
         }
 

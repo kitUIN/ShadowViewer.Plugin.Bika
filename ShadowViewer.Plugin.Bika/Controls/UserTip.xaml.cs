@@ -4,12 +4,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using PicaComic.Models;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Controls;
-using ShadowViewer.Interfaces;
+using ShadowViewer.Core.Services;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Pages;
-using ShadowViewer.Services;
 
 namespace ShadowViewer.Plugin.Bika.Controls
 {
@@ -44,12 +42,12 @@ namespace ShadowViewer.Plugin.Bika.Controls
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is HyperlinkButton { Content: string tag })
-                DiFactory.Services.Resolve<ICallableService>().NavigateTo(typeof(BikaCategoryPage),
+                DiFactory.Services.Resolve<INavigateService>().Navigate(typeof(BikaCategoryPage),
                     new CategoryArg
                     {
                         Category = tag,
                         Mode = CategoryMode.Search
-                    }, true);
+                    });
         }
     }
 }

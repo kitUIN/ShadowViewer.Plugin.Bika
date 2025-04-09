@@ -1,25 +1,21 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using PicaComic;
 using ShadowPluginLoader.Attributes;
-using ShadowViewer.Args;
-using ShadowViewer.Core;
 using ShadowViewer.Core.Args;
+using ShadowViewer.Core.Plugins;
 using ShadowViewer.Core.Responders;
-using ShadowViewer.Core.Services;
-using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Local.ViewModels;
-using ShadowViewer.Responders;
-using ShadowViewer.Services;
 
 using SqlSugar;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 
-public partial class BikaPicViewResponder:AbstractPicViewResponder
+[EntryPoint(Name = nameof(PluginResponder.PicViewResponder))]
+public partial class BikaPicViewResponder: AbstractPicViewResponder
 {
     [Autowired]
     public IPicaClient Client { get; }

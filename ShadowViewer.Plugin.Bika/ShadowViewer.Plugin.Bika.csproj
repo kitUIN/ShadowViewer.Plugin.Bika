@@ -56,7 +56,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Contorls\LoginTip.xaml" />
-    <None Remove="Controls\Badge.xaml" />
     <None Remove="Controls\EmptyTip.xaml" />
     <None Remove="Controls\LockTip.xaml" />
     <None Remove="Controls\UserTip.xaml" />
@@ -84,9 +83,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\Badge.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
     <Page Update="Controls\UserTip.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -147,10 +143,6 @@
     <Page Update="Contorls\LoginTip.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Packages\" />
   </ItemGroup>
 
 </Project>

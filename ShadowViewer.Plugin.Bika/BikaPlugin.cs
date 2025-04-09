@@ -36,9 +36,9 @@ public partial class BikaPlugin : AShadowViewerPlugin
         DiFactory.Services.Register<BikaInfoViewModel>(Reuse.Transient);
         DiFactory.Services.Register<BikaCategoryViewModel>(Reuse.Transient);
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
-        BikaConfig.Init();
+        MainLoginTip ??= new LoginTip();
+        Db.CodeFirst.InitTables<BikaUser>();
     }
-     
 
 
     /// <summary>
@@ -58,7 +58,6 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     protected override void Enabled()
     {
-        Db.CodeFirst.InitTables<BikaUser>();
         CheckLock();
         CheckToken();
     }
@@ -68,6 +67,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     public override void Loaded()
     {
+        Caller.CreateTopLevelControl(MainLoginTip!);
         Enabled();
     }
 
@@ -86,7 +86,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     private async Task<bool> TryAutoLogin()
     {
         var bikaClient = DiFactory.Services.Resolve<IPicaClient>();
-        var user = BikaConfig.LastBikaUser;
+        var user = BikaPlugin.Settings.LastBikaUser;
         if (await Db.Queryable<BikaUser>().FirstAsync(x => x.Email == user) is not { } bikaUser) return false;
         bikaClient.SetToken(bikaUser.Token);
         try
@@ -110,16 +110,13 @@ public partial class BikaPlugin : AShadowViewerPlugin
 
     /// <summary>
     /// Show Login Frame On Main Window
+    /// 展示登录窗口
     /// </summary>
-    public void ShowLoginFrame()
-    {
-        MainLoginTip ??= new LoginTip();
-        Caller.CreateTopLevelControl(MainLoginTip);
-        MainLoginTip.Show();
-    }
+    public static void ShowLoginFrame() => MainLoginTip?.Show();
 
     /// <summary>
     /// Check Token
+    /// 检查用户是否在线(token)
     /// </summary>
     private async void CheckToken()
     {
@@ -127,11 +124,8 @@ public partial class BikaPlugin : AShadowViewerPlugin
         var bikaClient = DiFactory.Services.Resolve<IPicaClient>();
         if (bikaClient.HasToken) return;
         var b = false;
-        if (BikaConfig.AutoLogin) b = await TryAutoLogin();
-        if (!b)
-        {
-            ShowLoginFrame();
-        }
+        if (Settings.AutoLogin) b = await TryAutoLogin();
+        if (!b) ShowLoginFrame();
         else
         {
             await BikaHttpHelper.PunchIn(this);
@@ -152,6 +146,4 @@ public partial class BikaPlugin : AShadowViewerPlugin
             else
                 ConfigHelper.Set(item, true);
     }
-
-   
 }

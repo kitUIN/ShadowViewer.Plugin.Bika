@@ -1,4 +1,4 @@
-﻿using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using PicaComic;
 using ShadowViewer.Core.Responders;
 using ShadowViewer.Plugin.Bika.Args;
@@ -8,12 +8,14 @@ using ShadowViewer.Plugin.Bika.Pages;
 using System.Collections.Generic;
 using ShadowPluginLoader.Attributes;
 using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Core.Plugins;
 using ShadowViewer.Core.Services;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 /// <summary>
 /// 
 /// </summary>
+[EntryPoint(Name = nameof(PluginResponder.SearchSuggestionResponder))]
 public partial class BikaSearchResponder: AbstractSearchSuggestionResponder
 {
     /// <summary>

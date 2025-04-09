@@ -1,4 +1,4 @@
-﻿using ShadowPluginLoader.Attributes;
+using ShadowPluginLoader.Attributes;
  
 namespace ShadowViewer.Plugin.Bika.Enums;
 

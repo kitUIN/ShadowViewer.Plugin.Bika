@@ -1,38 +1,36 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PicaComic;
-using ShadowViewer.Controls;
-using ShadowViewer.Helpers;
-using ShadowViewer.Interfaces;
-using ShadowViewer.Models;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
-using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
-using ShadowViewer.Responders;
-using ShadowViewer.Services;
 using CustomExtensions.WinUI;
-using SqlSugar;
+using ShadowPluginLoader.Attributes;
+using ShadowViewer.Core;
+using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Core.Plugins;
+using ShadowViewer.Core.Responders;
+using ShadowViewer.Core.Utils;
+using ShadowViewer.Plugin.Bika.I18n;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 
-public class BikaNavigationResponder(ICallableService callableService, 
-    ISqlSugarClient sqlSugarClient,
-    CompressService compressServices, PluginLoader pluginService, 
-    IPicaClient picaClient, string id) : AbstractNavigationResponder(
-    callableService,
-    sqlSugarClient, compressServices, pluginService, id)
+[EntryPoint(Name = nameof(PluginResponder.NavigationResponder))]
+public partial class BikaNavigationResponder : AbstractNavigationResponder
 {
+    [Autowired] private IPicaClient Client { get; }
+    [Autowired] private PluginLoader PluginService { get; }
+
     public override IEnumerable<IShadowNavigationItem> NavigationViewMenuItems { get; } =
         new List<IShadowNavigationItem>
         {
             new BikaNavigationItem()
             {
-                Content = ResourcesHelper.GetString(ResourceKey.Title),
-                Icon =  new ImageIcon()
+                Content = I18N.Title,
+                Icon = new ImageIcon()
                 {
                     Source = new BitmapImage(new Uri(BikaPlugin.Meta.Logo.PluginPath()))
                 },
@@ -60,39 +58,34 @@ public class BikaNavigationResponder(ICallableService callableService,
             _ => null
         };
     }
-    public override void Navigate(Uri uri, string[] urls)
+
+    public override ShadowNavigation? Navigate(Uri uri, string[] urls)
     {
-        if (urls.Length == 0) return;
+        if (urls.Length == 0) return null;
         switch (urls[0])
         {
             case "comic":
-                if (urls.Length == 2) Caller.NavigateTo(typeof(BikaInfoPage), urls[1]);
-                break;
+                return urls.Length == 2 ? new ShadowNavigation(typeof(BikaInfoPage), urls[1]) : null;
             case "classification":
-                if (Client.HasToken)
-                    Caller.NavigateTo(typeof(ClassificationPage), null);
-                else
-                    (PluginService.GetEnabledPlugin(Id) as BikaPlugin)?.ShowLoginFrame();
-                break;
+                if (!Client.HasToken) BikaPlugin.ShowLoginFrame();
+                return new ShadowNavigation(typeof(ClassificationPage), null);
             case "settings":
-                Caller.NavigateTo(typeof(BikaSettingsPage), null);
-                break;
+                return new ShadowNavigation(typeof(BikaSettingsPage), null);
             case "user":
-                // Caller.NavigateTo(NavigateMode.Page,typeof());
+                // new ShadowNavigation(NavigateMode.Page,typeof());
                 break;
             case "category":
-                if (urls.Length == 2)
-                    Caller.NavigateTo(typeof(BikaCategoryPage), new CategoryArg { Category = urls[1] });
-                break;
+                return urls.Length == 2
+                    ? new ShadowNavigation(typeof(BikaCategoryPage), new CategoryArg { Category = urls[1] })
+                    : null;
             case "random":
-                Caller.NavigateTo(typeof(BikaCategoryPage),
+                return new ShadowNavigation(typeof(BikaCategoryPage),
                     new CategoryArg
                     {
                         Category = ResourcesHelper.GetString(ResourceKey.Random), Mode = CategoryMode.Random
                     });
-                break;
         }
-    }
 
-    private IPicaClient Client { get; } = picaClient;
+        return null;
+    }
 }

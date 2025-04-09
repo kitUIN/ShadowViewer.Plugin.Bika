@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using DryIoc;
 using Microsoft.UI.Xaml.Controls;
@@ -6,10 +6,10 @@ using PicaComic;
 using PicaComic.Exceptions;
 using PicaComic.Responses;
 using ShadowPluginLoader.WinUI;
+using ShadowViewer.Core.Helpers;
 using ShadowViewer.Core.Services;
-using ShadowViewer.Helpers;
 using ShadowViewer.Plugin.Bika.Enums;
-using ShadowViewer.Services;
+using ShadowViewer.Plugin.Bika.I18n;
 
 namespace ShadowViewer.Plugin.Bika.Helpers;
 
@@ -17,39 +17,30 @@ public class BikaHttpHelper
 {
     public static async Task TryRequest<T>(object sender, Task<T> req, Func<T, Task> success) where T : PicaResponse
     {
-        var caller = DiFactory.Services.Resolve<ICallableService>();
+        
         try
         {
-            var res = await req;
-            if (res.Code != 200)
-            {
-                if (res.Code == 401)
-                {
-                    NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
-                }
-                else
-                {
-                    NotificationHelper.Dialog(sender,
-                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message));
-                }
-            }
-            else
-            {
-                await success.Invoke(res);
-            }
+            await success.Invoke(await req);
         }
         catch (TaskCanceledException)
         {
-            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
+            await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
         }
         catch (PicaComicException exception)
         {
-            NotificationHelper.Dialog(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
+            if (exception.PicaCode == 401)
+            {
+                // await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
+            }
+            else
+            {
+                await DialogHelper.ShowDialog(
+                    ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
+            }
         }
         catch (Exception exception)
         {
-            NotificationHelper.Dialog(sender,
+            await DialogHelper.ShowDialog(
                 ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
         }
     }
@@ -58,36 +49,27 @@ public class BikaHttpHelper
     {
         try
         {
-            var res = await req;
-            if (res.Code != 200)
-            {
-                if (res.Code == 401)
-                {
-                    NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
-                }
-                else
-                {
-                    NotificationHelper.Dialog(sender,
-                        ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, res.Message));
-                }
-            }
-            else
-            {
-                success.Invoke(res);
-            }
+            success.Invoke(await req);
         }
         catch (TaskCanceledException)
         {
-            NotificationHelper.Dialog(sender, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
+            await DialogHelper.ShowDialog( ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
         }
         catch (PicaComicException exception)
         {
-            NotificationHelper.Dialog(sender,
-                ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
+            if (exception.PicaCode == 401)
+            {
+                // await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
+            }
+            else
+            {
+                await DialogHelper.ShowDialog(
+                    ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
+            }
         }
         catch (Exception exception)
         {
-            NotificationHelper.Dialog(sender,
+            await DialogHelper.ShowDialog(
                 ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
         }
     }
@@ -104,8 +86,15 @@ public class BikaHttpHelper
         }
         catch (PicaComicException picaComicException)
         {
-            DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender, title + picaComicException.ChineseMessage,
-                InfoBarSeverity.Error);
+            if (picaComicException.PicaCode == 401)
+            {
+                // await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
+            }
+            else
+            {
+                DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender, title + picaComicException.ChineseMessage,
+                    InfoBarSeverity.Error);
+            }
         }
         catch (TaskCanceledException)
         {
@@ -131,8 +120,15 @@ public class BikaHttpHelper
         }
         catch (PicaComicException picaComicException)
         {
-            DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender, title + picaComicException.ChineseMessage,
-                InfoBarSeverity.Error);
+            if (picaComicException.PicaCode == 401)
+            {
+                // await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.NoAuth, ""));
+            }
+            else
+            {
+                DiFactory.Services.Resolve<INotifyService>().NotifyTip(sender, title + picaComicException.ChineseMessage,
+                    InfoBarSeverity.Error);
+            }
         }
         catch (TaskCanceledException)
         {

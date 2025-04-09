@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using PicaComic;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Extensions;
+using ShadowViewer.Core.Extensions;
 using ShadowViewer.Plugin.Bika.ViewModels;
 
 namespace ShadowViewer.Plugin.Bika.Pages;
@@ -31,10 +31,10 @@ public sealed partial class BikaSettingsPage : Page
 
     private async void SettingsExpander_Loaded(object sender, RoutedEventArgs e)
     {
-        if (!string.IsNullOrEmpty(BikaConfig.Proxy))
+        if (!string.IsNullOrEmpty(BikaPlugin.Settings.Proxy))
         {
-            ProxyBox.Text = BikaConfig.Proxy;
-            ViewModel.SetProxy(BikaConfig.Proxy);
+            ProxyBox.Text = BikaPlugin.Settings.Proxy;
+            ViewModel.SetProxy(BikaPlugin.Settings.Proxy);
         }
 
         await ViewModel.Ping();

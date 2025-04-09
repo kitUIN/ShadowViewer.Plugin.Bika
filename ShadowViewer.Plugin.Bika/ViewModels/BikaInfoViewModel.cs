@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ using PicaComic.Models;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
+using ShadowViewer.Plugin.Bika.I18n;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 

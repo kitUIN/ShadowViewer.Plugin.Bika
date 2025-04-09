@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using PicaComic.Models;
 using ShadowViewer.Plugin.Bika.Models;
@@ -7,7 +7,7 @@ namespace ShadowViewer.Plugin.Bika;
 
 public class BikaData
 {
-    public Profile CurrentUser { get; set; }
+    public Profile? CurrentUser { get; set; }
     public ObservableCollection<string> Keywords { get; } = new ObservableCollection<string>();
     public ObservableCollection<BikaLock> Locks { get; } = new ObservableCollection<BikaLock>();
     public static BikaData Current { get; } = new BikaData();
