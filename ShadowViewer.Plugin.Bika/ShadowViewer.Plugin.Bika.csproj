@@ -13,7 +13,7 @@
       <!--ShadowViewer.Plugin.{插件id}(请与RootNamespace相同)  (nuget包ID)-->
       <PackageId>ShadowViewer.Plugin.Bika</PackageId>
       <!--插件版本号(nuget包版本号)-->
-      <Version>0.4.0</Version>
+      <Version>0.4.1</Version>
       <!--插件仓库地址(nuget包仓库地址)-->
       <RepositoryUrl>https://github.com/kitUIN/ShadowViewer.Plugin.Bika</RepositoryUrl>
       <!--插件介绍(nuget包介绍)-->
@@ -40,7 +40,7 @@
           <WebUri>$(PackageProjectUrl)</WebUri>
           <Description>$(Description)</Description>
           <Authors>$(Authors)</Authors>
-	      <CoreVersion>2025.4.8.26</CoreVersion>
+	      <CoreVersion>2025.4.13.4</CoreVersion>
 	      <PluginManage>
 		      <CanOpenFolder>true</CanOpenFolder>
 		      <CanSwitch>true</CanSwitch>
@@ -55,7 +55,7 @@
       </PluginMeta>
   </PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.3.18" />
+		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.3.19" />
 	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />

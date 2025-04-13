@@ -38,6 +38,12 @@ public partial class BikaPlugin : AShadowViewerPlugin
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
         MainLoginTip ??= new LoginTip();
         Db.CodeFirst.InitTables<BikaUser>();
+        Caller.AppLoadedEvent += (sender, args) =>
+        {
+            Logger.Information("触发CreateTopLevelControl");
+            Caller.CreateTopLevelControl(MainLoginTip!);
+            if (PluginService.IsEnabled(Meta.Id) == true) Enabled();
+        };
     }
 
 
@@ -67,8 +73,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     public override void Loaded()
     {
-        Caller.CreateTopLevelControl(MainLoginTip!);
-        Enabled();
+        // Enabled();
     }
 
     /// <summary>
