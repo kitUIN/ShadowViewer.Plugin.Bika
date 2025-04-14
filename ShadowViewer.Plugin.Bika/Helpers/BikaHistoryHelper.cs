@@ -2,7 +2,6 @@ using System;
 using DryIoc;
 using PicaComic.Models;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Plugin.Bika.Models;
 using SqlSugar;
 
@@ -12,24 +11,28 @@ public class BikaHistoryHelper
 {
     public static void Add(ComicInfo? comic)
     {
+        var db = DiFactory.Services.Resolve<ISqlSugarClient>();
         if (comic == null) return;
-        var obj = new BikaHistory()
+        var history = db.Queryable<BikaHistory>().Where(x => x.Extra == comic.Id).First();
+        if (history != null)
         {
-            Extra = comic.Id,
-            LastReadDateTime = DateTime.Now,
-            Thumb = comic.Thumb.FilePath,
-            Title = comic.Title,
-        };
-        DiFactory.Services.Resolve<ISqlSugarClient>().Storageable(obj).ExecuteCommand();
-    }
-    public static void Add(IHistory history)
-    {
-        DiFactory.Services.Resolve<ISqlSugarClient>().Storageable(new BikaHistory()
+            db.Updateable<BikaHistory>()
+                .SetColumns(it => it.Thumb == comic.Thumb.FilePath)
+                .SetColumns(it => it.Title == comic.Title)
+                .SetColumns(it => it.LastReadDateTime == DateTime.Now)
+                .Where(x => history.Id == x.Id)
+                .ExecuteCommand();
+        }
+        else
         {
-            Id = history.Id,
-            LastReadDateTime = DateTime.Now,
-            Thumb = history.Thumb,
-            Title = history.Title,
-        }).ExecuteCommand();
+            db.Insertable(new BikaHistory()
+            {
+                Id = SnowFlakeSingle.Instance.NextId(),
+                Extra = comic.Id,
+                LastReadDateTime = DateTime.Now,
+                Thumb = comic.Thumb.FilePath,
+                Title = comic.Title,
+            }).ExecuteCommand();
+        }
     }
 }

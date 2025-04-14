@@ -38,8 +38,7 @@ public partial class BikaHistoryResponder : AbstractHistoryResponder
 
     public override void ClickHistoryHandler(IHistory history)
     {
-        NavigateService.Navigate(typeof(BikaInfoPage), history.Id);
-        // BikaHistoryHelper.Add(history);
+        NavigateService.Navigate(typeof(BikaInfoPage), history.Extra!, force: true);
     }
 
     public override void DeleteHistoryHandler(IHistory history)

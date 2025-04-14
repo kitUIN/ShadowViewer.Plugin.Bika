@@ -15,9 +15,9 @@
     "Icon": "ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png",
     "PluginId": "Bika"
   },
-  "CoreVersion": "2025.4.13.4",
+  "CoreVersion": "2025.4.14.1",
   "Id": "Bika",
   "Name": "哔咔漫画适配器",
-  "Version": "0.4.1",
+  "Version": "0.4.2",
   "Dependencies": []
 }
