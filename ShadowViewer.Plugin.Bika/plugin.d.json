@@ -180,7 +180,8 @@
       "Nullable": false,
       "Item": {
         "Type": "System.String",
-        "Nullable": false
+        "Nullable": false,
+        "ConstructionTemplate": "new ShadowPluginLoader.WinUI.Models.PluginDependency(\u0022{{ RAW }}\u0022)"
       }
     }
   }
