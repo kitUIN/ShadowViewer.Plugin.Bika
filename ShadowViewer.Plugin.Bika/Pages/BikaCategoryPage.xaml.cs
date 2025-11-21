@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
 using PicaComic.Utils;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Helpers;
+using ShadowViewer.Sdk.Helpers;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
@@ -90,7 +90,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void Lock_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if (BikaPlugin.Settings.CanTemporaryUnlockComic)
+            if (ViewModel.Config.CanTemporaryUnlockComic)
             {
                 if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel)
                 {
@@ -108,7 +108,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void Lock_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            if (BikaPlugin.Settings.CanTemporaryUnlockComic)
+            if (ViewModel.Config.CanTemporaryUnlockComic)
             {
                 if (sender is Grid grid && grid.Children[0] is StackPanel stackPanel)
                 {
@@ -126,7 +126,7 @@ namespace ShadowViewer.Plugin.Bika.Pages
 
         private void UnLock_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if (BikaPlugin.Settings.CanTemporaryUnlockComic)
+            if (ViewModel.Config.CanTemporaryUnlockComic)
             {
                 if (sender is Grid grid && grid.Tag is CategoryComic category)
                 {

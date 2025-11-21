@@ -1,24 +1,33 @@
-using System;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media;
 using PicaComic;
-using ShadowViewer.Core.Services;
+using ShadowPluginLoader.Attributes;
+using ShadowViewer.Plugin.Bika.Configs;
+using ShadowViewer.Sdk.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 
+[CheckAutowired]
 public partial class BikaSettingsViewModel : ObservableObject
 {
     private IPicaClient BikaClient { get; }
 
+
+    /// <summary>
+    /// Config
+    /// </summary>
+    [Autowired]
+    public BikaPluginConfig Config { get; }
     [ObservableProperty] private bool pingShow;
     [ObservableProperty] private int apiShunt= IPicaClient.AppChannel - 1;
     [ObservableProperty] private int picShunt= IPicaClient.FileChannel - 1;
     [ObservableProperty] private string pingText;
-    [ObservableProperty] private bool canTemporaryUnlock = BikaPlugin.Settings.CanTemporaryUnlockComic;
-    [ObservableProperty] private bool loadLockComic = BikaPlugin.Settings.LoadLockComic;
-    [ObservableProperty] private bool isIgnoreLockComic = BikaPlugin.Settings.IsIgnoreLockComic;
+    [ObservableProperty] private bool canTemporaryUnlock; //  = Config.CanTemporaryUnlockComic;
+    [ObservableProperty] private bool loadLockComic; //  = Config.LoadLockComic;
+    [ObservableProperty] private bool isIgnoreLockComic; // = Config.IsIgnoreLockComic;
     [ObservableProperty] private SolidColorBrush pingColor = new(Colors.Green);
     // [ObservableProperty] private FluentFilledIconSymbol pingIcon = FluentFilledIconSymbol.CheckmarkCircle20Filled;
     private ICallableService Caller { get; }
@@ -27,8 +36,8 @@ public partial class BikaSettingsViewModel : ObservableObject
     {
         BikaClient = client;
         Caller = callableService;
-        LoadLockComicShow = !BikaPlugin.Settings.IsIgnoreLockComic;
-        CanTemporaryUnlockShow = !BikaPlugin.Settings.IsIgnoreLockComic && BikaPlugin.Settings.LoadLockComic;
+        LoadLockComicShow = !Config.IsIgnoreLockComic;
+        CanTemporaryUnlockShow = !Config.IsIgnoreLockComic && Config.LoadLockComic;
     }
     public void ResetProxy()
     {
@@ -56,7 +65,7 @@ public partial class BikaSettingsViewModel : ObservableObject
     {
         if (oldValue != newValue)
         {
-            BikaPlugin.Settings.LoadLockComic = newValue;
+            Config.LoadLockComic = newValue;
             CanTemporaryUnlockShow = !IsIgnoreLockComic && LoadLockComic;
         }
     }
@@ -65,7 +74,7 @@ public partial class BikaSettingsViewModel : ObservableObject
     {
         if (oldValue != newValue)
         {
-            BikaPlugin.Settings.IsIgnoreLockComic = newValue;
+            Config.IsIgnoreLockComic = newValue;
             LoadLockComicShow = !IsIgnoreLockComic;
             CanTemporaryUnlockShow = !IsIgnoreLockComic && LoadLockComic;
         }
@@ -73,7 +82,7 @@ public partial class BikaSettingsViewModel : ObservableObject
 
     partial void OnCanTemporaryUnlockChanged(bool oldValue, bool newValue)
     {
-        if (oldValue != newValue) BikaPlugin.Settings.CanTemporaryUnlockComic = newValue;
+        if (oldValue != newValue) Config.CanTemporaryUnlockComic = newValue;
     }
 
 
@@ -106,7 +115,7 @@ public partial class BikaSettingsViewModel : ObservableObject
         {
             var uri = new Uri(text);
             BikaClient.SetProxy(uri);
-            BikaPlugin.Settings.Proxy = text;
+            Config.Proxy = text;
             //NotificationHelper.Notify(this,$"{ResourcesHelper.GetString(ResourceKey.Proxy)}({text}){ResourcesHelper.GetString(ResourceKey.SetSuccess)}",
             //    InfoBarSeverity.Success);
         }

@@ -6,8 +6,8 @@ using PicaComic;
 using PicaComic.Exceptions;
 using PicaComic.Responses;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Services;
+using ShadowViewer.Sdk.Helpers;
+using ShadowViewer.Sdk.Services;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.I18n;
 

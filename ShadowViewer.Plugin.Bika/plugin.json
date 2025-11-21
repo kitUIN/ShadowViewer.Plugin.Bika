@@ -1,9 +1,11 @@
 {
-  "DllName": "ShadowViewer.Plugin.Bika",
-  "Description": "ShadowViewer哔咔漫画插件",
-  "Authors": "kitUIN",
-  "WebUri": "https://github.com/kitUIN/ShadowViewer.Plugin.Bika",
-  "Logo": "ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png",
+  "Id": "{{ PackageId }}",
+  "Name": "{{ PluginName }}",
+  "Version": "{{ Version }}",
+  "Description": "{{ Description }}",
+  "Authors": "{{ Authors }}",
+  "WebUri": "{{ PackageProjectUrl }}",
+  "Logo": "fluent://regular/ResizeImage",
   "PluginManage": {
     "CanSwitch": true,
     "CanOpenFolder": true
@@ -12,14 +14,7 @@
     "Name": "Bika",
     "BackgroundHex": "#ef97b9",
     "ForegroundHex": "#000000",
-    "Icon": "ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png",
-    "PluginId": "Bika"
-  },
-  "CoreVersion": "2025.4.15.4",
-  "Id": "Bika",
-  "Name": "哔咔漫画适配器",
-  "Version": "0.4.4",
-  "Dependencies": [
-    "ShadowViewer.Plugin.Local>=1.3.22"
-  ]
+    "Icon": "ms-plugin://{{ PackageId }}/Assets/Icons/logo.png",
+    "PluginId": "{{ PackageId }}"
+  }
 }

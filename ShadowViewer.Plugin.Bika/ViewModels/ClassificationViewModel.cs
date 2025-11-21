@@ -8,7 +8,7 @@ using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 using Thumb = PicaComic.Models.Thumb;
 using CustomExtensions.WinUI;
-using ShadowViewer.Core.Services;
+using ShadowViewer.Sdk.Services;
 using ShadowViewer.Plugin.Bika.I18n;
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 

@@ -1,10 +1,13 @@
-using System;
-using System.Linq;
+using CustomExtensions.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
-using CustomExtensions.WinUI;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.Plugin.Bika.Configs;
 using ShadowViewer.Plugin.Bika.I18n;
+using System;
+using System.Linq;
+using DryIoc;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -14,6 +17,11 @@ namespace ShadowViewer.Plugin.Bika.Controls
     public sealed partial class LockTip : UserControl
     {
         public event EventHandler LockChangedEvenet;
+
+        /// <summary>
+        /// Config
+        /// </summary>
+        public BikaPluginConfig Config { get; } = DiFactory.Services.Resolve<BikaPluginConfig>();
 
         public string LockText
         {
@@ -70,7 +78,7 @@ namespace ShadowViewer.Plugin.Bika.Controls
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             SetLockText();
-            if (BikaPlugin.Settings.LoadLockComic)
+            if (Config.LoadLockComic)
             {
                 LockChangedEvenet?.Invoke(this, EventArgs.Empty);
             }

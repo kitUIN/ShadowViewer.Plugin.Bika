@@ -1,15 +1,16 @@
 using Microsoft.UI.Xaml.Controls;
 using PicaComic;
-using ShadowViewer.Core.Responders;
+using ShadowPluginLoader.Attributes;
 using ShadowViewer.Plugin.Bika.Args;
+using ShadowViewer.Plugin.Bika.Constants;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
+using ShadowViewer.Sdk.Models.Interfaces;
+using ShadowViewer.Sdk.Plugins;
+using ShadowViewer.Sdk.Responders;
+using ShadowViewer.Sdk.Services;
 using System.Collections.Generic;
-using ShadowPluginLoader.Attributes;
-using ShadowViewer.Core.Models.Interfaces;
-using ShadowViewer.Core.Plugins;
-using ShadowViewer.Core.Services;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 /// <summary>
@@ -38,7 +39,7 @@ public partial class BikaSearchResponder: AbstractSearchSuggestionResponder
         var res = new List<IShadowSearchItem>();
         if (!string.IsNullOrEmpty(sender.Text) && BikaClient.HasToken)
         {
-            res.Add(new BikaSearchItem(sender.Text, BikaPlugin.Meta.Id, BikaSearchMode.Search));
+            res.Add(new BikaSearchItem(sender.Text, PluginConstants.PluginId, BikaSearchMode.Search));
         }
 
         return res;

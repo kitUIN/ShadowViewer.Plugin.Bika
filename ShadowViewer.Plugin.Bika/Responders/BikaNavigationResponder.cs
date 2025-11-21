@@ -9,11 +9,11 @@ using ShadowViewer.Plugin.Bika.Models;
 using ShadowViewer.Plugin.Bika.Pages;
 using CustomExtensions.WinUI;
 using ShadowPluginLoader.Attributes;
-using ShadowViewer.Core;
-using ShadowViewer.Core.Models.Interfaces;
-using ShadowViewer.Core.Plugins;
-using ShadowViewer.Core.Responders;
-using ShadowViewer.Core.Utils;
+using ShadowViewer.Sdk;
+using ShadowViewer.Sdk.Models.Interfaces;
+using ShadowViewer.Sdk.Plugins;
+using ShadowViewer.Sdk.Responders;
+using ShadowViewer.Sdk.Utils;
 using ShadowViewer.Plugin.Bika.I18n;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
@@ -32,7 +32,7 @@ public partial class BikaNavigationResponder : AbstractNavigationResponder
                 Content = I18N.Title,
                 Icon = new ImageIcon()
                 {
-                    Source = new BitmapImage(new Uri(BikaPlugin.Meta.Logo.PluginPath()))
+                    Source = new BitmapImage(new Uri("ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png".PluginPath()))
                 },
                 Id = "Bika.Classification"
             }

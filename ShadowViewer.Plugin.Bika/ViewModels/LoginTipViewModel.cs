@@ -1,48 +1,60 @@
-using System.Threading.Tasks;
-using Windows.System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DryIoc;
 using Microsoft.UI.Xaml.Input;
 using PicaComic;
 using Serilog;
+using ShadowPluginLoader.Attributes;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.Plugin.Bika.Configs;
 using ShadowViewer.Plugin.Bika.Helpers;
+using ShadowViewer.Plugin.Bika.I18n;
 using ShadowViewer.Plugin.Bika.Models;
 using SqlSugar;
-using ShadowPluginLoader.WinUI;
-using ShadowViewer.Plugin.Bika.I18n;
+using System.Threading.Tasks;
+using Windows.System;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 
+[CheckAutowired]
 public partial class LoginTipViewModel : ObservableObject
 {
+
+    /// <summary>
+    /// Config
+    /// </summary>
+    [Autowired]
+    public BikaPluginConfig Config { get; }
+    [Autowired]
     private ILogger Logger { get; }
+    [Autowired]
     private IPicaClient Client { get; }
+    [Autowired]
     private ISqlSugarClient Db { get; }
 
-    public LoginTipViewModel(ILogger logger, IPicaClient picaClient, ISqlSugarClient db)
-    {
-        Logger = logger;
-        Client = picaClient;
-        Db = db;
-
-        if (!string.IsNullOrEmpty(BikaPlugin.Settings.LastBikaUser))
-        {
-            var user = BikaPlugin.Settings.LastBikaUser;
-            if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
-                if (RememberMe)
-                {
-                    Email = bikaUser.Email;
-                    Password = bikaUser.Password;
-                    Logger.Information("自动加载上次登录用户");
-                }
-        }
-    }
+    // public LoginTipViewModel(ILogger logger, IPicaClient picaClient, ISqlSugarClient db)
+    // {
+    //     Logger = logger;
+    //     Client = picaClient;
+    //     Db = db;
+    //
+    //     if (!string.IsNullOrEmpty(Config.LastBikaUser))
+    //     {
+    //         var user = BikaPlugin.Settings.LastBikaUser;
+    //         if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
+    //             if (RememberMe)
+    //             {
+    //                 Email = bikaUser.Email;
+    //                 Password = bikaUser.Password;
+    //                 Logger.Information("自动加载上次登录用户");
+    //             }
+    //     }
+    // }
     /// <summary>
     /// 
     /// </summary>
-    [ObservableProperty] private bool rememberMe = BikaPlugin.Settings.RememberMe;
-    [ObservableProperty] private bool autoLogin = BikaPlugin.Settings.AutoLogin;
+    [ObservableProperty] private bool rememberMe;// = BikaPlugin.Settings.RememberMe;
+    [ObservableProperty] private bool autoLogin;// = BikaPlugin.Settings.AutoLogin;
     [ObservableProperty] private bool isOpen;
     [ObservableProperty] private bool canLogin = true;
     [ObservableProperty] private string email = "";
@@ -60,7 +72,7 @@ public partial class LoginTipViewModel : ObservableObject
     {
         if (oldValue != newValue)
         {
-            BikaPlugin.Settings.AutoLogin = AutoLogin;
+            Config.AutoLogin = AutoLogin;
             if (AutoLogin)
                 RememberMe = true;
         }
@@ -69,7 +81,7 @@ public partial class LoginTipViewModel : ObservableObject
     partial void OnRememberMeChanged(bool oldValue, bool newValue)
     {
         if (oldValue != newValue)
-            BikaPlugin.Settings.RememberMe = RememberMe;
+            Config.RememberMe = RememberMe;
     }
 
     /// <summary>
@@ -98,7 +110,7 @@ public partial class LoginTipViewModel : ObservableObject
                     Token = res.Data.Token
                 }).ExecuteCommand();
                 IsOpen = false;
-                BikaPlugin.Settings.LastBikaUser = Email;
+                Config.LastBikaUser = Email;
                 await BikaHttpHelper.TryRequest(this, Client.Profile(), res =>
                 {
                     BikaData.Current.CurrentUser = res.Data.User;

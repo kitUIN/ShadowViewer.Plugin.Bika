@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using PicaComic.Models;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Services;
+using ShadowViewer.Sdk.Services;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Pages;

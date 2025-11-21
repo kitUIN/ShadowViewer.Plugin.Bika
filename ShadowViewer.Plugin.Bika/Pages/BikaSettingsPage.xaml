@@ -122,7 +122,7 @@
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=About}" />
                 <labs:SettingsCard Description="© 2023-2023 kitUIN. All rights reserved."
-                                   Header="{x:Bind local:BikaPlugin.Meta.Name}"
+                                   Header=""
                                    Click="AboutCard_Click"
                                    IsActionIconVisible="True"
                                    IsClickEnabled="True">

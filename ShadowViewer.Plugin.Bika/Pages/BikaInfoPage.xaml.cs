@@ -6,9 +6,10 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using PicaComic.Models;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Args;
-using ShadowViewer.Core.Services;
+using ShadowViewer.Sdk.Args;
+using ShadowViewer.Sdk.Services;
 using ShadowViewer.Plugin.Bika.Args;
+using ShadowViewer.Plugin.Bika.Constants;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.ViewModels;
 using ShadowViewer.Plugin.Local.Pages;
@@ -116,7 +117,7 @@ public sealed partial class BikaInfoPage : Page
     private void EpisodesButton_OnClick(object sender, RoutedEventArgs e)
     {
         if (sender is Button { Tag: Episode episode })
-            Frame.Navigate(typeof(PicPage), new PicViewArg(BikaPlugin.Meta.Id,
+            Frame.Navigate(typeof(PicPage), new PicViewArg(PluginConstants.PluginId,
                 new ComicArg(ViewModel.CurrentComic, episode.Order, ViewModel.Episodes)));
     }
 

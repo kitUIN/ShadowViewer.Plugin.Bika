@@ -1,10 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShadowViewer.Core.Helpers;
 
 namespace ShadowViewer.Plugin.Bika.Models
 {
@@ -31,7 +25,8 @@ namespace ShadowViewer.Plugin.Bika.Models
         {
             if(oldValue != newValue)
             {
-                ConfigHelper.Set(Title, newValue);
+                // TODO
+                // ConfigHelper.Set(Title, newValue);
                 Icon = IsOpened ? "\uE785" : "\uE72E";
             }
         }

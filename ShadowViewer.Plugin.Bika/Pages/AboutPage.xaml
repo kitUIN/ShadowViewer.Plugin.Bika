@@ -35,7 +35,7 @@
                 HorizontalAlignment="Center"
                 FontSize="30"
                 FontWeight="SemiBold"
-                Text="{x:Bind local:BikaPlugin.Meta.Name}" />
+                Text="" />
             <TextBlock
                 Grid.Row="2"
                 HorizontalAlignment="Center"
@@ -56,7 +56,7 @@
                     LeftBackground="#FF5e5e5e"
                     LeftText="{i18N:Locale Key=PluginVersion}"
                     RightBackground="#FF6e9bc5"
-                    RightText="{x:Bind local:BikaPlugin.Meta.Version}" />
+                    RightText="" />
                 <controls:ShieldsBadge
                     LeftBackground="#FF5e5e5e"
                     LeftText="{i18N:Locale Key=LowestVersion}"

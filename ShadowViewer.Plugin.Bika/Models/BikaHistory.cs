@@ -1,4 +1,5 @@
-using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Plugin.Bika.Constants;
+using ShadowViewer.Sdk.Models.Interfaces;
 using ShadowViewer.Plugin.Local.Models;
 using SqlSugar;
 
@@ -13,5 +14,5 @@ public partial class BikaHistory: LocalHistory
     /// <summary>
     /// <inheritdoc cref="IHistory.PluginId"/>
     /// </summary>
-    public override string PluginId { get; set; } = BikaPlugin.Meta.Id;
+    public override string PluginId { get; set; } = PluginConstants.PluginId;
 }

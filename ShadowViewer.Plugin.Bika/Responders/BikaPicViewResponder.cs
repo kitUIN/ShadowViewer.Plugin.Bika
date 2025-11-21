@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using PicaComic;
 using ShadowPluginLoader.Attributes;
-using ShadowViewer.Core.Args;
-using ShadowViewer.Core.Plugins;
-using ShadowViewer.Core.Responders;
+using ShadowViewer.Sdk.Args;
+using ShadowViewer.Sdk.Plugins;
+using ShadowViewer.Sdk.Responders;
 using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
@@ -20,10 +20,10 @@ public partial class BikaPicViewResponder: AbstractPicViewResponder
     [Autowired]
     public IPicaClient Client { get; }
 
-    public override void PicturesLoadStarting(object sender, PicViewArg e)
+    public override void PicturesLoadStarting(object sender, PicViewContext ctx)
     {
         if (sender is not PicViewModel viewModel) return;
-        if (e.Affiliation != Id || e.Parameter is not ComicArg arg) return;
+        if (ctx.Affiliation != Id || ctx.Parameter is not ComicArg arg) return;
         var orders = new List<int>();
         foreach (var episode in arg.Episodes.Reverse())
         {
@@ -35,8 +35,7 @@ public partial class BikaPicViewResponder: AbstractPicViewResponder
         if (viewModel.CurrentEpisodeIndex == -1 && orders.Count > 0)
             viewModel.CurrentEpisodeIndex = orders.IndexOf(arg.CurrentEpisode);
     }
-
-    public override async void CurrentEpisodeIndexChanged(object sender, string affiliation, int oldValue, int newValue)
+    public override async void CurrentEpisodeIndexChanged(object sender, PicViewContext ctx, int oldValue, int newValue)
     {
         if (sender is not PicViewModel viewModel) return;
         if (oldValue == newValue) return;

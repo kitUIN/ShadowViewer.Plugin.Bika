@@ -1,18 +1,18 @@
-using System;
-using System.Collections.Generic;
+using DryIoc;
 using Microsoft.UI.Xaml.Controls;
 using PicaComic;
-using ShadowViewer.Plugin.Bika.Models;
-using ShadowViewer.Plugin.Bika.Controls;
-using ShadowViewer.Plugin.Bika.Helpers;
-using ShadowViewer.Plugin.Bika.ViewModels;
-using System.Threading.Tasks;
-using DryIoc;
 using ShadowPluginLoader.Attributes;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Plugins;
+using ShadowViewer.Plugin.Bika.Controls;
+using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.I18n;
+using ShadowViewer.Plugin.Bika.Models;
+using ShadowViewer.Plugin.Bika.ViewModels;
+using ShadowViewer.Sdk.Plugins;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ShadowViewer.Plugin.Bika.Configs;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -20,6 +20,11 @@ namespace ShadowViewer.Plugin.Bika;
 [CheckAutowired]
 public partial class BikaPlugin : AShadowViewerPlugin
 {
+    /// <summary>
+    /// Config
+    /// </summary>
+    public BikaPluginConfig Config { get; } = DiFactory.Services.Resolve<BikaPluginConfig>();
+
     /// <summary>
     /// Login Frame
     /// </summary>
@@ -42,7 +47,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
         {
             Logger.Information("触发CreateTopLevelControl");
             Caller.CreateTopLevelControl(MainLoginTip!);
-            if (PluginService.IsEnabled(Meta.Id) == true) Enabled();
+            if (PluginService.IsEnabled(MetaData.Id) == true) Enabled();
         };
     }
 
@@ -56,7 +61,10 @@ public partial class BikaPlugin : AShadowViewerPlugin
     };
 
 
-    public override string DisplayName => "哔咔漫画";
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override string DisplayName => I18N.Title;
 
 
     /// <summary>
@@ -91,7 +99,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     private async Task<bool> TryAutoLogin()
     {
         var bikaClient = DiFactory.Services.Resolve<IPicaClient>();
-        var user = BikaPlugin.Settings.LastBikaUser;
+        var user = Config.LastBikaUser;
         if (await Db.Queryable<BikaUser>().FirstAsync(x => x.Email == user) is not { } bikaUser) return false;
         bikaClient.SetToken(bikaUser.Token);
         try
@@ -129,7 +137,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
         var bikaClient = DiFactory.Services.Resolve<IPicaClient>();
         if (bikaClient.HasToken) return;
         var b = false;
-        if (Settings.AutoLogin) b = await TryAutoLogin();
+        if (Config.AutoLogin) b = await TryAutoLogin();
         if (!b) ShowLoginFrame();
         else
         {
@@ -145,10 +153,10 @@ public partial class BikaPlugin : AShadowViewerPlugin
     {
         // if no locks then load locks
         if (BikaData.Current.Locks.Count != 0) return;
-        foreach (var item in BikaData.Categories)
-            if (ConfigHelper.Contains(item))
-                BikaData.Current.Locks.Add(new BikaLock(item, ConfigHelper.GetBoolean(item)));
-            else
-                ConfigHelper.Set(item, true);
+        // foreach (var item in BikaData.Categories)
+        //     if (ConfigHelper.Contains(item))
+        //         BikaData.Current.Locks.Add(new BikaLock(item, ConfigHelper.GetBoolean(item)));
+        //     else
+        //         ConfigHelper.Set(item, true);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Plugin.Bika.Constants;
+using ShadowViewer.Sdk.Models.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika.Models;
 
@@ -19,5 +20,5 @@ public partial class BikaNavigationItem: ObservableObject,IShadowNavigationItem
     /// </summary>
     public string? Id { get; set; }
 
-    public string PluginId => BikaPlugin.Meta.Id;
+    public string PluginId => PluginConstants.PluginId;
 }

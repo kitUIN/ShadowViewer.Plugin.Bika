@@ -1,19 +1,31 @@
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PicaComic;
 using PicaComic.Models;
 using PicaComic.Utils;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.Plugin.Bika.Configs;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.I18n;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using ShadowPluginLoader.Attributes;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels
 {
+    [CheckAutowired]
     public partial class BikaCategoryViewModel : ObservableObject
     {
+
+        /// <summary>
+        /// Config
+        /// </summary>
+        [Autowired]
+        public BikaPluginConfig Config { get; }
+
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(CurrentPageString))]
         [NotifyCanExecuteChangedFor(nameof(PreviousPageCommand))]
@@ -120,7 +132,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                         foreach (var comic in res.Data.Comics.Docs)
                         {
                             CheckCategoryLock(comic);
-                            if (!(comic.IsLocked && BikaPlugin.Settings.IsIgnoreLockComic))
+                            if (!(comic.IsLocked && Config.IsIgnoreLockComic))
                             {
                                 CategoryComics.Add(comic);
                             }
@@ -135,7 +147,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                         foreach (var comic in res.Data.Comics)
                         {
                             CheckCategoryLock(comic);
-                            if (!(comic.IsLocked && BikaPlugin.Settings.IsIgnoreLockComic))
+                            if (!(comic.IsLocked && Config.IsIgnoreLockComic))
                             {
                                 CategoryComics.Add(comic);
                             }
@@ -150,7 +162,7 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
                         foreach (var comic in res.Data.Comics.Docs)
                         {
                             CheckCategoryLock(comic);
-                            if (!(comic.IsLocked && BikaPlugin.Settings.IsIgnoreLockComic))
+                            if (!(comic.IsLocked && Config.IsIgnoreLockComic))
                             {
                                 CategoryComics.Add(comic);
                             }

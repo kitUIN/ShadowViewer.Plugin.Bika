@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using ShadowViewer.Plugin.Bika.I18n;
-using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Sdk.Models.Interfaces;
 using ShadowViewer.Plugin.Bika.Enums;
 
 namespace ShadowViewer.Plugin.Bika.Models;

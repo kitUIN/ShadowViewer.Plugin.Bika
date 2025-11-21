@@ -11,7 +11,7 @@
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:PicaComic.Models"
-    xmlns:converters2="using:ShadowViewer.Core.Converters"
+    xmlns:converters1="using:ShadowViewer.Sdk.Converters"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolToObjectConverter
@@ -42,7 +42,7 @@
             x:Key="EmptyToReplyConverter"
             EmptyValue="{ex:Locale Key=Comments}"
             NotEmptyValue="{ex:Locale Key=Reply}" />
-        <converters2:CollectionCountToObjectConverter
+        <converters1:CollectionCountToObjectConverter
             x:Key="CollectionToVisibilityConverter"
             EmptyValue="Visible"
             NotEmptyValue="Collapsed" />
