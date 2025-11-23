@@ -89,7 +89,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     public override void Loaded()
     {
-        // Enabled();
+        Enabled();
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     {
         // if no locks then load locks
         if (BikaData.Current.Locks.Count != 0) return;
-        var lockConfig  = DiFactory.Services.Resolve<BikaPluginLockConfig>();
+        var lockConfig = DiFactory.Services.Resolve<BikaPluginLockConfig>();
         foreach (var item in BikaData.Categories)
             if (lockConfig.Locks.TryGetValue(item, out var configLock))
                 BikaData.Current.Locks.Add(new BikaLock(item, configLock));

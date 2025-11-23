@@ -4,34 +4,43 @@ using Microsoft.UI.Xaml.Controls;
 using PicaComic.Models;
 using ShadowPluginLoader.WinUI;
 using ShadowViewer.Plugin.Bika.Configs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ShadowViewer.Plugin.Bika.Helpers
+namespace ShadowViewer.Plugin.Bika.Helpers;
+
+/// <summary>
+/// 
+/// </summary>
+public class CategoryComicDataTemplateSelector : DataTemplateSelector
 {
-    public class CategoryComicDataTemplateSelector : DataTemplateSelector
+    /// <summary>
+    /// 
+    /// </summary>
+    public DataTemplate DontLoadTemplate { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public DataTemplate LoadTemplate { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public BikaPluginConfig Config { get; } = DiFactory.Services.Resolve<BikaPluginConfig>();
+
+    /// <inheritdoc />
+    protected override DataTemplate SelectTemplateCore(object item)
     {
-        public DataTemplate DontLoadTemplate { get; set; }
-
-
-        public DataTemplate LoadTemplate { get; set; }
-        protected override DataTemplate SelectTemplateCore(object item)
+        if (item is not CategoryComic category)
         {
-            var category = item as CategoryComic;
-            if (category == null)
-            {
-                return LoadTemplate;
-            }
-             
-            return !DiFactory.Services.Resolve<BikaPluginConfig>().LoadLockComic && category.IsLocked ?  DontLoadTemplate: LoadTemplate;
+            return LoadTemplate;
         }
 
-        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
-        {
-            return SelectTemplateCore(item);
-        }
+        return !Config.LoadLockComic && category.IsLocked ? DontLoadTemplate : LoadTemplate;
+    }
+
+    /// <inheritdoc />
+    protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+    {
+        return SelectTemplateCore(item);
     }
 }

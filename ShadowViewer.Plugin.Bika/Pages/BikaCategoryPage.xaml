@@ -6,8 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.I18n"
     xmlns:helpers="using:ShadowViewer.Plugin.Bika.Helpers"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:PicaComic.Models"
+    xmlns:media="using:CommunityToolkit.WinUI.Media"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.Resources>
@@ -139,50 +140,51 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid CornerRadius="5" Visibility="{x:Bind IsLocked, Mode=OneWay}">
-                    <Grid.Background>
-                        <AcrylicBrush x:Key="CustomAcrylicBrush"
-                                            TintOpacity="0" TintColor="SkyBlue" FallbackColor="SkyBlue" />
-                    </Grid.Background>
-                    <Grid
-                        Margin="50"
-                        Padding="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="{ThemeResource LayerFillColorDefaultBrush}"
-                        ColumnSpacing="3"
-                        CornerRadius="10"
-                        PointerEntered="Lock_PointerEntered"
-                        PointerExited="Lock_PointerExited"
-                        Tag="{x:Bind}"
-                        Tapped="UnLock_Tapped">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel
-                            Grid.Column="0"
-                            VerticalAlignment="Top"
-                            Orientation="Horizontal"
-                            Spacing="3">
-                            <FontIcon VerticalAlignment="Top" Glyph="&#xE72E;" />
+                <Grid CornerRadius="5" Visibility="{x:Bind IsLocked, Mode=OneWay}"
+                      Background="{ThemeResource LayerFillColorDefaultBrush}">
+                    <Grid>
+                        <Grid.Background>
+                            <media:BackdropBlurBrush Amount="10.0" />
+                        </Grid.Background>
+                        <Grid Background="{ThemeResource LayerFillColorDefaultBrush}"
+                              Margin="50"
+                              Padding="10"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              ColumnSpacing="3"
+                              CornerRadius="10"
+                              PointerEntered="Lock_PointerEntered"
+                              PointerExited="Lock_PointerExited"
+                              Tag="{x:Bind}"
+                              Tapped="UnLock_Tapped">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Spacing="3">
+                                <FontIcon VerticalAlignment="Top" Glyph="&#xE72E;" />
+                                <TextBlock
+                                    VerticalAlignment="Top"
+                                    FontWeight="SemiBold"
+                                    Text="{ex:Locale Key=Locked}" />
+                                <TextBlock
+                                    VerticalAlignment="Top"
+                                    FontWeight="SemiBold"
+                                    Text=":" />
+                            </StackPanel>
                             <TextBlock
+                                Grid.Column="1"
                                 VerticalAlignment="Top"
                                 FontWeight="SemiBold"
-                                Text="{ex:Locale Key=Locked}" />
-                            <TextBlock
-                                VerticalAlignment="Top"
-                                FontWeight="SemiBold"
-                                Text=":" />
-                        </StackPanel>
-                        <TextBlock
-                            Grid.Column="1"
-                            VerticalAlignment="Top"
-                            FontWeight="SemiBold"
-                            Foreground="{ThemeResource BikaAccentColorDark2}"
-                            Text="{x:Bind LockCategoryString, Mode=OneWay}"
-                            TextTrimming="WordEllipsis"
-                            TextWrapping="Wrap" />
+                                Foreground="{ThemeResource BikaAccentColorDark2}"
+                                Text="{x:Bind LockCategoryString, Mode=OneWay}"
+                                TextTrimming="WordEllipsis"
+                                TextWrapping="Wrap" />
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
@@ -380,8 +382,6 @@
         <Border
             x:Name="PipsBorder"
             Grid.Row="1"
-            Width="100"
-            Height="20"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -391,7 +391,7 @@
             <PipsPager
                 x:Name="Pips"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Center"
                 NextButtonVisibility="Visible"
                 NumberOfPages="{x:Bind ViewModel.Pages, Mode=OneWay}"
                 Orientation="Horizontal"
