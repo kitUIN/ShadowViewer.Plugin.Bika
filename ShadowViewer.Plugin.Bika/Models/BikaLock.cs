@@ -47,10 +47,9 @@ public partial class BikaLock : ObservableObject
 
     partial void OnIsOpenedChanged(bool oldValue, bool newValue)
     {
-        if (oldValue != newValue)
-        {
-            Icon = IsOpened ? "\uE785" : "\uE72E";
-            lockConfig.Locks[title] = newValue;
-        }
+        if (oldValue == newValue) return;
+        Icon = IsOpened ? "\uE785" : "\uE72E";
+        lockConfig.Locks[title] = newValue;
+        lockConfig.Save();
     }
 }
