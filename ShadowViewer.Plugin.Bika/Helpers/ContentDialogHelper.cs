@@ -1,6 +1,9 @@
+using System;
+using CustomExtensions.WinUI;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Serilog;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.I18n;
@@ -40,7 +43,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
             switch (status)
             {
                 case BikaHttpStatus.TimeOut:
-                    //img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper));
+                    img.Source = new BitmapImage(new Uri("ms-plugin://ShadowViewer.Plugin.Bika/Assets/Picacgs/icon_unknown_error.png".PluginPath())) ;
                     title.Text = I18N.TimeOut;
                     var stack = new StackPanel()
                     {
@@ -68,7 +71,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                     dialog.Content = stack;
                     break;
                 case BikaHttpStatus.NoAuth:
-                    //img.Source = "/Assets/Picacgs/icon_exclamation_error.png".ImageSource(typeof(ContentDialogHelper));
+                    img.Source = new BitmapImage(new Uri("ms-plugin://ShadowViewer.Plugin.Bika/Assets/Picacgs/icon_exclamation_error.png".PluginPath()));
                     title.Text = I18N.NoAuth;
                     dialog.Content = new TextBlock
                     {
@@ -79,7 +82,7 @@ namespace ShadowViewer.Plugin.Bika.Helpers
                     break;
                 case BikaHttpStatus.Unknown:
                     title.Text = I18N.Unknown;
-                    //img.Source = "/Assets/Picacgs/icon_unknown_error.png".ImageSource(typeof(ContentDialogHelper)); 
+                    img.Source = new BitmapImage(new Uri("ms-plugin://ShadowViewer.Plugin.Bika/Assets/Picacgs/icon_unknown_error.png".PluginPath()));
                     dialog.Content = new TextBlock
                     {
                         TextWrapping = TextWrapping.Wrap,

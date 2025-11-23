@@ -90,13 +90,13 @@
                     x:Name="RememberMeBox"
                     HorizontalAlignment="Left"
                     Content="{ex:Locale Key=RememberMe}"
-                    IsChecked="{x:Bind ViewModel.RememberMe, Mode=TwoWay}" />
+                    IsChecked="{x:Bind ViewModel.Config.RememberMe, Mode=TwoWay}" />
                 <CheckBox
                     x:Name="AutoLoginBox"
                     HorizontalAlignment="Right"
                     Content="{ex:Locale Key=AutoLogin}"
                     FlowDirection="RightToLeft"
-                    IsChecked="{x:Bind ViewModel.AutoLogin, Mode=TwoWay}" />
+                    IsChecked="{x:Bind ViewModel.Config.AutoLogin, Mode=TwoWay}" />
             </Grid>
             <Button
                 Grid.Row="3"

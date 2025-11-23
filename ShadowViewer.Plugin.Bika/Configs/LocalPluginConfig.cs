@@ -96,28 +96,29 @@ public partial class BikaPluginConfig
             Log.Error($"{ex}", ex);
         }
     }
-    // /// <summary>
-    // /// 
-    // /// </summary>
-    // partial void ApiShuntChanged(int newValue)
-    // {
-    //     IPicaClient.AppChannel = newValue;
-    // }
-    // /// <summary>
-    // /// 
-    // /// </summary>
-    // /// <param name="newValue"></param>
-    // partial void PicShuntChanged(int newValue)
-    // {
-    //     IPicaClient.FileChannel = newValue;
-    // }
-    //
-    // partial void AfterInit()
-    // {
-    //     var client = DiFactory.Services.Resolve<IPicaClient>();
-    //     IPicaClient.AppChannel = ApiShunt;
-    //     IPicaClient.FileChannel = PicShunt;
-    //     if (!string.IsNullOrEmpty(Proxy))
-    //         client.SetProxy(new Uri(Proxy));
-    // }
+
+    partial void AfterAutoLoginChanged(bool oldValue, bool newValue)
+    {
+        if (oldValue == newValue) return;
+        AutoLogin = newValue;
+        if (AutoLogin) RememberMe = true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    partial void AfterApiShuntChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue) return;
+        IPicaClient.AppChannel = newValue;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    partial void AfterPicShuntChanged(int oldValue, int newValue)
+    {
+        if (oldValue == newValue) return;
+        IPicaClient.FileChannel = newValue;
+    }
 }

@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using PicaComic;
 using PicaComic.Models;
 using PicaComic.Utils;
-using ShadowPluginLoader.WinUI;
 using ShadowViewer.Plugin.Bika.Configs;
 using ShadowViewer.Plugin.Bika.Enums;
 using ShadowViewer.Plugin.Bika.Helpers;
@@ -18,7 +17,6 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
     [CheckAutowired]
     public partial class BikaCategoryViewModel : ObservableObject
     {
-
         /// <summary>
         /// Config
         /// </summary>
@@ -54,11 +52,10 @@ namespace ShadowViewer.Plugin.Bika.ViewModels
         [ObservableProperty] private SortRule sort = SortRule.dd;
         public ObservableCollection<CategoryComic> CategoryComics { get; } = new();
         public CategoryMode Mode { get; set; }
-        private IPicaClient BikaClient { get; }
+        [Autowired] private IPicaClient BikaClient { get; }
 
-        public BikaCategoryViewModel(IPicaClient bikaClient)
+        partial void ConstructorInit()
         {
-            BikaClient = bikaClient;
             SortRuleText = ResourcesHelper.GetString(Sort.ToString().ToUpper());
         }
 

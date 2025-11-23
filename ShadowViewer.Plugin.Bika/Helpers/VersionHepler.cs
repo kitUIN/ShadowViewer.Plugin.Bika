@@ -1,6 +1,4 @@
-﻿using DryIoc;
-using ShadowPluginLoader.WinUI;
-using ShadowViewer.Plugin.Bika.Configs;
+﻿using ShadowPluginLoader.WinUI;
 
 namespace ShadowViewer.Plugin.Bika.Helpers;
 
@@ -13,11 +11,20 @@ public static class VersionHelper
     /// 
     /// </summary>
     /// <returns></returns>
-    public static string GetPluginVersion() => DiFactory.Services.Resolve<BikaPlugin>().MetaData.Version.ToString();
+    public static string LowestVersion { get; set; } = "";
 
     /// <summary>
     /// 
     /// </summary>
-    /// <returns></returns>
-    public static string GetLowestVersion() => DiFactory.Services.Resolve<BikaPlugin>().MetaData.SdkVersion.ToString();
+    public static string PluginVersion { get; set; } = "";
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="metaData"></param>
+    public static void Init(AbstractPluginMetaData metaData)
+    {
+        LowestVersion = metaData.SdkVersion.ToString();
+        PluginVersion = metaData.Version.ToString();
+    }
 }

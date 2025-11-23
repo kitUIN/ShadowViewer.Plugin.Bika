@@ -8,7 +8,6 @@ using ShadowPluginLoader.Attributes;
 using ShadowPluginLoader.WinUI;
 using ShadowViewer.Plugin.Bika.Configs;
 using ShadowViewer.Plugin.Bika.Helpers;
-using ShadowViewer.Plugin.Bika.I18n;
 using ShadowViewer.Plugin.Bika.Models;
 using SqlSugar;
 using System.Threading.Tasks;
@@ -16,6 +15,9 @@ using Windows.System;
 
 namespace ShadowViewer.Plugin.Bika.ViewModels;
 
+/// <summary>
+/// 
+/// </summary>
 [CheckAutowired]
 public partial class LoginTipViewModel : ObservableObject
 {
@@ -32,32 +34,21 @@ public partial class LoginTipViewModel : ObservableObject
     [Autowired]
     private ISqlSugarClient Db { get; }
 
-    // public LoginTipViewModel(ILogger logger, IPicaClient picaClient, ISqlSugarClient db)
-    // {
-    //     Logger = logger;
-    //     Client = picaClient;
-    //     Db = db;
-    //
-    //     if (!string.IsNullOrEmpty(Config.LastBikaUser))
-    //     {
-    //         var user = BikaPlugin.Settings.LastBikaUser;
-    //         if (Db.Queryable<BikaUser>().First(x => x.Email == user) is BikaUser bikaUser)
-    //             if (RememberMe)
-    //             {
-    //                 Email = bikaUser.Email;
-    //                 Password = bikaUser.Password;
-    //                 Logger.Information("自动加载上次登录用户");
-    //             }
-    //     }
-    // }
     /// <summary>
     /// 
     /// </summary>
-    [ObservableProperty] private bool rememberMe;// = BikaPlugin.Settings.RememberMe;
-    [ObservableProperty] private bool autoLogin;// = BikaPlugin.Settings.AutoLogin;
     [ObservableProperty] private bool isOpen;
+    /// <summary>
+    /// 
+    /// </summary>
     [ObservableProperty] private bool canLogin = true;
+    /// <summary>
+    /// 
+    /// </summary>
     [ObservableProperty] private string email = "";
+    /// <summary>
+    /// 
+    /// </summary>
     [ObservableProperty] private string password = "";
 
     /// <summary>
@@ -68,21 +59,7 @@ public partial class LoginTipViewModel : ObservableObject
         if (e.Key == VirtualKey.Enter) LoginCommand.Execute(null);
     }
 
-    partial void OnAutoLoginChanged(bool oldValue, bool newValue)
-    {
-        if (oldValue != newValue)
-        {
-            Config.AutoLogin = AutoLogin;
-            if (AutoLogin)
-                RememberMe = true;
-        }
-    }
-
-    partial void OnRememberMeChanged(bool oldValue, bool newValue)
-    {
-        if (oldValue != newValue)
-            Config.RememberMe = RememberMe;
-    }
+     
 
     /// <summary>
     /// 登录
@@ -122,5 +99,16 @@ public partial class LoginTipViewModel : ObservableObject
                 await BikaHttpHelper.Keywords(this);
             });
         CanLogin = true;
+    }
+
+    partial void ConstructorInit()
+    {
+        if (string.IsNullOrEmpty(Config.LastBikaUser)) return;
+        var user = Config.LastBikaUser;
+        if (Db.Queryable<BikaUser>().First(x => x.Email == user) is not { } bikaUser) return;
+        if (!Config.RememberMe) return;
+        Email = bikaUser.Email;
+        Password = bikaUser.Password;
+        Logger.Information("自动加载上次登录用户: {User}", user);
     }
 }

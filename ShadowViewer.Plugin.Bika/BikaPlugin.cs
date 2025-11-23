@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using PicaComic;
 using ShadowPluginLoader.Attributes;
 using ShadowPluginLoader.WinUI;
+using ShadowViewer.Plugin.Bika.Configs;
 using ShadowViewer.Plugin.Bika.Controls;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.I18n;
@@ -12,10 +13,12 @@ using ShadowViewer.Sdk.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShadowViewer.Plugin.Bika.Configs;
 
 namespace ShadowViewer.Plugin.Bika;
 
+/// <summary>
+/// 
+/// </summary>
 [MainPlugin]
 [CheckAutowired]
 public partial class BikaPlugin : AShadowViewerPlugin
@@ -43,7 +46,12 @@ public partial class BikaPlugin : AShadowViewerPlugin
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
         MainLoginTip ??= new LoginTip();
         Db.CodeFirst.InitTables<BikaUser>();
-        Caller.AppLoadedEvent += (sender, args) =>
+        IPicaClient.AppChannel = Config.ApiShunt;
+        IPicaClient.FileChannel = Config.PicShunt;
+        if (!string.IsNullOrEmpty(Config.Proxy))
+            DiFactory.Services.Resolve<IPicaClient>().SetProxy(new Uri(Config.Proxy));
+        VersionHelper.Init(MetaData);
+        Caller.AppLoadedEvent += (_, _) =>
         {
             Logger.Information("触发CreateTopLevelControl");
             Caller.CreateTopLevelControl(MainLoginTip!);
@@ -153,10 +161,12 @@ public partial class BikaPlugin : AShadowViewerPlugin
     {
         // if no locks then load locks
         if (BikaData.Current.Locks.Count != 0) return;
-        // foreach (var item in BikaData.Categories)
-        //     if (ConfigHelper.Contains(item))
-        //         BikaData.Current.Locks.Add(new BikaLock(item, ConfigHelper.GetBoolean(item)));
-        //     else
-        //         ConfigHelper.Set(item, true);
+        var lockConfig  = DiFactory.Services.Resolve<BikaPluginLockConfig>();
+        foreach (var item in BikaData.Categories)
+            if (lockConfig.Locks.TryGetValue(item, out var configLock))
+                BikaData.Current.Locks.Add(new BikaLock(item, configLock));
+            else
+                lockConfig.Locks[item] = true;
+        lockConfig.Save();
     }
 }

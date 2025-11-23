@@ -6,24 +6,31 @@ using ShadowPluginLoader.WinUI;
 
 namespace ShadowViewer.Plugin.Bika.Controls;
 
+/// <summary>
+/// 
+/// </summary>
 public sealed partial class LoginTip : UserControl
 {
-    private LoginTipViewModel ViewModel { get; }
+    /// <summary>
+    /// 
+    /// </summary>
+    private LoginTipViewModel ViewModel { get; } = DiFactory.Services.Resolve<LoginTipViewModel>();
 
+    /// <summary>
+    /// 
+    /// </summary>
     public LoginTip()
     {
         this.LoadComponent(ref _contentLoaded);
-        ViewModel = DiFactory.Services.Resolve<LoginTipViewModel>();
-
     }
 
-    public void Show()
-    {
-        ViewModel.IsOpen = true;
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Show() => ViewModel.IsOpen = true;
 
-    public void Hide()
-    {
-        ViewModel.IsOpen = false;
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Hide() => ViewModel.IsOpen = false;
 }
