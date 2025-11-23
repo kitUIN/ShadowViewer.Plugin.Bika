@@ -57,12 +57,12 @@
                     LeftBackground="#FF5e5e5e"
                     LeftText="{i18N:Locale Key=PluginVersion}"
                     RightBackground="#FF6e9bc5"
-                    RightText="{x:Bind helper:VersionHelper.GetPluginVersion(), Mode=OneWay}" />
+                    RightText="{x:Bind helper:VersionHelper.PluginVersion, Mode=OneWay}" />
                 <controls:ShieldsBadge
                     LeftBackground="#FF5e5e5e"
                     LeftText="{i18N:Locale Key=LowestVersion}"
                     RightBackground="#FFf0932b"
-                    RightText="{x:Bind helper:VersionHelper.GetLowestVersion(), Mode=OneWay}"  />
+                    RightText="{x:Bind helper:VersionHelper.LowestVersion, Mode=OneWay}"  />
                 <controls:ShieldsBadge
                     LeftBackground="#FF5e5e5e"
                     LeftText="{i18N:Locale Key=License}"
