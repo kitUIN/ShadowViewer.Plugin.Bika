@@ -10,7 +10,12 @@
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winUi="using:FluentIcons.WinUI"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:helper="using:ShadowViewer.Plugin.Bika.Helpers"
     mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BoolNegationConverter x:Name="BoolNegationConverter"></converters:BoolNegationConverter>
+    </Page.Resources>
     <Grid
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -41,14 +46,14 @@
 
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard Header="{ex:Locale Key=ApiShunt}">
-                            <ComboBox SelectedIndex="{x:Bind ViewModel.ApiShunt, Mode=TwoWay}">
+                            <ComboBox SelectedIndex="{x:Bind ViewModel.Config.ApiShunt, Mode=TwoWay}">
                                 <ComboBoxItem Content="{ex:Locale Key=ShuntOne}" />
                                 <ComboBoxItem Content="{ex:Locale Key=ShuntTwo}" />
                                 <ComboBoxItem Content="{ex:Locale Key=ShuntThree}" />
                             </ComboBox>
                         </labs:SettingsCard>
                         <labs:SettingsCard Header="{ex:Locale Key=PicShunt}">
-                            <ComboBox SelectedIndex="{x:Bind ViewModel.PicShunt, Mode=TwoWay}">
+                            <ComboBox SelectedIndex="{x:Bind ViewModel.Config.PicShunt, Mode=TwoWay}">
                                 <ComboBoxItem Content="{ex:Locale Key=ShuntOne}" />
                                 <ComboBoxItem Content="{ex:Locale Key=ShuntTwo}" />
                                 <ComboBoxItem Content="{ex:Locale Key=ShuntThree}" />
@@ -64,6 +69,7 @@
                         <TextBox
                             x:Name="ProxyBox"
                             LostFocus="ProxyBox_OnLostFocus"
+                            Text="{x:Bind ViewModel.Config.Proxy,Mode=OneWay}"
                             PlaceholderText="{ex:Locale Key=SystemProxy}" />
                     </StackPanel>
                 </labs:SettingsCard>
@@ -75,7 +81,10 @@
                             Orientation="Horizontal"
                             Spacing="5"
                             Visibility="{x:Bind ViewModel.PingShow, Mode=OneWay}">
-                            <winUi:FluentIcon Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" />
+                            <winUi:FluentIcon 
+                                Icon="{x:Bind ViewModel.PingIcon, Mode=OneWay}"
+                                IconVariant="Filled"
+                                Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}"  />
                             <TextBlock Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}"
                                        Text="{x:Bind ViewModel.PingText, Mode=OneWay}" />
                         </StackPanel>
@@ -93,9 +102,8 @@
                 <labs:SettingsCard HeaderIcon="{winUi:FluentIcon Icon=NotebookEye}"
                                    Description="{ex:Locale Key=IsIgnoreLockComicDescription}"
                                    Header="{ex:Locale Key=IsIgnoreLockComic}">
-
                     <ToggleSwitch
-                        IsOn="{x:Bind ViewModel.IsIgnoreLockComic, Mode=TwoWay}"
+                        IsOn="{x:Bind ViewModel.Config.IsIgnoreLockComic, Mode=TwoWay}"
                         OffContent="{ex:Locale Key=UnIgnore}"
                         OnContent="{ex:Locale Key=Ignore}" />
                 </labs:SettingsCard>
@@ -104,8 +112,8 @@
                                    Header="{ex:Locale Key=LoadLockComic}">
 
                     <ToggleSwitch
-                        IsEnabled="{x:Bind ViewModel.LoadLockComicShow, Mode=OneWay}"
-                        IsOn="{x:Bind ViewModel.LoadLockComic, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.Config.IsIgnoreLockComic, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                        IsOn="{x:Bind ViewModel.Config.LoadLockComic, Mode=TwoWay}"
                         OffContent="{ex:Locale Key=UnLoad}"
                         OnContent="{ex:Locale Key=Load}" />
                 </labs:SettingsCard>
@@ -114,15 +122,15 @@
                                    HeaderIcon="{winUi:FluentIcon Icon=LockClosedKey}">
 
                     <ToggleSwitch
-                        IsEnabled="{x:Bind ViewModel.CanTemporaryUnlockShow, Mode=OneWay}"
-                        IsOn="{x:Bind ViewModel.CanTemporaryUnlock, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.Config.CanTemporaryUnlockShow, Mode=OneWay}"
+                        IsOn="{x:Bind ViewModel.Config.CanTemporaryUnlockComic, Mode=TwoWay}"
                         OffContent="{ex:Locale Key=UnAllow}"
                         OnContent="{ex:Locale Key=Allow}" />
                 </labs:SettingsCard>
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=About}" />
-                <labs:SettingsCard Description="© 2023-2023 kitUIN. All rights reserved."
-                                   Header=""
+                <labs:SettingsCard Description="© 2023-2025 kitUIN. All rights reserved."
+                                   Header="{x:Bind helper:VersionHelper.GetPluginVersion(), Mode=OneWay}"
                                    Click="AboutCard_Click"
                                    IsActionIconVisible="True"
                                    IsClickEnabled="True">

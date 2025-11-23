@@ -11,7 +11,7 @@
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
 	  <PackageId>ShadowViewer.Plugin.Bika</PackageId>
-	  <PluginName>本地阅读器</PluginName>
+	  <PluginName>哔咔漫画</PluginName>
 	  <!--插件版本号(nuget包版本号)-->
 	  <Version>1.0.0.1</Version>
 	  <!--插件仓库地址(nuget包仓库地址)-->
@@ -34,7 +34,7 @@
 
   </PropertyGroup>
 	<ItemGroup Label="Dependencies">
-		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.4.4.5" />
+		<PackageReference Include="ShadowViewer.Plugin.Local" Need="[1.4,2.0]" />
 	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />		

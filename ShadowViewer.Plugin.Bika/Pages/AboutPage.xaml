@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pica="using:PicaComic"
     xmlns:i18N="using:ShadowViewer.Plugin.Bika.I18n"
+    xmlns:helper="using:ShadowViewer.Plugin.Bika.Helpers"
     mc:Ignorable="d">
     <ScrollViewer
         Padding="0,10,0,0"
@@ -56,12 +57,12 @@
                     LeftBackground="#FF5e5e5e"
                     LeftText="{i18N:Locale Key=PluginVersion}"
                     RightBackground="#FF6e9bc5"
-                    RightText="" />
+                    RightText="{x:Bind helper:VersionHelper.GetPluginVersion(), Mode=OneWay}" />
                 <controls:ShieldsBadge
                     LeftBackground="#FF5e5e5e"
                     LeftText="{i18N:Locale Key=LowestVersion}"
                     RightBackground="#FFf0932b"
-                    RightText="" />
+                    RightText="{x:Bind helper:VersionHelper.GetLowestVersion(), Mode=OneWay}"  />
                 <controls:ShieldsBadge
                     LeftBackground="#FF5e5e5e"
                     LeftText="{i18N:Locale Key=License}"

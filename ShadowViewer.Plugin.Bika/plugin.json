@@ -5,7 +5,7 @@
   "Description": "{{ Description }}",
   "Authors": "{{ Authors }}",
   "WebUri": "{{ PackageProjectUrl }}",
-  "Logo": "fluent://regular/ResizeImage",
+  "Logo": "ms-plugin://{{ PackageId }}/Assets/Icons/logo.png",
   "PluginManage": {
     "CanSwitch": true,
     "CanOpenFolder": true

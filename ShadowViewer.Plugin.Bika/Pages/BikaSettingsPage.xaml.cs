@@ -1,24 +1,28 @@
-using System;
 using CustomExtensions.WinUI;
 using DryIoc;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using PicaComic;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Sdk.Extensions;
 using ShadowViewer.Plugin.Bika.ViewModels;
+using ShadowViewer.Sdk.Extensions;
+using ShadowViewer.Sdk.Plugins;
+using System;
+using ShadowPluginLoader.Attributes;
 
 namespace ShadowViewer.Plugin.Bika.Pages;
 
+[EntryPoint(Name = nameof(PluginManage.SettingsPage))]
 public sealed partial class BikaSettingsPage : Page
 {
-    private BikaSettingsViewModel ViewModel { get; }
+    private BikaSettingsViewModel ViewModel { get; } = DiFactory.Services.Resolve<BikaSettingsViewModel>();
 
+    /// <summary>
+    /// 
+    /// </summary>
     public BikaSettingsPage()
     {
        this.LoadComponent(ref _contentLoaded);
-        ViewModel = DiFactory.Services.Resolve<BikaSettingsViewModel>();
     }
 
     private void Uri_Click(object sender, RoutedEventArgs e)
@@ -31,12 +35,6 @@ public sealed partial class BikaSettingsPage : Page
 
     private async void SettingsExpander_Loaded(object sender, RoutedEventArgs e)
     {
-        if (!string.IsNullOrEmpty(ViewModel.Config.Proxy))
-        {
-            ProxyBox.Text = ViewModel.Config.Proxy;
-            ViewModel.SetProxy(ViewModel.Config.Proxy);
-        }
-
         await ViewModel.Ping();
     }
 
@@ -47,13 +45,12 @@ public sealed partial class BikaSettingsPage : Page
 
     private void ProxyBox_OnLostFocus(object sender, RoutedEventArgs e)
     {
-        ViewModel.SetProxy(ProxyBox.Text);
+        ViewModel.Config.Proxy = ProxyBox.Text;
     }
 
     private void ResetButton_OnClick(object sender, RoutedEventArgs e)
     {
-        ViewModel.ResetProxy();
-        ProxyBox.Text = "";
+        ViewModel.Config.Proxy = null;
     }
 
     private void LockButton_Click(object sender, RoutedEventArgs e)
