@@ -130,7 +130,7 @@
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=About}" />
                 <labs:SettingsCard Description="© 2023-2025 kitUIN. All rights reserved."
-                                   Header="{x:Bind helper:VersionHelper.GetPluginVersion(), Mode=OneWay}"
+                                   Header="{x:Bind helper:VersionHelper.PluginVersion, Mode=OneWay}"
                                    Click="AboutCard_Click"
                                    IsActionIconVisible="True"
                                    IsClickEnabled="True">
