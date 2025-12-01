@@ -1,4 +1,3 @@
-﻿ShadowViewer.Plugin.Local*
 runtimes/*
 *Microsoft.Data.SqlClient.resources.dll
 CommunityToolkit.Mvvm.dll
@@ -76,7 +75,20 @@ Oracle.ManagedDataAccess.dll
 Oscar.Data.SqlClient.dll
 Serilog.Sinks.File.dll
 ShadowPluginLoader.Attributes.dll
+ShadowPluginLoader.WinUI.dll
 ShadowPluginLoader.SourceGenerator.dll
 ShadowViewer.Controls.dll
 ShadowViewer.Controls.Notification.dll
-ShadowViewer.Core.dll
+ShadowViewer.Sdk.*
+ShadowObservableConfig.*
+System.Security.Cryptography.Pkcs.dll
+YamlDotNet.dll
+Scriban.dll
+NuGet.Versioning.dll
+CommunityToolkit.WinUI.Media.dll
+Microsoft.Graphics.Canvas.Interop.dll
+Namotion.Reflection.dll
+NJsonSchema.Annotations.dll
+NJsonSchema.dll
+ShadowViewer.Plugin.Local/*
+ShadowViewer.Plugin.Local*
