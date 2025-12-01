@@ -143,9 +143,10 @@
                 <Grid CornerRadius="5" Visibility="{x:Bind IsLocked, Mode=OneWay}"
                       Background="{ThemeResource LayerFillColorDefaultBrush}">
                     <Grid>
-                        <Grid.Background>
-                            <media:BackdropBlurBrush Amount="10.0" />
-                        </Grid.Background>
+                        <Border Background="{ThemeResource SmokeFillColorDefaultBrush}"
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Opacity=".6">
+                        </Border>
                         <Grid Background="{ThemeResource LayerFillColorDefaultBrush}"
                               Margin="50"
                               Padding="10"
