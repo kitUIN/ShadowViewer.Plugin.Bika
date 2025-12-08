@@ -1,6 +1,12 @@
 name: Release
 
 on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag (例如 1.0.0)'
+        required: true
+        type: string
   push:
     tags:
       - "*.*"
