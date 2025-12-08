@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: |
-            6.0.x
+            9.0.x
 
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.0.2
@@ -41,6 +41,7 @@ jobs:
           prerelease: false
           files: |
             ..\NugetPackages\ShadowViewer.Plugin.Bika.*.nupkg
+            .\ShadowViewer.Plugin.Bika\bin\**\plugin.json
 
       - name: Push package to Nuget registry
         run: |

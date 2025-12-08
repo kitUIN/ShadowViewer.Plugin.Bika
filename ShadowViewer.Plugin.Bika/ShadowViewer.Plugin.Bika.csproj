@@ -9,6 +9,7 @@
 	  <Nullable>enable</Nullable>
 	  <LangVersion>12</LangVersion>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	  <EnableCoreMrtTooling Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">false</EnableCoreMrtTooling>
 
 	  <PackageId>ShadowViewer.Plugin.Bika</PackageId>
 	  <PluginName>哔咔漫画</PluginName>
@@ -34,7 +35,7 @@
 
   </PropertyGroup>
 	<ItemGroup Label="Dependencies">
-		<PackageReference Include="ShadowViewer.Plugin.Local" Need="[1.4,2.0]" />
+		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.4.4.5" Need="[1.4,2.0]" />
 	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />		
@@ -44,6 +45,7 @@
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
 		<PackageReference Include="ShadowViewer.Sdk" Version="3.0.0.8" />
+		<PackageReference Include="ShadowPluginLoader.Tool" Version="3.0.14" />
 	</ItemGroup>   
 
 </Project>

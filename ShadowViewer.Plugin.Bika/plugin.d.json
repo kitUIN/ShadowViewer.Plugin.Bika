@@ -21,7 +21,7 @@
     },
     "SdkVersion": {
       "type": "string",
-      "default": "3.0.0.7"
+      "default": "3.0.0.8"
     },
     "Priority": {
       "type": "integer",
@@ -56,10 +56,6 @@
           "$ref": "#/definitions/ShadowTag"
         }
       ]
-    },
-    "CoreVersion": {
-      "type": "string",
-      "description": "Core 最低支持版本号"
     }
   },
   "definitions": {
