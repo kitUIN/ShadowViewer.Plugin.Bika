@@ -55,8 +55,8 @@ jobs:
           title: ${{ github.event.inputs.release_tag || github.ref_name }}
           prerelease: false
           files: |
-            .\$env:Solution_Name\Packages\$env:Solution_Name*.sdow
-            .\$env:Solution_Name\bin\**\plugin.json
+            ./${{ env.Solution_Name }}/Packages/${{ env.Solution_Name }}*.sdow
+            ./${{ env.Solution_Name }}/bin/**/plugin.json
 
       
       - name: Push package to Nuget registry
