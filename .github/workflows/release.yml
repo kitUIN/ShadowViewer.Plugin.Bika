@@ -49,7 +49,7 @@ jobs:
         with:
           name: build-output
           path: |
-            ..\NugetPackages
+            ../NugetPackages/*
             ./${{ env.Solution_Name }}/bin/**/plugin.json
             ./${{ env.Solution_Name }}/Packages/${{ env.Solution_Name }}*.sdow
 
