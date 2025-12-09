@@ -27,7 +27,7 @@
 	  <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
 	  <Copyright>Copyright 2023-2025</Copyright>
 	  <PackageTags>kitUIN;wasdk;ShadowViewer;plugin;winui;bika;PicaComic</PackageTags>
-	  <PackageOutputPath>..\..\..\NugetPackages</PackageOutputPath>
+	  <PackageOutputPath>..\..\NugetPackages</PackageOutputPath>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <NoWarn>MSB3277</NoWarn>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
