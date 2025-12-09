@@ -11,15 +11,15 @@ on:
     tags:
       - "*.*"
 
+env:
+  Solution_Name: ShadowViewer.Plugin.Bika
+  RELEASE_TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
+
 jobs:
   build:
     runs-on: windows-latest
-    env:
-      Solution_Name: ShadowViewer.Plugin.Bika
-      RELEASE_TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           submodules: recursive
           fetch-depth: 0
@@ -38,42 +38,53 @@ jobs:
         
       - name: Create NugetPackages
         run: mkdir ..\NugetPackages
-          
+        
       - name: Build Packages
         run: |
           dotnet restore $env:Solution_Name/$env:Solution_Name.csproj
           msbuild $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            ..\NugetPackages
+            ./${{ env.Solution_Name }}/bin/**/plugin.json
+            ./${{ env.Solution_Name }}/Packages/${{ env.Solution_Name }}*.sdow
+
   release:
     runs-on: windows-latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v4
         with:
-          submodules: recursive
-          fetch-depth: 0
+          name: build-output
+          path: ./output
 
       - name: Create GitHub release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.RELEASE_TOKEN }}"
-          automatic_release_tag: ${{ github.event.inputs.release_tag || github.ref_name }}
-          title: ${{ github.event.inputs.release_tag || github.ref_name }}
+          automatic_release_tag: ${{ env.RELEASE_TAG }}
+          title: ${{ env.RELEASE_TAG }}
           prerelease: false
           files: |
-            ./ShadowViewer.Plugin.Bika/Packages/ShadowViewer.Plugin.Bika*.sdow
-            ./ShadowViewer.Plugin.Bika/bin/**/plugin.json
+            ./output/**/${{ env.Solution_Name }}*.sdow
+            ./output/**/plugin.json
 
   nuget:
     runs-on: windows-latest
     needs: build
     steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ./output
+
       - name: Push package to Nuget registry
         run: |
-          cd ..\NugetPackages
-          ls
-          dotnet nuget push "*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
-          dotnet nuget push "*.snupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
+          dotnet nuget push "./output/**/*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
+          dotnet nuget push "./output/**/*.snupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
         env:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
