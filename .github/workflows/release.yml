@@ -45,7 +45,7 @@ jobs:
       - name: Build Packages
         run: |
           dotnet restore $env:Solution_Name/$env:Solution_Name.csproj
-          dotnet build $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release
+          msbuild $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release
           
       - name: Create GitHub release
         uses: marvinpinto/action-automatic-releases@latest
