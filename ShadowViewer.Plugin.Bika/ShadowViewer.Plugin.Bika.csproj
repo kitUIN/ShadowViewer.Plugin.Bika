@@ -10,6 +10,7 @@
 	  <LangVersion>12</LangVersion>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	  <EnableCoreMrtTooling Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">false</EnableCoreMrtTooling>
+  	  <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
 
 	  <PackageId>ShadowViewer.Plugin.Bika</PackageId>
 	  <PluginName>哔咔漫画</PluginName>
