@@ -51,11 +51,11 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.RELEASE_TOKEN }}"
-          # automatic_release_tag: ${{ github.ref_name }}
-          title: ${{ github.ref_name }}
+          automatic_release_tag: ${{ github.event.inputs.release_tag || github.ref_name }}
+          title: ${{ github.event.inputs.release_tag || github.ref_name }}
           prerelease: false
           files: |
-            ..\NugetPackages\$env:Solution_Name.*.nupkg
+            .\$env:Solution_Name\Packages\$env:Solution_Name*.sdow
             .\$env:Solution_Name\bin\**\plugin.json
 
       
