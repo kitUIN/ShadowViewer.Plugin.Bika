@@ -39,14 +39,23 @@ jobs:
         run: echo "The release tag is $env:RELEASE_TAG"
         
       - name: Create NugetPackages
-        run: |
-          mkdir ..\NugetPackages
+        run: mkdir ..\NugetPackages
           
       - name: Build Packages
         run: |
           dotnet restore $env:Solution_Name/$env:Solution_Name.csproj
           msbuild $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release
-          
+
+  release:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
       - name: Create GitHub release
         uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -55,10 +64,13 @@ jobs:
           title: ${{ github.event.inputs.release_tag || github.ref_name }}
           prerelease: false
           files: |
-            ./${{ env.Solution_Name }}/Packages/${{ env.Solution_Name }}*.sdow
-            ./${{ env.Solution_Name }}/bin/**/plugin.json
+            ./ShadowViewer.Plugin.Bika/Packages/ShadowViewer.Plugin.Bika*.sdow
+            ./ShadowViewer.Plugin.Bika/bin/**/plugin.json
 
-      
+  nuget:
+    runs-on: windows-latest
+    needs: build
+    steps:
       - name: Push package to Nuget registry
         run: |
           cd ..\NugetPackages
