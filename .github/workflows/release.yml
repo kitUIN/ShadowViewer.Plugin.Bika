@@ -14,7 +14,9 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
+    env:
+      Solution_Name: ShadowViewer.Plugin.Bika
+      RELEASE_TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
     steps:
       - uses: mickem/clean-after-action@v1
 
@@ -25,18 +27,25 @@ jobs:
           fetch-depth: 0
 
       - name: Install .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            9.0.x
-
+          dotnet-version: 9.x
+          cache: false
+      
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.0.2
 
+      - name: Use Release Tag
+        run: echo "The release tag is $env:RELEASE_TAG"
+        
+      - name: Create NugetPackages
+        run: |
+          mkdir ..\NugetPackages
+          
       - name: Build Packages
         run: |
-          dotnet restore .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
-          dotnet build -p:Configuration=Release .\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj
+          dotnet restore $env:Solution_Name/$env:Solution_Name.csproj
+          dotnet build $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release
           
       - name: Create GitHub release
         uses: marvinpinto/action-automatic-releases@latest
@@ -46,11 +55,15 @@ jobs:
           title: ${{ github.ref_name }}
           prerelease: false
           files: |
-            ..\NugetPackages\ShadowViewer.Plugin.Bika.*.nupkg
-            .\ShadowViewer.Plugin.Bika\bin\**\plugin.json
+            ..\NugetPackages\$env:Solution_Name.*.nupkg
+            .\$env:Solution_Name\bin\**\plugin.json
 
+      
       - name: Push package to Nuget registry
         run: |
-          dotnet nuget push "..\NugetPackages\ShadowViewer.Plugin.Bika.*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY 
+          cd ..\NugetPackages
+          ls
+          dotnet nuget push "*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
+          dotnet nuget push "*.snupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
         env:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
