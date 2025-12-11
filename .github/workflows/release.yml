@@ -11,17 +11,15 @@ on:
     tags:
       - "*.*"
 
+env:
+  Solution_Name: ShadowViewer.Plugin.Bika
+  RELEASE_TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
+
 jobs:
   build:
     runs-on: windows-latest
-    env:
-      Solution_Name: ShadowViewer.Plugin.Bika
-      RELEASE_TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
     steps:
-      - uses: mickem/clean-after-action@v1
-
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           submodules: recursive
           fetch-depth: 0
@@ -33,37 +31,65 @@ jobs:
           cache: false
       
       - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v2
 
       - name: Use Release Tag
         run: echo "The release tag is $env:RELEASE_TAG"
         
       - name: Create NugetPackages
-        run: |
-          mkdir ..\NugetPackages
-          
+        run: mkdir ..\NugetPackages
+        
       - name: Build Packages
         run: |
           dotnet restore $env:Solution_Name/$env:Solution_Name.csproj
-          dotnet build $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release
+          msbuild $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release
           
+      - name: Copy NugetPackages to repo
+        run: |
+          mkdir -p NugetPackages
+          cp -r ../NugetPackages/* NugetPackages/
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            NugetPackages/*
+            ${{ env.Solution_Name }}/bin/**/plugin.json
+            ${{ env.Solution_Name }}/Packages/${{ env.Solution_Name }}*.sdow
+
+  release:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ./output
+
       - name: Create GitHub release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.RELEASE_TOKEN }}"
-          # automatic_release_tag: ${{ github.ref_name }}
-          title: ${{ github.ref_name }}
+          automatic_release_tag: ${{ env.RELEASE_TAG }}
+          title: ${{ env.RELEASE_TAG }}
           prerelease: false
           files: |
-            ..\NugetPackages\$env:Solution_Name.*.nupkg
-            .\$env:Solution_Name\bin\**\plugin.json
+            ./output/**/${{ env.Solution_Name }}*.sdow
+            ./output/**/plugin.json
 
-      
+  nuget:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ./output
+
       - name: Push package to Nuget registry
         run: |
-          cd ..\NugetPackages
-          ls
-          dotnet nuget push "*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
-          dotnet nuget push "*.snupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
+          dotnet nuget push "./output/**/*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
+          dotnet nuget push "./output/**/*.snupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
         env:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
