@@ -38,6 +38,7 @@
 	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />
+    <PackageReference Include="ShadowPluginLoader.Tool" Version="3.0.15" />
   </ItemGroup>
 
 </Project>
