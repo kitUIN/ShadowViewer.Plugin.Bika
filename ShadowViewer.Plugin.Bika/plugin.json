@@ -16,5 +16,9 @@
     "ForegroundHex": "#000000",
     "Icon": "ms-plugin://{{ PackageId }}/Assets/Icons/logo.png",
     "PluginId": "{{ PackageId }}"
+  },
+  "PluginStore": {
+    "BackgroundColor": "#ef97b9",
+    "Tags": ["Bika", "Online", "R18"]
   }
 }
