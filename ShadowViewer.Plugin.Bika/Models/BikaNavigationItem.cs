@@ -5,7 +5,7 @@ using ShadowViewer.Sdk.Models.Interfaces;
 
 namespace ShadowViewer.Plugin.Bika.Models;
 
-public partial class BikaNavigationItem: ObservableObject,IShadowNavigationItem
+public partial class BikaNavigationItem: ObservableObject, IShadowNavigationItem
 {
     /// <summary>
     /// 内容

@@ -41,4 +41,8 @@
     <PackageReference Include="ShadowPluginLoader.Tool" Version="3.0.16" />
   </ItemGroup>
 
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<ProjectReference Include="..\..\ShadowViewer\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
+	</ItemGroup> 
+
 </Project>
