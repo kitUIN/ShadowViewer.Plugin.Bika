@@ -90,4 +90,5 @@ Microsoft.Graphics.Canvas.Interop.dll
 Namotion.Reflection.dll
 NJsonSchema.Annotations.dll
 NJsonSchema.dll
+ShadowViewer.Plugin.Local.*
 ShadowViewer.Plugin.Local

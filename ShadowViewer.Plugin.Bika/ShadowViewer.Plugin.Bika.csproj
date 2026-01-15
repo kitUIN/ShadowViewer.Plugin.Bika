@@ -24,15 +24,22 @@
 	  <!--nuget数据 -->
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
-	  <Copyright>Copyright 2023-2025</Copyright>
+	  <Copyright>Copyright 2023-2026</Copyright>
 	  <PackageTags>kitUIN;wasdk;ShadowViewer;plugin;winui;bika;PicaComic</PackageTags>
 	  <PackageOutputPath>..\..\NugetPackages</PackageOutputPath>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <NoWarn>MSB3277;NU5118</NoWarn>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
+	  <IncludeSymbols>true</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
+	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+	</ItemGroup>
 	<ItemGroup Label="Dependencies">
 		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.4.4.7" Need="[1.4,2.0]" />
 	</ItemGroup>
