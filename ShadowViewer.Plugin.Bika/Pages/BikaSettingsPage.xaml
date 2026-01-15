@@ -3,18 +3,19 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:ShadowViewer.Plugin.Bika.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ee="using:CustomExtensions.WinUI"
     xmlns:ex="using:ShadowViewer.Plugin.Bika.I18n"
+    xmlns:helper="using:ShadowViewer.Plugin.Bika.Helpers"
+    xmlns:icx="using:FluentIcons.WinUI.Markup"
     xmlns:labs="using:CommunityToolkit.WinUI.Controls"
     xmlns:local="using:ShadowViewer.Plugin.Bika"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winUi="using:FluentIcons.WinUI"
-    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:helper="using:ShadowViewer.Plugin.Bika.Helpers"
     mc:Ignorable="d">
     <Page.Resources>
-        <converters:BoolNegationConverter x:Name="BoolNegationConverter"></converters:BoolNegationConverter>
+        <converters:BoolNegationConverter x:Name="BoolNegationConverter" />
     </Page.Resources>
     <Grid
         Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -38,11 +39,12 @@
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
-                           Text="{ex:Locale Key=MainSettings}" />
-                <labs:SettingsExpander HeaderIcon="{winUi:FluentIcon Icon=ArrowShuffle}"
-                                       Description="{ex:Locale Key=ShuntDescription}" Header="{ex:Locale Key=Shunt}"
-                                       Loaded="SettingsExpander_Loaded">
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=MainSettings}" />
+                <labs:SettingsExpander
+                    Description="{ex:Locale Key=ShuntDescription}"
+                    Header="{ex:Locale Key=Shunt}"
+                    HeaderIcon="{icx:FluentIcon Icon=ArrowShuffle}"
+                    Loaded="SettingsExpander_Loaded">
 
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard Header="{ex:Locale Key=ApiShunt}">
@@ -61,19 +63,21 @@
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
-                <labs:SettingsCard HeaderIcon="{winUi:FluentIcon Icon=Airplane}"
-                                   Description="{ex:Locale Key=ProxyDescription}" Header="{ex:Locale Key=Proxy}">
+                <labs:SettingsCard
+                    Description="{ex:Locale Key=ProxyDescription}"
+                    Header="{ex:Locale Key=Proxy}"
+                    HeaderIcon="{icx:FluentIcon Icon=Airplane}">
 
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <Button Click="ResetButton_OnClick" Content="{ex:Locale Key=Reset}" />
                         <TextBox
                             x:Name="ProxyBox"
                             LostFocus="ProxyBox_OnLostFocus"
-                            Text="{x:Bind ViewModel.Config.Proxy,Mode=OneWay}"
-                            PlaceholderText="{ex:Locale Key=SystemProxy}" />
+                            PlaceholderText="{ex:Locale Key=SystemProxy}"
+                            Text="{x:Bind ViewModel.Config.Proxy, Mode=OneWay}" />
                     </StackPanel>
                 </labs:SettingsCard>
-                <labs:SettingsCard HeaderIcon="{winUi:FluentIcon Icon=CellularData1}" Header="{ex:Locale Key=Ping}">
+                <labs:SettingsCard Header="{ex:Locale Key=Ping}" HeaderIcon="{icx:FluentIcon Icon=CellularData1}">
 
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <StackPanel
@@ -81,35 +85,37 @@
                             Orientation="Horizontal"
                             Spacing="5"
                             Visibility="{x:Bind ViewModel.PingShow, Mode=OneWay}">
-                            <winUi:FluentIcon 
+                            <winUi:FluentIcon
+                                Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}"
                                 Icon="{x:Bind ViewModel.PingIcon, Mode=OneWay}"
-                                IconVariant="Filled"
-                                Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}"  />
-                            <TextBlock Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}"
-                                       Text="{x:Bind ViewModel.PingText, Mode=OneWay}" />
+                                IconVariant="Filled" />
+                            <TextBlock Foreground="{x:Bind ViewModel.PingColor, Mode=OneWay}" Text="{x:Bind ViewModel.PingText, Mode=OneWay}" />
                         </StackPanel>
                         <Button Click="Ping_Click" Content="{ex:Locale Key=Ping}" />
                     </StackPanel>
                 </labs:SettingsCard>
-                <labs:SettingsCard HeaderIcon="{winUi:FluentIcon Icon=LockClosed}"
-                                   Description="{ex:Locale Key=LockDescription}" Header="{ex:Locale Key=Lock}">
+                <labs:SettingsCard
+                    Description="{ex:Locale Key=LockDescription}"
+                    Header="{ex:Locale Key=Lock}"
+                    HeaderIcon="{icx:FluentIcon Icon=LockClosed}">
 
                     <Button Click="LockButton_Click" Content="{ex:Locale Key=Set}" />
                 </labs:SettingsCard>
                 <!--  ShowSettings  -->
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
-                           Text="{ex:Locale Key=ShowSettings}" />
-                <labs:SettingsCard HeaderIcon="{winUi:FluentIcon Icon=NotebookEye}"
-                                   Description="{ex:Locale Key=IsIgnoreLockComicDescription}"
-                                   Header="{ex:Locale Key=IsIgnoreLockComic}">
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=ShowSettings}" />
+                <labs:SettingsCard
+                    Description="{ex:Locale Key=IsIgnoreLockComicDescription}"
+                    Header="{ex:Locale Key=IsIgnoreLockComic}"
+                    HeaderIcon="{icx:FluentIcon Icon=NotebookEye}">
                     <ToggleSwitch
                         IsOn="{x:Bind ViewModel.Config.IsIgnoreLockComic, Mode=TwoWay}"
                         OffContent="{ex:Locale Key=UnIgnore}"
                         OnContent="{ex:Locale Key=Ignore}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard HeaderIcon="{winUi:FluentIcon Icon=BookArrowClockwise}"
-                                   Description="{ex:Locale Key=LoadLockComicDescription}"
-                                   Header="{ex:Locale Key=LoadLockComic}">
+                <labs:SettingsCard
+                    Description="{ex:Locale Key=LoadLockComicDescription}"
+                    Header="{ex:Locale Key=LoadLockComic}"
+                    HeaderIcon="{icx:FluentIcon Icon=BookArrowClockwise}">
 
                     <ToggleSwitch
                         IsEnabled="{x:Bind ViewModel.Config.IsIgnoreLockComic, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
@@ -117,9 +123,10 @@
                         OffContent="{ex:Locale Key=UnLoad}"
                         OnContent="{ex:Locale Key=Load}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard Description="{ex:Locale Key=CanTemporaryUnlockComicDescription}"
-                                   Header="{ex:Locale Key=CanTemporaryUnlockComic}"
-                                   HeaderIcon="{winUi:FluentIcon Icon=LockClosedKey}">
+                <labs:SettingsCard
+                    Description="{ex:Locale Key=CanTemporaryUnlockComicDescription}"
+                    Header="{ex:Locale Key=CanTemporaryUnlockComic}"
+                    HeaderIcon="{icx:FluentIcon Icon=LockClosedKey}">
 
                     <ToggleSwitch
                         IsEnabled="{x:Bind ViewModel.Config.CanTemporaryUnlockShow, Mode=OneWay}"
@@ -129,17 +136,18 @@
                 </labs:SettingsCard>
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=About}" />
-                <labs:SettingsCard Description="© 2023-2025 kitUIN. All rights reserved."
-                                   Header="{x:Bind helper:VersionHelper.PluginVersion, Mode=OneWay}"
-                                   Click="AboutCard_Click"
-                                   IsActionIconVisible="True"
-                                   IsClickEnabled="True">
+                <labs:SettingsCard
+                    Click="AboutCard_Click"
+                    Description="© 2023-2025 kitUIN. All rights reserved."
+                    Header="{x:Bind helper:VersionHelper.PluginVersion, Mode=OneWay}"
+                    IsActionIconVisible="True"
+                    IsClickEnabled="True">
                     <labs:SettingsCard.HeaderIcon>
                         <BitmapIcon
                             Width="30"
                             Height="30"
-                            UriSource="{ee:PluginUri Source='ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png'}"
-                            ShowAsMonochrome="False" />
+                            ShowAsMonochrome="False"
+                            UriSource="{ee:PluginUri Source='ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png'}" />
                     </labs:SettingsCard.HeaderIcon>
                     <labs:SettingsCard.ActionIcon>
                         <FontIcon Glyph="&#xE76C;" />

@@ -42,7 +42,7 @@ jobs:
       - name: Build Packages
         run: |
           dotnet restore $env:Solution_Name/$env:Solution_Name.csproj
-          msbuild $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release
+          msbuild $env:Solution_Name/$env:Solution_Name.csproj -p:Configuration=Release -p:GithubAction=true
           
       - name: Copy NugetPackages to repo
         run: |
@@ -77,6 +77,8 @@ jobs:
           files: |
             ./output/**/${{ env.Solution_Name }}*.sdow
             ./output/**/plugin.json
+            ./output/**/*.nupkg
+            ./output/**/*.snupkg
 
   nuget:
     runs-on: windows-latest
