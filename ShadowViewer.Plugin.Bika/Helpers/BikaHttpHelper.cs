@@ -17,13 +17,15 @@ public class BikaHttpHelper
 {
     public static async Task TryRequest<T>(object sender, Task<T> req, Func<T, Task> success) where T : PicaResponse
     {
+        var notifyService = DiFactory.Services.Resolve<INotifyService>();
+
         try
         {
             await success.Invoke(await req);
         }
         catch (TaskCanceledException)
         {
-            await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
+            await notifyService.ShowDialog(null, ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
         }
         catch (PicaComicException exception)
         {
@@ -33,26 +35,28 @@ public class BikaHttpHelper
             }
             else
             {
-                await DialogHelper.ShowDialog(
+                await notifyService.ShowDialog(null,
                     ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
             }
         }
         catch (Exception exception)
         {
-            await DialogHelper.ShowDialog(
+            await notifyService.ShowDialog(null,
                 ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
         }
     }
 
     public static async Task TryRequest<T>(object sender, Task<T> req, Action<T> success) where T : PicaResponse
     {
+        var notifyService = DiFactory.Services.Resolve<INotifyService>();
+
         try
         {
             success.Invoke(await req);
         }
         catch (TaskCanceledException)
         {
-            await DialogHelper.ShowDialog(ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
+            await notifyService.ShowDialog(null,ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.TimeOut, ""));
         }
         catch (PicaComicException exception)
         {
@@ -63,13 +67,13 @@ public class BikaHttpHelper
             }
             else
             {
-                await DialogHelper.ShowDialog(
+                await notifyService.ShowDialog(null,
                     ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ChineseMessage));
             }
         }
         catch (Exception exception)
         {
-            await DialogHelper.ShowDialog(
+            await notifyService.ShowDialog(null,
                 ContentDialogHelper.CreateHttpDialog(BikaHttpStatus.Unknown, exception.ToString()));
         }
     }
