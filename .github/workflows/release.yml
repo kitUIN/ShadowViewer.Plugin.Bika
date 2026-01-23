@@ -60,6 +60,22 @@ jobs:
             ${{ env.Solution_Name }}/bin/**/plugin.json
             ${{ env.Solution_Name }}/Packages/${{ env.Solution_Name }}*.sdow
 
+  nuget:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ./output
+
+      - name: Push package to Nuget registry
+        run: |
+          dotnet nuget push "output/**/*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
+          dotnet nuget push "output/**/*.snupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_KEY }}
+          
   release:
     runs-on: windows-latest
     needs: build
@@ -82,18 +98,3 @@ jobs:
             ./output/**/*.nupkg
             ./output/**/*.snupkg
 
-  nuget:
-    runs-on: windows-latest
-    needs: build
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: build-output
-          path: ./output
-
-      - name: Push package to Nuget registry
-        run: |
-          dotnet nuget push "./output/**/*.nupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
-          dotnet nuget push "./output/**/*.snupkg" -s "https://api.nuget.org/v3/index.json" -k $env:NUGET_KEY --skip-duplicate        
-        env:
-          NUGET_KEY: ${{ secrets.NUGET_KEY }}
