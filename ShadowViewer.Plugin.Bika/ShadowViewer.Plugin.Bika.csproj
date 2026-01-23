@@ -41,7 +41,7 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
 	</ItemGroup>
 	<ItemGroup Label="Dependencies">
-		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.4.4.7" Need="[1.4,2.0]" />
+		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.4.4.8" Need="[1.4,1.5)" />
 	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />
