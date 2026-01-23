@@ -12,7 +12,7 @@ using ShadowPluginLoader.Attributes;
 
 namespace ShadowViewer.Plugin.Bika.Pages;
 
-[EntryPoint(Name = nameof(PluginManage.SettingsPage))]
+[EntryPoint(Name = "SettingsPage")]
 public sealed partial class BikaSettingsPage : Page
 {
     private BikaSettingsViewModel ViewModel { get; } = DiFactory.Services.Resolve<BikaSettingsViewModel>();

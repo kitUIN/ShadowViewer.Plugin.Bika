@@ -21,7 +21,7 @@
     },
     "SdkVersion": {
       "type": "string",
-      "default": "3.0.0.8"
+      "default": "[3.1, 3.2)"
     },
     "Priority": {
       "type": "integer",
@@ -42,82 +42,6 @@
     "Logo": {
       "type": "string",
       "description": "图标\n1.本地文件,以ms-appx://开头\n2.FontIcon,以font://开头\n3.FluentRegularIcon,以fluent://regular开头\n4.FluentFilledIcon,以fluent://filled\n1.ms-appx:///Assets/Icons/Logo.png\n2.font://\\uE714\n3.fluent://regular/Apps\n4.fluent://filled/Apps"
-    },
-    "PluginManage": {
-      "$ref": "#/definitions/PluginManage"
-    },
-    "AffiliationTag": {
-      "description": "分类标签",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/ShadowTag"
-        }
-      ]
-    }
-  },
-  "definitions": {
-    "PluginEntryPointType": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "EntryPointType": {
-          "type": "string"
-        }
-      }
-    },
-    "PluginManage": {
-      "type": "object",
-      "description": "插件管理器使用数据",
-      "additionalProperties": false,
-      "properties": {
-        "CanSwitch": {
-          "type": "boolean",
-          "description": "能否开关"
-        },
-        "CanOpenFolder": {
-          "type": "boolean",
-          "description": "能否打开文件夹"
-        },
-        "SettingsPage": {
-          "description": "设置页面",
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/definitions/PluginEntryPointType"
-            }
-          ]
-        }
-      }
-    },
-    "ShadowTag": {
-      "type": "object",
-      "description": "标签",
-      "additionalProperties": false,
-      "properties": {
-        "Name": {
-          "type": "string"
-        },
-        "BackgroundHex": {
-          "type": "string"
-        },
-        "ForegroundHex": {
-          "type": "string"
-        },
-        "Icon": {
-          "type": [
-            "null",
-            "string"
-          ]
-        },
-        "PluginId": {
-          "type": "string"
-        }
-      }
     }
   }
 }

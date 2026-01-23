@@ -361,9 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/test.py
-/ShadowViewer.Plugin.Bika/test.py
-/ShadowViewer.Plugin.Bika/Assets/FluentSystemIcons-Filled.ttf
-/ShadowViewer.Plugin.Bika/Assets/FluentSystemIcons-Regular.ttf
-/ShadowViewer.Plugin.Bika/plugin.json
-/.idea/.idea.ShadowViewer.Plugin.Bika/.idea
+test.py
+ShadowViewer.Plugin.Bika/test.py
+ShadowViewer.Plugin.Bika/Assets/FluentSystemIcons-Filled.ttf
+ShadowViewer.Plugin.Bika/Assets/FluentSystemIcons-Regular.ttf
+.idea/.idea.ShadowViewer.Plugin.Bika/.idea
+.idea/
+ShadowViewer.Plugin.Bika/ShadowViewer.Plugin.Bika/plugin.json
+ShadowViewer.Plugin.Bika/plugin.d.json
