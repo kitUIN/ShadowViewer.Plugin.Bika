@@ -44,7 +44,6 @@ public partial class BikaPlugin : AShadowViewerPlugin
         DiFactory.Services.Register<BikaInfoViewModel>(Reuse.Transient);
         DiFactory.Services.Register<BikaCategoryViewModel>(Reuse.Transient);
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
-        MainLoginTip ??= new LoginTip();
         Db.CodeFirst.InitTables<BikaUser>();
         IPicaClient.AppChannel = Config.ApiShunt;
         IPicaClient.FileChannel = Config.PicShunt;
@@ -53,6 +52,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
         VersionHelper.Init(MetaData);
         Caller.AppLoadedEvent += (_, _) =>
         {
+            MainLoginTip ??= new LoginTip();
             Logger.Information("触发CreateTopLevelControl");
             Caller.CreateTopLevelControl(MainLoginTip!);
             if (PluginService.IsEnabled(MetaData.Id) == true) Enabled();

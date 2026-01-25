@@ -18,24 +18,28 @@ using System.Collections.Generic;
 
 namespace ShadowViewer.Plugin.Bika.Responders;
 
+/// <summary>
+/// 
+/// </summary>
+/// <seealso cref="ShadowViewer.Sdk.Responders.AbstractNavigationResponder" />
 [EntryPoint(Name = nameof(PluginResponder.NavigationResponder))]
 public partial class BikaNavigationResponder : AbstractNavigationResponder
 {
     [Autowired] private IPicaClient Client { get; }
     [Autowired] private PluginLoader PluginService { get; }
 
+    /// <summary>
+    /// <inheritdoc />
+    /// </summary>
     public override IEnumerable<IShadowNavigationItem> NavigationViewMenuItems { get; } =
         new List<IShadowNavigationItem>
         {
             new ShadowNavigationItem(
                 pluginId: PluginConstants.PluginId,
                 id: "Bika.Classification",
-                uri: ShadowUri.Parse("shadow://bika/classification"), 
-                icon: new ImageIcon()
-                {
-                    Source = new BitmapImage(new Uri("ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png"
-                        .PluginPath()))
-                }, content: I18N.Title
+                uri: ShadowUri.Parse("shadow://bika/classification"),
+                icon: "ms-plugin://ShadowViewer.Plugin.Bika/Assets/Icons/logo.png".PluginPath(),
+                content: I18N.Title
             )
         };
 
@@ -45,13 +49,17 @@ public partial class BikaNavigationResponder : AbstractNavigationResponder
     /// </summary>
     public override void Register()
     {
-        ShadowRouteRegistry.RegisterPage(new ShadowNavigation(typeof(ClassificationPage), SelectItemId: "Bika.Classification"),
+        ShadowRouteRegistry.RegisterPage(
+            new ShadowNavigation(typeof(ClassificationPage), SelectItemId: "Bika.Classification"),
             "bika", "classification");
-        ShadowRouteRegistry.RegisterPage(new ShadowNavigation(typeof(BikaCategoryPage), SelectItemId: "Bika.Classification"),
+        ShadowRouteRegistry.RegisterPage(
+            new ShadowNavigation(typeof(BikaCategoryPage), SelectItemId: "Bika.Classification"),
             "bika", "category");
-        ShadowRouteRegistry.RegisterPage(new ShadowNavigation(typeof(BikaInfoPage), SelectItemId: "Bika.Classification"),
+        ShadowRouteRegistry.RegisterPage(
+            new ShadowNavigation(typeof(BikaInfoPage), SelectItemId: "Bika.Classification"),
             "bika", "comic");
-        ShadowRouteRegistry.RegisterPage(new ShadowNavigation(typeof(BikaSettingsPage), SelectItemId: "Bika.Classification"),
+        ShadowRouteRegistry.RegisterPage(
+            new ShadowNavigation(typeof(BikaSettingsPage), SelectItemId: "Bika.Classification"),
             "bika", "settings");
     }
 }

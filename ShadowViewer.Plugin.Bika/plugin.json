@@ -6,10 +6,6 @@
   "Authors": "{{ Authors }}",
   "WebUri": "{{ PackageProjectUrl }}",
   "Logo": "ms-plugin://{{ PackageId }}/Assets/Icons/logo.png",
-  "PluginManage": {
-    "CanSwitch": true,
-    "CanOpenFolder": true
-  },
   "AffiliationTag": {
     "Name": "Bika",
     "BackgroundHex": "#ef97b9",
