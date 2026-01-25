@@ -13,6 +13,8 @@ using ShadowViewer.Sdk.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ShadowPluginLoader.WinUI.Args;
+using ShadowViewer.Sdk.Helpers;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -52,21 +54,27 @@ public partial class BikaPlugin : AShadowViewerPlugin
         VersionHelper.Init(MetaData);
         Caller.AppLoadedEvent += (_, _) =>
         {
-            MainLoginTip ??= new LoginTip();
-            Logger.Information("触发CreateTopLevelControl");
-            Caller.CreateTopLevelControl(MainLoginTip!);
             if (PluginService.IsEnabled(MetaData.Id) == true) Enabled();
         };
+    }
+
+    private void PluginEventServiceOnPluginLoaded()
+    {
+        if (MainLoginTip != null) return;
+        WindowHelper.GetDispatcherQueue().TryEnqueue(() =>
+        {
+            MainLoginTip = new LoginTip();
+            Caller.CreateTopLevelControl(MainLoginTip);
+            Logger.Information("触发CreateTopLevelControl");
+        });
     }
 
 
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    protected override IEnumerable<string> ResourceDictionaries => new List<string>()
-    {
-        "ms-plugin://ShadowViewer.Plugin.Bika/Themes/BikaTheme.xaml"
-    };
+    protected override IEnumerable<string> ResourceDictionaries { get; } =
+        ["ms-plugin://ShadowViewer.Plugin.Bika/Themes/BikaTheme.xaml"];
 
 
     /// <summary>
@@ -89,6 +97,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
     /// </summary>
     public override void Loaded()
     {
+        PluginEventServiceOnPluginLoaded();
         Enabled();
     }
 
