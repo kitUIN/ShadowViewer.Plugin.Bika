@@ -1,3 +1,4 @@
+using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DryIoc;
@@ -6,6 +7,7 @@ using PicaComic;
 using Serilog;
 using ShadowPluginLoader.Attributes;
 using ShadowPluginLoader.WinUI;
+using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Configs;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
@@ -21,6 +23,10 @@ namespace ShadowViewer.Plugin.Bika.ViewModels;
 [CheckAutowired]
 public partial class LoginTipViewModel : ObservableObject
 {
+    /// <summary>
+    /// 登录成功事件
+    /// </summary>
+    public static event EventHandler<SignInEventArgs>? SignInEvent;
 
     /// <summary>
     /// Config
@@ -79,30 +85,36 @@ public partial class LoginTipViewModel : ObservableObject
         await BikaHttpHelper.TryRequest(this, Client.SignIn(Email, Password),
             async res =>
             {
+                var token = res.Data.Token;
                 var db = DiFactory.Services.Resolve<ISqlSugarClient>();
-                db.Storageable(new BikaUser()
+                await db.Storageable(new BikaUser()
                 {
                     Email = Email,
                     Password = Password,
-                    Token = res.Data.Token
-                }).ExecuteCommand();
+                    Token = token
+                }).ExecuteCommandAsync();
                 IsOpen = false;
                 Config.LastBikaUser = Email;
-                await BikaHttpHelper.TryRequest(this, Client.Profile(), res =>
-                {
-                    BikaData.Current.CurrentUser = res.Data.User;
-                    //NotificationHelper.Notify(this,
-                    //    $"[{BikaPlugin.Meta.Name}]{ResourcesHelper.GetString(ResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
-                    //    InfoBarSeverity.Success);
-                });
-                await BikaHttpHelper.PunchIn(this);
-                await BikaHttpHelper.Keywords(this);
+                SignInEvent?.Invoke(this, new SignInEventArgs(Email, token));
             });
         CanLogin = true;
     }
 
     partial void ConstructorInit()
     {
+        SignInEvent += async (_, _) =>
+        {
+            await BikaHttpHelper.TryRequest(this, Client.Profile(), res =>
+            {
+                BikaData.Current.CurrentUser = res.Data.User;
+                // 触发登录成功事件
+                //NotificationHelper.Notify(this,
+                //    $"[{BikaPlugin.Meta.Name}]{ResourcesHelper.GetString(ResourceKey.LoginSuccess)}:{BikaData.Current.CurrentUser.Name}",
+                //    InfoBarSeverity.Success);
+            });
+            await BikaHttpHelper.PunchIn(this);
+            await BikaHttpHelper.Keywords(this);
+        };
         if (string.IsNullOrEmpty(Config.LastBikaUser)) return;
         var user = Config.LastBikaUser;
         if (Db.Queryable<BikaUser>().First(x => x.Email == user) is not { } bikaUser) return;

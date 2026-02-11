@@ -27,6 +27,13 @@ namespace ShadowViewer.Plugin.Bika.Pages
         {
             this.LoadComponent(ref _contentLoaded);
             ViewModel = DiFactory.Services.Resolve<BikaCategoryViewModel>();
+            LoginTipViewModel.SignInEvent -= Refresh;
+            LoginTipViewModel.SignInEvent += Refresh;
+        }
+
+        private void Refresh(object? sender, SignInEventArgs signInEventArgs)
+        {
+            ViewModel.Refresh();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

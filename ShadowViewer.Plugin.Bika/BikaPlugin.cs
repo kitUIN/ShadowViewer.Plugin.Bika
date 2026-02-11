@@ -13,7 +13,6 @@ using ShadowViewer.Sdk.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ShadowPluginLoader.WinUI.Args;
 using ShadowViewer.Sdk.Helpers;
 
 namespace ShadowViewer.Plugin.Bika;
@@ -66,6 +65,7 @@ public partial class BikaPlugin : AShadowViewerPlugin
             MainLoginTip = new LoginTip();
             Caller.CreateTopLevelControl(MainLoginTip);
             Logger.Information("触发CreateTopLevelControl");
+            if (PluginService.IsEnabled(MetaData.Id) == true) Enabled();
         });
     }
 

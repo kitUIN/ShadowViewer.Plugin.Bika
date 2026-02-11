@@ -13,7 +13,7 @@
 	  <PackageId>ShadowViewer.Plugin.Bika</PackageId>
 	  <PluginName>哔咔漫画</PluginName>
 	  <!--插件版本号(nuget包版本号)-->
-	  <Version>1.0.3</Version>
+	  <Version>1.1.0</Version>
 	  <!--插件仓库地址(nuget包仓库地址)-->
 	  <PackageProjectUrl>https://github.com/kitUIN/ShadowViewer.Plugin.Bika</PackageProjectUrl>
 	  <!--插件介绍(nuget包介绍)-->
@@ -43,7 +43,7 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
 	</ItemGroup>
 	<ItemGroup Label="Dependencies" Condition="'$(Configuration)' == 'Release'">
-		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.5.1" Need="[1.5,1.6)" />
+		<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.6.2" Need="[1.6,1.7)" />
 	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />

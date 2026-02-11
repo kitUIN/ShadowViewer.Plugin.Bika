@@ -8,6 +8,7 @@ on:
         required: true
         type: string
   push:
+    branches: [ master ]
     tags:
       - "*.*"
 
@@ -20,6 +21,8 @@ env:
 jobs:
   build:
     runs-on: windows-latest
+    outputs:
+      CHANGELOG: ${{ steps.changelog.outputs.CHANGELOG }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -51,6 +54,16 @@ jobs:
           mkdir -p NugetPackages
           cp -r ../NugetPackages/* NugetPackages/
           
+      - name: Extract latest changelog (PowerShell script)
+        id: changelog
+        shell: pwsh
+        run: |
+          ./Extract-LatestChangelog.ps1
+          $content = Get-Content "LATEST_CHANGELOG.md" -Raw
+          echo "CHANGELOG<<EOF" >> $env:GITHUB_OUTPUT 
+          echo $content >> $env:GITHUB_OUTPUT 
+          echo "EOF" >> $env:GITHUB_OUTPUT
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -78,23 +91,29 @@ jobs:
           
   release:
     runs-on: windows-latest
-    needs: build
+    needs: 
+      - build
+
+    env:
+      CHANGELOG: ${{ needs.build.outputs.CHANGELOG }}
+
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: build-output
           path: ./output
 
-      - name: Create GitHub release
-        uses: marvinpinto/action-automatic-releases@latest
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: "${{ secrets.RELEASE_TOKEN }}"
-          automatic_release_tag: ${{ env.RELEASE_TAG }}
-          title: ${{ env.RELEASE_TAG }}
-          prerelease: false
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_TAG }}
+          body: ${{ env.CHANGELOG }}
+          prerelease: true
           files: |
             ./output/**/${{ env.Solution_Name }}*.sdow
             ./output/**/plugin.json
             ./output/**/*.nupkg
             ./output/**/*.snupkg
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
