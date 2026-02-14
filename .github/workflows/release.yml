@@ -108,7 +108,7 @@ jobs:
           tag_name: ${{ env.RELEASE_TAG }}
           name: ${{ env.RELEASE_TAG }}
           body: ${{ env.CHANGELOG }}
-          prerelease: true
+          prerelease: false
           files: |
             ./output/**/${{ env.Solution_Name }}*.sdow
             ./output/**/plugin.json
