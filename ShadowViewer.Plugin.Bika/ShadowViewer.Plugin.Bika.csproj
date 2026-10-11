@@ -46,7 +46,8 @@
         <LocalReaderProject Condition="'$(DepsUseNuget)' != 'true' And Exists('..\..\ShadowViewer\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj')">..\..\ShadowViewer\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj</LocalReaderProject>
     </PropertyGroup>
     <ItemGroup Label="Dependencies" Condition="'$(LocalReaderProject)' == ''">
-        <PackageReference Include="ShadowViewer.Plugin.Local" Version="2.0.0" Need="[2.0,2.1)" />
+        <!-- The host supplies the built-in reader and its runtime resources. -->
+        <PackageReference Include="ShadowViewer.Plugin.Local" Version="2.0.1" Need="[2.0,2.1)" ExcludeAssets="contentFiles" />
 	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="KitUIN.PicaComic" Version="1.0.20" />
@@ -56,4 +57,11 @@
         <ProjectReference Include="$(LocalReaderProject)" Need="[2.0,2.1)" />
 	</ItemGroup> 
 
+    <!-- Reader resources are supplied by the host; do not expand its PRI into this plugin. -->
+    <Target Name="ExcludeBuiltInReaderResources" BeforeTargets="AddPriPayloadFilesToCopyToOutputDirectoryItems" Condition="'$(LocalReaderProject)' == ''">
+        <ItemGroup>
+            <_ReferenceRelatedPaths Remove="@(_ReferenceRelatedPaths)" Condition="'%(Filename)%(Extension)' == 'ShadowViewer.Plugin.Local.pri'" />
+            <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)%(Extension)' == 'ShadowViewer.Plugin.Local.pri'" />
+        </ItemGroup>
+    </Target>
 </Project>
