@@ -2,6 +2,7 @@
   "Id": "{{ PackageId }}",
   "Name": "{{ PluginName }}",
   "Version": "{{ Version }}",
+  "SdkVersion": "[4.0.1,4.1)",
   "Description": "{{ Description }}",
   "Authors": "{{ Authors }}",
   "WebUri": "{{ PackageProjectUrl }}",

@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ShadowViewer.Sdk.Helpers;
+using Microsoft.EntityFrameworkCore;
+using ShadowViewer.Plugin.Bika.Database;
 
 namespace ShadowViewer.Plugin.Bika;
 
@@ -45,7 +47,9 @@ public partial class BikaPlugin : AShadowViewerPlugin
         DiFactory.Services.Register<BikaInfoViewModel>(Reuse.Transient);
         DiFactory.Services.Register<BikaCategoryViewModel>(Reuse.Transient);
         DiFactory.Services.Register<LoginTipViewModel>(Reuse.Transient);
-        Db.CodeFirst.InitTables<BikaUser>();
+        DiFactory.Services.Register<IDbContextFactory<BikaDbContext>, BikaDbContextFactory>(Reuse.Singleton);
+        using var db = DiFactory.Services.Resolve<IDbContextFactory<BikaDbContext>>().CreateDbContext();
+        db.Initialize();
         IPicaClient.AppChannel = Config.ApiShunt;
         IPicaClient.FileChannel = Config.PicShunt;
         if (!string.IsNullOrEmpty(Config.Proxy))
@@ -117,7 +121,8 @@ public partial class BikaPlugin : AShadowViewerPlugin
     {
         var bikaClient = DiFactory.Services.Resolve<IPicaClient>();
         var user = Config.LastBikaUser;
-        if (await Db.Queryable<BikaUser>().FirstAsync(x => x.Email == user) is not { } bikaUser) return false;
+        using var db = DiFactory.Services.Resolve<IDbContextFactory<BikaDbContext>>().CreateDbContext();
+        if (await db.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == user) is not { } bikaUser) return false;
         bikaClient.SetToken(bikaUser.Token);
         try
         {

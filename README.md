@@ -45,3 +45,21 @@
 ![jonh31.png](https://files.catbox.moe/jonh31.png)
 
 ![lrz1yv.png](https://files.catbox.moe/lrz1yv.png)
+
+## 构建与本体加载
+
+依赖 SDK 4.0.1 和本地阅读器 2.0.0。将插件仓库与 `ShadowViewer` 仓库放在同一级目录，初始化本体的子模块，然后在 Visual Studio Developer PowerShell 执行：
+
+```powershell
+msbuild ShadowViewer.Plugin.Bika/ShadowViewer.Plugin.Bika.csproj /restore /p:Configuration=Debug /p:Platform=x64 /p:GithubAction=false
+```
+
+默认优先引用相邻本体中的 Local/SDK 源码；不存在该路径时使用 NuGet。独立发布构建使用 `/p:Configuration=Release /p:DepsUseNuget=true`。恢复和构建必须传入相同属性。
+
+输出插件包：`ShadowViewer.Plugin.Bika/Packages/ShadowViewer.Plugin.Bika-1.3.0-Debug.sdow`。在本体的插件管理器中安装该文件并重启。不要把整个 bin 目录复制进本体；插件包会排除 SDK、Local 和 EF Core 等由本体提供的程序集。
+
+验证：
+
+```powershell
+dotnet run --project tests/Bika.Database.Tests/Bika.Database.Tests.csproj
+```

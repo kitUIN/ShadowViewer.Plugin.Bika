@@ -1,38 +1,37 @@
 using System;
+using System.Linq;
 using DryIoc;
+using Microsoft.EntityFrameworkCore;
 using PicaComic.Models;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Plugin.Bika.Models;
-using SqlSugar;
+using ShadowViewer.Plugin.Bika.Constants;
+using ShadowViewer.Plugin.Local.Database;
+using ShadowViewer.Plugin.Local.Models;
+using ShadowViewer.Sdk.Database;
 
 namespace ShadowViewer.Plugin.Bika.Helpers;
 
-public class BikaHistoryHelper
+public static class BikaHistoryHelper
 {
     public static void Add(ComicInfo? comic)
     {
-        var db = DiFactory.Services.Resolve<ISqlSugarClient>();
         if (comic == null) return;
-        var history = db.Queryable<BikaHistory>().Where(x => x.Extra == comic.Id).First();
-        if (history != null)
+        using var db = DiFactory.Services.Resolve<IDbContextFactory<LocalDbContext>>().CreateDbContext();
+        var history = db.Set<LocalHistory>().FirstOrDefault(x =>
+            x.PluginId == PluginConstants.PluginId && x.Extra == comic.Id);
+        if (history == null)
         {
-            db.Updateable<BikaHistory>()
-                .SetColumns(it => it.Thumb == comic.Thumb.FilePath)
-                .SetColumns(it => it.Title == comic.Title)
-                .SetColumns(it => it.LastReadDateTime == DateTime.Now)
-                .Where(x => history.Id == x.Id)
-                .ExecuteCommand();
-        }
-        else
-        {
-            db.Insertable(new BikaHistory()
+            history = new LocalHistory
             {
-                Id = SnowFlakeSingle.Instance.NextId(),
-                Extra = comic.Id,
-                LastReadDateTime = DateTime.Now,
-                Thumb = comic.Thumb.FilePath,
-                Title = comic.Title,
-            }).ExecuteCommand();
+                Id = DatabaseIds.Next(),
+                PluginId = PluginConstants.PluginId,
+                Extra = comic.Id
+            };
+            db.Add(history);
         }
+        history.Thumb = comic.Thumb.FilePath;
+        history.Title = comic.Title;
+        history.LastReadDateTime = DateTime.Now;
+        db.SaveChanges();
     }
 }

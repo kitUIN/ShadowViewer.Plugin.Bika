@@ -11,7 +11,8 @@ using ShadowViewer.Plugin.Bika.Args;
 using ShadowViewer.Plugin.Bika.Configs;
 using ShadowViewer.Plugin.Bika.Helpers;
 using ShadowViewer.Plugin.Bika.Models;
-using SqlSugar;
+using Microsoft.EntityFrameworkCore;
+using ShadowViewer.Plugin.Bika.Database;
 using System.Threading.Tasks;
 using Windows.System;
 
@@ -38,7 +39,7 @@ public partial class LoginTipViewModel : ObservableObject
     [Autowired]
     private IPicaClient Client { get; }
     [Autowired]
-    private ISqlSugarClient Db { get; }
+    private IDbContextFactory<BikaDbContext> DbFactory { get; }
 
     /// <summary>
     /// 
@@ -86,13 +87,17 @@ public partial class LoginTipViewModel : ObservableObject
             async res =>
             {
                 var token = res.Data.Token;
-                var db = DiFactory.Services.Resolve<ISqlSugarClient>();
-                await db.Storageable(new BikaUser()
+                using var db = DbFactory.CreateDbContext();
+                var user = await db.Users.FindAsync(Email);
+                if (user == null)
                 {
-                    Email = Email,
-                    Password = Password,
-                    Token = token
-                }).ExecuteCommandAsync();
+                    user = new BikaUser { Email = Email };
+                    db.Users.Add(user);
+                }
+                user.Password = Password;
+                user.Token = token;
+                await db.SaveChangesAsync();
+                Client.SetToken(token);
                 IsOpen = false;
                 Config.LastBikaUser = Email;
                 SignInEvent?.Invoke(this, new SignInEventArgs(Email, token));
@@ -117,7 +122,8 @@ public partial class LoginTipViewModel : ObservableObject
         };
         if (string.IsNullOrEmpty(Config.LastBikaUser)) return;
         var user = Config.LastBikaUser;
-        if (Db.Queryable<BikaUser>().First(x => x.Email == user) is not { } bikaUser) return;
+        using var db = DbFactory.CreateDbContext();
+        if (db.Users.Find(user) is not { } bikaUser) return;
         if (!Config.RememberMe) return;
         Email = bikaUser.Email;
         Password = bikaUser.Password;

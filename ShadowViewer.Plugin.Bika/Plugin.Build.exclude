@@ -92,3 +92,8 @@ NJsonSchema.Annotations.dll
 NJsonSchema.dll
 ShadowViewer.Plugin.Local.*
 ShadowViewer.Plugin.Local
+Microsoft.EntityFrameworkCore*
+Microsoft.Extensions.*
+ShadowViewer.Sdk
+ShadowViewer.Controls
+ShadowViewer.Controls.Notification
